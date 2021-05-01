@@ -1,0 +1,15 @@
+$(function()
+{
+    // 快捷导航选择
+    var $container = $('.plugins-multilingual-select-container');
+    $('.plugins-multilingual-select-event').on('click', function()
+    {
+        $container.show();
+    });
+
+    // 快捷导航关闭
+    $('.plugins-multilingual-select-container .am-close').on('click', function()
+    {
+        $container.hide();
+    });
+});

@@ -1,0 +1,23 @@
+.plugins-activity-floor .item-bottom {
+    position: relative;
+}
+.plugins-activity-floor .item-bottom .original-price {
+    color: #999;
+    text-decoration: line-through;
+}
+.plugins-activity-floor .item-bottom .buy-btn {
+    background: #e4393c;
+    border-color: #e3393c;
+    color: #fff !important;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+@media only screen and (min-width: 641px) {
+    .plugins-activity-floor .floor .goods-list {
+        border-left: 1px solid #eee;
+    }
+    .plugins-activity-floor .floor .goods-list .goods-items {
+        width: 20%;
+    }
+}

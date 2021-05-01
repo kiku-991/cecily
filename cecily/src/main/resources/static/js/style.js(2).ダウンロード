@@ -1,0 +1,21 @@
+$(function()
+{
+    // 快捷导航事件
+    $('.plugins-distribution-quick-event').on('click', function()
+    {
+        // 用户是否登录
+        if((__user_id__ || 0) != 0)
+        {
+            // url地址
+            var url = $(this).data('value') || null;
+            if(url == null)
+            {
+                Prompt('url地址配置有误');
+                return false;
+            }
+
+            // 调用弹窗方法
+            ModalLoad(url);
+        }
+    });
+});

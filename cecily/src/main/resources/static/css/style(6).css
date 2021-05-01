@@ -1,0 +1,41 @@
+.plugins-goodsphototag {
+    z-index: 2;
+    position: absolute;
+}
+.plugins-goodsphototag img {
+    max-width: 60px !important;
+}
+.plugins-goodsphototag-top-left {
+    top: 0;
+    left: 0;
+    text-align: left;
+}
+.plugins-goodsphototag-top-right {
+    top: 0;
+    right: 0;
+    text-align: right;
+}
+.plugins-goodsphototag-bottom-left {
+    bottom: 73px;
+    left: 0;
+    text-align: left;
+}
+.plugins-goodsphototag-bottom-right {
+    bottom: 73px;
+    right: 0;
+    text-align: right;
+}
+@media only screen and (max-width: 1025px) {
+    .plugins-goodsphototag-bottom-left,
+    .plugins-goodsphototag-bottom-right {
+        bottom: 0;
+    }
+}
+
+.floor .goods-list .goods-items .plugins-goodsphototag {
+    bottom: 72px;
+}
+
+.search-list .items .plugins-goodsphototag {
+    bottom: 91px;
+}

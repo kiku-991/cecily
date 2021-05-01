@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+<meta name="generator" content="Hugo 0.79.0">
+<title>ユーザ情報一覧</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+
+<!-- Bootstrap core CSS -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+
+
+<style type="text/css">
+.sns-config .bd .tips-box {
+	font-size: 15px;
+	margin: 10px 0;
+}
+
+.sns-config .bd .tips-box b {
+	margin: 0 4px;
+}
+
+#baseInfoForm .input-help-text {
+	line-height: 12px;
+	color: #999;
+}
+
+#J_uniqueName {
+	width: 136px;
+}
+
+#J_realname-mask {
+	width: 136px;
+}
+</style>
+<!-- Custom styles for this template -->
+
+<link href="../css/dashboard.css" rel="stylesheet">
+
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/dashboard.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
+</head>
+<body>
+	<!--  top-->
+	<header th:insert="~{centertmp::top}"></header>
+	<div class="container-fluid">
+		<div class="row">
+			<!--  side-->
+			<nav th:insert="~{centertmp::side}"></nav>
+			<div
+				th:insert="~{centertmp::#sidebarMenu(activeUrl='/center/userInfoList')}"></div>
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+				<!-- 内容ここから -->
+
+				<br> <br> <br>
+				<h3>ユーザ情報一覧</h3>
+
+				<table class="table table-striped table-sm">
+					<thead>
+						<tr>
+							<th>ユーザID</th>
+							<th>アイコン</th>
+							<th>ユーザ氏名</th>
+							<th>性別</th>
+							<th>ニックネーム</th>
+							<th>誕生日</th>
+							<th>電話番号</th>
+							<th>都道府県</th>
+							<th>市区町村</th>
+							<th>丁目番地</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="user : ${usersInfo}">
+							<td th:text="${user.Id}"></td>
+							<td><img th:src="${user.icon}" width="80" height="80"></td>
+							<td th:text="${user.name}"></td>
+							<td th:text="${user.sex==1?'女':(user.sex==0?'男':'秘密')}">
+							<td th:text="${user.nickname}"></td>
+							<td th:text="${user.birth}"></td>
+							<td th:text="${user.phone}"></td>
+							<td th:text="${user.todoufuken}"></td>
+							<td th:text="${user.shikucyouson}"></td>
+							<td th:text="${user.cyoumebanchi}"></td>
+							<td><button type="button" class="btn btn-success btn-sm"
+									data-bs-toggle="modal"
+									th:data-bs-target="'#userModal'+${user.userId}">編集</button>
+								<div class="modal fade" th:id="'userModal'+${user.userId}"
+									tabindex="-1" aria-labelledby="userModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="userModalLabel">ユーザ情報編集</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+
+											<div class="modal-body">
+												<form
+													th:action="@{/center/userInfoList/{id}(id=${user.userId})}"
+													method="post">
+													<div class="mb-3">
+														<label for="name" class="text-info">アイコン:</label><br>
+														<img th:src="${user.icon}" width="80" height="80"><br>
+														<label for="edit" class="text-info">アイコン編集:</label><br>
+														<input type="file" name="icon" class="form-control" /> <label
+															for="name" class="text-info">氏名:</label><br> <input
+															type="text" name="name" th:value="${user.name}"
+															class="form-control" /> <label for="nicname"
+															class="text-info">ニックネーム:</label><br> <input
+															type="text" th:value="${user.nickname}" name="nickname"
+															class="form-control" /> <label for="birth"
+															class="text-info">誕生日:</label><br> <input
+															type="date" name="birth" th:value="${user.birth}"
+															class="form-control" />
+														<div class="mb-3">
+															<label for="sex" class="text-info">性別:</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio" name="sex"
+																id="girlRadio" value="1" th:checked="${user.sex}==1">
+															<label class="form-check-label" for="girlRadio">女</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio" name="sex"
+																id="boyRadio" value="0" th:checked="${user.sex}==0">
+															<label class="form-check-label" for="boyRadio">男</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio" name="sex"
+																id="secretRadio" value="2" th:checked="${user.sex}==2">
+															<label class="form-check-label" for="secretRadio">秘密</label>
+
+														</div>
+														<br>
+														<div>
+															<label for="phone" class="text-info">電話番号:</label><br>
+															<input type="text" name="phone" th:value="${user.phone}"
+																class="form-control" /><br> <label for="address"
+																class="text-info">都道府県:</label> <input type="text"
+																name="todoufuken" th:value="${user.todoufuken}"
+																class="form-control"><br> <label
+																for="address" class="text-info">市区町村: </label><input
+																type="text" name="shikucyouson"
+																th:value="${user.shikucyouson}" class="form-control"><br>
+															<label for="address" class="text-info">丁目番地: </label><input
+																type="text" name="cyoumebanchi"
+																th:value="${user.cyoumebanchi}" class="form-control">
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-bs-dismiss="modal">キャンセル</button>
+															<input type="submit" id="kakutei" class="btn btn-danger"
+																value="確定">
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div></td>
+
+						</tr>
+					</tbody>
+				</table>
+
+
+
+
+
+
+
+
+
+				<!-- 内容ここまで -->
+			</main>
+		</div>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+<meta name="generator" content="Hugo 0.79.0">
+<title>ユーザ届け住所</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+
+<!-- Bootstrap core CSS -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+
+
+<style type="text/css">
+.sns-config .bd .tips-box {
+	font-size: 15px;
+	margin: 10px 0;
+}
+
+.sns-config .bd .tips-box b {
+	margin: 0 4px;
+}
+
+#baseInfoForm .input-help-text {
+	line-height: 12px;
+	color: #999;
+}
+
+#J_uniqueName {
+	width: 136px;
+}
+
+#J_realname-mask {
+	width: 136px;
+}
+</style>
+<!-- Custom styles for this template -->
+
+<link href="../css/dashboard.css" rel="stylesheet">
+
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/dashboard.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
+<!-- 郵便番号から住所の自動表示 -->
+
+<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+</head>
+<body>
+	<!--  top-->
+	<header th:insert="~{centertmp::top}"></header>
+	<div class="container-fluid">
+		<div class="row">
+			<!--  side-->
+			<nav th:insert="~{centertmp::side}"></nav>
+			<div
+				th:insert="~{centertmp::#sidebarMenu(activeUrl='/center/userTodoke')}"></div>
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+				<!-- 内容ここから -->
+				<br> <br> <br> <br> <br>
+
+				<button type="button" class="btn btn-success btn-sm"
+					data-bs-toggle="modal" data-bs-target="#Modal">登録</button>
+
+				<div class="modal fade" id="Modal" tabindex="-1"
+					aria-labelledby="ModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="ModalLabel">届け住所登録</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form th:action="@{/center/userTodoke/add}" method="post"
+									th:if="${useradd!=null}">
+									<div class="mb-3">
+
+										<label for="edit" class="text-info">連絡名前:</label><br> <input
+											type="text" name="renrakuname" class="form-control" /> <label
+											for="name" class="text-info">連絡電話番号:</label><br> <input
+											type="text" name="renrakuphone" class="form-control" /> <br>
+										<div>
+											<label for="address" class="text-info">〒郵便番号</label> <input
+												type="text" name="dpostcode"
+												onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
+												class="form-control"><br> <label for="address"
+												class="text-info">都道府県(届け住所):</label> <input type="text"
+												name="dtodoufuken" class="form-control"><br> <label
+												for="address" class="text-info">市区町村(届け住所): </label><input
+												type="text" name="dshikucyouson" class="form-control"><br>
+											<label for="address" class="text-info">以降の住所(届け住所): </label><input
+												type="text" name="dcyoumebanchi" class="form-control">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">キャンセル</button>
+											<input type="submit" id="kakutei" class="btn btn-danger"
+												value="保存">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+				<table class="table table-striped table-sm">
+					<thead>
+						<tr>
+							<th>ユーザメール</th>
+							<th>連絡名前</th>
+							<th>連絡電話番号</th>
+							<th>郵便番号</th>
+							<th>都道府県(届け住所)</th>
+							<th>市区町村(届け住所)</th>
+							<th>丁目番地(届け住所)</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:if="${useradd!=null}" th:each="user : ${useradd}">
+							<td th:text="${user.userMail}"></td>
+							<td th:text="${user.renrakuname}"></td>
+							<td th:text="${user.renrakuphone}"></td>
+							<td th:text="${user.dpostcode}"></td>
+							<td th:text="${user.dtodoufuken}"></td>
+							<td th:text="${user.dshikucyouson}"></td>
+							<td th:text="${user.dcyoumebanchi}"></td>
+							<td>
+							<button type="button" class="btn btn-primary btn-sm"
+									data-bs-toggle="modal"
+									th:data-bs-target="'#proModal'+${user.deliveryId}">編集</button>
+								<!-- 情報編集Modal 更新-->
+								<div class="modal fade" th:id="'proModal'+${user.deliveryId}"
+									tabindex="-1" aria-labelledby="proModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="proModalLabel">住所編集</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+
+											<div class="modal-body">
+												<form
+													th:action="@{/center/userTodoke/edit/{id}(id=${user.deliveryId})}"
+													method="post">
+
+													<div class="mb-3">
+														<label for="name" class="text-info">メール:</label><br>
+														<input type="text" th:value="${user.userMail}"
+															readonly="readonly"><br> <label for="edit"
+															class="text-info">連絡名前:</label><br> <input
+															type="text" name="renrakuname"
+															th:value="${user.renrakuname}" class="form-control" /> <label
+															for="name" class="text-info">連絡電話番号:</label><br> <input
+															type="text" name="renrakuphone"
+															th:value="${user.renrakuphone}" class="form-control" />
+														<br>
+														<div>
+															<label for="address" class="text-info">〒郵便番号</label> <input
+																type="text" name="dpostcode"
+																th:value="${user.dpostcode}"
+																onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
+																class="form-control"><br> <label
+																for="address" class="text-info">都道府県(届け住所):</label> <input
+																type="text" name="dtodoufuken"
+																th:value="${user.dtodoufuken}" class="form-control"><br>
+															<label for="address" class="text-info">市区町村(届け住所):
+															</label><input type="text" name="dshikucyouson"
+																th:value="${user.dshikucyouson}" class="form-control"><br>
+															<label for="address" class="text-info">以降の住所(届け住所):
+															</label><input type="text" name="dcyoumebanchi"
+																th:value="${user.dcyoumebanchi}" class="form-control">
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-bs-dismiss="modal">キャンセル</button>
+															<input type="submit" id="kakutei" class="btn btn-danger"
+																value="確定">
+														</div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div> <br> <!-- Button trigger modal -->
+								<button type="button" class="btn btn-warning btn-sm"
+									data-bs-toggle="modal"
+									th:data-bs-target="'#staticBackdrop'+${user.deliveryId}">削除</button>
+
+								<!-- Modal -->
+								<div class="modal fade"
+									th:id="'staticBackdrop'+${user.deliveryId}" tabindex="-1"
+									aria-labelledby="staticBackdropLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="staticBackdropLabel">削除の確認</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												<form
+													th:action="@{/center/userTodoke/delete/{id}(id=${user.deliveryId})}"
+													method="post">
+
+													<p>この届け住所を削除しますか？</p>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">キャンセル</button>
+														<input type="submit" id="kakutei" class="btn btn-danger"
+															value="確定">
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div> 
+								 </td>
+
+						</tr>
+					</tbody>
+				</table>
+
+
+
+
+
+				<!-- 内容ここまで -->
+			</main>
+		</div>
+	</div>
+
+</body>
+</html>

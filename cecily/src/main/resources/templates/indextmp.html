@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<!-- saved from url=(0024)https://demo.shopxo.net/ -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>KIKUSHOP</title>
+
+<link rel="stylesheet" type="text/css" href="../css/amazeui.css">
+<link rel="stylesheet" type="text/css" href="../css/amazeui.switch.css">
+<link rel="stylesheet" type="text/css" href="../css/amazeui.chosen.css">
+<link rel="stylesheet" type="text/css" href="../css/cropper.min.css">
+<link rel="stylesheet" type="text/css"
+	href="../css/amazeui.tagsinput.css">
+
+<link rel="stylesheet" type="text/css" href="../css/common.css">
+<link rel="stylesheet" type="text/css" href="../css/common(1).css">
+<link rel="stylesheet" type="text/css" href="../css/index.css">
+
+<!-- css钩子 -->
+<link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="../css/style(1).css">
+<link rel="stylesheet" type="text/css" href="../css/style(2).css">
+<link rel="stylesheet" type="text/css" href="../css/style(3).css">
+<link rel="stylesheet" type="text/css" href="../css/style(4).css">
+<link rel="stylesheet" type="text/css" href="../css/iconfont(1).css">
+<link rel="stylesheet" type="text/css" href="../css/style(5).css">
+<link rel="stylesheet" type="text/css" href="../css/style(6).css">
+<link rel="stylesheet" type="text/css" href="../css/style(7).css">
+<link rel="stylesheet" type="text/css" href="../css/style(8).css">
+<link rel="stylesheet" type="text/css" href="../css/style(9).css">
+<link rel="stylesheet" type="text/css" href="../css/style(10).css">
+
+
+
+<!-- 公共header内钩子 -->
+<style type="text/css">
+@media only screen and (min-width:640px) {
+	.plugins-homemiddleadv-home-adv ul.am-gallery img {
+		-webkit-transition: transform .3s ease-in;
+		-moz-transition: transform .3s ease-in;
+		-ms-transition: transform .3s ease-in;
+		-o-transition: transform .3s ease-in;
+		transition: transform .3s ease-in;
+	}
+	.plugins-homemiddleadv-home-adv ul.am-gallery img:hover {
+		-ms-transform: translate3d(0px, -3px, 0px);
+		-webkit-transform: translate3d(0px, -3px, 0px);
+		-o-transform: translate3d(0px, -3px, 0px);
+		transform: translate3d(0px, -3px, 0px);
+	}
+}
+
+@media only screen and (min-width:1025px) {
+	.plugins-homemiddleadv-home-adv {
+		overflow: hidden;
+	}
+	.plugins-homemiddleadv-home-adv ul.am-gallery {
+		width: calc(100% + 20px);
+		margin-left: -10px;
+		margin-top: 10px;
+	}
+}
+</style>
+<style type="text/css">
+#plugins-commongobacktop {
+	display: none;
+	position: fixed;
+	right: 50px;
+	bottom: 100px;
+	z-index: 100;
+	cursor: pointer;
+}
+</style>
+<style type="text/css">
+#plugins-expressforkdn-popup p {
+	font-size: 16px;
+	color: #FF9800;
+	font-weight: 500;
+	padding: 1rem;
+	text-align: center;
+	margin: 0;
+}
+
+#plugins-expressforkdn-popup .am-list-static>li {
+	padding: .8rem 1rem;
+}
+
+#plugins-expressforkdn-popup .am-popup-bd {
+	padding: 0;
+}
+
+#plugins-expressforkdn-popup .am-list>li {
+	border: 1px dashed #dedede;
+	border-width: 1px 0;
+}
+</style>
+<style type="text/css">
+.plugins-touristbuy-nav-top {
+	color: #FF5722;
+}
+</style>
+<link href="../css/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="../css/ueditor.css" type="text/css" rel="stylesheet">
+<script src="../js/ZeroClipboard.js.ダウンロード" type="text/javascript"
+	defer="defer"></script>
+</head>
+<body style="padding-top: 0px;">
+	<!-- css钩子 -->
+
+	<!-- 公共header内钩子 -->
+
+	<!-- 公共顶部钩子 -->
+<!-- 	<div class="am-modal multilingual-page-loading" style="display: none;">
+		<span class="am-icon-spinner am-icon-pulse am-icon-lg"></span>
+	</div> -->
+	
+	<!-- header top nav -->
+	<!-- 顶部导航条 start -->
+	<div class="header-top" th:fragment="top">
+	<div class="am-container header">
+		<nav class="top-nav-left">
+			<div class="top-nav-items">
+				<div class="menu-hd">
+					<!-- 公共顶部小导航钩子-左侧前面   <a th:text="${session?.UserLogin.userMail}"> -->
+					<em><a th:text="${session?.userLogin?.userMail}"></a></em> <em>ようこそ</em>
+
+
+					<a th:if="${session?.userLogin == null}" th:href="@{/login}"
+						style="text-decoration: none;">ログイン</a> <a
+						th:if="${session?.userLogin == null}" th:href="@{/touroku}"
+						style="text-decoration: none;">登録</a> <a
+						th:if="${session?.userLogin != null}" th:href="@{/loginout}"
+						style="text-decoration: none;">ログアウト</a>
+					<!-- 公共顶部小导航钩子-左侧后面 -->
+				</div>
+			</div>
+		</nav>
+			<!-- 公共顶部小导航钩子-右侧前面 -->
+		<!-- 右侧导航 -->
+		<nav class="top-nav-right">
+			<div class="top-nav-items">
+				<div class="menu-hd login-event">
+					<a th:href="@{/shopping/center}" target="_top"> <span>マイページ</span>
+					</a>
+				</div>
+			</div>
+
+			<div class="top-nav-items" id="my-favorite">
+				<div class="am-dropdown menu-hd" data-am-dropdown="">
+					<a class="am-dropdown-toggle" th:href="@{/#}"
+						target="_top" data-am-dropdown-toggle=""> <span>気に入り</span>
+
+					</a>
+				</div>
+			</div>
+			<div class="top-nav-items">
+				<div class="menu-hd login-event">
+					<a th:href="@{/#}" target="_top"> <span>買い物かご</span>
+						<strong >0</strong>
+					</a>
+				</div>
+			</div>
+		</nav>
+	</div>
+</div>
+	<!-- 顶部导航条 end
+
+<!-- search -->
+	<!-- 搜索框 start -->
+	<div class="nav-search white am-hide-sm-only" th:fragment="search"
+	style="position: relative;">
+	<div class="am-container">
+
+		<div class="logo-big am-hide-sm-only">
+			<a href="/shopping"><img src="../img/kikulogo.jpg" width="10"
+				height="55"></a>
+		</div>
+
+		<!-- logo右侧 -->
+
+		<div class="search-bar">
+			<form th:action="@{/shopping/keywordSearch}" method="POST">
+				<div class="search-group">
+					<input id="search-input" name="productName" type="text"
+						placeholder="ようこそKIKUショップへ ，キーワード検索"  autocomplete="off">
+					<button type="submit" id="ai-topsearch" class="submit am-btn">
+						<span>検索</span>
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<!-- 公共搜索框右侧 -->
+	</div>
+</div>
+	<!-- 搜索框 end -->
+
+	<!-- header nav -->
+	<header class="am-topbar shop-navigation" th:fragment="header">
+	<div class="am-container">
+
+		<!-- 主导航 -->
+		<ul class="am-nav am-nav-pills am-topbar-nav">
+			<li><a href="/shopping" title="首页"
+				class="active">首页</a></li>
+			<li><a href="#" title="活动中心">活动中心</a></li>
+			<li><a href="#" title="积分商城">积分商城</a></li>
+			<li><a href="#" title="领劵中心">领劵中心</a></li>
+			<li><a href="#" title="限时秒杀">限时秒杀</a></li>
+			<li><a href="#" title="会员俱乐部">会员俱乐部</a></li>
+			<li><a href="#" title="品牌">品牌</a></li>
+			<li><a href="#" title="自定义页面">自定义页面</a></li>
+		</ul>
+
+		<!-- 右侧导航 -->
+
+	</div>
+
+</header>
+
+	<!-- banner -->
+	<div class="banner" th:fragment="banner">
+		<div data-am-widget="slider"
+			class="am-slider am-slider-a1 am-no-layout"
+			data-am-slider="{&quot;directionNav&quot;:false}">
+
+			<div class="am-viewport"
+				style="overflow: hidden; position: relative;">
+				<ul class="am-slides"
+					style="width: 800%; transition-duration: 0s; transform: translate3d(-1592px, 0px, 0px);">
+					<li
+						style="background: rgb(244, 188, 203); margin-right: 0px; float: left; display: block; width: 1592px;"
+						title="美酒" class="clone" aria-hidden="true">
+						<!-- 地图 --> <a href="javascript:;" class="submit-map-popup"
+						data-lng="121.626444" data-lat="31.20843"><img
+							src="../img/20180810101106984022.jpeg" alt="美酒" draggable="false"></a>
+					</li>
+					<li
+						style="background: rgb(241, 238, 229); margin-right: 0px; float: left; display: block; width: 1592px;"
+						title="爱在厨房" class="am-active-slide" data-thumb-alt="">
+						<!-- 默认url地址 --> <a href="https://shopxo.net/" target="_blank"><img
+							src="../img/20180810100811853567.jpeg" alt="爱在厨房"
+							draggable="false"></a>
+					</li>
+					<li
+						style="background: rgb(244, 188, 203); margin-right: 0px; float: left; display: block; width: 1592px;"
+						title="美酒" data-thumb-alt="">
+						<!-- 地图 --> <a href="javascript:;" class="submit-map-popup"
+						data-lng="121.626444" data-lat="31.20843"><img
+							src="../img/20180810101106984022.jpeg" alt="美酒" draggable="false"></a>
+					</li>
+					<li
+						style="background: rgb(241, 238, 229); margin-right: 0px; float: left; display: block; width: 1592px;"
+						title="爱在厨房" class="clone" aria-hidden="true">
+						<!-- 默认url地址 --> <a href="https://shopxo.net/" target="_blank"><img
+							src="../img/20180810100811853567.jpeg" alt="爱在厨房"
+							draggable="false"></a>
+					</li>
+				</ul>
+			</div>
+			<ol class="am-control-nav am-control-paging">
+				<li><a href="https://demo.shopxo.net/#" class="am-active">1</a><i></i></li>
+				<li><a href="https://demo.shopxo.net/#">2</a><i></i></li>
+			</ol>
+		</div>
+	</div>
+
+	<!-- goods category -->
+	<!-- 商品分类  -->
+	<div id="goods-category"
+	class="am-container am-hide-sm-only am-hide-md-only"
+	data-controller-name="index" th:fragment="goods-category">
+	<div class="goods-category-s">
+		<div class="goods-category-title">
+			<a href="#login"> <span class="all-goods">全部分类</span>
+			</a>
+		</div>
+	</div>
+</div>
+		<!-- 轮播上内容 -->
+	<div class="am-container slideall" th:fragment="slideall">
+		<!-- 轮播-聚合内容 -->
+		<div class="banner-mixed" >
+			<div class="mod-vip">
+				<div class="m-baseinfo">
+					<a> <img
+						src="../img/default-user-avatar.jpg" class="user-avatar">
+					</a> <em> <span class="s-name am-text-truncate"> <em>您好欢迎来到KIKUSHOP</em>
+					</span>
+					</em>
+				</div>
+				<div class="member-login" th:if="${session?.userLogin == null}">
+					<a class="am-btn-primary btn am-fl"
+						th:href="@{/login}">登录</a> <a
+						class="am-btn-primary btn am-fr"
+						th:href="@{/touroku}">注册</a>
+				</div>
+			</div>
+			
+
+			<!-- 轮播混合数据底部钩子 -->
+		</div>
+	</div>
+
+	<!-- 楼层数据顶部钩子 -->
+	<div class="am-container plugins-homemiddleadv-home-adv" th:fragment="homeadv">
+		<ul data-am-widget="gallery"
+			class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout"
+			data-am-gallery="{}">
+			<li>
+				<div class="am-gallery-item">
+					<a href="https://shopxo.net/"> <img
+						src="../img/1555929400479636.jpg" alt="智能" title="智能">
+					</a>
+				</div>
+			</li>
+			<li>
+				<div class="am-gallery-item">
+					<a href="javascript:;"> <img src="../img/1555929400647560.jpg"
+						alt="平板" title="平板">
+					</a>
+				</div>
+			</li>
+			<li>
+				<div class="am-gallery-item">
+					<a href="https://demo.shopxo.net/search-k-8EFBE98E1A3A8E3A99.html"
+						target="_blank"> <img src="../img/1555929400237551.jpg"
+						alt="手机" title="手机">
+					</a>
+				</div>
+			</li>
+			<li>
+				<div class="am-gallery-item">
+					<a href="javascript:;"> <img src="../img/1555929400780646.jpg"
+						alt="数码" title="数码">
+					</a>
+				</div>
+			</li>
+		</ul>
+	</div>
+		<!-- 楼层-主内容 -->
+	<div class="home-floor" th:fragment="list">
+		<!-- 楼层 -->
+		<!-- 首页楼层顶部钩子 -->
+
+		<!-- 楼层数据 -->
+		<div id="floor1">
+			<div class="am-container">
+				<div class="items-nav-title"
+					style="border-bottom: 2px solid #23acff;">
+					<p class="floor-title">数码办公</p>
+					<p class="floor-desc">天天新品，科技带来快乐！</p>
+					
+				</div>
+			</div>
+
+			<div class="am-g am-g-fixed floor">
+				<!-- 首页楼层内部顶部钩子 -->
+
+				<div class="am-u-sm-3 aggregation"
+					style="background-color: rgb(35, 172, 255); height: 591px;">
+					<div class="word">
+						<a href="https://demo.shopxo.net/search-c-58.html" class="outer"
+							target="_blank">手机通讯</a> <a
+							href="https://demo.shopxo.net/search-c-59.html" class="outer"
+							target="_blank">手机配件</a> <a
+							href="https://demo.shopxo.net/search-c-60.html" class="outer"
+							target="_blank">摄影摄像</a> <a
+							href="https://demo.shopxo.net/search-c-61.html" class="outer"
+							target="_blank">时尚影音</a> <a
+							href="https://demo.shopxo.net/search-c-62.html" class="outer"
+							target="_blank">电脑整机</a> <a
+							href="https://demo.shopxo.net/search-c-63.html" class="outer"
+							target="_blank">电脑配件</a> <a
+							href="https://demo.shopxo.net/search-c-64.html" class="outer"
+							target="_blank">外设产品</a> <a
+							href="https://demo.shopxo.net/search-c-65.html" class="outer"
+							target="_blank">网络产品</a>
+
+					</div>
+					<div class="outer-con">
+						<div class="describe">iphoneX新品发布了</div>
+					</div>
+					<a href="https://demo.shopxo.net/search-c-1.html" target="_blank">
+						<img src="../img/20180814180843848554.png">
+					</a>
+					<div class="triangle-topright"></div>
+
+					<!-- 首页楼层内部底部钩子 -->
+				</div>
+<!-- 商品管理 -->
+			<div class="goods-list" th:fragment="article_type">
+				<div th:each="product: ${products}">
+					<div class="goods-items" th:if="${product.status eq '出品中'}">
+						
+						<!-- <div class="zoom"> -->
+						<!-- 写真 -->
+						<a th:href="@{/productDetails/{id}(id=${product.productId})}"
+							target="_blank" class="am-block am-text-center"> <img
+							th:src="${product.productImg}" width="69" height="250"
+							class="goods-images" name="image">
+						</a>
+						<!-- 商品名 -->
+						<div class="outer-con">
+							<div class="goods-title am-text-truncate-2 am-margin-bottom-xs">
+								<a th:href="@{/productDetails/{id}(id=${product.productId})}"
+									target="_blank" th:text="${product.productName}"></a>
+							</div>
+							<span>¥</span><span class="price am-text-truncate"
+								th:text="${product.productPrice}"></span><br>
+							
+							
+							<button th:id="${product.productId}" type="button"
+								th:text="${product.favoriteId eq null? '♡気に入り':(product.userId eq session?.userLogin?.id?'❤気に入り済み':'♡気に入り')}"
+								th:onclick="|clickPost(${product.productId})|"></button>
+							
+								<button type="button"
+									th:onclick="|clickCart(${product.productId})|">買い物かご</button>
+						</div>
+					</div>
+				</div>
+			</div>
+<!-- 商品管理 -->
+				<!-- 首页楼层内部底部钩子 -->
+			</div>
+		</div>
+
+		<!-- 首页楼层底部钩子 -->
+		<!-- 首页楼层顶部钩子 -->
+
+			<!-- 首页楼层底部钩子 -->
+	</div>
+
+	<!-- 楼层数据底部钩子 -->
+
+	<!-- commom html -->
+	
+	<!-- footer start -->
+	<!-- 底部导航上面钩子 -->
+	<div class="plugins-footercustomerservice-customer-service" th:fragment="footercust">
+		<ul data-am-widget="gallery"
+			class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-4 am-gallery-overlay am-no-layout am-container"
+			data-am-gallery="{}">
+			<li>
+				<div class="am-gallery-item">
+					<img src="../img/1555990891552781.png" alt="物行天下" title="物行天下">
+					<div class="base">
+						<p class="title">物行天下</p>
+						<p class="desc">多仓直发 极速配送多仓直发 极速配</p>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="am-gallery-item">
+					<img src="../img/1555990891827973.png" alt="精致服务" title="精致服务">
+					<div class="base">
+						<p class="title">精致服务</p>
+						<p class="desc">精致服务 售后保障精致服务 售后保障</p>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="am-gallery-item">
+					<img src="../img/1555990891594648.png" alt="退换无忧" title="退换无忧">
+					<div class="base">
+						<p class="title">退换无忧</p>
+						<p class="desc">放心购物 退还无忧放心购物 退还无忧</p>
+					</div>
+				</div>
+			</li>
+			<li>
+				<div class="am-gallery-item">
+					<img src="../img/1555991139659862.png" alt="满减活动" title="满减活动">
+					<div class="base">
+						<p class="title">满减活动</p>
+						<p class="desc">满500元立减90，新用户立减200</p>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</div>
+	<!-- 底部导航 -->
+	<footer data-am-widget="footer"
+		class="am-footer am-footer-default am-no-layout" data-am-footer="{}">
+		<div class="am-container" th:fragment="footer">
+			
+			<!-- 商店信息 -->
+			<ul class="footer-about am-u-md-4">
+				<li class="tel"> <a
+					href="tel:021-88888888">991-99199199</a></li>
+				<li class="address"> <span>KIKU</span></li>
+				<li class="email"> <span>kiku@qq.com</span>
+				</li>
+				<li class="qrcode"><img src="../img/1597662046785108.jpg"
+					alt=""></li>
+			</ul>
+		</div>
+
+		<!-- 页脚信息 -->
+		<div class="am-footer-miscs">
+			<div class="am-container">
+				<!-- 友情链接 -->
+				
+
+				<p class="powered">
+					Powered by <a href="/shopping" title="ShopXO电商系统"
+						target="_blank"><span class="b">KIKU</span><span class="o">SHOP</span></a>
+				</p>
+		
+			</div>
+		</div>
+	</footer>
+
+<!-- footer end -->
+
+	<!-- 弹层提示分享 -->
+	<div id="plugins-share-layer">
+		<img src="../img/share-layer.png">
+	</div>
+
+	<!-- 类库 -->
+	<!-- <script type="text/javascript" src="../js/jquery-2.1.0.js.ダウンロード"></script>-->
+	<!--  <script type="text/javascript" src="../js/amazeui.min.js.ダウンロード"></script>-->
+
+	<!-- 图片放大镜 -->
+
+	<!-- echarts 图表 -->
+	<script type="text/javascript" src="../js/echarts.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/macarons.js.ダウンロード"></script>
+
+	<!-- amazeui插件 -->
+	<script type="text/javascript" src="../js/amazeui.switch.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/amazeui.chosen.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/amazeui.dialog.js.ダウンロード"></script>
+	<script type="text/javascript"
+		src="../js/amazeui.tagsinput.min.js.ダウンロード"></script>
+
+	<!-- 图像裁剪插件 -->
+	<script type="text/javascript" src="../js/cropper.min.js.ダウンロード"></script>
+
+	<!-- 复制插件 -->
+	<script type="text/javascript" src="../js/clipboard.min.js.ダウンロード"></script>
+
+	<!-- 元素拖拽排序插件 -->
+	<script type="text/javascript"
+		src="../js/jquery.dragsort-0.5.2.min.js.ダウンロード"></script>
+
+	<!-- ueditor 编辑器 -->
+	<script type="text/javascript" src="../js/ueditor.config.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/ueditor.all.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/zh-cn.js.ダウンロード"></script>
+
+	<!-- 颜色选择器 -->
+	<script type="text/javascript" src="../js/jquery.colorpicker.js.ダウンロード"></script>
+
+	<!-- 日期组件 -->
+	<script type="text/javascript" src="../js/WdatePicker.js.ダウンロード"></script>
+
+	<!-- baidu map -->
+	<script type="text/javascript" src="../js/api"></script>
+	<script type="text/javascript" src="../js/getscript"></script>
+
+	<!-- 隐藏编辑器初始化 -->
+	<script type="text/javascript">
+		var upload_editor = UE.getEditor("upload-editor-view", {
+			isShow : false,
+			focus : false,
+			enableAutoSave : false,
+			autoSyncData : false,
+			autoFloatEnabled : false,
+			wordCount : false,
+			sourceEditor : null,
+			scaleEnabled : true,
+			toolbars : [ [ "insertimage", "insertvideo", "attachment" ] ]
+		});
+	</script>
+
+	<!-- 项目公共 -->
+	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
+
+	<!-- 应用插件公共js -->
+
+	<!-- 当前控制器js -->
+	<script type="text/javascript" src="../js/index.js.ダウンロード"></script>
+
+	<!-- 底部信息 -->
+
+	<!-- js钩子 -->
+	<script type="text/javascript" src="../js/style.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(1).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(2).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(3).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(4).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
+
+	<!-- 公共页面底部钩子 -->
+	<div id="edui_fixedlayer" class="edui-default"
+		style="position: fixed; left: 0px; top: 0px; width: 0px; height: 0px;">
+		<div id="edui20" class="edui-popup  edui-bubble edui-default"
+			onmousedown="return false;" style="display: none;">
+			<div id="edui20_body" class="edui-popup-body edui-default">
+				<iframe
+					style="position: absolute; z-index: -1; left: 0; top: 0; background-color: transparent;"
+					 width="100%" height="100%"
+					src="../js/saved_resource(1).html" class="edui-default"></iframe>
+				<div class="edui-shadow edui-default"></div>
+				<div id="edui20_content" class="edui-popup-content edui-default">
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

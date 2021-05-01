@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author"
+	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+<meta name="generator" content="Hugo 0.79.0">
+<title>商品管理</title>
+
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
+
+<!-- Bootstrap core CSS -->
+<link href="../css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+
+
+<style type="text/css">
+.sns-config .bd .tips-box {
+	font-size: 15px;
+	margin: 10px 0;
+}
+
+.sns-config .bd .tips-box b {
+	margin: 0 4px;
+}
+
+#baseInfoForm .input-help-text {
+	line-height: 12px;
+	color: #999;
+}
+
+#J_uniqueName {
+	width: 136px;
+}
+
+#J_realname-mask {
+	width: 136px;
+}
+</style>
+<!-- Custom styles for this template -->
+
+<link href="../css/dashboard.css" rel="stylesheet">
+
+<script src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/dashboard.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+
+</head>
+<body>
+	<!--  top-->
+	<header th:insert="~{centertmp::top}"></header>
+	<div class="container-fluid">
+		<div class="row">
+			<!--  side-->
+			<nav th:insert="~{centertmp::side}"></nav>
+			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+				<!-- 内容ここから -->
+
+
+				<br>
+				<hr />
+
+				<br> <br>
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#Modal"
+					th:if="${session?.userLogin?.role} eq 'store'">商品登録</button>
+
+				<!-- 商品表示 -->
+				<br> <br> <br>
+
+
+				<table class="table table-striped ">
+					<thead>
+						<tr>
+							<th>商品ID</th>
+							<th>商品名</th>
+							<th>価格</th>
+							<th>画像</th>
+							<th>商品内容</th>
+							<th>メーカー</th>
+							<th>商品状態</th>
+							<th>ストック</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:unless="${products == null}"
+							th:each="product : ${products}">
+							<td th:text="${product.productId}"></td>
+							<td th:text="${product.productName}"></td>
+							<td th:text="${product.productPrice}"></td>
+							<td><img th:src="${product.productImg}" width="69"
+								height="105"></td>
+							<td th:text="${product.productContents}"></td>
+							<td th:text="${product.maker}"></td>
+							<td th:text="${product.status}"></td>
+							<td th:text="${product.stock}"></td>
+
+							<td>
+								<button type="button" class="btn btn-primary btn-sm"
+									data-bs-toggle="modal"
+									th:data-bs-target="'#proModal'+${product.productId}">編集</button>
+								<!-- 情報編集Modal 更新-->
+								<div class="modal fade" th:id="'proModal'+${product.productId}"
+									tabindex="-1" aria-labelledby="proModalLabel"
+									aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="proModalLabel">商品編集</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+
+											<div class="modal-body">
+												<form
+													th:action="@{/center/product/edit/{id}(id=${product.productId})}"
+													method="post">
+
+													<label for="name" class="text-info">商品名:</label><br> <input
+														type="text" name="productName" class="form-control"
+														th:value="${product.productName}">
+
+													<div class="mb-3">
+														<label for="picture" class="text-info">画像:</label><br>
+														<img th:src="${product.productImg}" width="69"
+															height="105"> <input type="file" name="productImg"
+															class="form-control">
+													</div>
+													<div class="mb-3">
+														<label for="price" class="text-info">価格:</label><br>
+														<input type="text" name="productPrice"
+															class="form-control" th:value="${product.productPrice}">
+													</div>
+													<div class="form-floating">
+														<textarea class="form-control" id="floatingTextarea2"
+															name="productContents" style="height: 100px"
+															th:text="${product.productContents}"></textarea>
+														<label for="floatingTextarea2">商品内容</label>
+													</div>
+													<div class="mb-3">
+														<label for="maker" class="text-info">メーカー:</label><br>
+														<input type="text" name="maker" class="form-control"
+															th:value="${product.maker}">
+													</div>
+													<div class="mb-3">
+														<label for="stock" class="text-info">ストック:</label><br>
+														<input type="text" name="stock" class="form-control"
+															th:value="${product.stock}">
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">キャンセル</button>
+														<input type="submit" id="kakutei" class="btn btn-danger"
+															value="確定">
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div> <br> <!-- Button trigger modal -->
+								<button type="button" class="btn btn-warning btn-sm"
+									data-bs-toggle="modal"
+									th:data-bs-target="'#staticBackdrop'+${product.productId}">削除</button>
+
+								<!-- Modal -->
+								<div class="modal fade"
+									th:id="'staticBackdrop'+${product.productId}" tabindex="-1"
+									aria-labelledby="staticBackdropLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="staticBackdropLabel">削除の確認</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+
+											<div class="modal-body">
+												<form
+													th:action="@{/center/productmanger/deleteProduct/{id}(id=${product.productId})}"
+													method="post">
+
+													<p>この商品を削除しますか？</p>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-secondary"
+															data-bs-dismiss="modal">キャンセル</button>
+														<input type="submit" id="kakutei" class="btn btn-danger"
+															value="確定">
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div> <br> <a type="button" class="btn btn-danger btn-sm"
+								th:href="@{/center/productmanger/stop/{id}(id=${product.productId})}">中止</a>
+								<br> <a type="button" class="btn btn-success btn-sm"
+								th:href="@{/center/productmanger/recovery/{id}(id=${product.productId})}">回復</a>
+							</td>
+
+						</tr>
+					</tbody>
+				</table>
+
+
+
+				<!-- 新規登録 -->
+				<div class="modal fade" id="Modal" tabindex="-1"
+					aria-labelledby="ModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="ModalLabel">商品新規登録</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form id="userinfo" th:action="@{/center/productmanger}"
+									method="post">
+									<div class="mb-3">
+										<label for="name" class="text-info">商品名:</label><br> <input
+											type="text" name="productName" class="form-control"
+											placeholder="商品名を入力してください" required />
+									</div>
+									<div class="mb-3">
+										<label for="picture" class="text-info">画像:</label><br> <input
+											type="file" name="productImg" class="form-control"
+											placeholder="価格を入力してください" required />
+									</div>
+									<div class="mb-3">
+										<label for="price" class="text-info">価格:</label><br> <input
+											type="text" name="productPrice" class="form-control"
+											placeholder="価格を入力してください" required />
+									</div>
+									<div class="form-floating">
+										<textarea class="form-control" placeholder="商品内容を入力してください"
+											id="floatingTextarea2" name="productContents"
+											style="height: 100px"></textarea>
+										<label for="floatingTextarea2">商品内容</label>
+									</div>
+									<div class="mb-3">
+										<label for="maker" class="text-info">メーカー:</label><br> <input
+											type="text" name="maker" class="form-control"
+											placeholder="メーカーを入力してください" required />
+									</div>
+									<div class="mb-3">
+										<label for="stock" class="text-info">ストック:</label><br> <input
+											type="text" name="stock" class="form-control"
+											placeholder="ストックを入力してください" required />
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">キャンセル</button>
+										<input type="submit" id="kakutei" class="btn btn-danger"
+											value="確定">
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 内容ここまで -->
+			</main>
+		</div>
+	</div>
+
+</body>
+</html>

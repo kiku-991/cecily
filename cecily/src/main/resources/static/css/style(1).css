@@ -1,0 +1,130 @@
+/**
+ * 秒杀
+ */
+.plugins-limitedtimediscount-goods-price-icon,
+.plugins-limitedtimediscount-goods-price-icon:hover,
+.plugins-limitedtimediscount-goods-price-icon:focus {
+    padding: 3px 5px;
+    background: #FF5722;
+    color: #fff;
+    text-decoration: none;
+}
+.plugins-limitedtimediscount-goods-base-top {
+    background: url(../../../images/limitedtimediscount/activity-banner.png) right top no-repeat #f23030;
+    padding: 5px 10px;
+    height: 33px;
+    overflow: hidden;
+}
+.plugins-limitedtimediscount-goods-base-top * {
+    color: #fff;
+    font-weight: 500;
+}
+.plugins-limitedtimediscount-goods-base-top .timer-hours {
+    font-size: 16px;
+    font-weight: 700;
+    color: #ffe500;
+}
+.plugins-limitedtimediscount-goods-base-top .countdown .millisecond {
+    width: 20px;
+}
+@media only screen and (max-width:640px) {
+    .plugins-limitedtimediscount-goods-base-top {
+        padding: 5px;
+    }
+}
+
+/**
+ * 秒杀首页推荐
+ */
+.plugins-limitedtimediscount-home-adv {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.plugins-limitedtimediscount-home-adv .title h3 {
+    width: 84px;
+    height: 20px;
+    background: url(../../../images/limitedtimediscount/seckill.png) 0 0 no-repeat;
+}
+.plugins-limitedtimediscount-home-adv .countdown * {
+    font-size: 14px;
+    font-weight: 500;
+    margin-right: 2px;
+}
+.plugins-limitedtimediscount-home-adv .countdown .timer-title {
+    color: #333;
+}
+.plugins-limitedtimediscount-home-adv .countdown span.timer-hours {
+    padding: 3px 3px 3px 8px;
+    letter-spacing: 5px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    background-color: #3A4145;
+    color: #fff;
+}
+.plugins-limitedtimediscount-home-adv .countdown em {
+    color: #4B5459;
+    padding: 0;
+    font-weight: 700;
+}
+.plugins-limitedtimediscount-home-adv .am-icon-chevron-circle-right {
+    color: #888;
+}
+.plugins-limitedtimediscount-home-adv .title a {
+    color: #666;
+}
+.plugins-limitedtimediscount-home-adv .title .more {
+    margin-top: 3px;
+}
+.plugins-limitedtimediscount-home-adv .am-slider {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    margin: 10px 0 0 0;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+}
+.plugins-limitedtimediscount-home-adv .am-slider li .goods-title {
+    max-height: 40px;
+    overflow: hidden;
+    font-size: 12px;
+}
+.plugins-limitedtimediscount-home-adv .am-slider .price strong {
+    color: #f33f00;
+    font-weight: bold;
+    font-size: 14px;
+}
+.plugins-limitedtimediscount-home-adv .am-slider .original-price {
+    color: #999;
+    text-decoration: line-through;
+}
+.am-slider-default .am-direction-nav a:before {
+    font-size: 36px!important;
+    color: #d2364c;
+}
+@media only screen and (min-width: 641px) {
+    .plugins-limitedtimediscount-home-adv .am-slider li img { -webkit-transition: transform .6s ease-in; -moz-transition: transform .6s ease-in; -ms-transition: transform .6s ease-in; -o-transition: transform .6s ease-in; transition: transform .6s ease-in; }
+    .plugins-limitedtimediscount-home-adv .am-slider li img:hover { transform: scale(1.05); -moz-transform: scale(1.05); -webkit-transform: scale(1.05); -o-transform: scale(1.05); -ms-transform: scale(1.05); }
+}
+@media only screen and (max-width: 1025px) {
+    .plugins-limitedtimediscount-home-adv .title {
+        padding: 0 10px;
+    }
+}
+@media only screen and (max-width: 641px) {
+    .plugins-limitedtimediscount-home-adv {
+        margin-bottom: 20px;
+    }
+    .plugins-limitedtimediscount-home-adv .countdown span.timer-hours {
+        padding: 3px 0px 3px 3px;
+        letter-spacing: 3px;
+    }
+    .plugins-limitedtimediscount-home-adv .countdown * {
+        margin-right: 0px;
+    }
+    .plugins-limitedtimediscount-home-adv .title h3 {
+        margin-right: 5px;
+    }
+    .plugins-limitedtimediscount-home-adv .countdown .timer-title {
+        display: none;
+    }
+}

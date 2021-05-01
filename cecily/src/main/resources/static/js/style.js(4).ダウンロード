@@ -1,0 +1,15 @@
+$(function()
+{
+    // 快捷导航选择
+    var $container = $('.plugins-exchangerate-currency-select-container');
+    $('.plugins-exchangerate-currency-select-event').on('click', function()
+    {
+        $container.show();
+    });
+
+    // 快捷导航关闭
+    $('.plugins-exchangerate-currency-select-container .am-close').on('click', function()
+    {
+        $container.hide();
+    });
+});

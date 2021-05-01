@@ -1,0 +1,53 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- xmlns:th="http://www.thymeleaf.org" -->
+<head>
+<meta charset="UTF-8">
+<title>ログイン</title>
+</head>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<body>
+    <div id="login">
+        <h3 class="text-center text-white pt-5">Login form</h3>
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form  action="#" th:action="@{/login}"  method="post">
+                            <h3 class="text-center text-info">ログイン</h3>
+                            
+                            <p style="color:red;" th:text="${ms}" th:if="${not #strings.isEmpty(ms)}"></p>
+                            <div class="form-group">
+                                <label for="user_mail" class="text-info">メールアドレス:</label><br>
+                                <input type="text" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" name="userMail" id="usermail" class="form-control" placeholder="メールアドレス" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="text-info">パスワード:</label><br>
+                                <input type="password"  name="userPassword" id="password" class="form-control" placeholder="パスワード" required/>
+                            	<br>
+                            	
+                            	<p style="color:red;" th:text="${mailcheck}" th:if="${not #strings.isEmpty(mailcheck)}"></p>
+                            	<p style="color:red;" th:text="${mpcheck}" th:if="${not #strings.isEmpty(mpcheck)}"></p>
+                            	<p style="color:red;" th:text="${statusCheck}" th:if="${not #strings.isEmpty(statusCheck)}"></p>
+                            	<p style="color:red;" th:text="${pwchange}" th:if="${not #strings.isEmpty(pwchange)}"></p>
+                            	
+                            	
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="login">
+                            </div>
+                            <div id="register-link" class="text-right">
+                                <a th:href="@{/touroku}" class="text-info">登録はこちら</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

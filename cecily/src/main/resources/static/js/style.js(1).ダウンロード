@@ -1,0 +1,68 @@
+$(function()
+{
+    // 倒计时
+    if($('.countdown .hours').length > 0 && $('.countdown .minutes').length > 0 && $('.countdown .seconds').length > 0)
+    {
+        var hours = parseInt($('.countdown .hours').text());
+        var minutes = parseInt($('.countdown .minutes').text());
+        var seconds = parseInt($('.countdown .seconds').text());
+
+        // 秒
+        var timer = setInterval(function()
+        {
+            if(seconds <= 0)
+            {
+                if(minutes > 0)
+                {
+                    minutes--;
+                    seconds = 59;
+                } else if(hours > 0)
+                {
+                    hours--;
+                    minutes = 59;
+                    seconds = 59;
+                }
+            } else {
+                seconds--;
+            }
+
+            $('.countdown .hours').text((hours < 10) ? '0'+hours : hours);
+            $('.countdown .minutes').text((minutes < 10) ? '0'+minutes : minutes);
+            $('.countdown .seconds').text((seconds < 10) ? '0'+seconds : seconds);
+            
+            if(hours <= 0 && minutes <= 0 && seconds <= 0)
+            {
+                // 停止时间
+                clearInterval(timer);
+
+                // 活动已结束
+                if($('.countdown .timer-title').length > 0)
+                {
+                    $('.countdown .timer-title').text('活动已结束');
+                    $('.countdown .timer-hours').hide();
+                    $('.countdown em').hide();
+                }
+            }
+        }, 1000);
+    }
+
+    // 毫秒
+    if($('.countdown .millisecond').length > 0)
+    {
+        var count = 0;
+        var timers = setInterval(function()
+        {
+            count++;
+            $('.countdown .millisecond').text(count);
+            if(count > 9)
+            {
+                count = 0;
+            }
+            if(parseInt($('.countdown .hours').text()) <= 0 && parseInt($('.countdown .minutes').text()) <= 0 && parseInt($('.countdown .seconds').text()) <= 0)
+            {
+                // 停止时间
+                clearInterval(timers);
+            }
+        }, 100);
+    }
+});
