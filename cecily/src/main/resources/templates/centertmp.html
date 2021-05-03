@@ -49,17 +49,17 @@
 				th:class="${activeUrl=='/center/favorite' ? 'nav-link active' : 'nav-link'}">
 					<span data-feather="bar-chart-2"></span> お気に入り
 			</a></li>
-<!-- 			<li class="nav-item" th:if="${session?.userLogin?.role} eq 'user'"><a
-				class="nav-link" th:href="@{/center/shopcart}"
-				th:class="${activeUrl=='/center/shopcart' ? 'nav-link active' : 'nav-link'}">
-					<span data-feather="shopping-cart"></span> 買い物かご
-			</a></li> -->
+ 			<li class="nav-item" th:if="${session?.userLogin?.role} eq 'user'"><a
+				class="nav-link" th:href="@{/center/moushikomi}"
+				th:class="${activeUrl=='/center/moushikomi' ? 'nav-link active' : 'nav-link'}">
+					<span data-feather="shopping-cart"></span> 我的消息
+			</a></li> 
 			<li class="nav-item" th:if="${session?.userLogin?.role} eq 'user'"><a
 				class="nav-link" th:href="@{/center/mycyumon}" th:class="${activeUrl=='/center/mycyumon' ? 'nav-link active' : 'nav-link'}"> <span
 					data-feather="layers"></span> 我的注文
 			</a></li>
-			<li class="nav-item" th:if="${session?.userLogin?.role} eq 'user'"><a
-				class="nav-link" th:href="@{/center/moushikomi}" th:class="${activeUrl=='/center/moushikomi' ? 'nav-link active' : 'nav-link'}"> <span
+			<li class="nav-item" th:unless="${session?.userLogin?.role} eq 'admin'"><a
+				class="nav-link" th:href="@{/center/myshop}" th:class="${activeUrl=='//center/myshop' ? 'nav-link active' : 'nav-link'}"> <span
 					data-feather="layers"></span> 出店申込
 			</a></li>
 		</ul>
@@ -100,8 +100,14 @@
 					data-feather="file-text"></span> 商品管理
 			</a></li>
 			
+			<li class="nav-item" th:if="${session?.userLogin?.role} eq 'user'"><a
+				class="nav-link" th:href="@{/center/moushikomi}"
+				th:class="${activeUrl=='/center/moushikomi' ? 'nav-link active' : 'nav-link'}">
+					<span data-feather="shopping-cart"></span> 我的消息
+			</a></li> 
+			
 			<li class="nav-item"><a class="nav-link"
-				th:href="@{/center/tenpuManager}" th:class="${activeUrl=='/center/tenpuManager' ? 'nav-link active' : 'nav-link'}"> <span
+				th:href="@{/center/storemanger}" th:class="${activeUrl=='/center/storemanger' ? 'nav-link active' : 'nav-link'}"> <span
 					data-feather="file-text"></span> 店舗管理
 			</a></li>
 		</ul>
@@ -119,7 +125,7 @@
 					data-feather="file-text"></span> 注文管理
 			</a></li>
 			<li class="nav-item"><a class="nav-link"
-				th:href="@{/center/productmanger}" th:class="${activeUrl=='/center/productmanger' ? 'nav-link active' : 'nav-link'}"> <span
+				th:href="@{/center/myproducts}" th:class="${activeUrl=='/center/myproducts' ? 'nav-link active' : 'nav-link'}"> <span
 					data-feather="file-text"></span> 商品管理
 			</a></li>
 			<li class="nav-item"><a class="nav-link"

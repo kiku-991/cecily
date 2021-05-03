@@ -7,7 +7,7 @@
 <meta name="author"
 	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Hugo 0.79.0">
-<title>店舗管理</title>
+<title>商品管理</title>
 
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
@@ -74,6 +74,9 @@
 		<div class="row">
 			<!--  side-->
 			<nav th:insert="~{centertmp::side}"></nav>
+			<div
+				th:insert="~{centertmp::#sidebarMenu(activeUrl='/center/myproducts')}"></div>
+			
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 				<!-- 内容ここから -->
 
@@ -84,7 +87,7 @@
 				<br> <br>
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#Modal"
-					th:if="${session?.userLogin?.role} eq 'admin'">店舗登録</button>
+					th:if="${session?.userLogin?.role} eq 'store'">商品登録</button>
 
 				<!-- 商品表示 -->
 				<br> <br> <br>
@@ -93,8 +96,8 @@
 				<table class="table table-striped ">
 					<thead>
 						<tr>
-							<th>店舗ID</th>
-							<th>店舗名</th>
+							<th>商品ID</th>
+							<th>商品名</th>
 							<th>価格</th>
 							<th>画像</th>
 							<th>商品内容</th>
@@ -114,7 +117,7 @@
 								height="105"></td>
 							<td th:text="${product.productContents}"></td>
 							<td th:text="${product.maker}"></td>
-							<td th:text="${product.status}"></td>
+							<td th:text="${product.status==1?'出品中':'出品中止'}"></td>
 							<td th:text="${product.stock}"></td>
 
 							<td>
@@ -135,7 +138,7 @@
 
 											<div class="modal-body">
 												<form
-													th:action="@{/center/product/edit/{id}(id=${product.productId})}"
+													th:action="@{/center/myproducts/edit/{id}(id=${product.productId})}"
 													method="post">
 
 													<label for="name" class="text-info">商品名:</label><br> <input
@@ -213,9 +216,9 @@
 										</div>
 									</div>
 								</div> <br> <a type="button" class="btn btn-danger btn-sm"
-								th:href="@{/center/productmanger/stop/{id}(id=${product.productId})}">中止</a>
+								th:href="@{/center/myproducts/stop/{id}(id=${product.productId})}">中止</a>
 								<br> <a type="button" class="btn btn-success btn-sm"
-								th:href="@{/center/productmanger/recovery/{id}(id=${product.productId})}">回復</a>
+								th:href="@{/center/myproducts/recovery/{id}(id=${product.productId})}">回復</a>
 							</td>
 
 						</tr>
@@ -235,7 +238,7 @@
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form id="userinfo" th:action="@{/center/productmanger}"
+								<form id="userinfo" th:action="@{/center/myproducts/create}"
 									method="post">
 									<div class="mb-3">
 										<label for="name" class="text-info">商品名:</label><br> <input

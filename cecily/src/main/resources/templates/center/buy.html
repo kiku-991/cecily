@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://demo.shopxo.net/buy.html -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>订单确认</title>
+<link rel="stylesheet" type="text/css" href="../css/amazeui.css">
+<link rel="stylesheet" type="text/css" href="../css/amazeui.switch.css">
+<link rel="stylesheet" type="text/css" href="../css/amazeui.chosen.css">
+<link rel="stylesheet" type="text/css" href="../css/cropper.min.css">
+<link rel="stylesheet" type="text/css"
+	href="../css/amazeui.tagsinput.css">
+
+<link rel="stylesheet" type="text/css" href="../css/common.css">
+<link rel="stylesheet" type="text/css" href="../css/common(1).css">
+<link rel="stylesheet" type="text/css" href="../css/buy.css">
+
+<!-- css钩子 -->
+<link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="../css/style(1).css">
+<link rel="stylesheet" type="text/css" href="../css/style(2).css">
+<link rel="stylesheet" type="text/css" href="../css/style(3).css">
+<link rel="stylesheet" type="text/css" href="../css/style(4).css">
+<link rel="stylesheet" type="text/css" href="../css/iconfont(1).css">
+<link rel="stylesheet" type="text/css" href="../css/style(5).css">
+<link rel="stylesheet" type="text/css" href="../css/style(6).css">
+<link rel="stylesheet" type="text/css" href="../css/style(7).css">
+<link rel="stylesheet" type="text/css" href="../css/style(8).css">
+<link rel="stylesheet" type="text/css" href="../css/style(9).css">
+<link rel="stylesheet" type="text/css" href="../css/style(10).css">
+<link rel="stylesheet" type="text/css" href="../css/common(2).css">
+
+
+<!-- CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
+
+<!-- 公共header内钩子 -->
+<style type="text/css">
+@media only screen and (min-width:640px) {
+	.plugins-homemiddleadv-home-adv ul.am-gallery img {
+		-webkit-transition: transform .3s ease-in;
+		-moz-transition: transform .3s ease-in;
+		-ms-transition: transform .3s ease-in;
+		-o-transition: transform .3s ease-in;
+		transition: transform .3s ease-in;
+	}
+	.plugins-homemiddleadv-home-adv ul.am-gallery img:hover {
+		-ms-transform: translate3d(0px, -3px, 0px);
+		-webkit-transform: translate3d(0px, -3px, 0px);
+		-o-transform: translate3d(0px, -3px, 0px);
+		transform: translate3d(0px, -3px, 0px);
+	}
+}
+
+@media only screen and (min-width:1025px) {
+	.plugins-homemiddleadv-home-adv {
+		overflow: hidden;
+	}
+	.plugins-homemiddleadv-home-adv ul.am-gallery {
+		width: calc(100% + 20px);
+		margin-left: -10px;
+		margin-top: 10px;
+	}
+}
+</style>
+<style type="text/css">
+#plugins-commongobacktop {
+	display: none;
+	position: fixed;
+	right: 50px;
+	bottom: 100px;
+	z-index: 100;
+	cursor: pointer;
+}
+</style>
+<style type="text/css">
+#plugins-expressforkdn-popup p {
+	font-size: 16px;
+	color: #FF9800;
+	font-weight: 500;
+	padding: 1rem;
+	text-align: center;
+	margin: 0;
+}
+
+#plugins-expressforkdn-popup .am-list-static>li {
+	padding: .8rem 1rem;
+}
+
+#plugins-expressforkdn-popup .am-popup-bd {
+	padding: 0;
+}
+
+#plugins-expressforkdn-popup .am-list>li {
+	border: 1px dashed #dedede;
+	border-width: 1px 0;
+}
+</style>
+<style type="text/css">
+.plugins-touristbuy-nav-top {
+	color: #FF5722;
+}
+</style>
+<link href="../css/WdatePicker.css" rel="stylesheet" type="text/css">
+<link href="../css/ueditor.css" type="text/css" rel="stylesheet">
+<script src="../js/ZeroClipboard.js.ダウンロード" type="text/javascript"
+	defer="defer"></script>
+</head>
+<body style="padding-top: 0px;">
+	<!-- css钩子 -->
+
+	<!-- 公共header内钩子 -->
+
+	<!-- 公共顶部钩子 -->
+	<div class="am-modal multilingual-page-loading" style="display: none;">
+		<span class="am-icon-spinner am-icon-pulse am-icon-lg"></span>
+	</div>
+	<!-- header top nav -->
+	<!-- 顶部导航条 start -->
+
+	<header th:insert="~{indextmp::top}"></header>
+	<!-- 顶部导航条 end
+
+	<!-- search -->
+	<!-- 搜索框 start -->
+
+	<div th:insert="~{indextmp::search}"></div>
+
+	<header th:insert="~{indextmp::header}"></header>
+	<!-- content -->
+	<div class="am-container">
+		<div class="link-list">
+			<!-- 订单确认页面内部顶部钩子-开始 -->
+			<div data-am-widget="tabs"
+				class="am-tabs am-tabs-d2 buy-header-nav am-no-layout">
+				<ul class="am-tabs-nav am-cf">
+					<li class="am-active"><a href="javascript:;" data-value="0">快递邮寄</a></li>
+					<li><a href="javascript:;" data-value="2"> </a></li>
+				</ul>
+			</div>
+
+			<!-- - 用户地址 -->
+			<div class="address user-address-container">
+				<div class="control">
+					<h3>
+						确认收货地址
+						<button type="button"
+							class="am-close am-fr mobile-address-close-submit">×</button>
+					</h3>
+					<div class="table-no" th:if="${userInfo==null}">
+						<i class="am-icon-warning"></i> <span>没有地址</span>
+						<!-- Button trigger modal -->
+						<button
+							class="am-btn am-btn-secondary am-btn-xs am-margin-left-sm address-submit-save"
+							type="button" data-bs-toggle="modal"
+							data-bs-target="#exampleModal">使用新地址</button>
+					</div>
+
+					<!-- 添加地址Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1"
+						aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabel">新規住所</h5>
+									<button type="button" class="btn-close" data-bs-dismiss="modal"
+										aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<form class="am-form form-validation" method="post"
+										th:action="@{/buy/userInfo/edit}">
+
+										<div class="am-form-group">
+											<label>連絡名前:<span
+												class="am-form-group-label-tips-must">必填</span></label> <input
+												type="text" name="renrakuname" placeholder="連絡名前"
+												maxlength="16" data-validation-message="姓名格式 2~16 个字符之间"
+												class="am-radius">
+										</div>
+										<div class="am-form-group">
+											<label>連絡電話番号:<span
+												class="am-form-group-label-tips-must">必填</span></label> <input
+												type="text" name="renrekuphone" placeholder="連絡電話番号"
+												maxlength="30" data-validation-message="电话格式有误"
+												class="am-radius">
+										</div>
+
+										<div class="am-form-group region-linkage"
+											data-url="https://demo.shopxo.net/index/region/index.html">
+											<label>〒郵便番号</label> <input type="text" name="郵便番号"
+												onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
+												class="am-radius"><br> <label>都道府県(届け住所):</label>
+											<input type="text" name="dtodoufuken" class="am-radius"><br>
+											<label>市区町村(届け住所): </label><input type="text"
+												name="dshikucyouson" class="am-radius"><br> <label
+												for="address" class="text-info">以降の住所(届け住所): </label><input
+												type="text" name="dcyoumebanchi" class="am-radius">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">キャンセル</button>
+											<input type="submit" class="btn btn-primary" value="保存">
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				
+				</div>
+				<ul class="address-list" th:if="${userInfo!=null}">
+					<li class="address-default" id="data-list-2737" data-value="2737">
+						<div class="address-left">
+							<div class="user-base">
+								<span class="am-badge am-badge-success-plain am-radius">默认</span>
+								<span class="address-detail"> <span class="user">[[${userInfo.renrakuname}]]</span>
+									<span class="phone">[[${userInfo.renrekuphone}]]</span>
+								</span>
+							</div>
+							<div class="region">
+								<span class="province">[[${userInfo.dtodoufuken}]]</span> <span
+									class="city">[[${userInfo.dshikucyouson}]]</span> <span
+									class="dist">[[${userInfo.dcyoumebanchi}]]</span>
+							</div>
+						</div>
+						<div class="address-right">
+							<span class="am-icon-angle-right am-icon-md"></span>
+						</div>
+						<div class="address-operation-btn">
+							<button type="button" class="btn btn-success btn-sm"
+								data-bs-toggle="modal" data-bs-target="#Modal">編集</button>
+							<span class="cut">|</span> <a type="button"
+								class="btn btn-warning btn-sm" th:href="@{/buy/userInfo/delete}">删除</a>
+						</div> <!-- 編集 -->
+						<div class="modal fade" id="Modal" tabindex="-1"
+							aria-labelledby="ModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="ModalLabel">新規住所</h5>
+										<button type="button" class="btn-close"
+											data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<form class="am-form form-validation" method="post"
+											th:action="@{/buy/userInfo/edit}">
+
+											<div class="am-form-group">
+												<label>連絡名前:<span
+													class="am-form-group-label-tips-must">必填</span></label> <input
+													type="text" name="renrakuname" placeholder="連絡名前"
+													maxlength="16" th:value="${userInfo.renrakuname}"
+													class="am-radius">
+											</div>
+											<div class="am-form-group">
+												<label>連絡電話番号:<span
+													class="am-form-group-label-tips-must">必填</span></label> <input
+													type="text" name="renrekuphone" placeholder="連絡電話番号"
+													maxlength="30" th:value="${userInfo.renrekuphone}"
+													class="am-radius">
+											</div>
+
+											<div class="am-form-group region-linkage"
+												data-url="https://demo.shopxo.net/index/region/index.html">
+												<label>〒郵便番号</label> <input type="text" name="郵便番号"
+													onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
+													class="am-radius"><br> <label>都道府県(届け住所):</label>
+												<input type="text" name="dtodoufuken"
+													th:value="${userInfo.dtodoufuken}" class="am-radius"><br>
+												<label>市区町村(届け住所): </label><input type="text"
+													name="dshikucyouson" th:value="${userInfo.dshikucyouson}"
+													class="am-radius"><br> <label for="address"
+													class="text-info">以降の住所(届け住所): </label><input type="text"
+													name="dcyoumebanchi" th:value="${userInfo.dcyoumebanchi}"
+													class="am-radius">
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">キャンセル</button>
+												<input type="submit" class="btn btn-primary" value="保存">
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div> <!-- 編集完成 -->
+					</li>
+				</ul>
+			</div>
+
+
+
+
+
+
+			<div class="buy-items">
+				<h3>订单信息</h3>
+				<div class="goods-group-list">
+					<div
+						class="am-panel am-panel-default am-margin-top-sm am-margin-bottom-0">
+						<div class="am-panel-hd">
+							<span class="warehouse-item-container"> <i
+								class="iconfont icon-dianpu"></i> <a
+								href="https://demo.shopxo.net/shop-index-detail-1.html"
+								target="_blank" class="text-deco-none"> <strong
+									class="warehouse-name">ShopXO多商户店铺</strong>
+							</a>
+							</span>
+
+						</div>
+						<div class="am-panel-bd">
+
+							<!-- 商品明细 -->
+							<table class="am-table">
+								<thead>
+									<tr>
+										<th>商品信息</th>
+										<th class="am-hide-sm-only">单价</th>
+										<th class="am-hide-sm-only">数量</th>
+										<th class="am-hide-sm-only">金额</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr id="data-list-3127" data-id="3127" data-goods-id="4"
+										th:each="pro:${probuy}">
+										<td class="base">
+											<!-- 分组商品详情基础顶部钩子-开始 --> <!-- 分组商品详情基础顶部钩子-结束 -->
+											<div class="goods-detail">
+												<a href="https://demo.shopxo.net/goods-4.html"
+													target="_blank"> <img th:src="${pro.productImg}">
+												</a>
+												<div class="goods-base">
+													<a href="https://demo.shopxo.net/goods-4.html"
+														target="_blank" class="goods-title">[[${pro.productName}]]</a>
+												</div>
+											</div>
+											<div class="wap-base am-show-sm-only">
+												<span class="original-price">￥productPrice</span> <span
+													class="wap-number">x1</span>
+											</div> <!-- 分组商品详情基础底部钩子-开始 --> <!-- 分组商品详情基础底部钩子-结束 -->
+										</td>
+										<td class="price am-hide-sm-only">
+
+											<p class="line-price">[[${pro.productPrice}]]</p>
+										</td>
+										<td class="number am-hide-sm-only">[[${pro.quantity}]]</td>
+										<td class="total-price am-hide-sm-only"><span>￥</span><strong
+											class="total-price-content">[[${pro.total}]]</strong></td>
+									</tr>
+								</tbody>
+							</table>
+
+							<!-- 商品分割线 -->
+							<hr data-am-widget="divider"
+								class="am-divider am-divider-dashed am-no-layout">
+
+							<!-- 分组商品底部钩子-开始 -->
+							<!-- 分组商品底部钩子-结束 -->
+
+
+
+							<!-- 含运费小计 -->
+							<div class="buy-point-discharge am-text-right">
+
+								<span> 合计 <span class="price"><span>￥</span><strong
+										class="total-price-content line-price am-text-sm">[[${amount}]]</strong></span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 订单确认页面分组商品底部钩子-开始 -->
+			<!-- 订单确认页面分组商品底部钩子-结束 -->
+
+			<!-- 支付方式 -->
+			<div class="buy-items business-item payment" data-field="payment_id">
+				<h3>选择支付</h3>
+				<form th:action="@{/order/add}" method="post">
+					<input type="radio" id="male" name="paymentMethod" value="1">
+					<label for="male">支付宝</label><img src="../img/1609166039326378.png"
+						width="30" height="30"><br> <input type="radio"
+						id="female" name="paymentMethod" value="2"> <label
+						for="female">货到付款</label><img src="../img/1609166481693114.png"
+						width="30" height="30"><br> <input type="radio"
+						id="other" name="paymentMethod" value="3"> <label
+						for="other">钱包支付</label><img src="../img/1609166040427736.png"
+						width="30" height="30">
+				</form>
+			</div>
+
+
+
+			<!-- 基础信息 -->
+			<div class="order-nav">
+				<div class="pay-confirm">
+					<div class="box">
+						<div class="base-real-pay">
+							<em>实付款 :</em> <span class="price"> <span>￥</span><strong
+								class="nav-total-price">[[${amount}]]</strong>
+							</span>
+						</div>
+
+
+						<div class="pay-address" th:if="${userInfo}!=null">
+							<div class="buy-footer-address">
+								<span class="buy-line-title">联系人 :</span> <span class="buy-user">
+									[[${userInfo.renrakuname}]] </span> <span class="buy-phone">
+									[[${userInfo.renrekuphone}]] </span>
+							</div>
+							<div class="buy-footer-address">
+								<span class="buy-line-title buy-line-title-type">地址 :</span> <span
+									class="buy-address-detail"> [[${userInfo.dtodoufuken}]]
+									[[${userInfo.dshikucyouson}]] [[${userInfo.dcyoumebanchi}]] </span>
+							</div>
+						</div>
+					</div>
+					<form class="am-form form-validation nav-buy"
+						th:action="@{/order/add}" method="post" data-site-type="4"
+						data-is-booking="0" novalidate="novalidate">
+						<input type="hidden" name="paymentMethod" value="1">
+						<!--  <input type="hidden" name="goods_id" value="0"> <input
+							type="hidden" name="stock" value="1"> <input
+							type="hidden" name="spec" value=""> <input type="hidden"
+							name="ids" value="3127"> <input type="hidden"
+							name="address_id" value="2737"> <input type="hidden"
+							name="payment_id" value="0"> <input type="hidden"
+							name="user_note" value=""> <input type="hidden"
+							name="site_model" value="0">  -->
+						<!-- 订单确认页面提交订单表单内部钩子-开始 -->
+						<!-- 订单确认页面提交订单表单内部钩子-结束 -->
+						<div class="go-btn-wrap">
+							<button type="submit" class="btn-go btn-loading-example"
+								title="点击此按钮，提交订单">提交订单</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<!-- 订单确认页面内部底部钩子-s开始 -->
+			<!-- 订单确认页面内部底部钩子-结束 -->
+		</div>
+	</div>
+
+	<!-- 订单确认页面底部钩子-开始 -->
+	<!-- 订单确认页面底部钩子-结束 -->
+
+	<!-- 订单提交后提示弹层 -->
+	<div class="am-modal am-modal-no-btn" tabindex="-1"
+		id="buy-order-submit-modal">
+		<div class="am-modal-dialog">
+			<div class="am-modal-bd">
+				<div class="content am-vertical-align-middle am-padding-vertical-sm">
+					<p class="am-text-success">支付跳转中、请勿关闭页面</p>
+					<p class="am-text-warning am-margin-top-lg">支付失败或长时间未响应</p>
+					<p class="am-text-warning am-margin-xs">
+						<span>进入</span> <a
+							href="https://demo.shopxo.net/index/order/index.html"
+							class="am-text-secondary">我的订单</a> <span>后可以重新发起支付</span>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- footer start -->
+
+	<!-- JavaScript Bundle with Popper -->
+	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+
+	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
+
+	<!-- 应用插件公共js -->
+
+	<!-- 当前控制器js -->
+	<script type="text/javascript" src="../js/buy.js.ダウンロード"></script>
+
+	<!-- 底部信息 -->
+
+	<!-- js钩子 -->
+	<script type="text/javascript" src="../js/style.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(1).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(2).ダウンロード"></script>
+	<script type="text/javascript" src="../jsstyle.js(3).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(4).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(6).ダウンロード"></script>
+	<script type="text/javascript" src="../js/common.js(2).ダウンロード"></script>
+
+	<!-- 公共页面底部钩子 -->
+	<script type="text/javascript">
+		
+	</script>
+
+	<!-- footer end -->
+
+
+</body>
+</html>

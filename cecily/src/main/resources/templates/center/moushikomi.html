@@ -7,7 +7,7 @@
 <meta name="author"
 	content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
 <meta name="generator" content="Hugo 0.79.0">
-<title>店舗申込</title>
+<title>店舗申込メッセージ</title>
 
 <link rel="canonical"
 	href="https://getbootstrap.com/docs/5.0/examples/dashboard/">
@@ -87,6 +87,210 @@
 
 
 				</form>
+
+
+
+<table class="table table-striped table-sm">
+						<thead>
+							<tr>
+								<th>アイコン</th>
+								<th>氏名</th>
+								<th>誕生日</th>
+								<th>性別</th>
+								<th>ニックネーム</th>
+								<th>電話番号</th>
+								<th>住所</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${userInfo!=null}" th:each="user : ${userInfo}">
+								<td><img th:src="${user.icon}" width="80" height="80"></td>
+								<td th:text="${user.name}"></td>
+								<td th:text="${user.birth}"></td>
+								<td th:text="${user.sex==1?'女':(user.sex==0?'男':'秘密')}"></td>
+								<td th:text="${user.nickname}"></td>
+								<td th:text="${user.phone}"></td>
+								<td 
+									th:text="${user.todoufuken==null?'':(user.todoufuken+user.shikucyouson+user.cyoumebanchi)}"></td>
+								<td><button type="button" class="btn btn-success btn-sm"
+										data-bs-toggle="modal" data-bs-target="#exampleModal">編集</button></td>
+
+							</tr>
+						</tbody>
+					</table>
+				
+
+				<!-- 情報登録用Modal 登録したらボタンがなくなり -->
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+					data-bs-target="#Modal" th:if="${userInfo == null}">登録</button>
+				<div class="modal fade" id="Modal" tabindex="-1"
+					aria-labelledby="ModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="ModalLabel">情報登録</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form id="userinfo" th:action="@{/center/userInfo/usercrete}"
+									method="post">
+									<div class="mb-3">
+										<label for="name" class="text-info">アイコン:</label><br> <input
+											type="file" name="icon" class="my-file" />
+									</div>
+									<div class="mb-3">
+										<label for="name" class="text-info">氏名:</label><br> <input
+											type="text" name="name" class="form-control"
+											placeholder="名前を入力してください" required />
+									</div>
+									<div class="mb-3">
+										<label for="nicname" class="text-info">ニックネーム:</label><br>
+										<input type="text" name="nickname" class="form-control"
+											placeholder="ニックネームを入力してください" required />
+									</div>
+									<div class="mb-3">
+										<label for="birth" class="text-info">誕生日:</label><br> <input
+											type="date" name="birth" class="form-control"
+											placeholder="誕生日を入力してください" required />
+									</div>
+
+
+									<div class="mb-3">
+										<label for="sex" class="text-info">性別:</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="sex"
+											id="girlRadio" value="1"> <label
+											class="form-check-label" for="girlRadio">女</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="sex"
+											id="boyRadio" value="0"> <label
+											class="form-check-label" for="boyRadio">男</label>
+									</div>
+									<div class="form-check form-check-inline">
+										<input class="form-check-input" type="radio" name="sex"
+											id="secretRadio" value="2"> <label
+											class="form-check-label" for="secretRadio">秘密</label>
+
+									</div>
+									<br>
+									<div class="mb-3">
+										<label for="phone" class="text-info">電話番号:</label><br> <input
+											type="text" name="phone" class="form-control"
+											placeholder="電話番号を入力してください" required />
+									</div>
+									<div class="mb-3">
+										<label for="address" class="text-info">〒郵便番号</label> <input
+											type="text" name="postcode"
+											onKeyUp="AjaxZip3.zip2addr(this,'','todoufuken','shikucyouson','cyoumebanchi');"
+											class="form-control"><br> <label for="address"
+											class="text-info">都道府県:</label> <input type="text"
+											name="todoufuken" class="form-control"><br> <label
+											for="address" class="text-info">市区町村: </label><input
+											type="text" name="shikucyouson" class="form-control"><br>
+										<label for="address" class="text-info">以降の住所: </label><input
+											type="text" name="cyoumebanchi" class="form-control">
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-bs-dismiss="modal">キャンセル</button>
+										<input type="submit" id="kakutei" class="btn btn-danger"
+											value="確定">
+									</div>
+								</form>
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+
+				<!-- 情報編集Modal 更新-->
+				<div class="modal fade" id="exampleModal" tabindex="-1"
+					aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">情報編集</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal"
+									aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								<form th:action="@{/center/userInfo/edit}" method="post"
+									th:each="user : ${userInfo}">
+									<div class="mb-3">
+										<label for="name" class="text-info">アイコン:</label><br> <img
+											th:src="${user.icon}" width="80" height="80"><br> <label
+											for="edit" class="text-info">アイコン編集:</label><br> <input
+											type="file" name="icon" class="form-control" /> <label
+											for="name" class="text-info">氏名:</label><br> <input
+											type="text" name="name" th:value="${user.name}"
+											class="form-control" /> <label for="nicname"
+											class="text-info">ニックネーム:</label><br> <input type="text"
+											th:value="${user.nickname}" name="nickname"
+											class="form-control" /> <label for="birth" class="text-info">誕生日:</label><br>
+										<input type="date" name="birth" th:value="${user.birth}"
+											class="form-control" />
+										<div class="mb-3">
+											<label for="sex" class="text-info">性別:</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="sex"
+												id="girlRadio" value="1" th:checked="${user.sex}==1">
+											<label class="form-check-label" for="girlRadio">女</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="sex"
+												id="boyRadio" value="0" th:checked="${user.sex}==0">
+											<label class="form-check-label" for="boyRadio">男</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio" name="sex"
+												id="secretRadio" value="2" th:checked="${user.sex}==2">
+											<label class="form-check-label" for="secretRadio">秘密</label>
+
+										</div>
+										<br>
+										<div>
+											<label for="phone" class="text-info">電話番号:</label><br> <input
+												type="text" name="phone" th:value="${user.phone}"
+												class="form-control" /><label for="address"
+												class="text-info">〒郵便番号</label> <input type="text"
+												name="postcode" th:value="${user.postcode}"
+												onKeyUp="AjaxZip3.zip2addr(this,'','todoufuken','shikucyouson','cyoumebanchi');"
+												class="form-control"><br> <label for="address"
+												class="text-info">都道府県:</label> <input type="text"
+												name="todoufuken" th:value="${user.todoufuken}"
+												class="form-control"><br> <label for="address"
+												class="text-info">市区町村: </label><input type="text"
+												name="shikucyouson" th:value="${user.shikucyouson}"
+												class="form-control"><br> <label for="address"
+												class="text-info">以降の住所: </label><input type="text"
+												name="cyoumebanchi" th:value="${user.cyoumebanchi}"
+												class="form-control">
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary"
+												data-bs-dismiss="modal">キャンセル</button>
+											<input type="submit" id="kakutei" class="btn btn-danger"
+												value="確定">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+
 
 
 

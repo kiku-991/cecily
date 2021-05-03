@@ -112,113 +112,111 @@
 	<!-- 公共header内钩子 -->
 
 	<!-- 公共顶部钩子 -->
-<!-- 	<div class="am-modal multilingual-page-loading" style="display: none;">
+	<!-- 	<div class="am-modal multilingual-page-loading" style="display: none;">
 		<span class="am-icon-spinner am-icon-pulse am-icon-lg"></span>
 	</div> -->
-	
+
 	<!-- header top nav -->
 	<!-- 顶部导航条 start -->
 	<div class="header-top" th:fragment="top">
-	<div class="am-container header">
-		<nav class="top-nav-left">
-			<div class="top-nav-items">
-				<div class="menu-hd">
-					<!-- 公共顶部小导航钩子-左侧前面   <a th:text="${session?.UserLogin.userMail}"> -->
-					<em><a th:text="${session?.userLogin?.userMail}"></a></em> <em>ようこそ</em>
+		<div class="am-container header">
+			<nav class="top-nav-left">
+				<div class="top-nav-items">
+					<div class="menu-hd">
+						<!-- 公共顶部小导航钩子-左侧前面   <a th:text="${session?.UserLogin.userMail}"> -->
+						<em><a th:text="${session?.userLogin?.userMail}"></a></em> <em>ようこそ</em>
 
 
-					<a th:if="${session?.userLogin == null}" th:href="@{/login}"
-						style="text-decoration: none;">ログイン</a> <a
-						th:if="${session?.userLogin == null}" th:href="@{/touroku}"
-						style="text-decoration: none;">登録</a> <a
-						th:if="${session?.userLogin != null}" th:href="@{/loginout}"
-						style="text-decoration: none;">ログアウト</a>
-					<!-- 公共顶部小导航钩子-左侧后面 -->
+						<a th:if="${session?.userLogin == null}" th:href="@{/login}"
+							style="text-decoration: none;">ログイン</a> <a
+							th:if="${session?.userLogin == null}" th:href="@{/touroku}"
+							style="text-decoration: none;">登録</a> <a
+							th:if="${session?.userLogin != null}" th:href="@{/loginout}"
+							style="text-decoration: none;">ログアウト</a>
+						<!-- 公共顶部小导航钩子-左侧后面 -->
+					</div>
 				</div>
-			</div>
-		</nav>
+			</nav>
 			<!-- 公共顶部小导航钩子-右侧前面 -->
-		<!-- 右侧导航 -->
-		<nav class="top-nav-right">
-			<div class="top-nav-items">
+			<!-- 右侧导航 -->
+			<nav class="top-nav-right">
+				<div class="top-nav-items">
+					<div class="menu-hd login-event">
+						<a th:href="@{/shopping/center}" target="_top"> <span>マイページ</span>
+						</a>
+					</div>
+				</div>
+				<div class="top-nav-items" id="my-favorite">
+					<div class="am-dropdown menu-hd" data-am-dropdown="">
+						<a th:href="@{/shopping/favorite}" target="_top"> <span>気に入り</span>
+						</a>
+					</div>
+				</div>
+				<div class="top-nav-items">
 				<div class="menu-hd login-event">
-					<a th:href="@{/shopping/center}" target="_top"> <span>マイページ</span>
+					<a th:href="@{/shopping/myCart}" target="_top"> <span>買い物かご</span>
+						<strong
+						th:class="${count}!=0?'common-cart-total am-round am-badge am-badge-danger':'common-cart-total am-round'"
+						th:id="myCart" th:text="${count}"></strong>
 					</a>
 				</div>
 			</div>
-
-			<div class="top-nav-items" id="my-favorite">
-				<div class="am-dropdown menu-hd" data-am-dropdown="">
-					<a class="am-dropdown-toggle" th:href="@{/#}"
-						target="_top" data-am-dropdown-toggle=""> <span>気に入り</span>
-
-					</a>
-				</div>
-			</div>
-			<div class="top-nav-items">
-				<div class="menu-hd login-event">
-					<a th:href="@{/#}" target="_top"> <span>買い物かご</span>
-						<strong >0</strong>
-					</a>
-				</div>
-			</div>
-		</nav>
+			</nav>
+		</div>
 	</div>
-</div>
 	<!-- 顶部导航条 end
 
 <!-- search -->
 	<!-- 搜索框 start -->
 	<div class="nav-search white am-hide-sm-only" th:fragment="search"
-	style="position: relative;">
-	<div class="am-container">
+		style="position: relative;">
+		<div class="am-container">
 
-		<div class="logo-big am-hide-sm-only">
-			<a href="/shopping"><img src="../img/kikulogo.jpg" width="10"
-				height="55"></a>
+			<div class="logo-big am-hide-sm-only">
+				<a href="/shopping"><img src="../img/logo.webp" width="10"
+					height="55"></a>
+			</div>
+
+			<!-- logo右侧 -->
+
+			<div class="search-bar">
+				<form th:action="@{/shopping/keywordSearch}" method="POST">
+					<div class="search-group">
+						<input id="search-input" name="productName" type="text"
+							placeholder="ようこそKIKUショップへ ，キーワード検索" autocomplete="off">
+						<button type="submit" id="ai-topsearch" class="submit am-btn">
+							<span>検索</span>
+						</button>
+					</div>
+				</form>
+			</div>
+
+			<!-- 公共搜索框右侧 -->
 		</div>
-
-		<!-- logo右侧 -->
-
-		<div class="search-bar">
-			<form th:action="@{/shopping/keywordSearch}" method="POST">
-				<div class="search-group">
-					<input id="search-input" name="productName" type="text"
-						placeholder="ようこそKIKUショップへ ，キーワード検索"  autocomplete="off">
-					<button type="submit" id="ai-topsearch" class="submit am-btn">
-						<span>検索</span>
-					</button>
-				</div>
-			</form>
-		</div>
-
-		<!-- 公共搜索框右侧 -->
 	</div>
-</div>
 	<!-- 搜索框 end -->
 
 	<!-- header nav -->
 	<header class="am-topbar shop-navigation" th:fragment="header">
-	<div class="am-container">
+		<div class="am-container">
 
-		<!-- 主导航 -->
-		<ul class="am-nav am-nav-pills am-topbar-nav">
-			<li><a href="/shopping" title="首页"
-				class="active">首页</a></li>
-			<li><a href="#" title="活动中心">活动中心</a></li>
-			<li><a href="#" title="积分商城">积分商城</a></li>
-			<li><a href="#" title="领劵中心">领劵中心</a></li>
-			<li><a href="#" title="限时秒杀">限时秒杀</a></li>
-			<li><a href="#" title="会员俱乐部">会员俱乐部</a></li>
-			<li><a href="#" title="品牌">品牌</a></li>
-			<li><a href="#" title="自定义页面">自定义页面</a></li>
-		</ul>
+			<!-- 主导航 -->
+			<ul class="am-nav am-nav-pills am-topbar-nav">
+				<li><a href="/shopping" title="首页" class="active">首页</a></li>
+				<li><a href="#" title="活动中心">活动中心</a></li>
+				<li><a href="#" title="积分商城">积分商城</a></li>
+				<li><a href="#" title="领劵中心">领劵中心</a></li>
+				<li><a href="#" title="限时秒杀">限时秒杀</a></li>
+				<li><a href="#" title="会员俱乐部">会员俱乐部</a></li>
+				<li><a href="#" title="品牌">品牌</a></li>
+				<li><a href="#" title="自定义页面">自定义页面</a></li>
+			</ul>
 
-		<!-- 右侧导航 -->
+			<!-- 右侧导航 -->
 
-	</div>
+		</div>
 
-</header>
+	</header>
 
 	<!-- banner -->
 	<div class="banner" th:fragment="banner">
@@ -231,81 +229,77 @@
 				<ul class="am-slides"
 					style="width: 800%; transition-duration: 0s; transform: translate3d(-1592px, 0px, 0px);">
 					<li
-						style="background: rgb(244, 188, 203); margin-right: 0px; float: left; display: block; width: 1592px;"
-						title="美酒" class="clone" aria-hidden="true">
+						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
+						title="小问号" class="clone" aria-hidden="true">
 						<!-- 地图 --> <a href="javascript:;" class="submit-map-popup"
 						data-lng="121.626444" data-lat="31.20843"><img
-							src="../img/20180810101106984022.jpeg" alt="美酒" draggable="false"></a>
+							src="../img/IMG_9401.JPG" alt="美酒" draggable="false"></a>
 					</li>
 					<li
-						style="background: rgb(241, 238, 229); margin-right: 0px; float: left; display: block; width: 1592px;"
-						title="爱在厨房" class="am-active-slide" data-thumb-alt="">
+						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
+						title="KIKU" class="am-active-slide" data-thumb-alt="">
 						<!-- 默认url地址 --> <a href="https://shopxo.net/" target="_blank"><img
-							src="../img/20180810100811853567.jpeg" alt="爱在厨房"
+							src="../img/IMG_9400.JPG" alt="KIKU"
 							draggable="false"></a>
 					</li>
 					<li
-						style="background: rgb(244, 188, 203); margin-right: 0px; float: left; display: block; width: 1592px;"
-						title="美酒" data-thumb-alt="">
+						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
+						title="鞠婧祎" data-thumb-alt="">
 						<!-- 地图 --> <a href="javascript:;" class="submit-map-popup"
 						data-lng="121.626444" data-lat="31.20843"><img
-							src="../img/20180810101106984022.jpeg" alt="美酒" draggable="false"></a>
+							src="../img/IMG_8437.JPG" alt="美酒" draggable="false"></a>
 					</li>
 					<li
-						style="background: rgb(241, 238, 229); margin-right: 0px; float: left; display: block; width: 1592px;"
-						title="爱在厨房" class="clone" aria-hidden="true">
+						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
+						title="CECILY" class="clone" aria-hidden="true">
 						<!-- 默认url地址 --> <a href="https://shopxo.net/" target="_blank"><img
-							src="../img/20180810100811853567.jpeg" alt="爱在厨房"
+							src="../img/IMG_1856.JPG" alt="KIKU"
 							draggable="false"></a>
 					</li>
 				</ul>
 			</div>
-			<ol class="am-control-nav am-control-paging">
-				<li><a href="https://demo.shopxo.net/#" class="am-active">1</a><i></i></li>
-				<li><a href="https://demo.shopxo.net/#">2</a><i></i></li>
-			</ol>
+			
 		</div>
 	</div>
 
 	<!-- goods category -->
 	<!-- 商品分类  -->
 	<div id="goods-category"
-	class="am-container am-hide-sm-only am-hide-md-only"
-	data-controller-name="index" th:fragment="goods-category">
-	<div class="goods-category-s">
-		<div class="goods-category-title">
-			<a href="#login"> <span class="all-goods">全部分类</span>
-			</a>
+		class="am-container am-hide-sm-only am-hide-md-only"
+		data-controller-name="index" th:fragment="goods-category">
+		<div class="goods-category-s">
+			<div class="goods-category-title">
+				<a href="#login"> <span class="all-goods">全部分类</span>
+				</a>
+			</div>
 		</div>
 	</div>
-</div>
-		<!-- 轮播上内容 -->
+	<!-- 轮播上内容 -->
 	<div class="am-container slideall" th:fragment="slideall">
 		<!-- 轮播-聚合内容 -->
-		<div class="banner-mixed" >
+		<div class="banner-mixed">
 			<div class="mod-vip">
 				<div class="m-baseinfo">
-					<a> <img
-						src="../img/default-user-avatar.jpg" class="user-avatar">
+					<a> <img src="../img/IMG_0135.JPG"
+						class="user-avatar">
 					</a> <em> <span class="s-name am-text-truncate"> <em>您好欢迎来到KIKUSHOP</em>
 					</span>
 					</em>
 				</div>
 				<div class="member-login" th:if="${session?.userLogin == null}">
-					<a class="am-btn-primary btn am-fl"
-						th:href="@{/login}">登录</a> <a
-						class="am-btn-primary btn am-fr"
-						th:href="@{/touroku}">注册</a>
+					<a class="am-btn-primary btn am-fl" th:href="@{/login}">登录</a> <a
+						class="am-btn-primary btn am-fr" th:href="@{/touroku}">注册</a>
 				</div>
 			</div>
-			
+
 
 			<!-- 轮播混合数据底部钩子 -->
 		</div>
 	</div>
 
 	<!-- 楼层数据顶部钩子 -->
-	<div class="am-container plugins-homemiddleadv-home-adv" th:fragment="homeadv">
+	<div class="am-container plugins-homemiddleadv-home-adv"
+		th:fragment="homeadv">
 		<ul data-am-widget="gallery"
 			class="am-gallery am-avg-sm-2 am-avg-md-4 am-avg-lg-4 am-gallery-overlay am-no-layout"
 			data-am-gallery="{}">
@@ -340,7 +334,7 @@
 			</li>
 		</ul>
 	</div>
-		<!-- 楼层-主内容 -->
+	<!-- 楼层-主内容 -->
 	<div class="home-floor" th:fragment="list">
 		<!-- 楼层 -->
 		<!-- 首页楼层顶部钩子 -->
@@ -352,7 +346,7 @@
 					style="border-bottom: 2px solid #23acff;">
 					<p class="floor-title">数码办公</p>
 					<p class="floor-desc">天天新品，科技带来快乐！</p>
-					
+
 				</div>
 			</div>
 
@@ -390,39 +384,41 @@
 
 					<!-- 首页楼层内部底部钩子 -->
 				</div>
-<!-- 商品管理 -->
-			<div class="goods-list" th:fragment="article_type">
-				<div th:each="product: ${products}">
-					<div class="goods-items" th:if="${product.status eq '出品中'}">
-						
-						<!-- <div class="zoom"> -->
-						<!-- 写真 -->
-						<a th:href="@{/productDetails/{id}(id=${product.productId})}"
-							target="_blank" class="am-block am-text-center"> <img
-							th:src="${product.productImg}" width="69" height="250"
-							class="goods-images" name="image">
-						</a>
-						<!-- 商品名 -->
-						<div class="outer-con">
-							<div class="goods-title am-text-truncate-2 am-margin-bottom-xs">
-								<a th:href="@{/productDetails/{id}(id=${product.productId})}"
-									target="_blank" th:text="${product.productName}"></a>
-							</div>
-							<span>¥</span><span class="price am-text-truncate"
-								th:text="${product.productPrice}"></span><br>
-							
-							
+				<!-- 商品管理 -->
+				<div class="goods-list" th:fragment="article_type">
+					<div th:each="product: ${products}">
+						<div class="goods-items">
+
+							<!-- <div class="zoom"> -->
+							<!-- 写真 -->
+							<a th:href="@{/productDetails/{id}(id=${product.productId})}"
+								target="_blank" class="am-block am-text-center"> <img
+								th:src="${product.productImg}" width="69" height="250"
+								class="goods-images" name="image">
+							</a>
+							<!-- 商品名 -->
+							<div class="outer-con">
+								<div class="goods-title am-text-truncate-2 am-margin-bottom-xs">
+									<a th:href="@{/productDetails/{id}(id=${product.productId})}"
+										target="_blank" th:text="${product.productName}"></a>
+								</div>
+								<span>¥</span><span class="price am-text-truncate"
+									th:text="${product.productPrice}"></span><br>
+
+								<!-- 
 							<button th:id="${product.productId}" type="button"
-								th:text="${product.favoriteId eq null? '♡気に入り':(product.userId eq session?.userLogin?.id?'❤気に入り済み':'♡気に入り')}"
-								th:onclick="|clickPost(${product.productId})|"></button>
-							
+								
+								th:onclick="|clickPost(${product.productId})|"></button> -->
+								<button type="button" th:id="${product.productId}" 
+								th:text="${product.userId ==0? '♡気に入り':(product.userId eq session?.userLogin?.userId?'❤気に入り済み':'♡気に入り')}"
+									th:onclick="|clickPost(${product.productId})|"></button>
 								<button type="button"
 									th:onclick="|clickCart(${product.productId})|">買い物かご</button>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-<!-- 商品管理 -->
+				<!-- 商品管理 -->
 				<!-- 首页楼层内部底部钩子 -->
 			</div>
 		</div>
@@ -430,16 +426,17 @@
 		<!-- 首页楼层底部钩子 -->
 		<!-- 首页楼层顶部钩子 -->
 
-			<!-- 首页楼层底部钩子 -->
+		<!-- 首页楼层底部钩子 -->
 	</div>
 
 	<!-- 楼层数据底部钩子 -->
 
 	<!-- commom html -->
-	
+
 	<!-- footer start -->
 	<!-- 底部导航上面钩子 -->
-	<div class="plugins-footercustomerservice-customer-service" th:fragment="footercust">
+	<div class="plugins-footercustomerservice-customer-service"
+		th:fragment="footercust">
 		<ul data-am-widget="gallery"
 			class="am-gallery am-avg-sm-1 am-avg-md-2 am-avg-lg-4 am-gallery-overlay am-no-layout am-container"
 			data-am-gallery="{}">
@@ -485,40 +482,126 @@
 	<footer data-am-widget="footer"
 		class="am-footer am-footer-default am-no-layout" data-am-footer="{}">
 		<div class="am-container" th:fragment="footer">
-			
-			<!-- 商店信息 -->
-			<ul class="footer-about am-u-md-4">
-				<li class="tel"> <a
-					href="tel:021-88888888">991-99199199</a></li>
-				<li class="address"> <span>KIKU</span></li>
-				<li class="email"> <span>kiku@qq.com</span>
-				</li>
-				<li class="qrcode"><img src="../img/1597662046785108.jpg"
-					alt=""></li>
-			</ul>
+
+		
 		</div>
 
 		<!-- 页脚信息 -->
 		<div class="am-footer-miscs">
 			<div class="am-container">
 				<!-- 友情链接 -->
-				
+
 
 				<p class="powered">
-					Powered by <a href="/shopping" title="ShopXO电商系统"
-						target="_blank"><span class="b">KIKU</span><span class="o">SHOP</span></a>
+					Powered by <a href="/shopping" title="ShopXO电商系统" target="_blank"><span
+						class="b">KIKU</span><span class="o">SHOP</span></a>
 				</p>
-		
+
 			</div>
 		</div>
 	</footer>
 
-<!-- footer end -->
+	<!-- footer end -->
 
 	<!-- 弹层提示分享 -->
 	<div id="plugins-share-layer">
 		<img src="../img/share-layer.png">
 	</div>
+
+
+	<!-- Ajax -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<script>
+		//「POSTで遷移（Ajax）」気に入りボタン押下時の処理
+		function clickPost(productId) {
+
+			var p = {
+				id : productId
+			};
+
+			$.ajax({
+				//MyCartControlleradd()メソッドに遷移
+				url : '/part/myfavorite',
+				type : 'POST',
+				timeout : 60000,
+				data : p,
+				async : false,
+				dataType : "json"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+				if ((data == productId)) {
+					$('#' + productId).text('❤' + '気に入り済');
+					alert('気に入りに追加済み!');
+
+				} else if (data == 0) {
+					$('#' + productId).text('♡' + '気に入り');
+					alert('気に入り取消ました!');
+
+				} else {
+					alert('先にログインしてください!');
+				}
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function() {
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+				//alert('end');
+			});
+
+		}
+	</script>
+
+	<script>
+		//「POSTで遷移（Ajax）」買い物かごボタン押下時の処理
+
+		function clickCart(productId) {
+
+			var pro = {
+				id : productId
+			};
+
+			$.ajax({
+				//MainControllerのpostIndex()メソッドに遷移
+				url : '/addMyCart',
+				type : 'POST',
+				timeout : 60000,
+				data : pro,
+				async : false,
+				dataType : "json"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+
+				if (data != 0) {
+					//	$('#myCart').addClass('am-badge am-badge-danger');
+					//$toast("買い物かごに追加済み!");
+					$('#myCart').text(data);
+
+					alert('買い物かごに追加済み!');
+
+					//window.location.href = "/shopping"
+				}
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function() {
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+
+			});
+
+		}
+	</script>
 
 	<!-- 类库 -->
 	<!-- <script type="text/javascript" src="../js/jquery-2.1.0.js.ダウンロード"></script>-->
@@ -604,8 +687,8 @@
 			<div id="edui20_body" class="edui-popup-body edui-default">
 				<iframe
 					style="position: absolute; z-index: -1; left: 0; top: 0; background-color: transparent;"
-					 width="100%" height="100%"
-					src="../js/saved_resource(1).html" class="edui-default"></iframe>
+					width="100%" height="100%" src="../js/saved_resource(1).html"
+					class="edui-default"></iframe>
 				<div class="edui-shadow edui-default"></div>
 				<div id="edui20_content" class="edui-popup-content edui-default">
 				</div>

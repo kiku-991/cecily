@@ -19,7 +19,7 @@ public class UserDeliveryService {
 	@Autowired
 	UserLoginRepository userLoginRepository;
 
-	//CREATEユーザ届け
+	//CREATEユーザ届け(user)
 	public void creUserDelivery(int userid, UserDeliveryDto user) {
 		UserDeliveryEntity userDelivery = new UserDeliveryEntity();
 		userDelivery.setUserId(userid);
@@ -33,7 +33,7 @@ public class UserDeliveryService {
 
 	}
 
-	//ユーザ届けを取得
+	//ユーザ届けを取得(user)
 
 	public List<UserDeliveryDto> getUserDelivery(int userId) {
 		List<UserDeliveryEntity> userDelivery = userDeliveryRepository.findByUserId(userId);
@@ -56,9 +56,9 @@ public class UserDeliveryService {
 		return userdelivery;
 	}
 
-	//ユーザ届けを編集
+	//ユーザ届けを編集(user)
 
-	public void editUserDelivery(int deleveryId,int userId, UserDeliveryDto userDeliveryDto) {
+	public void editUserDelivery(int deleveryId, int userId, UserDeliveryDto userDeliveryDto) {
 		UserDeliveryEntity userDelivery = new UserDeliveryEntity();
 		userDelivery.setId(deleveryId);
 		userDelivery.setUserId(userId);
@@ -71,13 +71,29 @@ public class UserDeliveryService {
 		userDeliveryRepository.save(userDelivery);
 	}
 
-	//ユーザ届けを削除
+	//ユーザ届けを削除(user)
 	public void deleteUserTodoke(int id) {
-		
+
 		userDeliveryRepository.deleteById(id);
 	}
 
-	
-
+	//ユーザ届け一覧を取得(ADMIN）
+	public List<UserDeliveryDto> getAllUserDelivery() {
+		List<UserDeliveryEntity> usertt = userDeliveryRepository.findAll();
+		List<UserDeliveryDto> usersDelivery = new ArrayList<>();
+		for (UserDeliveryEntity users : usertt) {
+			UserDeliveryDto u = new UserDeliveryDto();
+			u.setUserId(users.getUserId());
+			u.setDeliveryId(users.getId());
+			u.setDpostcode(users.getDpostcode());
+			u.setDtodoufuken(users.getDtodoufuken());
+			u.setDshikucyouson(users.getDshikucyouson());
+			u.setDcyoumebanchi(users.getDcyoumebanchi());
+			u.setRenrakuname(users.getRenrakuname());
+			u.setRenrakuphone(users.getRenrakuphone());
+			usersDelivery.add(u);
+		}
+		return usersDelivery;
+	}
 
 }

@@ -114,7 +114,7 @@ function lock(flag) {
 						<tr th:each="user : ${users}">
 							<td th:text="${user.userId}"></td>
 							<td th:text="${user.userMail}"></td>
-							<td th:text="${user.status eq '1'?'正常':'ブロック'}"></td>
+							<td th:text="${user.status==1?'正常':'ブロック'}"></td>
 							<td th:text="${user.role}"></td>
 							<td th:text="${user.createDate}"></td>
 							<td th:text="${user.updateDate}"></td>

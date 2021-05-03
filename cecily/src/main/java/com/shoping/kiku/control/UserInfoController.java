@@ -126,21 +126,6 @@ public class UserInfoController {
 		
 	}
 
-	/**
-	 * Role 変更 店舗申込
-	 * @param request
-	 * @param user
-	 * @return
-	 */
-
-	@RequestMapping(value = "/center/moushikomi", method = RequestMethod.POST)
-	public String storeChange(HttpServletRequest request) {
-		//Role 変更
-		userLoginService.roleChange(request);
-
-		return "redirect:/center/rolechange";
-
-	}
 
 	/**
 	 * ユーザ一覧(ADMIN)

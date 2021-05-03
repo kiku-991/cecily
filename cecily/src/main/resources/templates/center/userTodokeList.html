@@ -86,9 +86,10 @@
 							<th>ユーザID</th>
 							<th>連絡名前</th>
 							<th>連絡電話番号</th>
-							<th>都道府県(届け住所)</th>
-							<th>市区町村(届け住所)</th>
-							<th>丁目番地(届け住所)</th>
+							<th>郵便番号</th>
+							<th>都道府県</th>
+							<th>市区町村</th>
+							<th>丁目番地</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -97,13 +98,14 @@
 							<td th:text="${user.userId}"></td>
 							<td th:text="${user.renrakuname}"></td>
 							<td th:text="${user.renrakuphone}"></td>
+							<td th:text="${user.dpostcode}"></td>
 							<td th:text="${user.dtodoufuken}"></td>
 							<td th:text="${user.dshikucyouson}"></td>
 							<td th:text="${user.dcyoumebanchi}"></td>
 							<td><button type="button" class="btn btn-success btn-sm"
 									data-bs-toggle="modal"
-									th:data-bs-target="'#Modal'+${user.userId}">編集</button>
-								<div class="modal fade" th:id="'Modal'+${user.userId}"
+									th:data-bs-target="'#Modal'+${user.deliveryId}">編集</button>
+								<div class="modal fade" th:id="'Modal'+${user.deliveryId}"
 									tabindex="-1" aria-labelledby="exampleModalLabel"
 									aria-hidden="true">
 									<div class="modal-dialog">
@@ -115,7 +117,7 @@
 											</div>
 											<div class="modal-body">
 												<form
-													th:action="@{/center/userTodokeList/edit/{id}(id=${user.userId})}"
+													th:action="@{/center/userTodokeList/edit/{id}(id=${user.deliveryId})}"
 													method="post">
 													<div class="mb-3">
 														<label for="name" class="text-info">ID:</label><br> <input
@@ -128,8 +130,12 @@
 															th:value="${user.renrakuphone}" class="form-control" />
 														<br>
 														<div>
-															<label for="address" class="text-info">都道府県(届け住所):</label>
-															<input type="text" name="dtodoufuken"
+															<label for="address" class="text-info">〒郵便番号</label> <input
+																type="text" name="dpostcode" th:value="${user.dpostcode}"
+																onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
+																class="form-control"><br> <label
+																for="address" class="text-info">都道府県(届け住所):</label> <input
+																type="text" name="dtodoufuken"
 																th:value="${user.dtodoufuken}" class="form-control"><br>
 															<label for="address" class="text-info">市区町村(届け住所):
 															</label><input type="text" name="dshikucyouson"

@@ -117,13 +117,13 @@
 <body style="padding-top: 0px;">
 	<!-- css钩子 -->
 	<!-- 公共顶部钩子 -->
-	
-	
+
+
 	<!-- header top nav -->
 	<!-- 顶部导航条 start -->
 	<div th:insert="~{indextmp::top}"></div>
-	
-<!-- 顶部导航条 end
+
+	<!-- 顶部导航条 end
 
 <!-- search -->
 	<!-- 搜索框 start -->
@@ -132,47 +132,158 @@
 
 	<!-- header nav -->
 	<header th:insert="~{indextmp::header}"></header>
-	
+
 
 	<!-- banner -->
 	<div th:insert="~{indextmp::banner}"></div>
-<!-- goods category -->
+	<!-- goods category -->
 	<!-- 商品分类  -->
-	
-	
+
+
 	<div id="goods-category"
-	class="am-container am-hide-sm-only am-hide-md-only"
-	data-controller-name="index" th:fragment="goods-category">
-	<div class="goods-category-s">
-		<div class="goods-category-title">
-			<a href="#login"> <span class="all-goods">全部分类</span>
-			</a>
+		class="am-container am-hide-sm-only am-hide-md-only"
+		data-controller-name="index" th:fragment="goods-category">
+		<div class="goods-category-s">
+			<div class="goods-category-title">
+				<a href="#login"> <span class="all-goods">全部分类</span>
+				</a>
+			</div>
 		</div>
 	</div>
-</div>
-		<!-- 轮播上内容 -->
-<div th:insert="~{indextmp::slideall}"></div>
+	<!-- 轮播上内容 -->
+	<div th:insert="~{indextmp::slideall}"></div>
 
 	<!-- 楼层数据顶部钩子 -->
 	<div th:insert="~{indextmp::homeadv}"></div>
 	<!-- 商品内容 -->
 	<div th:insert="~{indextmp::list}"></div>
-	
-		<!-- 楼层数据底部钩子 -->
+
+	<!-- 楼层数据底部钩子 -->
 	<!-- footer start -->
 	<div th:insert="~{indextmp::footercust}"></div>
 	<!-- 底部导航上面钩子 -->
+
+
 	<!-- 底部导航 -->
 	<footer th:insert="~{indextmp::footer}"></footer>
-<!-- footer end -->
+	<!-- footer end -->
 
 	<!-- 弹层提示分享 -->
-<!-- 	<div id="plugins-share-layer">
+	<!-- 	<div id="plugins-share-layer">
 		<img src="../img/share-layer.png">
 	</div> -->
+	<!-- Ajax -->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+	<script>
+		//「POSTで遷移（Ajax）」気に入りボタン押下時の処理
+		function clickPost(productId) {
+
+			var p = {
+				id : productId
+			};
+
+			$.ajax({
+				//MyCartControlleradd()メソッドに遷移
+				url : '/part/myfavorite',
+				type : 'POST',
+				timeout : 60000,
+				data : p,
+				async : false,
+				dataType : "json"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+				if ((data == productId)) {
+					$('#' + productId).text('❤' + '気に入り済');
+					alert('気に入りに追加済み!');
+
+				} else if (data == 0) {
+					$('#' + productId).text('♡' + '気に入り');
+					alert('気に入り取消ました!');
+
+				} else {
+					alert('先にログインしてください!');
+				}
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function() {
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+				//alert('end');
+			});
+
+		}
+	</script>
+
+	<script>
+		//「POSTで遷移（Ajax）」買い物かごボタン押下時の処理
+
+		function clickCart(productId) {
+
+			var pro = {
+				id : productId
+			};
+
+			$.ajax({
+				//MainControllerのpostIndex()メソッドに遷移
+				url : '/addMyCart',
+				type : 'POST',
+				timeout : 60000,
+				data : pro,
+				async : false,
+				dataType : "json"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+
+				if (data != 0) {
+					//	$('#myCart').addClass('am-badge am-badge-danger');
+					//$toast("買い物かごに追加済み!");
+					$('#myCart').text(data);
+
+					alert('買い物かごに追加済み!');
+
+					window.location.href = "/shopping"
+				}
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function() {
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+
+			});
+
+		}
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<!-- 类库 -->
-	  <script type="text/javascript" src="../js/jquery-2.1.0.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/jquery-2.1.0.js.ダウンロード"></script>
 	<script type="text/javascript" src="../js/amazeui.min.js.ダウンロード"></script>
 
 	<!-- 图片放大镜 -->
@@ -248,20 +359,33 @@
 	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
 
 	<!-- 公共页面底部钩子 -->
-	<!-- <div id="edui_fixedlayer" class="edui-default"
+	<div id="edui_fixedlayer" class="edui-default"
 		style="position: fixed; left: 0px; top: 0px; width: 0px; height: 0px;">
 		<div id="edui20" class="edui-popup  edui-bubble edui-default"
 			onmousedown="return false;" style="display: none;">
 			<div id="edui20_body" class="edui-popup-body edui-default">
 				<iframe
 					style="position: absolute; z-index: -1; left: 0; top: 0; background-color: transparent;"
-					 width="100%" height="100%"
-					src="../js/saved_resource(1).html" class="edui-default"></iframe>
+					width="100%" height="100%" src="../js/saved_resource(1).html"
+					class="edui-default"></iframe>
 				<div class="edui-shadow edui-default"></div>
 				<div id="edui20_content" class="edui-popup-content edui-default">
 				</div>
 			</div>
 		</div>
-	</div> -->
+	</div>
+
+
+	<script type="text/javascript">
+		// 回顶部监测
+		$(window).scroll(function() {
+			if ($(window).scrollTop() > 100) {
+				$("#plugins-commongobacktop").fadeIn(1000);
+			} else {
+				$("#plugins-commongobacktop").fadeOut(1000);
+			}
+		});
+	</script>
+	
 </body>
 </html>

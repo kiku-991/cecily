@@ -69,12 +69,12 @@
 </head>
 <body>
 	<!--  top-->
-	<header th:insert="~{tmp::top}"></header>
+	<header th:insert="~{centertmp::top}"></header>
 	<div class="container-fluid">
 		<div class="row">
 			<!--  side-->
-			<nav th:insert="~{tmp::side}"></nav>
-			<div th:insert="~{tmp::#sidebarMenu(activeUrl='/center/favorite')}"></div>
+			<nav th:insert="~{centertmp::side}"></nav>
+			<div th:insert="~{centertmp::#sidebarMenu(activeUrl='/center/favorite')}"></div>
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 				<!-- 内容ここから -->
 
@@ -91,6 +91,7 @@
 							<th>価格</th>
 							<th>説明</th>
 							<th>メーカー</th>
+							<th>気に入り時間</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -102,10 +103,10 @@
 							<td th:text="${favoPro.productPrice}"></td>
 							<td th:text="${favoPro.productContents}"></td>
 							<td th:text="${favoPro.maker}"></td>
-
+							<td th:text="${favoPro.createdate}"></td>
 							<td><a type="button" class="btn btn-warning btn-sm"
 								data-bs-toggle="modal"
-								th:href="@{/center/favorite/delete/{id}(id=${favoPro.favoriteId})}">取消</a></td>
+								th:href="@{/center/favorite/delete/{id}(id=${favoPro.productId})}">取消</a></td>
 						</tr>
 					</tbody>
 				</table>

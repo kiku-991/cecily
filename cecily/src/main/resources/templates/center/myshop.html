@@ -79,6 +79,8 @@
 		<div class="row">
 			<!--  side-->
 			<nav th:insert="~{centertmp::side}"></nav>
+			<div
+				th:insert="~{centertmp::#sidebarMenu(activeUrl='/center/myshop')}"></div>
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 				<!-- 内容ここから -->
 
@@ -87,8 +89,7 @@
 
 				<br> <br>
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#Modal"
-					th:if="${session?.userLogin?.role} eq 'store'">店舗登録</button>
+					data-bs-target="#Modal" th:if="${store == null}">出店申込</button>
 
 				<!-- 商品表示 -->
 				<br> <br> <br>
@@ -101,29 +102,31 @@
 							<th>郵便番号</th>
 							<th>店舗住所</th>
 							<th>連絡電話番号</th>
+							<th>店舗状態</th>
 							<th>操作</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:unless="${products == null}"
-							th:each="product : ${products}">
-							<td th:text="${product.productId}"></td>
-							<td th:text="${product.productName}"></td>
-							<td th:text="${product.productPrice}"></td>
-							<td th:text="${product.productContents}"></td>
+						<tr th:unless="${store == null}">
+							<td th:text="${store.storeName}"></td>
+							<td th:text="${store.storePostcode}"></td>
+							<td
+								th:text="${store.storeTodoufuken+store.storeShikucyouson+store.storeCyomebanchi}"></td>
+							<td th:text="${store.storePhone}"></td>
+							<td
+								th:text="${store.storeStatus==0?'申請中':(store.storeStatus==1?'出店中':'出店中止')}"></td>
 
 							<td>
 								<button type="button" class="btn btn-primary btn-sm"
 									data-bs-toggle="modal"
-									th:data-bs-target="'#proModal'+${product.productId}">編集</button>
-								<!-- 情報編集Modal 更新-->
-								<div class="modal fade" th:id="'proModal'+${product.productId}"
+									th:data-bs-target="'#proModal'+${store.userId}">編集</button> <!-- 情報編集Modal 更新-->
+								<div class="modal fade" th:id="'proModal'+${store.userId}"
 									tabindex="-1" aria-labelledby="proModalLabel"
 									aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
 											<div class="modal-header">
-												<h5 class="modal-title" id="proModalLabel">商品編集</h5>
+												<h5 class="modal-title" id="proModalLabel">店舗編集</h5>
 												<button type="button" class="btn-close"
 													data-bs-dismiss="modal" aria-label="Close"></button>
 											</div>
@@ -132,30 +135,32 @@
 												<form
 													th:action="@{/center/store/update/{id}(id=${storeId})}"
 													method="post">
-
-													<label for="name" class="text-info">店舗名:</label><br> <input
-														type="text" name="storeName" class="form-control"
-														th:value="${storeName}">
-
+													<div class="mb-3">
+														<label for="name" class="text-info">店舗名:</label><br>
+														<input type="text" name="storeName" class="form-control"
+															th:value="${store.storeName}">
+													</div>
 													<div class="mb-3">
 														<label for="price" class="text-info">連絡電話番号:</label><br>
-														<input type="text" name="storePhone"
-															class="form-control" th:value="${storePhone}">
+														<input type="text" name="storePhone" class="form-control"
+															th:value="${store.storePhone}">
 													</div>
 													<div>
 														<label for="address" class="text-info">〒郵便番号</label> <input
-															type="text" name="storePostcode" th:value="${storePostcode}"
+															type="text" name="storePostcode"
+															th:value="${store.storePostcode}"
 															onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
 															class="form-control"><br> <label
 															for="address" class="text-info">都道府県(届け住所):</label> <input
 															type="text" name="storeTodoufuken"
-															th:value="${storeTodoufuken}" class="form-control"><br>
+															th:value="${store.storeTodoufuken}" class="form-control"><br>
 														<label for="address" class="text-info">市区町村(届け住所):
 														</label><input type="text" name="storeShikucyouson"
-															th:value="${storeShikucyouson}" class="form-control"><br>
-														<label for="address" class="text-info">以降の住所(届け住所):
-														</label><input type="text" name="storeCyomebanchi"
-															th:value="${storeCyomebanchi}" class="form-control">
+															th:value="${store.storeShikucyouson}"
+															class="form-control"><br> <label
+															for="address" class="text-info">以降の住所(届け住所): </label><input
+															type="text" name="storeCyomebanchi"
+															th:value="${store.storeCyomebanchi}" class="form-control">
 													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary"
@@ -174,7 +179,10 @@
 					</tbody>
 				</table>
 
-
+ <p style="color:red;" th:text="${apply}" th:if="${not #strings.isEmpty(apply)}"></p>
+ <p style="color:red;" th:text="${open}" th:if="${not #strings.isEmpty(open)}"></p>
+ <p style="color:red;" th:text="${refuse}" th:if="${not #strings.isEmpty(refuse)}"></p>
+ <p style="color:red;" th:text="${block}" th:if="${not #strings.isEmpty(block)}"></p>
 
 				<!-- 新規登録 -->
 				<div class="modal fade" id="Modal" tabindex="-1"
@@ -182,16 +190,16 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="ModalLabel">商品新規登録</h5>
+								<h5 class="modal-title" id="ModalLabel">店舗新規登録</h5>
 								<button type="button" class="btn-close" data-bs-dismiss="modal"
 									aria-label="Close"></button>
 							</div>
 							<div class="modal-body">
-								<form id="userinfo" th:action="@{/center/myshop}"
+								<form id="userinfo" th:action="@{/center/myshop/shopApply}"
 									method="post">
 									<div class="mb-3">
-										<label for="storeName" class="text-info">店舗名:</label><br> <input
-											type="text" name="storeName" class="form-control"
+										<label for="storeName" class="text-info">店舗名:</label><br>
+										<input type="text" name="storeName" class="form-control"
 											placeholder="店舗名を入力してください" required />
 									</div>
 									<div class="mb-3">
@@ -205,8 +213,8 @@
 											onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
 											class="form-control"><br> <label for="address"
 											class="text-info">都道府県:</label> <input type="text"
-											name="storeTodoufuken" class="form-control"><br> <label
-											for="address" class="text-info">市区町村: </label><input
+											name="storeTodoufuken" class="form-control"><br>
+										<label for="address" class="text-info">市区町村: </label><input
 											type="text" name="storeShikucyouson" class="form-control"><br>
 										<label for="address" class="text-info">以降の住所: </label><input
 											type="text" name="storeCyomebanchi" class="form-control">

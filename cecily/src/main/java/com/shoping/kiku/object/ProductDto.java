@@ -7,14 +7,18 @@ import lombok.Setter;
 @Setter
 public class ProductDto {
 	private int productId;
-	private int userId;
+	private int storeId;
 	private String productName;
 	private int productPrice;
 	private String productImg;
 	private String productContents;
 	private String maker;
-	private String status;
+	private int status;
 	private int stock;
+	
+	
+	//詳細画面判断気に入り用
+	private int userId;
 	
 
 }

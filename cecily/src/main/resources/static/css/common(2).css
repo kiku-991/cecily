@@ -1,0 +1,180 @@
+/**
+ * coupon
+ */
+.plugins-coupon {
+    overflow: auto;
+}
+.plugins-coupon-items .item {
+    position: relative;
+    background: #fff;
+    border: 1px solid #d2364c;
+}
+.plugins-coupon-items li {
+    padding: 10px;
+}
+.plugins-coupon-items .item .v-left {
+    width: calc(100% - 70px);
+}
+.plugins-coupon-items .item .v-left .symbol {
+    font-family: Verdana, Tahoma;
+    font-size: 24px;
+    font-weight: 400;
+}
+.plugins-coupon-items .item .v-left .price {
+    font-weight: 700;
+    font-family: arial;
+    font-size: 38px;
+}
+.plugins-coupon-items .base {
+    color: #d2364c;
+}
+.plugins-coupon-items .item .v-left .desc {
+    color: #888;
+}
+.plugins-coupon-items .item .v-left .tips {
+    color: #666;
+}
+.plugins-coupon-items .item .v-left .unit {
+    font-size: 12px;
+}
+.plugins-coupon-items .item .v-right {
+    background: #d2364c;
+    width: 70px;
+    color: #fff;
+    font-weight: 500;
+    margin-top: -1px;
+    cursor: pointer;
+    position: relative;
+}
+.plugins-coupon-items .item,
+.plugins-coupon-items .item .v-right {
+    height: 110px;
+}
+.plugins-coupon-items .item .v-right .semi-circle {
+    display: block;
+    position: absolute;
+    left: -1px;
+    top: 0;
+    width: 3px;
+    height: calc(100% - 1px);
+    background: url(../../../images/coupon/semi-circle.png) no-repeat;
+}
+@media only screen and (min-width: 641px) {
+    .plugins-coupon-items .item:hover {
+        -webkit-box-shadow: 0 0 5px rgba(0,0,0,.5);
+        -moz-box-shadow: 0 0 5px rgba(0,0,0,.5);
+        box-shadow: 0 0 5px rgba(0,0,0,.5);
+    }
+    .plugins-coupon-items {
+        width: calc(100% + 10px);
+        margin-left: -5px;
+    }
+}
+@media only screen and (min-width: 1025px) {
+    .plugins-coupon-items {
+        width: calc(100% + 20px);
+        margin-left: -10px;
+    }
+}
+@media only screen and (max-width: 641px) {
+    .plugins-coupon-items li {
+        padding: 10px 5px;
+    }
+}
+
+/**
+ * 禁止选择
+ */
+.coupon-disabled {
+    border: 1px solid #dfdfdf !important;
+    color: #dfdfdf !important;
+}
+.coupon-disabled .v-right {
+    background: #dfdfdf !important;
+    color: #c0c0c0 !important;
+    cursor: no-drop !important;
+}
+
+
+/**
+ * 商品详情
+ */
+#plugins-coupon-offcanvas-goods-detail .am-offcanvas-bar {
+    width: 300px;
+}
+#plugins-coupon-offcanvas-goods-detail .am-offcanvas-content {
+    padding: 5px 15px;
+}
+.plugins-coupon-goods-detail-panel dd {
+    cursor: pointer;
+}
+.plugins-coupon-goods-detail-panel dd .am-badge {
+    background: transparent;
+    font-weight: 400;
+}
+
+
+/**
+ * 可使用优惠劵
+ */
+.user-content .plugins-coupon-items .item,
+.user-content .plugins-coupon-items .item .v-right,
+.plugins-coupon-buy-popup .plugins-coupon-items .item,
+.plugins-coupon-buy-popup .plugins-coupon-items .item .v-right {
+    height: 130px;
+}
+.user-content .plugins-coupon-items .item .v-left .time,
+.plugins-coupon-buy-popup .plugins-coupon-items .item .v-left .time {
+    color: #999;
+}
+.plugins-coupon-buy-popup .plugins-coupon-items .coupon-selected .item {
+    -webkit-box-shadow: 0 0 5px #4CAF50;
+    -moz-box-shadow: 0 0 5px #4CAF50;
+    box-shadow: 0 0 5px #4CAF50;
+}
+.plugins-coupon-buy-popup .plugins-coupon-items .coupon-selected .item .v-left {
+    background: #f2fff3;
+}
+
+
+/**
+ * 购买页面优惠劵选择
+ */
+.plugins-coupon-buy-popup .am-popup-bd {
+    padding: 5px 15px;
+}
+.plugins-coupon-buy-choice {
+    margin-bottom: 20px;
+}
+.plugins-coupon-buy-choice .coupon-content {
+    margin-top: 10px;
+}
+.plugins-coupon-buy-choice .coupon-content .choice-selected {
+    border: 1px solid #d2354c;
+    padding: 5px 10px;
+    display: -webkit-inline-box;
+    position: relative;
+}
+.plugins-coupon-buy-choice .coupon-content .choice-selected .coupon-price {
+    color: #d2364c;
+}
+.plugins-coupon-buy-choice .coupon-content .choice-selected em {
+    font-family: Verdana,Tahoma,arial;
+}
+.plugins-coupon-buy-choice .coupon-content .choice-view-submit {
+    color: #0e90d2;
+}
+.plugins-coupon-buy-choice .coupon-content .choice-view-submit,
+.plugins-coupon-buy-choice .coupon-content .cancel-view-submit {
+    cursor: pointer;
+}
+@media only screen and (max-width: 1025px) {
+    .plugins-coupon-buy-choice .coupon-content {
+        padding: 0 5px;
+    }
+}
+@media only screen and (max-width: 641px) {
+    .plugins-coupon-buy-popup .am-popup-bd {
+        padding: 5px 10px;
+    }
+}

@@ -10,16 +10,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.shoping.kiku.object.FavoProDto;
 import com.shoping.kiku.object.ProductDto;
+import com.shoping.kiku.object.StoreDto;
 import com.shoping.kiku.object.UserDeliveryDto;
 import com.shoping.kiku.object.UserInfoDto;
 import com.shoping.kiku.object.UserLoginDto;
+import com.shoping.kiku.service.FavoriteService;
 import com.shoping.kiku.service.ProductService;
+import com.shoping.kiku.service.StoreService;
 import com.shoping.kiku.service.UserDeliveryService;
 import com.shoping.kiku.service.UserInfoService;
 import com.shoping.kiku.service.UserLoginService;
 import com.shoping.kiku.until.MsgContents;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Status;
 
 @Controller
 public class UserCenterController {
@@ -31,13 +36,16 @@ public class UserCenterController {
 
 	@Autowired
 	UserDeliveryService userDeliveryService;
-	
+
 	@Autowired
 	ProductService productService;
-	/*
+
+	@Autowired
+	StoreService storeService;
+
 	@Autowired
 	FavoriteService favoriteService;
-	
+	/*
 	@Autowired
 	MyCartService myCartService;*/
 
@@ -103,12 +111,12 @@ public class UserCenterController {
 	//お気に入り
 	@RequestMapping("/center/favorite")
 	public ModelAndView favorite(HttpServletRequest request) {
-
+		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("center/favorite");
 
-		//List<FavoriteDto> favorites = favoriteService.getFavorite(request);
+		List<FavoProDto> favorites = favoriteService.getFavorite(ss.getUserId());
 
-		//mv.addObject("favoritePros", favorites);
+		mv.addObject("favoritePros", favorites);
 		return mv;
 	}
 
@@ -129,10 +137,24 @@ public class UserCenterController {
 	}
 
 	//出店申込
-	@RequestMapping("/center/moushikomi")
-	public ModelAndView moushikomi() {
+	@RequestMapping("/center/myshop")
+	public ModelAndView moushikomi(HttpServletRequest re) {
+		Session ss = (Session) re.getSession().getAttribute("userLogin");
+		ModelAndView mv = new ModelAndView("center/myshop");
+		StoreDto store = storeService.getStoreInfo(ss.getUserId());
+		mv.addObject("store", store);
+		if (store != null) {
+			if (store.getStoreStatus() == Status.SHOPOPAPP) {
+				mv.addObject("apply", MsgContents.TENNPUAPP);
+			} else if (store.getStoreStatus() == Status.SHOPOPEN) {
+				mv.addObject("open", MsgContents.TENNPUOK);
+			} else {
+				mv.addObject("refuse", MsgContents.TENNPUREFUSE);
+				mv.addObject("block", MsgContents.TENNPUBLOCK);
+			}
 
-		ModelAndView mv = new ModelAndView("center/moushikomi");
+		}
+
 		return mv;
 	}
 
@@ -157,16 +179,16 @@ public class UserCenterController {
 	//		return mv;
 	//	}
 
-	//店舗申込
-
+	/*//店舗申込
+	
 	@RequestMapping(value = "/center/rolechange")
 	public ModelAndView changeRole() {
-
+	
 		ModelAndView mv = new ModelAndView("center/rolechange");
 		mv.addObject("tenpu", MsgContents.TENNPU);
 		return mv;
-
-	}
+	
+	}*/
 
 	/**
 	 * ユーザID によって商品取得(店舗)
@@ -174,12 +196,11 @@ public class UserCenterController {
 	 * @param product
 	 * @return
 	 */
-	@RequestMapping(value = "/center/productmanger")
+	@RequestMapping(value = "/center/myproducts")
 	public ModelAndView getProByid(HttpServletRequest request, ProductDto product) {
-
-		ModelAndView mv = new ModelAndView("center/productmanger");
-		List<ProductDto> pros = productService.getProByUseId(request);
-
+		Session ss = (Session) request.getSession().getAttribute("userLogin");
+		ModelAndView mv = new ModelAndView("/center/myproducts");
+		List<ProductDto> pros = productService.getProByUserId(ss.getUserId());
 		mv.addObject("products", pros);
 		return mv;
 
@@ -198,6 +219,7 @@ public class UserCenterController {
 
 	//ユーザ情報(ADMIN)
 	@RequestMapping("/center/userInfoList")
+
 	public ModelAndView userInfoList() {
 		List<UserInfoDto> usersInfo = userInfoService.serchAll();
 		ModelAndView mv = new ModelAndView("center/userInfoList");
@@ -208,10 +230,35 @@ public class UserCenterController {
 	//ユーザ届け住所連絡(ADMIN)
 	@RequestMapping("/center/userTodokeList")
 	public ModelAndView userTodokeList() {
-		List<UserInfoDto> usersInfo = userInfoService.serchAll();
+
+		List<UserDeliveryDto> usersadd = userDeliveryService.getAllUserDelivery();
 		ModelAndView mv = new ModelAndView("center/userTodokeList");
-		mv.addObject("useradd", usersInfo);
+		mv.addObject("useradd", usersadd);
 		return mv;
 	}
 
+	//店舗管理(ADMIN)
+	@RequestMapping("/center/storemanger")
+	public ModelAndView storeList() {
+
+		ModelAndView mv = new ModelAndView("center/storemanger");
+		List<StoreDto> storeList = storeService.getAllStore();
+		mv.addObject("storeList", storeList);
+		return mv;
+	}
+
+	/**
+	 * 商品管理(ADMIN)
+	 * @param request
+	 * @param product
+	 * @return
+	 */
+	@RequestMapping(value = "/center/productmanger")
+	public ModelAndView getAllpro(HttpServletRequest request, ProductDto product) {
+		ModelAndView mv = new ModelAndView("/center/productmanger");
+		List<ProductDto> pros = productService.getAllPro();
+		mv.addObject("products", pros);
+		return mv;
+
+	}
 }

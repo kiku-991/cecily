@@ -17,6 +17,7 @@ import com.shoping.kiku.repository.UserLoginRepository;
 import com.shoping.kiku.until.MsgContents;
 import com.shoping.kiku.until.PwdHashing;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Status;
 
 @Service
 public class UserLoginService {
@@ -65,7 +66,7 @@ public class UserLoginService {
 			entity.setCreateDate(new Timestamp(System.currentTimeMillis()));
 			
 			entity.setRole("user");
-			entity.setStatus(1);
+			entity.setStatus(Status.USERNOMAL);
 			userLoginRepository.save(entity);
 			return 0;
 
@@ -148,10 +149,9 @@ public class UserLoginService {
 	}
 
 	//店舗申込Role変更
-	public int roleChange(HttpServletRequest request) {
+	public void roleChange(int userId) {
 
-		Session ss = (Session) request.getSession().getAttribute("userLogin");
-		UserLoginEntity user = userLoginRepository.findByUserId(ss.getUserId());
+		UserLoginEntity user = userLoginRepository.findByUserId(userId);
 		String newRole = "store";
 		UserLoginEntity usertt = new UserLoginEntity();
 		usertt.setUserId(user.getUserId());
@@ -162,8 +162,6 @@ public class UserLoginService {
 		usertt.setStatus(user.getStatus());
 		usertt.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 		userLoginRepository.save(usertt);
-
-		return 1;
 
 	}
 
@@ -208,7 +206,7 @@ public class UserLoginService {
 	 * @return
 	 */
 	public List<UserLoginDto> getAllUser() {
-		List<UserLoginEntity> userlist = userLoginRepository.findAll();
+		List<UserLoginEntity> userlist = userLoginRepository.findAllUser();
 		List<UserLoginDto> user = new ArrayList<UserLoginDto>();
 		for (UserLoginEntity u : userlist) {
 			UserLoginDto users = new UserLoginDto();

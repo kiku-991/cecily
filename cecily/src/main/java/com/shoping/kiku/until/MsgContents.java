@@ -18,8 +18,18 @@ public class MsgContents {
 	public static final String STATUS_STOP = "中止中";
 	//商品出品中
 	public static final String STATUS_SYUPPIN = "出品中";
-	//店舗申込
-	public static final String TENNPU = "店舗申込ありがとうございます。店舗に変更しましたので、再ログインしてください";
+	//店舗申込中
+	public static final String TENNPUAPP = "店舗申込ありがとうございます。管理者の承認をお待ちください。";
+	
+	//店舗申込許可
+	public static final String TENNPUOK = "出店申込を承認しました,これから営業よろしくお願いいたします。";
+	//店舗申込不許可
+	public static final String TENNPUREFUSE = "残念ながら、出店申込を拒否されました。";
+	//店舗ブロック
+	public static final String TENNPUBLOCK = "残念ながら、不適切な操作によって、店舗営業中止になります。";
+	
+	
+	
 	//入力したメールアドレス登録されてない
 	public static final String MAILNO = "no";
 	//入力したメールアドレス登録されてる

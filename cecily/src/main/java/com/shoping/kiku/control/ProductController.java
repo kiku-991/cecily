@@ -8,16 +8,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.shoping.kiku.object.FavoriteDto;
 import com.shoping.kiku.object.ProductDto;
+import com.shoping.kiku.service.FavoriteService;
 import com.shoping.kiku.service.ProductService;
+import com.shoping.kiku.until.Session;
+
 @Controller
 public class ProductController {
+	
 	@Autowired
 	ProductService productService;
 
-	/*@Autowired
-	FavoriteService favoriteService;*/
+	@Autowired
+	FavoriteService favoriteService;
 
 	/**
 	 * 商品新規登録
@@ -25,12 +31,13 @@ public class ProductController {
 	 * @param product
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/productmanger", method = RequestMethod.POST)
+	@RequestMapping(value = "/center/myproducts/create", method = RequestMethod.POST)
 	public String creProduct(HttpServletRequest request, ProductDto product) {
 
-		productService.createProduct(request, product);
+		Session ss = (Session) request.getSession().getAttribute("userLogin");
+		productService.createProduct(ss.getUserId(), product);
 
-		return "redirect:/center/productmanger";
+		return "redirect:/center/myproducts";
 	}
 
 
@@ -39,10 +46,10 @@ public class ProductController {
 	 * @param pro
 	 * @return productmanger
 	 */
-	@PostMapping(value = "/center/product/edit/{id}")
-	public String updateProById(@PathVariable("id") int id, HttpServletRequest request, ProductDto pro) {
-		productService.updateProduct(request, pro, id);
-		return "redirect:/center/productmanger";
+	@PostMapping(value = "/center/myproducts/edit/{id}")
+	public String updateProById(@PathVariable("id") int id, ProductDto pro) {
+		productService.updateProduct(pro, id);
+		return "redirect:/center/myproducts";
 	}
 
 	/**
@@ -50,10 +57,10 @@ public class ProductController {
 	 * @param pro
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/productmanger/deleteProduct/{id}")
+	@RequestMapping(value = "/center/myproducts/deleteProduct/{id}")
 	public String deleteProById(@PathVariable("id") int id) {
 		productService.deletePro(id);
-		return "redirect:/center/productmanger";
+		return "redirect:/center/myproducts";
 	}
 
 	/**
@@ -61,10 +68,10 @@ public class ProductController {
 	 * @param id
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/productmanger/stop/{id}")
+	@RequestMapping(value = "/center/myproducts/stop/{id}")
 	public String stopStatusById(@PathVariable("id") int id) {
 		productService.stopStatus(id);
-		return "redirect:/center/productmanger";
+		return "redirect:/center/myproducts";
 
 	}
 
@@ -73,24 +80,24 @@ public class ProductController {
 	 * @param id
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/productmanger/recovery/{id}")
+	@RequestMapping(value = "/center/myproducts/recovery/{id}")
 	public String recoveryProById(@PathVariable("id") int id) {
 		productService.recovery(id);
-		return "redirect:/center/productmanger";
+		return "redirect:/center/myproducts";
 	}
 
 	/**
 	 * 商品詳細画面に遷移
 	 * @return 商品詳細画面
 	 */
-	/*@RequestMapping(value = "/productDetails/{id}")
+	@RequestMapping(value = "/productDetails/{id}")
 	public ModelAndView proDetails(@PathVariable("id") int id, HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("productdetails");
 		//登録あり
 		if (ss != null) {
 			//登録あり 商品と気に入り情報取得
-			FavoriteDto fap =favoriteService.getProByUserIdAndProId(ss.getId(),id);
+			FavoriteDto fap =favoriteService.getProByUserIdAndProId(ss.getUserId(),id);
 			mv.addObject("product", fap);
 			
 		} else {
@@ -99,7 +106,52 @@ public class ProductController {
 			mv.addObject("product", pros);
 		}
 		return mv;
-	}*/
+	}
 
+	
+	/**
+	 * 商品IDによって商品編集(ADMIN)
+	 * @param pro
+	 * @return productmanger
+	 */
+	@PostMapping(value = "/center/productmanger/edit/{id}")
+	public String editProById(@PathVariable("id") int id, ProductDto pro) {
+		productService.updateProduct(pro, id);
+		return "redirect:/center/productmanger";
+	}
+
+	/**
+	 * 商品IDによって商品削除(ADMIN)
+	 * @param pro
+	 * @return productmanger
+	 */
+	@RequestMapping(value = "/center/productmanger/deleteProduct/{id}")
+	public String deProById(@PathVariable("id") int id) {
+		productService.deletePro(id);
+		return "redirect:/center/productmanger";
+	}
+
+	/**
+	 * 商品IDによって商品を中止(ADMIN)
+	 * @param id
+	 * @return productmanger
+	 */
+	@RequestMapping(value = "/center/productmanger/stop/{id}")
+	public String blockProById(@PathVariable("id") int id) {
+		productService.stopStatus(id);
+		return "redirect:/center/productmanger";
+
+	}
+
+	/**
+	 * 商品IDによって中止商品を回復(ADMIN)
+	 * @param id
+	 * @return productmanger
+	 */
+	@RequestMapping(value = "/center/productmanger/recovery/{id}")
+	public String reProById(@PathVariable("id") int id) {
+		productService.recovery(id);
+		return "redirect:/center/productmanger";
+	}
 
 }

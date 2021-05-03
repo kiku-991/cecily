@@ -9,16 +9,17 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "product")
+
 public class ProductEntity {
 	@Id
 	private int productId;
-	private int userId;
+	private int storeId;
 	private String productName;
 	private int productPrice;
 	private String productImg;
 	private String productContents;
 	private String maker;
-	private String status;
+	private int status;
 	private int stock;
 	
 }

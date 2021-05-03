@@ -74,6 +74,9 @@
 		<div class="row">
 			<!--  side-->
 			<nav th:insert="~{centertmp::side}"></nav>
+			<div
+				th:insert="~{centertmp::#sidebarMenu(activeUrl='/center/productmanger')}"></div>
+			
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 				<!-- 内容ここから -->
 
@@ -82,10 +85,7 @@
 				<hr />
 
 				<br> <br>
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#Modal"
-					th:if="${session?.userLogin?.role} eq 'store'">商品登録</button>
-
+				
 				<!-- 商品表示 -->
 				<br> <br> <br>
 
@@ -93,6 +93,8 @@
 				<table class="table table-striped ">
 					<thead>
 						<tr>
+						
+							<th>店舗ID</th>
 							<th>商品ID</th>
 							<th>商品名</th>
 							<th>価格</th>
@@ -107,6 +109,8 @@
 					<tbody>
 						<tr th:unless="${products == null}"
 							th:each="product : ${products}">
+							
+							<td th:text="${product.storeId}"></td>
 							<td th:text="${product.productId}"></td>
 							<td th:text="${product.productName}"></td>
 							<td th:text="${product.productPrice}"></td>
@@ -114,7 +118,7 @@
 								height="105"></td>
 							<td th:text="${product.productContents}"></td>
 							<td th:text="${product.maker}"></td>
-							<td th:text="${product.status}"></td>
+							<td th:text="${product.status==1?'出品中':'出品中止'}"></td>
 							<td th:text="${product.stock}"></td>
 
 							<td>
@@ -135,7 +139,7 @@
 
 											<div class="modal-body">
 												<form
-													th:action="@{/center/product/edit/{id}(id=${product.productId})}"
+													th:action="@{/center/productmanger/edit/{id}(id=${product.productId})}"
 													method="post">
 
 													<label for="name" class="text-info">商品名:</label><br> <input
@@ -224,62 +228,7 @@
 
 
 
-				<!-- 新規登録 -->
-				<div class="modal fade" id="Modal" tabindex="-1"
-					aria-labelledby="ModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="ModalLabel">商品新規登録</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal"
-									aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								<form id="userinfo" th:action="@{/center/productmanger}"
-									method="post">
-									<div class="mb-3">
-										<label for="name" class="text-info">商品名:</label><br> <input
-											type="text" name="productName" class="form-control"
-											placeholder="商品名を入力してください" required />
-									</div>
-									<div class="mb-3">
-										<label for="picture" class="text-info">画像:</label><br> <input
-											type="file" name="productImg" class="form-control"
-											placeholder="価格を入力してください" required />
-									</div>
-									<div class="mb-3">
-										<label for="price" class="text-info">価格:</label><br> <input
-											type="text" name="productPrice" class="form-control"
-											placeholder="価格を入力してください" required />
-									</div>
-									<div class="form-floating">
-										<textarea class="form-control" placeholder="商品内容を入力してください"
-											id="floatingTextarea2" name="productContents"
-											style="height: 100px"></textarea>
-										<label for="floatingTextarea2">商品内容</label>
-									</div>
-									<div class="mb-3">
-										<label for="maker" class="text-info">メーカー:</label><br> <input
-											type="text" name="maker" class="form-control"
-											placeholder="メーカーを入力してください" required />
-									</div>
-									<div class="mb-3">
-										<label for="stock" class="text-info">ストック:</label><br> <input
-											type="text" name="stock" class="form-control"
-											placeholder="ストックを入力してください" required />
-
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary"
-											data-bs-dismiss="modal">キャンセル</button>
-										<input type="submit" id="kakutei" class="btn btn-danger"
-											value="確定">
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 
 				<!-- 内容ここまで -->
 			</main>
