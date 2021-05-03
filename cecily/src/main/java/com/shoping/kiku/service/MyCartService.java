@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.shoping.kiku.entity.MyCartEntity;
+import com.shoping.kiku.entity.ProductEntity;
 import com.shoping.kiku.entity.ProductInCartEntity;
 import com.shoping.kiku.object.ProductInCartDto;
 import com.shoping.kiku.repository.MyCartRepository;
@@ -84,15 +85,31 @@ public class MyCartService {
 		}
 	
 	}*/
-	
+
 	//買い物かごに'+'ボタンを押下数量追加
-	public void updateInc(int userId, int productId) {
+	public boolean updateInc(int userId, int productId) {
 		int quantity = myCartRepository.getQuantity(userId, productId);
+		//'+'ボタンを押下時数量
+		int plusQuantity = quantity + 1;
+
+		ProductEntity pro = productRepository.findByProductId(productId);
+		//該当商品のストック
+		int stock = pro.getStock();
 		MyCartEntity now = new MyCartEntity();
 		now.setUserId(userId);
 		now.setProductId(productId);
-		now.setQuantity(quantity + 1);
-		myCartRepository.save(now);
+		//ストック判断
+		if (plusQuantity > stock) {
+			//超える場合
+			now.setQuantity(stock);
+			myCartRepository.save(now);
+			return false;
+		} else {
+			////超えない場合
+			now.setQuantity(plusQuantity);
+			myCartRepository.save(now);
+			return true;
+		}
 
 	}
 
@@ -142,7 +159,14 @@ public class MyCartService {
 			ee.setUserId(userId);
 			ee.setProductId(now.getProductId());
 			ee.setQuantity(now.getQuantity());
-			ee.setCheckstatus(1);
+			//チェックされる
+			if (now.getCheckstatus() == 0) {
+				ee.setCheckstatus(1);
+			} else {
+				//チェック外す
+				ee.setCheckstatus(0);
+			}
+
 			myCartRepository.save(ee);
 			nowCart.add(ee);
 		}

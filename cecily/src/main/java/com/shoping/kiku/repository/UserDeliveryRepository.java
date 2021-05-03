@@ -15,6 +15,15 @@ public interface UserDeliveryRepository extends JpaRepository<UserDeliveryEntity
 	List<UserDeliveryEntity>findByUserId(int userId);
 
 	UserDeliveryEntity findById(int id);
+	
+	@Query(value = "select\r\n"
+			+ "    * \r\n"
+			+ "from\r\n"
+			+ "    user_delivery \r\n"
+			+ "where\r\n"
+			+ "    defaultAdd = 1 \r\n"
+			+ "    and user_id = :userId", nativeQuery = true)
+	UserDeliveryEntity getDefaultAddByUserId(int userId);
 }
 
 

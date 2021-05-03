@@ -73,7 +73,7 @@ public class UserInfoController {
 		return "redirect:/center/userTodoke";
 
 	}
-	
+
 	/**
 	 * 該当届け住所編集
 	 * @param session
@@ -81,27 +81,26 @@ public class UserInfoController {
 	 * @return
 	 */
 	@RequestMapping(value = "/center/userTodoke/edit/{id}", method = RequestMethod.POST)
-	public String editAdd(@PathVariable("id")int id,HttpServletRequest request, UserDeliveryDto userInfo) {
+	public String editAdd(@PathVariable("id") int id, HttpServletRequest request, UserDeliveryDto userInfo) {
 
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
-		userDeliveryService.editUserDelivery(id,ss.getUserId(), userInfo);
+		userDeliveryService.editUserDelivery(id, ss.getUserId(), userInfo);
 		return "redirect:/center/userTodoke";
 
 	}
-	
+
 	/**
-	 * 該当届け住所編集
+	 * 該当届け住所削除
 	 * @param session
 	 * @param userInfo
 	 * @return
 	 */
 	@RequestMapping(value = "/center/userTodoke/delete/{id}", method = RequestMethod.POST)
-	public String deleteAdd(@PathVariable("id")int id) {
+	public String deleteAdd(@PathVariable("id") int id) {
 		userDeliveryService.deleteUserTodoke(id);
 		return "redirect:/center/userTodoke";
 
 	}
-	
 
 	/**
 	 * パスワード変更
@@ -117,15 +116,43 @@ public class UserInfoController {
 			//失敗
 			model.addAttribute("pwcheck", MsgContents.CHECKPWD);
 			return "redirect:/center/passfail";
-		}else {
+		} else {
 			//成功
 			model.addAttribute("pwchange", MsgContents.PASSCHANGE);
 			return "login";
 		}
 
-		
 	}
 
+	/**
+	 * 登录届け住所(buy画面)
+	 * @param session
+	 * @param userInfo
+	 * @return
+	 */
+
+	@RequestMapping(value = "/buy/userInfo/add", method = RequestMethod.POST)
+	public String creUserTodoke(HttpServletRequest request, UserDeliveryDto userDeliver) {
+		Session ss = (Session) request.getSession().getAttribute("userLogin");
+		userDeliveryService.creUserDelivery(ss.getUserId(), userDeliver);
+
+		return "redirect:/mycart/buy";
+	}
+
+	/**
+	 * 編集届け住所(buy画面)
+	 * @param session
+	 * @param userInfo
+	 * @return
+	 */
+
+	@RequestMapping(value = "/buy/userInfo/edit/{id}", method = RequestMethod.POST)
+	public String upUserTodoke(@PathVariable("id") int id, HttpServletRequest request, UserDeliveryDto userDeliver) {
+		Session ss = (Session) request.getSession().getAttribute("userLogin");
+		userDeliveryService.editUserDelivery(id, ss.getUserId(), userDeliver);
+
+		return "redirect:/mycart/buy";
+	}
 
 	/**
 	 * ユーザ一覧(ADMIN)

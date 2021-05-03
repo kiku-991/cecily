@@ -24,7 +24,9 @@ public interface ProductInCartRepository extends JpaRepository<ProductInCartEnti
 			+ "    product as a \r\n"
 			+ "    inner join mycart as b \r\n"
 			+ "        on a.product_id = b.product_id \r\n"
-			+ "        and b.user_id = :userId", nativeQuery = true)
+			+ "        and b.user_id = :userId \r\n"
+			+ "order by\r\n"
+			+ "    a.product_id", nativeQuery = true)
 
 	List<ProductInCartEntity> getProCart(int userId);
 

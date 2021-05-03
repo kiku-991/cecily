@@ -134,15 +134,15 @@
 	<!-- header top nav -->
 	<!-- 顶部导航条 start -->
 
-	<header th:insert="~{shoptmp::top}"></header>
+	<header th:insert="~{indextmp::top}"></header>
 	<!-- 顶部导航条 end
 
 	<!-- search -->
 	<!-- 搜索框 start -->
 
-	<div th:insert="~{shoptmp::serch}"></div>
+	<div th:insert="~{indextmp::search}"></div>
 
-	<header th:insert="~{shoptmp::header}"></header>
+	<header th:insert="~{indextmp::header}"></header>
 	<!-- content -->
 	<div class="am-container">
 		<div class="link-list">
@@ -190,7 +190,7 @@
 								<p class="am-margin-bottom-sm">
 									<strong class="am-icon-bookmark-o"> [[${my.orderId}]]</strong>
 									<span class="warehouse-item-container am-fr"> <i
-										class="am-icon-cube"></i> <strong class="warehouse-name">默认仓库</strong>
+										class="am-icon-cube"></i> <strong class="warehouse-name">[[${my.storeName}]]</strong>
 									</span>
 								</p>
 								<hr data-am-widget="divider"
@@ -212,31 +212,30 @@
 								</div>
 								<hr data-am-widget="divider"
 									class="am-divider am-divider-dashed am-no-layout">
-								<div class="am-margin-top-sm">共[[${my.purchasingQuantity}]]件
-									合计:￥[[${my.purchasingPrice}]]</div>
+								<div class="am-margin-top-sm">共[[${my.productQuantity}]]件
+									合计:￥[[${my.productPrice}]]</div>
 							</td>
-							<td class="am-nowrap-initial">订单状态</td>
+							<td class="am-nowrap-initial" th:text="${my.orderStatus==0?'等待支付':'订单已取消'}"></td>
 							<td class="am-nowrap-initial">
 								<p>待支付</p>
 								<p class="am-text-warning">线下支付</p>
 							</td>
-							<td class="am-nowrap-initial">[[${my.purchasingPrice}]]</td>
+							<td class="am-nowrap-initial" th:text="${my.productPrice}"></td>
 							<td class="am-nowrap-initial">支付金额</td>
-							<td class="am-nowrap-initial">[[${my.productPrice}]]</td>
+							<td class="am-nowrap-initial" th:text="${my.productPrice}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
 								<div>
-									<span class="am-badge am-badge-secondary-plain am-radius">[[${my.nickname}]]</span>
-									<span>[[${my.renrakuname}]]</span> <span
-										class="am-margin-left-sm">[[${my.renrekuphone}]]</span>
+									<span class="am-badge am-badge-secondary-plain am-radius">[[${addresss.renrakuname}]]</span>
+									<span class="am-margin-left-sm">[[${addresss.renrakuphone}]]</span>
 								</div>
 								<div class="am-margin-top-xs">
-									<span>[[${my.dtodoufuken}]]</span> <span>[[${my.dshikucyouson}]]</span>
-									<span>[[${my.dcyoumebanchi}]]</span>
+									<span>[[${addresss.dtodoufuken}]]</span> <span>[[${addresss.dshikucyouson}]]</span>
+									<span>[[${addresss.dcyoumebanchi}]]</span>
 									<div class="am-margin-top-xs"></div>
 								</div>
 							</td>
 							<td class="am-nowrap-initial" style="min-width: 125px;">取货</td>
-							<td class="am-nowrap-initial">[[${my.purchasingQuantity}]]</td>
+							<td class="am-nowrap-initial">my.purchasingQuantity</td>
 							<td class="am-nowrap-initial">支付方式</td>
 							<td class="am-nowrap-initial">快递公司</td>
 							<td class="am-nowrap-initial">快递单号</td>
@@ -246,7 +245,7 @@
 							<td class="am-nowrap-initialam-grid-sm ">完成时间</td>
 							<td class="am-nowrap-initial">取消时间</td>
 							<td class="am-nowrap-initial">关闭时间</td>
-							<td class="am-nowrap-initial">[[${my.createTime}]]</td>
+							<td class="am-nowrap-initial" th:text="${my.createdate}"></td>
 							<td class="am-nowrap-initial">更新时间</td>
 							<td
 								class="am-nowrap-initial am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
@@ -262,17 +261,16 @@
 								</button> <!-- Button trigger modal -->
 								<button type="button"
 									class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay"
-									data-bs-toggle="modal"
-									data-bs-target="#pay">支付</button></td>
+									data-bs-toggle="modal" data-bs-target="#pay">支付</button></td>
 						</tr>
 
 					</tbody>
 				</table>
 			</div>
 			<!-- Modal -->
-			<div class="modal fade" id="pay"
-				data-bs-backdrop="pay" data-bs-keyboard="false" tabindex="-1"
-				aria-labelledby="payLabel" aria-hidden="true">
+			<div class="modal fade" id="pay" data-bs-backdrop="pay"
+				data-bs-keyboard="false" tabindex="-1" aria-labelledby="payLabel"
+				aria-hidden="true">
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -317,7 +315,7 @@
 	<!-- 订单确认页面底部钩子-开始 -->
 
 
-	<!-- 订单提交后提示弹层 -->
+	
 
 
 	<!-- footer start -->

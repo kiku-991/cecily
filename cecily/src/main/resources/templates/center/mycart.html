@@ -28,12 +28,9 @@
 <link rel="stylesheet" type="text/css" href="../css/style(10).css">
 <link rel="stylesheet" type="text/css" href="../css/cart.css">
 <!-- CSS only -->
-<link
-	href="../css/bootstrap.min.css"
-	rel="stylesheet">
+<link href="../css/bootstrap.min.css" rel="stylesheet">
 <!-- JavaScript Bundle with Popper -->
-<script
-	src="../js/bootstrap.bundle.min.js"></script>
+<script src="../js/bootstrap.bundle.min.js"></script>
 
 
 <!-- 公共header内钩子 -->
@@ -332,18 +329,18 @@ th:last-child {
 						class="total-price-content" th:text="${item.productPrice}"></strong></small></td>
 				<td>
 					<div class="quantity">
-						
-							<input type="button" id="min" class="stock-min-submit" value="-"
-								th:onclick="|Descre(${item.productId})|" /> <input
-								th:id="'text'+${item.productId}" name="quantity" type="text"
-								th:value="${item.quantity}" /> <input type="button"
-								id="${item.productId}" class="stock-add-submit" value="+"
-								th:onclick="|Incre(${item.productId})|" />
-						
+
+						<input type="button" id="min" class="stock-min-submit" value="-"
+							th:onclick="|Descre(${item.productId})|" /> <input
+							th:id="'text'+${item.productId}" name="quantity" type="text"
+							th:value="${item.quantity}" /> <input type="button"
+							id="${item.productId}" class="stock-add-submit" value="+"
+							th:onclick="|Incre(${item.productId})|" />
+
 					</div>
 				</td>
-				<td th:id="'price'+${item.productId}"><strong style="color: red; font-size: 20px;"
-					th:text="${item.total}"></strong></td>
+				<td th:id="'price'+${item.productId}"><strong
+					style="color: red; font-size: 20px;" th:text="${item.total}"></strong></td>
 				<td>
 					<!--  <a th:href="@{/deleteCart/{productId}(productId=${item.productId})}">削除</a>-->
 					<button type="button" class="button button-caution button-tiny"
@@ -394,7 +391,7 @@ th:last-child {
 
 			<a href="#" class="am-margin-left-sm nav-delete-submit submit-ajax"
 				data-url="" data-id="2856,2855" data-view="reload"
-				data-msg="删除后不可恢复、确认操作吗？">删除</a>
+				data-msg="删除后不可恢复、确认操作吗？"></a>
 
 			<!-- 导航左侧内部 开始 -->
 			<!-- 导航左侧内部 结束 -->
@@ -409,7 +406,7 @@ th:last-child {
 					class="total-price-tips am-fl">合计：</span> <strong id="gokei"></strong>
 				<input type="hidden" name="ids" value="2856,2855"> <input
 					type="hidden" name="buy_type" value="cart">
-				<button type="submit" class="am-btn am-btn-primary separate-submit">结算</button>
+				<button type="submit" id ="keisan" class="am-btn am-btn-primary separate-submit " disabled="disabled">结算</button>
 			</form>
 		</div>
 	</div>
@@ -423,31 +420,31 @@ th:last-child {
 
 <!-- <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-<script
-	src="..//ajax/jquery.min.js"></script>
+<script src="..//ajax/jquery.min.js"></script>
 <!-- 全選処理 -->
 <script>
 	function changeAllStatus() {
 
 		var all = document.getElementsByName("allbox");
 		var single = document.getElementsByName("productbox");
-		var fag =false;
+		var fag = false;
 		if (all[0].checked == false) {
 			fag = false;
 			for (var i = 0; i < single.length; i++) {
 				single[i].checked = false;//将所有复选框设置为不选中
+				$('#keisan').attr("disabled",true);
 			}
 
 		} else {
 			fag = true;
 			for (var i = 0; i < single.length; i++) {//否则将所有复选框设置为选中
 				single[i].checked = true;
-
+				$('#keisan').removeAttr("disabled");
 			}
 		}
 		var flag = {
-				flg : fag
-			};
+			flg : fag
+		};
 
 		$.ajax({
 			url : '/changeAllStatus',
@@ -465,6 +462,7 @@ th:last-child {
 
 			$("#jianshu").text(quantity);
 			$("#gokei").text(amount);
+			
 
 		})
 		//Ajax通信失敗の場合
@@ -505,6 +503,14 @@ th:last-child {
 
 			$("#jianshu").text(quantity);
 			$("#gokei").text(amount);
+			
+			
+			if(quantity==0){
+				$('#keisan').attr("disabled",true);
+			}else{
+				$('#keisan').removeAttr("disabled");
+			}
+			
 
 		})
 		//Ajax通信失敗の場合
@@ -540,14 +546,18 @@ th:last-child {
 		})
 		//Ajax通信成功の場合
 		.done(function(data) {
-			
-			$('#text' + productId).val(newVal);
-			$('#price'+ productId).text(data);
-			window.location.href="/shopping/myCart"
-			
-				//alert('該商品のストックを超えるため,追加できません');
-			
-			
+			var total = data.total;
+			var msg = data.check;
+			if (msg != 0) {
+
+				$('#text' + productId).val(newVal);
+				$('#price' + productId).text(total);
+				window.location.href = "/shopping/myCart"
+			} else {
+				$('#price' + productId).text(total);
+				alert('該商品のストックを超えるため,追加できません');
+			}
+
 		})
 		//Ajax通信失敗の場合
 		.fail(function() {
@@ -580,15 +590,14 @@ th:last-child {
 		})
 		//Ajax通信成功の場合
 		.done(function(data) {
-			
-			if(data!=0){
-			$('#text' + productId).val(newVal);
-			$('#price'+ productId).text(data)
-			window.location.href="/shopping/myCart"
-			}
-			
-			window.location.href="/shopping/myCart"
 
+			if (data != 0) {
+				$('#text' + productId).val(newVal);
+				$('#price' + productId).text(data)
+				window.location.href = "/shopping/myCart"
+			}
+
+			window.location.href = "/shopping/myCart"
 
 		})
 		//Ajax通信失敗の場合

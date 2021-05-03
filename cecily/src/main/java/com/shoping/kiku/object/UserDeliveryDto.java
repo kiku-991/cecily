@@ -14,5 +14,6 @@ public class UserDeliveryDto extends UserInfoDto {
 	private String dcyoumebanchi;
 	private String renrakuname;
 	private String renrakuphone;
+	private Integer defaultadd;
 
 }

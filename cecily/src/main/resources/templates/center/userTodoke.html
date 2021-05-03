@@ -116,6 +116,19 @@
 											<label for="address" class="text-info">以降の住所(届け住所): </label><input
 												type="text" name="dcyoumebanchi" class="form-control">
 										</div>
+										<div class="mb-3">
+											<label for="defaultadd" class="text-info">デフォルト住所:</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio"
+												name="defaultadd" id="girlRadio" value="1"> <label
+												class="form-check-label" for="girlRadio">はい</label>
+										</div>
+										<div class="form-check form-check-inline">
+											<input class="form-check-input" type="radio"
+												name="defaultadd" id="boyRadio" value="0"> <label
+												class="form-check-label" for="boyRadio">いええ</label>
+										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary"
 												data-bs-dismiss="modal">キャンセル</button>
@@ -139,9 +152,10 @@
 							<th>連絡名前</th>
 							<th>連絡電話番号</th>
 							<th>郵便番号</th>
-							<th>都道府県(届け住所)</th>
-							<th>市区町村(届け住所)</th>
-							<th>丁目番地(届け住所)</th>
+							<th>都道府県</th>
+							<th>市区町村</th>
+							<th>丁目番地</th>
+							<th>デフォルト住所</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -154,8 +168,9 @@
 							<td th:text="${user.dtodoufuken}"></td>
 							<td th:text="${user.dshikucyouson}"></td>
 							<td th:text="${user.dcyoumebanchi}"></td>
+							<td th:text="${user.defaultadd}==1?'はい':'いいえ'"></td>
 							<td>
-							<button type="button" class="btn btn-primary btn-sm"
+								<button type="button" class="btn btn-primary btn-sm"
 									data-bs-toggle="modal"
 									th:data-bs-target="'#proModal'+${user.deliveryId}">編集</button>
 								<!-- 情報編集Modal 更新-->
@@ -202,6 +217,19 @@
 															</label><input type="text" name="dcyoumebanchi"
 																th:value="${user.dcyoumebanchi}" class="form-control">
 														</div>
+														<div class="mb-3">
+															<label for="defaultadd" class="text-info">デフォルト住所:</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio" name="defaultadd"
+																id="girlRadio" value="1" th:checked="${user.defaultadd}==1">
+															<label class="form-check-label" for="girlRadio">はい</label>
+														</div>
+														<div class="form-check form-check-inline">
+															<input class="form-check-input" type="radio" name="defaultadd"
+																id="boyRadio" value="0" th:checked="${user.defaultadd}==0">
+															<label class="form-check-label" for="boyRadio">いいえ</label>
+														</div>
 														<div class="modal-footer">
 															<button type="button" class="btn btn-secondary"
 																data-bs-dismiss="modal">キャンセル</button>
@@ -245,8 +273,8 @@
 											</div>
 										</div>
 									</div>
-								</div> 
-								 </td>
+								</div>
+							</td>
 
 						</tr>
 					</tbody>

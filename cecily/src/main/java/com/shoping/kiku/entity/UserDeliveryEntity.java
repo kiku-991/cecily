@@ -22,5 +22,5 @@ public class UserDeliveryEntity {
 	private String dcyoumebanchi;
 	private String renrakuname;
 	private String renrakuphone;
-
+	private Integer defaultadd;
 }

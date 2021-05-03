@@ -18,9 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.shoping.kiku.object.MyOrderDto;
 import com.shoping.kiku.object.ProductInCartDto;
+import com.shoping.kiku.object.UserDeliveryDto;
 import com.shoping.kiku.service.MyCartService;
 import com.shoping.kiku.service.MyOrderService;
 import com.shoping.kiku.service.ProductService;
+import com.shoping.kiku.service.UserDeliveryService;
 import com.shoping.kiku.until.Session;
 
 @Controller
@@ -34,6 +36,9 @@ public class MyCartController {
 	
 	@Autowired
 	ProductService productService;
+	
+	@Autowired
+	UserDeliveryService userDeliveryService;
 
 	@RequestMapping(value = "/shopping/myCart", method = RequestMethod.GET)
 	public ModelAndView myCart(HttpServletRequest request) {
@@ -74,44 +79,27 @@ public class MyCartController {
 		return "redirect:/shopping/myCart";
 	}
 
-	/*//'+'ボタンを押下
+	
+	
+	//'+'ボタンを押下
 	@RequestMapping("/increse")
 	@ResponseBody
 	public HashMap<String,Integer> incre(@RequestBody String proudtId, HttpServletRequest request) {
 		String id = proudtId.replace("id=", "");
 		int proId = Integer.valueOf(id);
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
-		int quantity =0;
-		int total=0;
-		int stock =productService.getStock(proId);
-		HashMap<String,Integer> map = new HashMap<>();
-		int stotal =productService.getTotal(proId);
-		//ストック超えない
-		if(quantity<=stock) {
-			total = myCartService.getTotalByUserIdAndProductId(ss.getUserId(), proId);
-			quantity =myCartService.updateInc(ss.getUserId(), proId);
-			map.put("quantity", quantity);
+		boolean flg =myCartService.updateInc(ss.getUserId(), proId);
+		int total = myCartService.getTotalByUserIdAndProductId(ss.getUserId(), proId);
+		HashMap<String,Integer> map = new HashMap<>();	
+		
+		if(flg==true) {
 			map.put("total", total);
+			map.put("check", 1);
 		}else {
-			total=stotal;
-			quantity=stock;
-			map.put("quantity", quantity);
 			map.put("total", total);
+			map.put("check", 0);
 		}
 		return map;
-	}*/
-	
-	//'+'ボタンを押下
-	@RequestMapping("/increse")
-	@ResponseBody
-	public int incre(@RequestBody String proudtId, HttpServletRequest request) {
-		String id = proudtId.replace("id=", "");
-		int proId = Integer.valueOf(id);
-		Session ss = (Session) request.getSession().getAttribute("userLogin");
-		myCartService.updateInc(ss.getUserId(), proId);
-		int total = myCartService.getTotalByUserIdAndProductId(ss.getUserId(), proId);
-
-		return total;
 	}
 
 	//'-'ボタンを押下
@@ -167,6 +155,7 @@ public class MyCartController {
 			map.put("amount", amount);
 		} else {
 			//全選外す処理
+			myCartService.udateAllChecked(ss.getUserId());
 			map.put("quantity", 0);
 			map.put("amount", 0);
 		}
@@ -184,26 +173,22 @@ public class MyCartController {
 		List<ProductInCartDto> proBuy = myCartService.getCheckedProductInCart(ss.getUserId());
 
 		int amount = myCartService.getCheckedPriceInCart(ss.getUserId());
-		/*UserInfoDto userInfo = userInfoService.getUserInfo(request);*/
-		// ユーザ状態を判断
-		/*if (userInfo != null) {
-			mv.addObject("userInfo", userInfo);
+		UserDeliveryDto userDelivery = userDeliveryService.getDefaultadd(ss.getUserId());
 		
-		} else {
-			mv.addObject("userInfo", null);
-		}*/
+		mv.addObject("userDelivery", userDelivery);
 		mv.addObject("probuy", proBuy);
+		
 		mv.addObject("amount", amount);
 
 		return mv;
 	}
 	
-	//提交订单之后跳转页面
+	//buy 画面提交订单之后跳转页面
 	@RequestMapping("/order/add")
 	public ModelAndView buyAdd(MyOrderDto order, HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("orderfinish");
-		myOrderService.createOrderForm(order, ss.getUserId());
+		myOrderService.createOrderForm(ss.getUserId());
 		//提交订单时チェックされた商品を買い物かごから削除
 		myCartService.deleteCheckedPro(ss.getUserId());
 		return mv;

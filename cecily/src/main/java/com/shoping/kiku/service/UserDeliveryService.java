@@ -29,6 +29,8 @@ public class UserDeliveryService {
 		userDelivery.setDcyoumebanchi(user.getDcyoumebanchi());
 		userDelivery.setRenrakuname(user.getRenrakuname());
 		userDelivery.setRenrakuphone(user.getRenrakuphone());
+		userDelivery.setDefaultadd(user.getDefaultadd());
+
 		userDeliveryRepository.save(userDelivery);
 
 	}
@@ -50,6 +52,7 @@ public class UserDeliveryService {
 			u.setDtodoufuken(user.getDtodoufuken());
 			u.setDshikucyouson(user.getDshikucyouson());
 			u.setDcyoumebanchi(user.getDcyoumebanchi());
+			u.setDefaultadd(user.getDefaultadd());
 			userdelivery.add(u);
 
 		}
@@ -68,6 +71,7 @@ public class UserDeliveryService {
 		userDelivery.setDcyoumebanchi(userDeliveryDto.getDcyoumebanchi());
 		userDelivery.setRenrakuname(userDeliveryDto.getRenrakuname());
 		userDelivery.setRenrakuphone(userDeliveryDto.getRenrakuphone());
+		userDelivery.setDefaultadd(userDeliveryDto.getDefaultadd());
 		userDeliveryRepository.save(userDelivery);
 	}
 
@@ -91,9 +95,27 @@ public class UserDeliveryService {
 			u.setDcyoumebanchi(users.getDcyoumebanchi());
 			u.setRenrakuname(users.getRenrakuname());
 			u.setRenrakuphone(users.getRenrakuphone());
+			u.setDefaultadd(users.getDefaultadd());
 			usersDelivery.add(u);
 		}
 		return usersDelivery;
+	}
+
+	//ユーザデフォルト住所を取得(Buy画面とMyOrder画面)
+	public UserDeliveryDto getDefaultadd(int userId) {
+		UserDeliveryEntity users = userDeliveryRepository.getDefaultAddByUserId(userId);
+		UserDeliveryDto userDefaultAdd = new UserDeliveryDto();
+		userDefaultAdd.setUserId(users.getUserId());
+		userDefaultAdd.setDeliveryId(users.getId());
+		userDefaultAdd.setDpostcode(users.getDpostcode());
+		userDefaultAdd.setDtodoufuken(users.getDtodoufuken());
+		userDefaultAdd.setDshikucyouson(users.getDshikucyouson());
+		userDefaultAdd.setDcyoumebanchi(users.getDcyoumebanchi());
+		userDefaultAdd.setRenrakuname(users.getRenrakuname());
+		userDefaultAdd.setRenrakuphone(users.getRenrakuphone());
+		userDefaultAdd.setDefaultadd(users.getDefaultadd());
+		return userDefaultAdd;
+
 	}
 
 }
