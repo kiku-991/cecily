@@ -1,0 +1,120 @@
+/**
+ * 店铺信息
+ */
+.plugins-shop-info-right-logo .shop-name,
+.plugins-shop-info-base-content .shop-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+.plugins-shop-info-right a,
+.plugins-shop-info-base a {
+    text-decoration: none;
+}
+
+/**
+ * 店铺信息-大屏幕下
+ */
+@media only screen and (min-width:921px) {
+    .plugins-shop-info-base {
+        display: none;
+    }
+    .plugins-shop-info-right {
+        float: right;
+        width: 210px;
+        border: 1px solid #eee;
+    }
+    .plugins-shop-info-right-logo img {
+        max-width: 100%;
+    }
+    .plugins-shop-info-right-items {
+        border-top: 1px solid #eee;
+    }
+    .plugins-shop-info-right-items li {
+        line-height: 34px;
+    }
+    .clearfix-right-content {
+        width: calc(100% - 230px);
+        float: left;
+    }
+    .plugins-shop-info-right-button:hover,
+    .plugins-shop-info-right-button:focus {
+        color: #fff !important;
+        border-color: #d2354c;
+        background-color: #d2354c;
+    }
+}
+/**
+ * 店铺信息-小屏幕下
+ */
+@media only screen and (max-width:920px) {
+    .plugins-shop-info-right {
+        display: none;
+    }
+    .plugins-shop-info-base {
+        border: 1px solid #eee;
+        margin-top: 10px;
+        margin-bottom: 20px;
+        padding: 10px;
+        position: relative;
+    }
+    .plugins-shop-info-base-logo img {
+        width: 70px;
+        height: 70px;
+    }
+    .plugins-shop-info-base-content {
+        width: calc(100% - 85px);
+    }
+    .plugins-shop-info-base-content .shop-desc {
+        width: calc(100% - 86px);
+        color: #999;
+    }
+    .plugins-shop-info-base-button {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+    }
+    .plugins-shop-info-base-button:hover,
+    .plugins-shop-info-base-button:focus {
+        color: #fff !important;
+        border-color: #d2354c;
+        background-color: #d2354c;
+    }
+}
+@media only screen and (max-width:641px) {
+    .plugins-shop-info-base {
+        border-width: 1px 0;
+        padding: 10px 5px;
+    }
+    .plugins-shop-info-base-button {
+        position: absolute;
+        right: 5px;
+    }
+}
+
+/**
+ * 客服
+ */
+.plugins-shop-info-right-items span,
+.plugins-shop-info-right-items a,
+.plugins-shop-info-right-items .am-dropdown {
+    vertical-align: middle;
+}
+.plugins-shop-info-right-items i.am-icon-qrcode {
+    font-size: 14px;
+    line-height: 21px;
+    height: 21px;
+}
+.plugins-shop-info-right-items .am-dropdown-content {
+    padding: 5px;
+    min-width: 112px;
+    left: -13px;
+}
+
+/**
+ * 小导航
+ */
+@media only screen and (max-width:641px) {
+    .buy-nav-opt .nav-min-home-submit {
+        display: none;
+    }
+}

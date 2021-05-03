@@ -9,6 +9,7 @@
 <meta name="generator" content="Hugo 0.79.0">
 <title>詳細画面</title>
 
+
 <link rel="stylesheet" type="text/css" href="../css/amazeui.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.switch.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.chosen.css">
@@ -29,6 +30,7 @@
 <link rel="stylesheet" type="text/css" href="../css/style(4).css">
 <link rel="stylesheet" type="text/css" href="../css/style(5).css">
 <link rel="stylesheet" type="text/css" href="../css/iconfont(1).css">
+<link rel="stylesheet" type="text/css" href="../css/goods_detail.css">
 <link rel="stylesheet" type="text/css" href="../css/style(6).css">
 <link rel="stylesheet" type="text/css" href="../css/style(7).css">
 <link rel="stylesheet" type="text/css" href="../css/style(8).css">
@@ -38,7 +40,6 @@
 <link rel="stylesheet" type="text/css" href="../css/style(12).css">
 <link rel="stylesheet" type="text/css" href="../css/style(13).css">
 <link rel="stylesheet" type="text/css" href="../css/common(2).css">
-
 
 
 <!-- 公共header内钩子 -->
@@ -113,6 +114,8 @@
 <script src="../js/ZeroClipboard.js.ダウンロード" type="text/javascript"
 	defer="defer"></script>
 </head>
+
+
 <body style="position: static; padding-top: 0px;">
 	<!--  top-->
 	<header th:insert="~{indextmp::top}"></header>
@@ -122,11 +125,22 @@
 	<!--  side-->
 
 	<!-- 内容ここから -->
-
 	<!-- 商品内容-->
-	<div class="goods-detail" data-id="9"
-		data-spec-detail-ajax-url="https://demo.shopxo.net/index/goods/specdetail.html"
-		data-spec-type-ajax-url="https://demo.shopxo.net/index/goods/spectype.html">
+					<!-- th:text="${product.favoriteId == null?'♡気に入りに追加する':'❤気に入り済み'}" -->
+	<!--  
+					<button th:id="${product.productId}"
+					th:text="${product.userId ==0? '♡気に入り':(product.userId eq session?.userLogin?.userId?'❤気に入り済み':'♡気に入り')}"
+						th:onclick="|clickPost(${product.productId})|">気に入り</button>
+					<button th:onclick="|clickCart(${product.productId})|">かごに追加する</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+-->
+
+	<div class="goods-detail" data-id="4" data-spec-detail-ajax-url=""
+		data-spec-type-ajax-url="">
 		<!-- 轮播 -->
 		<div class="scoll">
 			<div class="slider-content">
@@ -137,264 +151,279 @@
 					<div class="am-viewport"
 						style="overflow: hidden; position: relative;">
 						<ul class="am-slides"
-							style="width: 1200%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
+							style="width: 800%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
 							<li class="clone" aria-hidden="true"
 								style="width: 0px; margin-right: 0px; float: left; display: block;">
-								<img th:src="${product.productImg}" title="productName"
-								draggable="false">
+								<img th:src="${product.productImg}" draggable="false">
 							</li>
 							<li
 								style="width: 0px; margin-right: 0px; float: left; display: block;"
 								class="am-active-slide" data-thumb-alt=""><img
-								th:src="${product.productImg}" title="productName"
-								draggable="false"></li>
+								th:src="${product.productImg}" draggable="false"></li>
 							<li data-thumb-alt=""
 								style="width: 0px; margin-right: 0px; float: left; display: block;">
-								<img th:src="${product.productImg}" title="productName"
-								draggable="false">
-							</li>
-							<li data-thumb-alt=""
-								style="width: 0px; margin-right: 0px; float: left; display: block;">
-								<img th:src="${product.productImg}" title="productName"
-								draggable="false">
-							</li>
-							<li data-thumb-alt=""
-								style="width: 0px; margin-right: 0px; float: left; display: block;">
-								<img th:src="${product.productImg}" title="productName"
-								draggable="false">
+								<img th:src="${product.productImg}" draggable="false">
 							</li>
 							<li
 								style="width: 0px; margin-right: 0px; float: left; display: block;"
 								class="clone" aria-hidden="true"><img
-								th:src="${product.productImg}" title="productName"
-								draggable="false"></li>
+								th:src="${product.productImg}" draggable="false"></li>
 						</ul>
 					</div>
-
+					<ol class="am-control-nav am-control-paging">
+						<li><a href="https://demo.shopxo.net/goods-4.html#"
+							class="am-active">1</a><i></i></li>
+						<li><a href="https://demo.shopxo.net/goods-4.html#">2</a><i></i></li>
+					</ol>
 				</div>
-			</div>
-		</div>
 
+				<!-- 视频 -->
 
-
-	</div>
-
-
-	<!-- 基础信息 -->
-	<div class="item-inform am-container">
-		<!-- pc放大镜 / 左侧 -->
-		<div class="clearfix-left" id="clearcontent">
-			<div class="box">
-				<div class="tb-booth tb-pic tb-s310">
-					<img th:src="${product.productImg}" alt=""
-						th:rel="${product.productImg}" class="jqzoom"
-						style="cursor: crosshair;">
-
-				</div>
-				<ul class="tb-thumb" id="thumblist">
-					<li class="tb-selected">
-						<div class="tb-pic tb-s40">
-
-							<a href="javascript:;"> <img th:src="${product.productImg}"
-								th:mid="${product.productImg}" th:big="${product.productImg}"
-								class="tb-s40">
-							</a>
-						</div>
-					</li>
-					<li class="tb-pic">
-						<div class="tb-pic tb-s40">
-							<a> <img th:src="${product.productImg}"
-								th:mid="${product.productImg}" th:big="${product.productImg}"
-								class="tb-s40"></a>
-
-						</div>
-					</li>
-					<li class="tb-pic">
-						<div class="tb-pic tb-s40">
-							<a> <img th:src="${product.productImg}"
-								th:mid="${product.productImg}" th:big="${product.productImg}"
-								class="tb-s40">
-							</a>
-						</div>
-					</li>
-					<li class="tb-pic">
-						<div class="tb-pic tb-s40">
-							<a> <img th:src="${product.productImg}"
-								th:mid="${product.productImg}" th:big="${product.productImg}"
-								class="tb-s40">
-							</a>
-						</div>
-					</li>
-				</ul>
-
-				<!-- <div
+				<!-- 商品页面相册内部钩子 -->
+				<div
 					class="am-cf plugins-goodsphototag plugins-goodsphototag-top-right">
-					<img src="../img/1561283545412820.png" alt="商品标签">
-				</div> -->
+					<img src="./wqf/1561283545412820.png" alt="商品标签">
+				</div>
 			</div>
+
+
+
 		</div>
 
-
-
-		<!--                                                            -->
-		<!-- 右侧 -->
-		<div class="clearfix-right">
-
-			<!-- 右侧内容 -->
-			<div class="clearfix-right-content">
-
-				<!--规格/名称-->
-				<div class="tb-detail-hd">
-					<h1 class="detail-title am-margin-bottom-xs">[[${product.productName}]]</h1>
+		<!-- 基础信息 -->
+		<div class="item-inform am-container">
+			<!-- pc放大镜 / 左侧 -->
+			<div class="clearfix-left" id="clearcontent">
+				<div class="box">
+					<div class="tb-booth tb-pic tb-s310">
+						<img th:src="${product.productImg}" th:rel="${product.productImg}"
+							class="jqzoom">
+					</div>
+					<ul class="tb-thumb" id="thumblist">
+						<li class="tb-selected">
+							<div class="tb-pic tb-s40">
+								<a href="javascript:;"> <img th:src="${product.productImg}"
+									th:mid="${product.productImg}" th:big="${product.productImg}"
+									class="tb-s40">
+								</a>
+							</div>
+						</li>
+						<li class=" tb-pic">
+							<div class="tb-pic tb-s40">
+								<a href="javascript:;"> <img th:src="${product.productImg}"
+									th:mid="${product.productImg}" th:big="${product.productImg}"
+									class="tb-s40">
+								</a>
+							</div>
+						</li>
+					</ul>
 				</div>
-				<div class="tb-detail-list">
-					<!-- 公共面板数据 -->
-
-					<!-- 商品页面基础信息顶部钩子 -->
-
-					<!-- 基础面板 -->
-					<div class="tb-detail-price">
-						<!-- 商品页面基础信息面板售价顶部钩子 -->
-						<!-- 售价 -->
-						<div class="items price iteminfo_mktprice">
-							<dd>
-								<em>￥</em> <b class="goods-price" data-original-price="">[[${product.productPrice}]]</b>
-								<br> <br> <br>
-
+			</div>
+			<!-- 右侧 -->
+			<div class="clearfix-right">
+				<div class="clearfix-right-content">
+					<!--名称-->
+					<div class="tb-detail-hd">
+						<h1 class="detail-title am-margin-bottom-xs">
+							[[${product.productName}]]</h1>
+					</div>
+					<div class="tb-detail-list">
+						<!-- 公共面板数据 -->
+						<!-- 基础面板 -->
+						<div class="tb-detail-price">
+							<!-- 商品页面基础信息面板售价顶部钩子 -->
+							<!-- 售价 -->
+							<div class="items price iteminfo_mktprice">
+								<dt>销售价</dt>
+								<dd>
+									<em>￥</em> <b class="goods-price" data-original-price="">[[${product.productPrice}]]</b>
+								</dd>
+								<br>
 								<p class="card-text">
 									<small class="text-muted">※写真はイメージです。</small>
 								</p>
-							</dd>
+							</div>
 						</div>
-					</div>
-					<!--各种规格-->
-					<dl class="iteminfo_parameter sys_item_specpara">
-						<dd>
-							<!--操作页面-->
-							<div class="theme-popover-mask" style="display: none;"></div>
-							<div class="theme-popover">
-								<div class="theme-span"></div>
-								<div class="theme-popbod dform">
-									<div class="theme-signin-left">
-									<br>
-										<!-- 库存数量 -->
-										<ul class="plugins-ordergoodsform-goods-detail">
-											<li>
-												<p class="title am-inline-block ">メーカ</p>
-												<p class="value am-inline-block" data-form-id="1"
-													data-title="maker" data-value="">
-													<input class="am-form-field am-input-sm am-radius"
-														type="text" readonly th:value="${product.maker}">
-												</p>
-											</li>
-											
-											<li>
-												<p class="title am-inline-block ">説明</p>
-												<p class="value am-inline-block" data-form-id="1"
-													data-title="默认" data-value="hello默认设置的值">
-													<input class="am-form-field am-input-sm am-radius"
-														type="text" readonly th:value="${product.productContents}">
-												</p>
-											</li>
-											
-											<li>
-												<p class="title am-inline-block ">库存</p>
-												<p class="value am-inline-block" data-form-id="1"
-													data-title="默认" data-value="hello默认设置的值">
-													<input class="am-form-field am-input-sm am-radius"
-														type="text" readonly th:value="${product.stock}">
-												</p>
-											</li>
-										</ul>
+						<!--各种规格-->
+						<dl class="iteminfo_parameter sys_item_specpara">
+
+							<dd>
+								<!--操作页面-->
+								<div class="theme-popover-mask"></div>
+								<div class="theme-popover">
+									<div class="theme-span"></div>
+									<div class="theme-poptit">
+										<a href="javascript:;" title="关闭"
+											class="close am-icon-close am-icon-sm"></a>
+									</div>
+									<div class="theme-popbod dform">
+										<form class="theme-signin am-padding-sm" action="javascript:;">
+											<div class="theme-signin-left">
+												<!-- 商品页面规格顶部钩子 -->
+
+												<!-- 商品页面库存数量顶部钩子 -->
+												<ul class="plugins-ordergoodsform-goods-detail" data-url="">
+													<li>
+														<p>商品説明</p>
+														<p>
+															<input class="am-form-field am-input-sm am-radius"
+																type="text" readonly
+																th:value="${product.productContents}">
+														</p>
+													</li>
+													<br>
+													<li>
+														<p>メーカー</p>
+														
+															<input class="am-form-field am-input-sm am-radius"
+																type="text" readonly th:value="${product.maker}">
+														
+													</li>
+												</ul>
+
+												<!-- 库存数量 -->
+												<br>
+												<div class="theme-options">
+													<div class="cart-title number"></div>
+													
+													<label>ストック
+														<span class="tb-hidden stock-tips"><span>库存</span><span
+															class="stock"
+															data-min-limit="1" data-max-limit="0" data-unit="">[[${product.stock}]]</span><span>件</span></span>
+													</label>
+												</div>
+
+												<!-- 商品页面库存数量底部钩子 -->
+
+												<div class="btn-op">
+													<span class="btn am-btn am-btn-default confirm login-event"
+														data-type="cart">确认</span> <span
+														class="btn close am-btn am-btn-danger cancel">取消</span>
+												</div>
+											</div>
+											<div class="theme-signin-right">
+												<div class="img-info">
+													<img th:src="${product.productImg}">
+												</div>
+												<div class="text-info">
+													<span class="price-now" data-original-price="1999.00">￥[[${product.productPrice}]]</span>
+												</div>
+											</div>
+										</form>
 									</div>
 								</div>
-							</div>
-						</dd>
-					</dl>
+							</dd>
+						</dl>
+					</div>
+
+					<!-- 商品页面购买导航顶部钩子 -->
+					<!-- 购买导航 -->
+					<div class="buy-nav">
+						<!-- 购买容器 -->
+						<div class="buy-submit-container buy-submit-container-number-2">
+							<button type="button" th:id="${product.productId}"
+								class="buy-btn buy-submit buy-event login-event "
+								th:text="${product.userId ==0? '♡気に入り':(product.userId eq session?.userLogin?.userId?'❤気に入り済み':'♡気に入り')}"
+								 data-type="buy" th:onclick="|clickPost(${product.productId})|">
+								</button>
+							<button type="button"
+								class="buy-btn cart-submit buy-btn-second buy-event login-event "
+								title="加入购物车" data-type="cart" th:onclick="|clickCart(${product.productId})|" >
+								 買い物かごに追加
+							</button>
+						</div>
+					</div>
 				</div>
-
-				<!-- 商品页面购买导航顶部钩子 -->
-
-				<!-- 购买导航 -->
-				<div class="buy-nav">
-					<div class="buy-nav-opt buy-nav-opt-button-number-2"></div>
-					<!-- th:text="${product.favoriteId == null?'♡気に入りに追加する':'❤気に入り済み'}" -->
-					<!-- 购买表单 -->
-					<button th:id="${product.productId}"
-					th:text="${product.userId ==0? '♡気に入り':(product.userId eq session?.userLogin?.userId?'❤気に入り済み':'♡気に入り')}"
-						th:onclick="|clickPost(${product.productId})|">気に入り</button>
-						
-						
-
-					<button th:onclick="|clickCart(${product.productId})|">かごに追加する</button>
-
-				</div>
-
+				
+				<div class="plugins-shop-info-right">
+					<img src="./wqf/1618161442479515.png" >
+            			<p>KIKU SHOP</p>
+       
+                    <ul class="plugins-shop-info-right-items am-padding-horizontal-sm am-padding-vertical-xs">
+                       
+                    <li>
+                        <span>住所：</span>
+                       
+                    </li>
+                                    <li>
+                        <span>連絡番号：</span>
+                        <a href="tel:400-888-8888">991-991-9991</a>
+                    </li>
+                                    <li>
+                        <span>営業時間：</span>
+                        <span>月ー日</span><span>，</span><span>06:18-23:23</span>
+                    </li>
+                            </ul>
+                <div class="am-text-center am-padding-sm am-padding-bottom-lg">
+            <a href="https://demo.shopxo.net/shop-index-detail-1.html" class="am-btn am-btn-default am-radius plugins-shop-info-right-button" target="_blank">进店逛逛</a>
+        </div>
+    </div>
 			</div>
 		</div>
 
+
+		<!-- 左侧-->
+		<div class="introduce am-container">
+
+
+			<!-- 右侧内容 -->
+			<div class="introduce-main">
+				<!-- 商品页面tabs顶部钩子 -->
+
+				<!-- tab -->
+				<div class="am-tabs" data-am-tabs="{noSwipe: 1}">
+					<div class="am-sticky-placeholder"
+						style="margin: 0px; height: 36px;">
+						<ul class="am-avg-sm-3 am-tabs-nav am-nav am-nav-tabs"
+							data-am-sticky="{animation: &#39;slide-top&#39;}"
+							style="margin: 0px;">
+							<li class="am-active"><a href="javascript:;"> <span
+									class="index-needs-dt-txt">详情</span>
+							</a></li>
+							<li class="tabs-comment"><a href="javascript:;"> <span
+									class="index-needs-dt-txt">评论(0)</span>
+							</a></li>
+							<li><a href="javascript:;"> <span
+									class="index-needs-dt-txt">猜你喜欢</span>
+							</a></li>
+						</ul>
+					</div>
+
+					<!-- 详情 -->
+					<div class="am-tabs-bd">
+						<div class="am-tab-panel am-fade am-in am-active">
+
+							<!-- 详情内容 -->
+							<div class="detail-content am-margin-top-sm">
+								<!-- web详情 -->
+								<div class="content-web am-scrollable-horizontal">
+									<p>
+										<img th:src="${product.productImg}">
+									</p>
+									<p>
+										<img th:src="${product.productImg}">
+									</p>
+									<p>
+										<img th:src="${product.productImg}">
+									</p>
+									<p>
+										<br>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 商品页面tabs底部钩子 -->
+			</div>
+		</div>
 	</div>
-
-
 
 	<!-- 内容ここまで -->
 
 	<footer th:insert="~{indextmp::footer}"></footer>
-	<!-- 图片放大镜 -->
-	<script type="text/javascript"
-		src="../js/jquery.imagezoom.min.js.ダウンロード"></script>
 
-	<!-- echarts 图表 -->
-	<script type="text/javascript" src="../js/echarts.min.js.ダウンロード"></script>
-	<script type="text/javascript" src="../js/macarons.js.ダウンロード"></script>
-
-	<!-- amazeui插件 -->
-	<script type="text/javascript" src="../js/amazeui.switch.min.js.ダウンロード"></script>
-	<script type="text/javascript" src="../js/amazeui.chosen.min.js.ダウンロード"></script>
-	<script type="text/javascript" src="../js/amazeui.dialog.js.ダウンロード"></script>
-	<script type="text/javascript"
-		src="../js/amazeui.tagsinput.min.js.ダウンロード"></script>
-
-	<!-- 图像裁剪插件 -->
-	<script type="text/javascript" src="../js/cropper.min.js.ダウンロード"></script>
-
-	<!-- 复制插件 -->
-	<script type="text/javascript" src="../js/clipboard.min.js.ダウンロード"></script>
-
-	<!-- 元素拖拽排序插件 -->
-	<script type="text/javascript"
-		src="../js/jquery.dragsort-0.5.2.min.js.ダウンロード"></script>
-
-	<!-- ueditor 编辑器 -->
-	<script type="text/javascript" src="../js/ueditor.config.js.ダウンロード"></script>
-	<script type="text/javascript" src="../js/ueditor.all.js.ダウンロード"></script>
-	<script type="text/javascript" src="../js/zh-cn.js.ダウンロード"></script>
-
-	<!-- 颜色选择器 -->
-	<script type="text/javascript" src="../js/jquery.colorpicker.js.ダウンロード"></script>
-
-	<!-- 日期组件 -->
-	<script type="text/javascript" src="../js/WdatePicker.js.ダウンロード"></script>
-	<!-- 项目公共 -->
-	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
-	<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
-
-	<!-- 应用插件公共js -->
-
-	<!-- 当前控制器js -->
-	<script type="text/javascript" src="../js/goods.js.ダウンロード"></script>
-
-	<!-- 底部信息 -->
-
-	<!-- js钩子 -->
-	<script type="text/javascript" src="../js/style.js.ダウンロード"></script>
-	<script type="text/javascript" src="../js/style.js(1).ダウンロード"></script>
-	<script type="text/javascript" src="../js/style.js(2).ダウンロード"></script>
-	<script type="text/javascript" src="../js/style.js(3).ダウンロード"></script>
-	<script type="text/javascript" src="../js/style.js(4).ダウンロード"></script>
-	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
-	<script type="text/javascript" src="../js/style.js(6).ダウンロード"></script>
-	<script type="text/javascript" src="../js/common.js(2).ダウンロード"></script>
 
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -473,7 +502,6 @@
 
 					alert('買い物かごに追加済み!');
 
-				
 				}
 
 			})
@@ -488,6 +516,69 @@
 
 		}
 	</script>
+
+	<!-- 类库 -->
+	<script type="text/javascript" src="../js/jquery-2.1.0.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/amazeui.min.js.ダウンロード"></script>
+
+	<!-- 图片放大镜 -->
+	<script type="text/javascript"
+		src="../js/jquery.imagezoom.min.js.ダウンロード"></script>
+
+	<!-- echarts 图表 -->
+	<script type="text/javascript" src="../js/echarts.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/macarons.js.ダウンロード"></script>
+
+	<!-- amazeui插件 -->
+	<script type="text/javascript" src="../js/amazeui.switch.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/amazeui.chosen.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/amazeui.dialog.js.ダウンロード"></script>
+	<script type="text/javascript"
+		src="../js/amazeui.tagsinput.min.js.ダウンロード"></script>
+
+	<!-- 图像裁剪插件 -->
+	<script type="text/javascript" src="../js/cropper.min.js.ダウンロード"></script>
+
+	<!-- 复制插件 -->
+	<script type="text/javascript" src="../js/clipboard.min.js.ダウンロード"></script>
+
+	<!-- 元素拖拽排序插件 -->
+	<script type="text/javascript"
+		src="../js/jquery.dragsort-0.5.2.min.js.ダウンロード"></script>
+
+	<!-- ueditor 编辑器 -->
+	<script type="text/javascript" src="../js/ueditor.config.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/ueditor.all.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/zh-cn.js.ダウンロード"></script>
+
+	<!-- 颜色选择器 -->
+	<script type="text/javascript" src="../js/jquery.colorpicker.js.ダウンロード"></script>
+
+	<!-- 日期组件 -->
+	<script type="text/javascript" src="../js/WdatePicker.js.ダウンロード"></script>
+
+	<!-- 项目公共 -->
+	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
+
+	<!-- 应用插件公共js -->
+
+	<!-- 当前控制器js -->
+	<script type="text/javascript" src="../js/goods.js.ダウンロード"></script>
+
+	<!-- 底部信息 -->
+
+	<!-- js钩子 -->
+	<script type="text/javascript" src="../js/style.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(1).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(2).ダウンロード"></script>
+	<script type="text/javascript" src="../js/common.js(2).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(3).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(4).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(6).ダウンロード"></script>
+	<script type="text/javascript" src="../js/common.js(3).ダウンロード"></script>
+
 
 
 </body>

@@ -1,0 +1,115 @@
+/**
+ * 表单参数判断
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-11-11
+ * @desc    description
+ */
+function PluginsGoodsFormCheck()
+{
+    var error_count = 0;
+    $('.plugins-ordergoodsform-goods-detail').find('input').each(function(k, v)
+    {
+        if($(this).attr('required') != undefined)
+        {
+            var value = $(this).val();
+            if(value == '' || value == undefined)
+            {
+                if(error_count == 0)
+                {
+                    $(this).focus();
+                    Prompt($(this).data('validation-message') || '请输入数据');
+                }
+                $(this).addClass('am-field-error');
+                error_count++;
+            }
+        }
+    });
+    return (error_count == 0);
+}
+
+/**
+ * 
+ * @author  Devil
+ * @blog    http://gong.gg/
+ * @version 1.0.0
+ * @date    2020-11-11
+ * @desc    description
+ * @param   {[object]}        e [当前元素对象]
+ */
+function PluginsGoodsFormSave(e)
+{
+    var url = e.parents('.plugins-ordergoodsform-goods-detail').data('url');
+    var $parent = e.parent('p');
+    var data = {
+        "form_id": $parent.data('form-id'),
+        "goods_id": $('.goods-detail').data('id'),
+        "title": $parent.data('title'),
+        "content": e.val().trim() || ''
+    };
+
+    // 数据值是否改变
+    if(($parent.attr('data-value') || '') != data.content)
+    {
+        $.ajax({
+            url: url,
+            type: 'POST',
+            dataType: 'json',
+            timeout: 30000,
+            data: data,
+            success: function(res)
+            {
+                if(res.code == 0)
+                {
+                    $parent.attr('data-value', data.content);
+                } else {
+                    Prompt(res.msg);
+                }
+            },
+            error: function(xhr, type)
+            {
+                Prompt('网络异常出错');
+            }
+        });
+    }
+}
+
+$(function()
+{
+    // 输入失去焦点事件
+    $('.plugins-ordergoodsform-goods-detail input').on('blur', function()
+    {
+        // 是否需要校验
+        if($(this).attr('required') != undefined)
+        {
+            var value = $(this).val().trim();
+            if(value === '' || value == undefined)
+            {
+                if(!$(this).hasClass('am-field-error'))
+                {
+                    Prompt($(this).data('validation-message') || '请输入数据');
+                    $(this).addClass('am-field-error');
+                }
+            } else {
+                $(this).removeClass('am-field-error');
+            }
+        }
+
+        // 数据保存
+        if(__user_id__ != 0)
+        {
+            PluginsGoodsFormSave($(this));
+        }
+    });
+
+    // 购买/加入购物车表单事件
+    $('.buy-form button[type="submit"], .cart-form button[type="submit"]').on('click', function()
+    {
+        // 验证数据是否填写
+        if(PluginsGoodsFormCheck() === false)
+        {
+            return false;
+        }
+    });
+});

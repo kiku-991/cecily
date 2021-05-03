@@ -300,6 +300,15 @@ public class ProductService {
 		}
 		return prolike;
 	}
+	/**
+	 * キーワード検索
+	 * @param keyword
+	 * @return count 商品数量
+	 */
+	public int getCountByKey(String keyword) {
+		int count = productRepository.getLikeCount(keyword);
+		return count;
+	}
 
 	//get Stock 
 	public int getStock(int proId) {

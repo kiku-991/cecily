@@ -40,6 +40,24 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 	
 	
 	
+	@Query(value="select\r\n"
+			+ "    count(product_name) \r\n"
+			+ "from\r\n"
+			+ "    product \r\n"
+			+ "where\r\n"
+			+ "    product_name like concat(concat('%', :key ),'%') ",nativeQuery=true)
+	
+	int getLikeCount(String key);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@Query(value="select\r\n"
 			+ "    * \r\n"

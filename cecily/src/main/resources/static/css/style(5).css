@@ -1,34 +1,63 @@
 /**
- * 公共加载页面view
+ * icon
  */
-.multilingual-page-loading {
-    opacity: 1;
-    background: #f5f5f5;
-    display: block;
+.plugins-membershiplevelvip-goods-price-icon {
+    padding: 3px 5px;
+    background: #271c0a;
+    color: #e4cb96 !important;
+    font-weight: bold;
+    border-radius: 2px;
+    position: relative;
+    text-decoration: none !important;
+}
+.plugins-membershiplevelvip-goods-price-icon:after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: url(../../../images/membershiplevelvip/flash.gif) no-repeat center;
+    background-size: cover;
+    opacity: 0.3;
 }
 
 /**
- * 快捷弹窗
+ * 列表
  */
-.plugins-multilingual-select-container {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1111;
-    display: none;
-}
-.plugins-multilingual-select-container .popup-not-title {
-    position: relative;
-    margin: 10%;
-    width: 260px;
-    margin: 15% auto auto auto;
-}
-.plugins-multilingual-select-container .popup-not-title .am-close {
+.plugins-membershiplevelvip-items-goods-price {
     position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    width: 100%;
+    transition:all 0.15s linear;
+    transform: translateY(100%);
+    z-index: 5;
 }
-.plugins-multilingual-select-container ul a:hover {
-    text-decoration: none;
+@media only screen and (min-width: 641px) {
+    .goods-list .goods-items:hover .plugins-membershiplevelvip-items-goods-price,
+    .search-list .items:hover .plugins-membershiplevelvip-items-goods-price {  
+      transform:none;
+      border-top: 1px solid #ddd;
+      -moz-box-shadow:0px -5px 15px #cdcdcd;
+      -webkit-box-shadow:0px -5px 15px #cdcdcd;
+      box-shadow:0px -5px 15px #cdcdcd;
+    }
+}
+.plugins-membershiplevelvip-items-goods-price .original-price {
+    text-decoration: line-through;
+}
+.plugins-membershiplevelvip-items-goods-price .goods-price {
+    font-size: 14px;
+    color: #c00;
+    font-weight: 700;
+}
+.plugins-membershiplevelvip-items-goods-price p.am-text-truncate {
+    line-height: 22px;
+}
+.plugins-membershiplevelvip-items-goods-price p.am-text-truncate span:first-child {
+    color: #666;
+    margin-right: 5px;
 }

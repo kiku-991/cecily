@@ -49,7 +49,9 @@ public class ShoppingController {
 	public ModelAndView keyword(String productName) {
 		ModelAndView mv = new ModelAndView("keywordsearch");
 		List<ProductDto> prolike = productService.keyLike(productName);
+		int count =productService.getCountByKey(productName);
 		mv.addObject("prolike", prolike);
+		mv.addObject("count", count);
 		return mv;
 
 	}

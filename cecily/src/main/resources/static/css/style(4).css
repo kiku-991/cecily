@@ -1,63 +1,23 @@
-/**
- * icon
- */
-.plugins-membershiplevelvip-goods-price-icon {
-    padding: 3px 5px;
-    background: #271c0a;
-    color: #e4cb96 !important;
-    font-weight: bold;
-    border-radius: 2px;
+.plugins-activity-floor .item-bottom {
     position: relative;
-    text-decoration: none !important;
 }
-.plugins-membershiplevelvip-goods-price-icon:after {
-    content: '';
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 20px;
-    background: url(../../../images/membershiplevelvip/flash.gif) no-repeat center;
-    background-size: cover;
-    opacity: 0.3;
-}
-
-/**
- * 列表
- */
-.plugins-membershiplevelvip-items-goods-price {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background: #fff;
-    width: 100%;
-    transition:all 0.15s linear;
-    transform: translateY(100%);
-    z-index: 5;
-}
-@media only screen and (min-width: 641px) {
-    .goods-list .goods-items:hover .plugins-membershiplevelvip-items-goods-price,
-    .search-list .items:hover .plugins-membershiplevelvip-items-goods-price {  
-      transform:none;
-      border-top: 1px solid #ddd;
-      -moz-box-shadow:0px -5px 15px #cdcdcd;
-      -webkit-box-shadow:0px -5px 15px #cdcdcd;
-      box-shadow:0px -5px 15px #cdcdcd;
-    }
-}
-.plugins-membershiplevelvip-items-goods-price .original-price {
+.plugins-activity-floor .item-bottom .original-price {
+    color: #999;
     text-decoration: line-through;
 }
-.plugins-membershiplevelvip-items-goods-price .goods-price {
-    font-size: 14px;
-    color: #c00;
-    font-weight: 700;
+.plugins-activity-floor .item-bottom .buy-btn {
+    background: #e4393c;
+    border-color: #e3393c;
+    color: #fff !important;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
-.plugins-membershiplevelvip-items-goods-price p.am-text-truncate {
-    line-height: 22px;
-}
-.plugins-membershiplevelvip-items-goods-price p.am-text-truncate span:first-child {
-    color: #666;
-    margin-right: 5px;
+@media only screen and (min-width: 641px) {
+    .plugins-activity-floor .floor .goods-list {
+        border-left: 1px solid #eee;
+    }
+    .plugins-activity-floor .floor .goods-list .goods-items {
+        width: 20%;
+    }
 }

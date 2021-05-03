@@ -18,7 +18,7 @@
 
 <link rel="stylesheet" type="text/css" href="../css/common.css">
 <link rel="stylesheet" type="text/css" href="../css/common(1).css">
-<link rel="stylesheet" type="text/css" href="../css/buy.css">
+<link rel="stylesheet" type="text/css" href="../css/search.css">
 
 <!-- css钩子 -->
 <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
@@ -26,15 +26,13 @@
 <link rel="stylesheet" type="text/css" href="../css/style(1).css">
 <link rel="stylesheet" type="text/css" href="../css/style(2).css">
 <link rel="stylesheet" type="text/css" href="../css/style(3).css">
-<link rel="stylesheet" type="text/css" href="../css/style(4).css">
 <link rel="stylesheet" type="text/css" href="../css/iconfont(1).css">
+<link rel="stylesheet" type="text/css" href="../css/style(4).css">
 <link rel="stylesheet" type="text/css" href="../css/style(5).css">
 <link rel="stylesheet" type="text/css" href="../css/style(6).css">
 <link rel="stylesheet" type="text/css" href="../css/style(7).css">
 <link rel="stylesheet" type="text/css" href="../css/style(8).css">
 <link rel="stylesheet" type="text/css" href="../css/style(9).css">
-<link rel="stylesheet" type="text/css" href="../css/style(10).css">
-<link rel="stylesheet" type="text/css" href="../css/common(2).css">
 
 
 
@@ -111,10 +109,6 @@
 <script src="../js/ZeroClipboard.js.ダウンロード" type="text/javascript"
 	defer="defer"></script>
 
-<script
-	src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 
 </head>
 <body>
@@ -127,134 +121,219 @@
 
 	<!-- 内容ここから -->
 
-	<div class="goods-list" >
-		<div th:each="product: ${prolike}">
-			<div class="goods-items">
-				
-				
-				<!-- <div class="zoom"> -->
-				<!-- 写真 -->
-				<a th:href="@{/productDetails/{id}(id=${product.productId})}"
-					target="_blank" class="am-block am-text-center"> <img
-					th:src="${product.productImg}" width="69" height="250"
-					class="goods-images" name="image">
-				</a>
-				<!-- 商品名 -->
-				<div class="outer-con">
-					<div class="goods-title am-text-truncate-2 am-margin-bottom-xs">
-						<a th:href="@{/productDetails/{id}(id=${product.productId})}"
-							target="_blank" th:text="${product.productName}"></a>
-					</div>
-					<span>¥</span><span class="price am-text-truncate"
-						th:text="${product.productPrice}"></span><br>
-<!-- th:text="${product.favoriteId eq null? '♡気に入り':(product.userId eq session?.userLogin?.id?'❤気に入り済み':'♡気に入り')}" -->
-					<button th:id="${product.productId}" type="button"
-						
-						th:onclick="|clickPost(${product.productId})|">気に入り</button>
-					<button type="button"
-						th:onclick="|clickCart(${product.productId})|">買い物かご</button>
 
+	<div class="am-container">
+		<!-- 搜索页面顶部内部结构里面钩子 -->
+
+		<div
+			class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0"
+			data-category-id="" data-brand-id="">
+			<!-- 手机模式下基础信息+搜索条件按钮 -->
+			<div
+				class="map-base-tips am-nbfc am-padding-horizontal-xs am-padding-vertical-sm am-show-sm">
+				<p class="am-fl">
+					<span>筛选出</span> <strong class="map-result-count am-text-danger">6</strong>
+					<span>条数据</span>
+				</p>
+				<button
+					class="am-btn am-btn-primary am-icon-filter map-offcanvas-submit"
+					data-am-offcanvas="{target: &#39;#search-map&#39;}"></button>
+			</div>
+
+			<!-- 搜索条件顶部钩子 -->
+
+			<!-- 搜索条件内容、侧边栏内容 -->
+			<div id="search-map" class="am-offcanvas">
+				<div class="am-offcanvas-bar">
+					<div class="am-offcanvas-content">
+						<ul
+							class="map-item am-list am-list-border am-margin-top-sm am-margin-bottom-0">
+							<!-- 搜索页面筛选条件内前面钩子 -->
+
+							<!-- 基础数据 -->
+							<li class="am-nbfc">
+								<p class="am-fl am-margin-left-sm">
+									<span>筛选出</span> <strong
+										class="map-result-count am-text-danger">[[${count}]]</strong> <span>条数据</span>
+								</p> <span
+								class="map-remove-submit am-fr am-margin-right-sm am-hide">清除</span>
+							</li>
+
+							<!-- 搜索页面筛选条件内基础底部钩子 -->
+
+							<!-- 搜索页面筛选条件内尾部钩子 -->
+						</ul>
+					</div>
 				</div>
 			</div>
+
+			<!-- 搜索页面搜索导航条顶部钩子 -->
+
+			<!-- 排序方式 -->
+			<div class="search-nav am-margin-top-sm">
+				<div class="am-sticky-placeholder"
+					style="margin: 0px; height: 30px;">
+					<ul class="sort-nav"
+						data-am-sticky="{animation: &#39;slide-top&#39;}"
+						style="margin: 0px;">
+						<!-- 搜索页面搜索导航条内前面钩子 -->
+
+						<li class="active" data-field="default" data-type="desc"><a
+							href="javascript:;" title="综合"> <span>综合</span>
+						</a></li>
+						<li data-field="sales_count" data-type="desc"><a
+							href="javascript:;" title="销量"> <span>销量</span> 
+						</a></li>
+						<li data-field="access_count" data-type="desc"><a
+							href="javascript:;" title="热度"> <span>热度</span> 
+						</a></li>
+						<li data-field="min_price" data-type="desc"><a
+							href="javascript:;" title="价格"> <span>价格</span> 
+						</a></li>
+						<li data-field="id" data-type="desc"><a href="javascript:;"
+							title="最新"> <span>最新</span> 
+						</a></li>
+
+						<!-- 搜索页面排序导航条内尾部钩子 -->
+					</ul>
+				</div>
+			</div>
+
+			<!-- 搜索页面数据容器顶部钩子 -->
+
+			<!-- 数据容器 -->
+			<ul
+				class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 am-margin-top-sm search-list"
+				th:each="product: ${prolike}">
+				<li class="am-animation-scale-up">
+					<div class="items am-padding-bottom-xs">
+						<!-- 搜索页面商品信息顶部钩子 -->
+						<a  th:href="@{/productDetails/{id}(id=${product.productId})}">
+						<img th:src="${product.productImg}" class="goods-images">
+						</a>
+						<p class="am-text-truncate-2 goods-title"
+							th:text="${product.productName}"></p>
+						
+
+						<!-- 搜索页面商品信息售价顶部钩子 -->
+
+						<p class="price am-padding-horizontal-xs am-text-truncate">
+							<strong>￥[[${product.productPrice}]]</strong>
+						</p>
+
+						<!-- 搜索页面商品信息底部钩子 -->
+						<div
+							class="plugins-membershiplevelvip-items-goods-price am-padding-xs am-hide-sm-only">
+
+							<p class="am-text-truncate">
+								<span>销售价</span> <span class="goods-price">￥[[${product.productPrice}]]</span>
+							</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+			<!-- 搜索页面数据容器底部钩子 -->
+
+			<!-- 加载数据 -->
+			<div class="loding-view" style="display: none;">
+				<i class="am-icon-spinner am-icon-pulse"></i> <span>加载中...</span>
+			</div>
+
+			<!-- 没有数据 -->
+			<div class="table-no" style="display: none;">
+				<i class="am-icon-warning"></i> 没有相关数据
+			</div>
+
+			<!-- 分页 -->
+			<button type="button"
+				class="am-btn am-btn-default am-btn-block am-margin-vertical-sm search-pages-submit"
+				data-url="" style="" data-page="2" disabled="disabled">
+				加载更多 <i class="am-icon-angle-double-down"></i>
+			</button>
+
 		</div>
+
+		<!-- 搜索页面顶部内部结构里面钩子 -->
 	</div>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+	<!-- echarts 图表 -->
+	<script type="text/javascript" src="../js/echarts.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/macarons.js.ダウンロード"></script>
 
-	<!-- 内容ここまで -->
-<script>
-	//「POSTで遷移（Ajax）」気に入りボタン押下時の処理
-	function clickPost(productId) {
+	<!-- amazeui插件 -->
+	<script type="text/javascript" src="../js/amazeui.switch.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/amazeui.chosen.min.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/amazeui.dialog.js.ダウンロード"></script>
+	<script type="text/javascript"
+		src="../js/amazeui.tagsinput.min.js.ダウンロード"></script>
 
-		var p = {
-			id : productId
-		};
+	<!-- 图像裁剪插件 -->
+	<script type="text/javascript" src="../js/cropper.min.js.ダウンロード"></script>
 
-		$.ajax({
-			//MyCartControlleradd()メソッドに遷移
-			url : '/part/myfavorite',
-			type : 'POST',
-			timeout : 60000,
-			data : p,
-			async : false,
-			dataType : "json"
-		})
+	<!-- 复制插件 -->
+	<script type="text/javascript" src="../js/clipboard.min.js.ダウンロード"></script>
 
-		//Ajax通信成功の場合
-		.done(function(data) {
-			if ((data == productId)) {
-				$('#' + productId).text('❤' + '気に入り済');
-				alert('気に入りに追加済み!');
+	<!-- 元素拖拽排序插件 -->
+	<script type="text/javascript"
+		src="../js/jquery.dragsort-0.5.2.min.js.ダウンロード"></script>
 
-			} else if (data == 0) {
-				$('#' + productId).text('♡' + '気に入り');
-				alert('気に入り取消ました!');
+	<!-- ueditor 编辑器 -->
+	<script type="text/javascript" src="../js/ueditor.config.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/ueditor.all.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/zh-cn.js.ダウンロード"></script>
 
+	<!-- 颜色选择器 -->
+	<script type="text/javascript" src="../js/jquery.colorpicker.js.ダウンロード"></script>
+
+	<!-- 日期组件 -->
+	<script type="text/javascript" src="../js/WdatePicker.js.ダウンロード"></script>
+
+	<!-- baidu map -->
+
+	<!-- 隐藏编辑器初始化 -->
+	<script type="text/javascript">
+		var upload_editor = UE.getEditor("upload-editor-view", {
+			isShow : false,
+			focus : false,
+			enableAutoSave : false,
+			autoSyncData : false,
+			autoFloatEnabled : false,
+			wordCount : false,
+			sourceEditor : null,
+			scaleEnabled : true,
+			toolbars : [ [ "insertimage", "insertvideo", "attachment" ] ]
+		});
+	</script>
+
+	<!-- 项目公共 -->
+	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
+
+	<!-- 应用插件公共js -->
+
+	<!-- 当前控制器js -->
+	<script type="text/javascript" src="../js/search.js.ダウンロード"></script>
+
+	<!-- 底部信息 -->
+
+	<!-- js钩子 -->
+	<script type="text/javascript" src="../js/style.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(1).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(2).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(3).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(4).ダウンロード"></script>
+	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
+	<script type="text/javascript">
+		// 回顶部监测
+		$(window).scroll(function() {
+			if ($(window).scrollTop() > 100) {
+				$("#plugins-commongobacktop").fadeIn(1000);
 			} else {
-				alert('先にログインしてください!');
+				$("#plugins-commongobacktop").fadeOut(1000);
 			}
-
-		})
-		//Ajax通信失敗の場合
-		.fail(function() {
-			alert('追加失敗しました!ログインしてください!');
-		})
-		//Ajax通信の成功・失敗に関わらず最後に処理
-		.always(function() {
-			//alert('end');
 		});
-
-	}
-</script>
-
-<script>
-	//「POSTで遷移（Ajax）」買い物かごボタン押下時の処理
-
-	function clickCart(productId) {
-
-		var pro = {
-			id : productId
-		};
-
-		$.ajax({
-			//MainControllerのpostIndex()メソッドに遷移
-			url : '/addMyCart',
-			type : 'POST',
-			timeout : 60000,
-			data : pro,
-			async : false,
-			dataType : "json"
-		})
-
-		//Ajax通信成功の場合
-		.done(function(data) {
-
-			if (data != 0) {
-				//	$('#myCart').addClass('am-badge am-badge-danger');
-				//$toast("買い物かごに追加済み!");
-				$('#myCart').text(data);
-
-				alert('買い物かごに追加済み!');
-				
-				window.location.href="/shopping"
-			}
-
-		})
-		//Ajax通信失敗の場合
-		.fail(function() {
-			alert('追加失敗しました!ログインしてください!');
-		})
-		//Ajax通信の成功・失敗に関わらず最後に処理
-		.always(function() {
-
-		});
-
-	}
-</script>
-
-
-
+	</script>
 </body>
 </html>

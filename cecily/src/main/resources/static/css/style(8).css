@@ -1,22 +1,30 @@
-.plugins-exchangerate-currency-select-container {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    z-index: 1111;
-    display: none;
+.plugins-footercustomerservice-customer-service {
+    background: #f8f8f8;
+    padding: 10px 0;
+    margin-top: 20px;
 }
-.plugins-exchangerate-currency-select-container .popup-not-title {
-    position: relative;
-    margin: 10%;
-    width: 260px;
-    margin: 15% auto auto auto;
+.plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item img {
+    width: 50px;
+    float: left;
 }
-.plugins-exchangerate-currency-select-container .popup-not-title .am-close {
-    position: absolute;
+.plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base {
+    margin-left: 60px;
 }
-.plugins-exchangerate-currency-select-container ul a:hover {
-    text-decoration: none;
+.plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base .title {
+    font-weight: 500;
+    font-size: 16px;
+    color: #505050;
+}
+.plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item .base .desc {
+    color: #999;
+    margin-top: 5px;
+}
+@media only screen and (max-width:1025px) {
+    .plugins-footercustomerservice-customer-service .am-gallery-overlay .am-gallery-item {
+        border-bottom: 1px solid #f0f0f0;
+        padding-bottom: 10px;
+    }
+}
+.am-footer-default {
+    margin-top: 0;
 }

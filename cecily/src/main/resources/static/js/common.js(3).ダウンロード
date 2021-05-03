@@ -1,0 +1,122 @@
+$(function()
+{
+    // 优惠劵领取
+    $('.plugins-coupon-receive-container .plugins-coupon-items .item .v-right').on('click', function()
+    {
+        // 是否已登录
+        if((__user_id__ || null) == null)
+        {
+            return false;
+        }
+
+        // 参数
+        var $this = $(this);
+        var $parents = $this.parents('li');
+        var is_operable = $parents.data('is-operable') || 0;
+        var coupon_id = $parents.data('coupon-id') || 0;
+        var operable_name = $parents.data('operable-name');
+
+        // 是否有效
+        if(is_operable == 0)
+        {
+            return false;
+        }
+
+        // 优惠劵id是否正常
+        if(coupon_id == 0)
+        {
+            Prompt('优惠劵id有误');
+            return false;
+        }
+
+        // 是否领取中
+        if($this.find('div').text() != operable_name)
+        {
+            Prompt('领取中、请勿频繁操作');
+            return false;
+        }
+
+        // ajax请求
+        $this.find('div').text('领取中');
+        $.ajax({
+            url:$('.plugins-coupon-items').data('receive-url'),
+            type:'POST',
+            dataType:"json",
+            timeout:10000,
+            data:{"coupon_id": coupon_id},
+            success:function(result)
+            {
+                $this.find('div').text(operable_name);
+                if(result.code == 0)
+                {
+                    Prompt(result.msg, 'success');
+                } else {
+                    Prompt(result.msg);
+                }
+            },
+            error:function()
+            {
+                $this.find('div').text(operable_name);
+                Prompt('网络异常错误');
+            }
+        });
+    });
+
+    // 优惠券选择事件
+    $('.choice-view-submit').on('click', function()
+    {
+        // 仓库id
+        var warehouse_id = $(this).data('warehouse-id') || 0;
+        if(warehouse_id == 0)
+        {
+            Prompt('业务组id有误');
+            return false;
+        }
+        $('#plugins-coupon-buy-popup-'+warehouse_id).modal();
+    });
+
+
+    // 订单确认优惠劵选择
+    $('.plugins-coupon-buy-popup .plugins-coupon-items .v-right').on('click', function()
+    {
+        // 是否禁止选择
+        if($(this).parents('.item').hasClass('coupon-disabled'))
+        {
+            return false;
+        }
+
+        // 参数
+        var coupon_id = $(this).parents('li').data('coupon-id') || 0;
+        var warehouse_id = $(this).parents('.plugins-coupon-buy-popup').data('warehouse-id') || 0;
+
+        // 优惠劵id是否正常
+        if(coupon_id == 0)
+        {
+            Prompt('优惠劵id有误');
+            return false;
+        }
+
+        // 仓库id
+        if(warehouse_id == 0)
+        {
+            Prompt('业务组id有误');
+            return false;
+        }
+
+        window.location.href = UrlFieldReplace('coupon_id_'+warehouse_id, coupon_id);
+    });
+
+    // 订单确认取消优惠劵使用
+    $('.plugins-coupon-buy-choice .coupon-content .cancel-view-submit').on('click', function()
+    {
+        // 仓库id
+        var warehouse_id = $(this).data('warehouse-id') || 0;
+        if(warehouse_id == 0)
+        {
+            Prompt('业务组id有误');
+            return false;
+        }
+        window.location.href = UrlFieldReplace('coupon_id_'+warehouse_id, 0);
+    });
+
+});

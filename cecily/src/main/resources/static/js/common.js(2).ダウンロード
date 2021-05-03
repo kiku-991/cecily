@@ -1,0 +1,124 @@
+$(function()
+{
+    // 分类选择切换
+    $(document).on('click',  '.goods-category-choice-content ul li a', function()
+    {
+        // 父级
+        var $parents = $(this).parents('.goods-category-choice');
+
+        // 选中
+        $(this).parent().addClass('active').siblings().removeClass('active');
+
+        // 分类数据
+        var data = $(this).data('json') || null;
+        if(data != null)
+        {
+            data = JSON.parse(decodeURIComponent(data)) || null;
+        }
+        
+        // 参数
+        var level = $(this).parents('ul').data('level') || 1;
+        var level_next = level+1;
+
+        // 拼接html
+        if(data != null && level < 3)
+        {
+            var html = '';
+            for(var i in data)
+            {
+                var json = (data[i]['items'] || null) == null ? '' : encodeURIComponent(JSON.stringify(data[i]['items']));
+                html += '<li><a href="javascript:;" data-json="'+json+'" data-value="'+data[i]['id']+'"><span>'+data[i]['name']+'</span>';
+                if((data[i]['items'] || null) != null)
+                {
+                    html += '<i class="am-icon-angle-double-right am-fr"></i>';
+                }
+                html += '</a></li>';
+            }
+            $parents.find('.goods-category-select-'+level_next).html(html).removeClass('am-hide');
+        }
+
+        // 级别数据处理
+        if(data == null)
+        {
+            $parents.find('.goods-category-select-'+level_next).addClass('am-hide').html('');
+        } else {
+            $parents.find('.goods-category-select-'+level_next).removeClass('am-hide');
+        }
+
+        // 选择第一级的时候隐藏第三级
+        if(level == 1)
+        {
+            $parents.find('.goods-category-select-3').addClass('am-hide').html('');
+        }
+
+        // 提示信息展示
+        var text = '';
+        var value = [];
+        $parents.find('ul li.active').each(function(k, v)
+        {
+            if(k > 0)
+            {
+                text += ' > ';
+            }
+            var name = $(this).find('a span').text();
+            value.push({"id":$(this).find('a').data('value'), "name":name});
+            text += name;
+        });
+        $parents.find('.already-select-tips').removeClass('am-hide');
+        $parents.find('.already-select-tips').find('strong').text(text);
+
+        // 选择数据
+        $parents.find('button[type="button"]').attr('data-value', encodeURIComponent(JSON.stringify(value)));
+    });
+
+
+    // 店铺收藏
+    $(document).on('click', '.shop-favor-submit', function()
+    {
+        // 是否登录
+        if((__user_id__ || 0) != 0)
+        {
+            var $this = $(this);
+            $.AMUI.progress.start();
+            $.ajax({
+                url: $('.plugins-shop').data('shopfavor-url'),
+                type: 'post',
+                dataType: "json",
+                timeout: 10000,
+                data: {"id": $this.data('value')},
+                success: function(result)
+                {
+                    $.AMUI.progress.done();
+                    if(result.code == 0)
+                    {
+                        $this.text(' '+result.data.text+'('+result.data.count+')');
+                        if(result.data.status == 1)
+                        {
+                            $this.addClass('favor-active');
+                        } else {
+                            $this.removeClass('favor-active');
+                        }
+                        Prompt(result.msg, 'success');
+                    } else {
+                        Prompt(result.msg);
+                    }
+                },
+                error: function(xhr, type)
+                {
+                    $.AMUI.progress.done();
+                    Prompt(HtmlToString(xhr.responseText) || '异常错误', null, 30);
+                }
+            });
+        }
+    });
+
+    // 微信二维码
+    var $dropdown = $('#service-qrcode-container');
+    $dropdown.find('a.am-dropdown-toggle').on('mouseover', function()
+    {
+        $dropdown.dropdown('open');
+    }).mouseout(function()
+    {
+        $dropdown.dropdown('close');
+    });
+});

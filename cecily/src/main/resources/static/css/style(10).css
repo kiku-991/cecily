@@ -1,7 +1,22 @@
-.plugins-freightfee-goods-icon {
-    background: #fff;
-    border: 1px solid #5eb95e;
-    color: #5eb95e;
-    font-weight: 500;
-    vertical-align: middle;
+.plugins-exchangerate-currency-select-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1111;
+    display: none;
+}
+.plugins-exchangerate-currency-select-container .popup-not-title {
+    position: relative;
+    margin: 10%;
+    width: 260px;
+    margin: 15% auto auto auto;
+}
+.plugins-exchangerate-currency-select-container .popup-not-title .am-close {
+    position: absolute;
+}
+.plugins-exchangerate-currency-select-container ul a:hover {
+    text-decoration: none;
 }

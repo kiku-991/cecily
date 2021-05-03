@@ -1,130 +1,117 @@
 /**
- * 秒杀
+ * 分享
  */
-.plugins-limitedtimediscount-goods-price-icon,
-.plugins-limitedtimediscount-goods-price-icon:hover,
-.plugins-limitedtimediscount-goods-price-icon:focus {
-    padding: 3px 5px;
-    background: #FF5722;
-    color: #fff;
-    text-decoration: none;
+.plugins-share-container, #plugins-share-layer {
+    display: none;
 }
-.plugins-limitedtimediscount-goods-base-top {
-    background: url(../../../images/limitedtimediscount/activity-banner.png) right top no-repeat #f23030;
-    padding: 5px 10px;
-    height: 33px;
+.plugins-share ul {
     overflow: hidden;
 }
-.plugins-limitedtimediscount-goods-base-top * {
-    color: #fff;
-    font-weight: 500;
+.plugins-share ul li {
+    float: left;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    border-radius: 50px;
+    margin-right: 10px;
+    cursor: pointer;
 }
-.plugins-limitedtimediscount-goods-base-top .timer-hours {
+.plugins-share ul li:last-child {
+    margin-right: 0;
+}
+.plugins-share ul li .iconfont {
     font-size: 16px;
-    font-weight: 700;
-    color: #ffe500;
+    color: #fff;
 }
-.plugins-limitedtimediscount-goods-base-top .countdown .millisecond {
-    width: 20px;
+.plugins-share ul li.share-qq {
+    background: #03A9F4;
 }
-@media only screen and (max-width:640px) {
-    .plugins-limitedtimediscount-goods-base-top {
-        padding: 5px;
+.plugins-share ul li.share-qzone {
+    background: #FF9800;
+}
+.plugins-share ul li.share-weixin {
+    background: #3eab0f;
+}
+.plugins-share ul li.share-sian {
+    background: #e71f2d;
+}
+.plugins-share ul li.share-url {
+    background: #607d8b;
+}
+@media only screen and (min-width: 641px) {
+    .plugins-share ul li.share-qq:hover {
+        background: #26bbff;
+    }
+    .plugins-share ul li.share-qzone:hover {
+        background: #fca729;
+    }
+    .plugins-share ul li.share-weixin:hover {
+        background: #49bc18;
+    }
+    .plugins-share ul li.share-sian:hover {
+        background: #f43844;
+    }
+    .plugins-share ul li.share-url:hover {
+        background: #7d9eae;
     }
 }
 
 /**
- * 秒杀首页推荐
+ * 弹层
  */
-.plugins-limitedtimediscount-home-adv {
-    margin-top: 10px;
-    margin-bottom: 10px;
+#plugins-share-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10000;
+    text-align: center;
 }
-.plugins-limitedtimediscount-home-adv .title h3 {
-    width: 84px;
-    height: 20px;
-    background: url(../../../images/limitedtimediscount/seckill.png) 0 0 no-repeat;
+#plugins-share-layer img {
+    max-width: 90%;
 }
-.plugins-limitedtimediscount-home-adv .countdown * {
-    font-size: 14px;
+
+
+
+/**
+ * 商品页面分享PC
+ */
+.plugins-goods-share-view > span.share-name {
+    line-height: 25px;
     font-weight: 500;
-    margin-right: 2px;
-}
-.plugins-limitedtimediscount-home-adv .countdown .timer-title {
-    color: #333;
-}
-.plugins-limitedtimediscount-home-adv .countdown span.timer-hours {
-    padding: 3px 3px 3px 8px;
-    letter-spacing: 5px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    background-color: #3A4145;
-    color: #fff;
-}
-.plugins-limitedtimediscount-home-adv .countdown em {
-    color: #4B5459;
-    padding: 0;
-    font-weight: 700;
-}
-.plugins-limitedtimediscount-home-adv .am-icon-chevron-circle-right {
-    color: #888;
-}
-.plugins-limitedtimediscount-home-adv .title a {
     color: #666;
 }
-.plugins-limitedtimediscount-home-adv .title .more {
-    margin-top: 3px;
-}
-.plugins-limitedtimediscount-home-adv .am-slider {
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    margin: 10px 0 0 0;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    border-top: 1px solid #eee;
-}
-.plugins-limitedtimediscount-home-adv .am-slider li .goods-title {
-    max-height: 40px;
-    overflow: hidden;
-    font-size: 12px;
-}
-.plugins-limitedtimediscount-home-adv .am-slider .price strong {
-    color: #f33f00;
-    font-weight: bold;
-    font-size: 14px;
-}
-.plugins-limitedtimediscount-home-adv .am-slider .original-price {
-    color: #999;
-    text-decoration: line-through;
-}
-.am-slider-default .am-direction-nav a:before {
-    font-size: 36px!important;
-    color: #d2364c;
-}
-@media only screen and (min-width: 641px) {
-    .plugins-limitedtimediscount-home-adv .am-slider li img { -webkit-transition: transform .6s ease-in; -moz-transition: transform .6s ease-in; -ms-transition: transform .6s ease-in; -o-transition: transform .6s ease-in; transition: transform .6s ease-in; }
-    .plugins-limitedtimediscount-home-adv .am-slider li img:hover { transform: scale(1.05); -moz-transform: scale(1.05); -webkit-transform: scale(1.05); -o-transform: scale(1.05); -ms-transform: scale(1.05); }
-}
-@media only screen and (max-width: 1025px) {
-    .plugins-limitedtimediscount-home-adv .title {
-        padding: 0 10px;
-    }
-}
-@media only screen and (max-width: 641px) {
-    .plugins-limitedtimediscount-home-adv {
-        margin-bottom: 20px;
-    }
-    .plugins-limitedtimediscount-home-adv .countdown span.timer-hours {
-        padding: 3px 0px 3px 3px;
-        letter-spacing: 3px;
-    }
-    .plugins-limitedtimediscount-home-adv .countdown * {
-        margin-right: 0px;
-    }
-    .plugins-limitedtimediscount-home-adv .title h3 {
-        margin-right: 5px;
-    }
-    .plugins-limitedtimediscount-home-adv .countdown .timer-title {
+
+/**
+ * 商品页面分享手机
+ */
+@media only screen and (min-width:640px) {
+    .plugins-share-goods-submit-photo {
         display: none;
+    }
+}
+@media only screen and (max-width:640px) {
+    .plugins-share-goods-submit-photo {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: block !important;
+        width: 35px !important;
+        height: 35px !important;
+        line-height: 35px !important;
+        border-radius: 50%;
+        background: #ededed;
+        border: 0px !important;
+        -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.38);
+        -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.38);
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.38);
+        z-index: 10;
+    }
+    .plugins-share-goods-submit-photo i {
+        color: #666;
+        font-size: 16px;
     }
 }
