@@ -17,6 +17,7 @@ import com.shoping.kiku.repository.CommerceRepository;
 import com.shoping.kiku.repository.MyOrderItemRepository;
 import com.shoping.kiku.repository.MyOrderRepositoty;
 import com.shoping.kiku.repository.OrderProInfoRepository;
+import com.shoping.kiku.repository.PayPriceRepository;
 import com.shoping.kiku.repository.ProductInCartRepository;
 import com.shoping.kiku.until.OrderUtils;
 
@@ -34,6 +35,9 @@ public class MyOrderService {
 
 	@Autowired
 	ProductInCartRepository productAndCartRepository;
+
+	@Autowired
+	PayPriceRepository payPriceRepository;
 
 	//オーダーフォーム生成
 	public void createOrderForm(int userId) {
@@ -109,6 +113,13 @@ public class MyOrderService {
 		}
 		return orderList;
 
+	}
+
+	//支払い金額
+
+	public int getPayPrice(int userId, int ProductId) {
+		int price = payPriceRepository.getpriceByUserIdAndProId(userId, ProductId);
+		return price;
 	}
 
 }

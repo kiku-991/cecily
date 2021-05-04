@@ -7,10 +7,14 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.shoping.kiku.entity.OrderProInfoEntity;
 
-public interface OrderProInfoRepository extends JpaRepository<OrderProInfoEntity, Integer>{
+public interface OrderProInfoRepository extends JpaRepository<OrderProInfoEntity, Integer> {
 
-	
-	@Query(value="select\r\n"
+	/**
+	 * 我的订单List
+	 * @param userId
+	 * @return
+	 */
+	@Query(value = "select\r\n"
 			+ "    a.user_id\r\n"
 			+ "    , a.order_id\r\n"
 			+ "    , a.createdate\r\n"
@@ -39,6 +43,8 @@ public interface OrderProInfoRepository extends JpaRepository<OrderProInfoEntity
 			+ "    left join myorder e \r\n"
 			+ "        on b.order_id = e.order_id \r\n"
 			+ "where\r\n"
-			+ "    a.user_id = :userId",nativeQuery=true)
+			+ "    a.user_id = :userId", nativeQuery = true)
 	List<OrderProInfoEntity> getMyOrderInfo(int userId);
+
+	
 }

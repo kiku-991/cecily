@@ -10,15 +10,15 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "commerce")
-
-public class CommerceEntity {
+@Table(name = "payment")
+public class PaymentEntity {
 
 	@Id
-	private String orderId;
 	private String paymentId;
-	private Integer shippingId;
 	private Integer userId;
-	private Timestamp createdate;
+	private Integer payTotal;
+	private Integer payQuantity;
+	private Integer payMethod;
+	private Timestamp payTime;
 
 }

@@ -30,16 +30,21 @@ public class MyCartController {
 
 	@Autowired
 	MyCartService myCartService;
-	
+
 	@Autowired
 	MyOrderService myOrderService;
-	
+
 	@Autowired
 	ProductService productService;
-	
+
 	@Autowired
 	UserDeliveryService userDeliveryService;
 
+	/**
+	 * 買い物かご画面
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/shopping/myCart", method = RequestMethod.GET)
 	public ModelAndView myCart(HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
@@ -56,6 +61,13 @@ public class MyCartController {
 
 	}
 
+	/**
+	 * 買い物かご追加
+	 * @param proudtId
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/addMyCart")
 	@ResponseBody
 	public int add(@RequestBody String proudtId, HttpServletRequest request, Model model) {
@@ -72,6 +84,12 @@ public class MyCartController {
 
 	}
 
+	/**
+	 * 買い物かご削除
+	 * @param productId
+	 * @param request
+	 * @return
+	 */
 	@PostMapping("/myCart/deleteCart/{productId}")
 	public String deleteSingleCart(@PathVariable("productId") int productId, HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
@@ -79,23 +97,21 @@ public class MyCartController {
 		return "redirect:/shopping/myCart";
 	}
 
-	
-	
 	//'+'ボタンを押下
 	@RequestMapping("/increse")
 	@ResponseBody
-	public HashMap<String,Integer> incre(@RequestBody String proudtId, HttpServletRequest request) {
+	public HashMap<String, Integer> incre(@RequestBody String proudtId, HttpServletRequest request) {
 		String id = proudtId.replace("id=", "");
 		int proId = Integer.valueOf(id);
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
-		boolean flg =myCartService.updateInc(ss.getUserId(), proId);
+		boolean flg = myCartService.updateInc(ss.getUserId(), proId);
 		int total = myCartService.getTotalByUserIdAndProductId(ss.getUserId(), proId);
-		HashMap<String,Integer> map = new HashMap<>();	
-		
-		if(flg==true) {
+		HashMap<String, Integer> map = new HashMap<>();
+
+		if (flg == true) {
 			map.put("total", total);
 			map.put("check", 1);
-		}else {
+		} else {
 			map.put("total", total);
 			map.put("check", 0);
 		}
@@ -110,11 +126,11 @@ public class MyCartController {
 		int proId = Integer.valueOf(id);
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		int i = myCartService.updateDec(ss.getUserId(), proId);
-		int total =0;
-		if(i==0) {
-			total =0;
-		}else {
-			total= myCartService.getTotalByUserIdAndProductId(ss.getUserId(), proId);
+		int total = 0;
+		if (i == 0) {
+			total = 0;
+		} else {
+			total = myCartService.getTotalByUserIdAndProductId(ss.getUserId(), proId);
 		}
 		return total;
 	}
@@ -163,8 +179,6 @@ public class MyCartController {
 		return map;
 	}
 
-	
-
 	//買い物かご画面に決算ボタンを押下処理 buy 画面に遷移
 	@RequestMapping("/mycart/buy")
 	public ModelAndView buy(HttpServletRequest request) throws Exception {
@@ -174,23 +188,26 @@ public class MyCartController {
 
 		int amount = myCartService.getCheckedPriceInCart(ss.getUserId());
 		UserDeliveryDto userDelivery = userDeliveryService.getDefaultadd(ss.getUserId());
-		
-		mv.addObject("userDelivery", userDelivery);
+		mv.addObject("useradd", userDelivery);
 		mv.addObject("probuy", proBuy);
-		
+
 		mv.addObject("amount", amount);
 
 		return mv;
 	}
-	
+
 	//buy 画面提交订单之后跳转页面
 	@RequestMapping("/order/add")
 	public ModelAndView buyAdd(MyOrderDto order, HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("orderfinish");
+		//オーダーテーブルにデータを上げ
 		myOrderService.createOrderForm(ss.getUserId());
+		//該当商品のストックを減少
+		myCartService.desProStock(ss.getUserId());
 		//提交订单时チェックされた商品を買い物かごから削除
 		myCartService.deleteCheckedPro(ss.getUserId());
+
 		return mv;
 	}
 }

@@ -11,7 +11,7 @@ public class OrderProInfoDto {
 	private Integer userId;
 	private String orderId;
 	private Timestamp createdate;
-	private Integer paymentId;
+	private String paymentId;
 	private Integer shippingId;
 	private Integer productId;
 	private Integer productPrice;
@@ -25,4 +25,5 @@ public class OrderProInfoDto {
 	private Integer orderStatus;
 	private Integer purchasingPrice;
 	private Timestamp modifyTime;
+	private Timestamp payTime;
 }

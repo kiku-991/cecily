@@ -131,7 +131,7 @@ public class UserInfoController {
 	 * @return
 	 */
 
-	@RequestMapping(value = "/buy/userInfo/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/buy/useradd/add", method = RequestMethod.POST)
 	public String creUserTodoke(HttpServletRequest request, UserDeliveryDto userDeliver) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		userDeliveryService.creUserDelivery(ss.getUserId(), userDeliver);
@@ -146,7 +146,7 @@ public class UserInfoController {
 	 * @return
 	 */
 
-	@RequestMapping(value = "/buy/userInfo/edit/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/buy/useradd/edit/{id}", method = RequestMethod.POST)
 	public String upUserTodoke(@PathVariable("id") int id, HttpServletRequest request, UserDeliveryDto userDeliver) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		userDeliveryService.editUserDelivery(id, ss.getUserId(), userDeliver);

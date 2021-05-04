@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0052)https://member.id.rakuten.co.jp/rms/nid/mpaymentfwd2 -->
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>クレジットカード支払い</title>
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<script type="text/javascript"  src="https://error.rakuten.co.jp/r-cookiecleaner/r-cc-config-rat.js"></script><script type="text/javascript" src="../pay/r-cc-rat.js.ダウンロード" ></script><script type="text/javascript" src="../pay/ral-1.7.1.js.ダウンロード"></script><script type="text/javascript" src="../pay/jquery-1.12.4.min.js.ダウンロード"></script>
+<script type="text/javascript" src="../pay/hint.js.ダウンロード"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="../pay/set.css">
+<link rel="stylesheet"  type="text/css" href="../pay/common.css">
+</head>
+<body id="address">
+
+<!-- tagLine -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tbody><tr>
+<td align="right">
+<font color="#999999" size="-1"><br></font></td>
+</tr>
+</tbody></table>
+<div><img src="../pay/t.gif" alt="" height="3" width="1"></div>
+<!-- /sectionNav -->
+
+<!-- subSectionNav -->
+<table bgcolor="#bd0000" border="0" cellpadding="0" cellspacing="0" width="100%">
+	<tbody><tr>
+		<td><img src="../pay/t.gif" alt="" height="3" width="1"></td>
+	</tr>
+</tbody></table>
+
+
+
+<div id="container">
+
+
+
+<div id="language" align="right">
+
+日本語
+
+
+</div>
+
+
+<div id="contents">
+<form name="PaymentForm" method="post" action="https://member.id.rakuten.co.jp/rms/nid/mpayment1" >
+<h2 class="path">クレジットカード支払い</h2>
+
+<p>支払い金額<input type="text" value="productPrice"></p>
+<!-- navi -->
+
+<p>以下の項目を入力し、「<em class="em">支払い</em>」ボタンを押してください。（ご家族など、本人以外の情報はご登録いただけません。）</p>
+
+
+
+<table class="address" cellspacing="0" summary="memberInformation">
+<tbody><tr>
+<th class="headCol" scope="col" colspan="3">国内決済用 クレジットカード情報</th>
+
+</tr>
+
+
+<tr>
+<th class="headRow" id="issuer_id" scope="row">カード会社</th>
+<td>
+<!-- <em>???ja.F_CREDIT_CARD.text1???</em><br/> -->
+<select name="issuer_id"><option value="">選択してください</option>
+
+<option value="1">VISA</option>
+
+<option value="2">MASTER</option>
+
+<option value="3">JCB</option>
+
+<option value="4">Diners</option>
+
+<option value="5">AMEX</option></select>
+<br>
+
+</td>
+<td class="note">&nbsp;</td>
+</tr>
+
+
+
+<tr>
+<th class="headRow" id="card_num1,card_num2,card_num3,card_num4" scope="row">カード番号</th>
+<td>
+<br>
+
+
+  <input type="text" name="card_num1" accesskey="N" maxlength="32" size="65" tabindex="4" value="" class="text m_phone" title="" style="color: rgb(153, 153, 153);">
+
+  
+</td>
+<td class="note">&nbsp;</td>
+</tr>
+
+
+<tr>
+<th class="headRow" id="card_year,card_month" scope="row">カード有効期限</th>
+<td>
+<br>
+<label>
+<select name="card_month" tabindex="8"><option value="">-</option>
+  <option value="1">01</option>
+  <option value="2">02</option>
+  <option value="3">03</option>
+  <option value="4">04</option>
+  <option value="5">05</option>
+  <option value="6">06</option>
+  <option value="7">07</option>
+  <option value="8">08</option>
+  <option value="9">09</option>
+  <option value="10">10</option>
+  <option value="11">11</option>
+  <option value="12">12</option></select>
+月</label>
+<label>
+  <select name="card_year" tabindex="9"><option value="">-</option>
+  
+  <option value="2021">21</option>
+  
+  <option value="2022">22</option>
+  
+  <option value="2023">23</option>
+  
+  <option value="2024">24</option>
+  
+  <option value="2025">25</option>
+  
+  <option value="2026">26</option>
+  
+  <option value="2027">27</option>
+  
+  <option value="2028">28</option>
+  
+  <option value="2029">29</option>
+  
+  <option value="2030">30</option>
+  
+  <option value="2031">31</option>
+  
+  <option value="2032">32</option>
+  
+  <option value="2033">33</option>
+  
+  <option value="2034">34</option>
+  
+  <option value="2035">35</option>
+  
+  <option value="2036">36</option>
+  
+  <option value="2037">37</option>
+  
+  <option value="2038">38</option>
+  
+  <option value="2039">39</option>
+  
+  <option value="2040">40</option></select>
+  年</label>
+  
+  
+</td>
+<td class="note">&nbsp;</td>
+</tr>
+
+
+<tr>
+<th class="headRow" id="card_owner" scope="row">カード名義人</th>
+<td>
+
+<em>ご本人様名義のみ有効。ご家族の名義などでは登録できません。</em><br>
+<input type="text" name="card_owner" accesskey="N" maxlength="42" tabindex="10" value="" class="text mail" title="(例) TARO RAKUTEN " style="color: rgb(153, 153, 153);"><br>
+
+</td>
+
+<td class="note">&nbsp;</td>
+</tr>
+<tr>
+<th class="headRow" id="card_owner" scope="row">セキュリティ番号</th>
+<td><input type="text" maxlength="5" tabindex="10" value="" class="text mail" title="(例) 123 " style="color: rgb(153, 153, 153);"></td>
+</tr>
+
+
+</tbody></table>
+<!-- cardinfo -->
+
+
+
+<p class="submit">
+
+<input type="submit" name="execMethod" value="支払い" onclick="">
+
+
+</p>
+<!-- submit -->
+
+</form>
+
+
+</div>
+</div>
+
+<div align="center">
+
+
+<font size="-1"><a href="/" target="_blank">個人情報保護方針</a></font><br>
+<hr size="1" style="display:block;">
+
+<font size="-1">© KIKUSHOP, Inc.</font>
+
+</div>
+
+
+<input type="hidden" name="rat" id="ratAccountId" value="429">
+<input type="hidden" name="rat" id="ratServiceId" value="1">
+<input type="hidden" name="rat" id="ratPageLayout" value="pc">
+<input type="hidden" name="rat" id="ratSiteSection" value="id">
+<input type="hidden" name="rat" id="ratAdobeSiteSection" value="other">    
+
+<input type="hidden" name="rat" id="ratCustomParameters" value="">
+
+<input type="hidden" name="rat" id="ratCvEvent" value="">
+<script type="text/javascript" src="../pay/rat-main.js.ダウンロード"></script>
+
+</body></html>

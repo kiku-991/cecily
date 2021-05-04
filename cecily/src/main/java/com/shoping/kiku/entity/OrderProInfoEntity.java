@@ -14,7 +14,7 @@ public class OrderProInfoEntity {
 	@Id
 	private String orderId;
 	private Timestamp createdate;
-	private Integer paymentId;
+	private String paymentId;
 	private Integer shippingId;
 	private Integer productId;
 	private Integer productPrice;

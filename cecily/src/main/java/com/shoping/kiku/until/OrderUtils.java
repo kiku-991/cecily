@@ -16,10 +16,10 @@ public class OrderUtils {
 
 	private static final String ORDER_CODE = "KIKU";
 	/**
-	 * 退货类别头
+	 * 支付类别头
 	 */
 
-	private static final String RETURN_ORDER = "";
+	private static final String PAY_CODE = "991";
 	/**
 	 * 退款类别头
 	 */
@@ -93,11 +93,11 @@ public class OrderUtils {
 	}
 
 	/**
-	 * 生成退货单号编码（调用方法）
+	 * 生成支払单号编码（调用方法）
 	 * @param userId 网站中该用户唯一ID 防止重复
 	 */
-	public static String getReturnCode(Integer userId) {
-		return RETURN_ORDER + getCode(userId);
+	public static String getPayCode(Integer userId) {
+		return PAY_CODE + getCode(userId);
 	}
 
 	/**

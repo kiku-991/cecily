@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+/*
+**********************************************************************
+* site name   : XBorderProfile
+* description : import style sheets
+* since       : 2010.1.5
+* editor      : motegi
+* modified    : 
+* editor      : 
+*********************************************************************
+*/
+
+/* Set Base Style
+----------------------------------------- */
+
+@import "default.css"; /* initial setting */
+@import "header_footer.css";
+@import "common.css";

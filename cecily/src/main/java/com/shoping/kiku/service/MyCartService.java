@@ -53,39 +53,6 @@ public class MyCartService {
 
 	}
 
-	/*//買い物かごに'+'ボタンを押下数量追加 (ストック考慮)
-	public int updateInc(int userId, int productId) {
-		int quantity = myCartRepository.getQuantity(userId, productId);
-		ProductEntity pro = productRepository.findByProductId(productId);
-		int oldStock = pro.getStock();
-		ProductEntity stockpr = new ProductEntity();
-		stockpr.setProductId(pro.getProductId());
-		stockpr.setProductImg(pro.getProductImg());
-		stockpr.setProductName(pro.getProductName());
-		stockpr.setProductContents(pro.getProductContents());
-		stockpr.setProductPrice(pro.getProductPrice());
-		stockpr.setProductContents(pro.getProductContents());
-		stockpr.setMaker(pro.getMaker());
-		stockpr.setStatus(pro.getStatus());
-		stockpr.setStoreId(pro.getStoreId());
-		
-		//ストック減少
-		stockpr.setStock(oldStock-quantity);
-		productRepository.save(stockpr);
-		if (quantity <= oldStock) {
-			MyCartEntity now = new MyCartEntity();
-			now.setUserId(userId);
-			now.setProductId(productId);
-			now.setQuantity(quantity + 1);
-			myCartRepository.save(now);
-			return quantity;
-		}else {
-			
-			return oldStock;
-		}
-	
-	}*/
-
 	//買い物かごに'+'ボタンを押下数量追加
 	public boolean updateInc(int userId, int productId) {
 		int quantity = myCartRepository.getQuantity(userId, productId);
@@ -295,6 +262,32 @@ public class MyCartService {
 
 	}
 
+	//該当ユーザの買い物かごにcheckbox=1 のすべての商品の数量取得(ストック減少)
+	public void desProStock(int userId) {
+		//チェックされた商品を取得
+		List<MyCartEntity> products = myCartRepository.getCheckedPro(userId);
+		for (MyCartEntity pro : products) {
+			MyCartEntity cart = new MyCartEntity();
+			cart.setProductId(pro.getProductId());
+			cart.setQuantity(pro.getQuantity());
+			int quantity = cart.getQuantity();
+			ProductEntity product = productRepository.findByProductId(cart.getProductId());
+			int old = product.getStock();
+			ProductEntity newPro = new ProductEntity();
+			newPro.setProductContents(product.getProductContents());
+			newPro.setProductId(product.getProductId());
+			newPro.setProductImg(product.getProductImg());
+			newPro.setProductName(product.getProductName());
+			newPro.setProductPrice(product.getProductPrice());
+			newPro.setStock(old - quantity);
+			newPro.setMaker(product.getMaker());
+			newPro.setStoreId(product.getStoreId());
+			newPro.setStatus(product.getStatus());
+			productRepository.save(newPro);
+		}
+
+	}
+
 	//チェックされた商品を削除 提交订单ボタン押す時処理
 	public void deleteCheckedPro(int userId) {
 
@@ -306,7 +299,6 @@ public class MyCartService {
 	//ユーザIDと商品IDによって、金額（TOTAL）を取得
 	public int getTotalByUserIdAndProductId(int userId, int productId) {
 		int total = productAndCartRepository.getTotalByUserIdAndProductId(userId, productId);
-
 		return total;
 
 	}

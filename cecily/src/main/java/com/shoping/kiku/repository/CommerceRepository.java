@@ -12,4 +12,7 @@ public interface CommerceRepository extends JpaRepository<CommerceEntity, Intege
 
 	
 	List<CommerceEntity> findByUserId(int userId);
+	
+	
+	CommerceEntity findByOrderId(String orderId);
 }

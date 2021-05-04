@@ -37,18 +37,17 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	var __root__ = 'https://demo.shopxo.net/';
 	var __my_url__ = 'https://demo.shopxo.net/';
 	var __my_public_url__ = 'https://demo.shopxo.net/';
 	var __public__ = 'https://demo.shopxo.net/';
 	var __default_theme__ = 'default';
-	var __modal_login_url__ = 'https://demo.shopxo.net/login-modal.html';
 	var __attachment_host__ = 'https://demo.shopxo.net';
 	var __seo_url_suffix__ = 'html';
 	var __user_id__ = 71192;
 	var __currency_symbol__ = '￥';
-</script>
+</script> -->
 
 <!-- 公共header内钩子 -->
 <style type="text/css">
@@ -215,7 +214,8 @@
 								<div class="am-margin-top-sm">共[[${my.productQuantity}]]件
 									合计:￥[[${my.productPrice}]]</div>
 							</td>
-							<td class="am-nowrap-initial" th:text="${my.orderStatus==0?'等待支付':'订单已取消'}"></td>
+							<td class="am-nowrap-initial"
+								th:text="${my.orderStatus==0?'等待支付':'已支付'}"></td>
 							<td class="am-nowrap-initial">
 								<p>待支付</p>
 								<p class="am-text-warning">线下支付</p>
@@ -261,53 +261,52 @@
 								</button> <!-- Button trigger modal -->
 								<button type="button"
 									class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay"
-									data-bs-toggle="modal" data-bs-target="#pay">支付</button></td>
-						</tr>
+									data-bs-toggle="modal"
+									th:data-bs-target="'#pay'+${my.productId}">支付</button>
+								</td>
+								<div class="modal fade" th:id="'pay'+${my.productId}"
+									data-bs-backdrop="pay" data-bs-keyboard="false" tabindex="-1"
+									aria-labelledby="payLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="payLabel">请选择支付</h5>
+												<button type="button" class="btn-close"
+													data-bs-dismiss="modal" aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
 
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="radio"
+														name="inlineRadioOptions" id="inlineRadio1" value="1">
+													<label class="form-check-label" for="inlineRadio1">支付宝</label>
+												</div>
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="radio"
+														name="inlineRadioOptions" id="inlineRadio2" value="2">
+													<label class="form-check-label" for="inlineRadio2">信用卡支付</label>
+												</div>
+												<div class="form-check form-check-inline">
+													<input class="form-check-input" type="radio"
+														name="inlineRadioOptions" id="inlineRadio3" value="3">
+													<label class="form-check-label" for="inlineRadio3">货到付款
+													</label>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">キャンセル</button>
+													<button type="button" id="${my.productId}" class="btn btn-danger" th:onclick="|getPay(${my.productId})|">確定</button>
+												</div>
+
+											</div>
+										</div>
+									</div>
+								</div>
+						</tr>
 					</tbody>
 				</table>
 			</div>
 			<!-- Modal -->
-			<div class="modal fade" id="pay" data-bs-backdrop="pay"
-				data-bs-keyboard="false" tabindex="-1" aria-labelledby="payLabel"
-				aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="payLabel">请选择支付</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal"
-								aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-							<form th:action="@{/#}" method="post">
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio"
-										name="inlineRadioOptions" id="inlineRadio1" value="１">
-									<label class="form-check-label" for="inlineRadio1">支付宝</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio"
-										name="inlineRadioOptions" id="inlineRadio2" value="2">
-									<label class="form-check-label" for="inlineRadio2">货到付款</label>
-								</div>
-								<div class="form-check form-check-inline">
-									<input class="form-check-input" type="radio"
-										name="inlineRadioOptions" id="inlineRadio3" value="3">
-									<label class="form-check-label" for="inlineRadio3">信用卡支付
-									</label>
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-secondary"
-										data-bs-dismiss="modal">キャンセル</button>
-									<input type="submit" id="kakutei" class="btn btn-danger"
-										value="確定">
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
-
 			<!-- 订单确认页面底部钩子-结束 -->
 		</div>
 	</div>
@@ -315,10 +314,71 @@
 	<!-- 订单确认页面底部钩子-开始 -->
 
 
-	
+
 
 
 	<!-- footer start -->
+
+	<!-- Ajax -->
+	<script src="../ajax/jquery.min.js"></script>
+
+	<script>
+		function getPay(productId) {
+
+			var selValue = $("input[type='radio']:checked").val();
+
+			var method = {
+				
+				method : selValue
+			};
+
+		
+			$.ajax({
+				url : '/getPaymethod',
+				type : 'POST',
+				timeout : 60000,
+				data : method,
+				async : false,
+				dataType : "json"
+			})
+			//Ajax通信成功の場合
+			.done(function(data) {
+
+				alert(data);
+				//window.location.href = "/aripay/{id}(id="+productId+")"
+				if (data == 1) {
+					window.location.href = "/aripay/"+productId+""
+				} else if (data == 2) {
+					window.location.href = "/creditpay"+productId+""
+				} else {
+					window.location.href = 'daofu';
+				}
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function() {
+				alert("---");
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+
+			});
+
+		}
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	<!-- JavaScript Bundle with Popper -->
 	<script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>

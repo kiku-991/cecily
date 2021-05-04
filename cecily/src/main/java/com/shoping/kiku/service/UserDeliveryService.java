@@ -105,15 +105,18 @@ public class UserDeliveryService {
 	public UserDeliveryDto getDefaultadd(int userId) {
 		UserDeliveryEntity users = userDeliveryRepository.getDefaultAddByUserId(userId);
 		UserDeliveryDto userDefaultAdd = new UserDeliveryDto();
-		userDefaultAdd.setUserId(users.getUserId());
-		userDefaultAdd.setDeliveryId(users.getId());
-		userDefaultAdd.setDpostcode(users.getDpostcode());
-		userDefaultAdd.setDtodoufuken(users.getDtodoufuken());
-		userDefaultAdd.setDshikucyouson(users.getDshikucyouson());
-		userDefaultAdd.setDcyoumebanchi(users.getDcyoumebanchi());
-		userDefaultAdd.setRenrakuname(users.getRenrakuname());
-		userDefaultAdd.setRenrakuphone(users.getRenrakuphone());
-		userDefaultAdd.setDefaultadd(users.getDefaultadd());
+		if (users != null) {
+			userDefaultAdd.setUserId(users.getUserId());
+			userDefaultAdd.setDeliveryId(users.getId());
+			userDefaultAdd.setDpostcode(users.getDpostcode());
+			userDefaultAdd.setDtodoufuken(users.getDtodoufuken());
+			userDefaultAdd.setDshikucyouson(users.getDshikucyouson());
+			userDefaultAdd.setDcyoumebanchi(users.getDcyoumebanchi());
+			userDefaultAdd.setRenrakuname(users.getRenrakuname());
+			userDefaultAdd.setRenrakuphone(users.getRenrakuphone());
+			userDefaultAdd.setDefaultadd(users.getDefaultadd());
+		}
+
 		return userDefaultAdd;
 
 	}

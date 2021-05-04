@@ -152,7 +152,7 @@
 						<button type="button"
 							class="am-close am-fr mobile-address-close-submit">×</button>
 					</h3>
-					<div class="table-no" th:if="${userDelivery==null}">
+					<div class="table-no" th:if="${useradd.deliveryId eq null}">
 						<i class="am-icon-warning"></i> <span>没有地址</span>
 						<!-- Button trigger modal -->
 						<button
@@ -173,8 +173,7 @@
 								</div>
 								<div class="modal-body">
 									<form class="am-form form-validation" method="post"
-										th:action="@{/buy/userDelivery/add}">
-
+										th:action="@{/buy/useradd/add}">
 										<div class="am-form-group">
 											<label>連絡名前:<span
 												class="am-form-group-label-tips-must">必填</span></label> <input
@@ -189,7 +188,6 @@
 												maxlength="30" data-validation-message="电话格式有误"
 												class="am-radius">
 										</div>
-
 										<div class="am-form-group region-linkage"
 											data-url="https://demo.shopxo.net/index/region/index.html">
 											<label>〒郵便番号</label> <input type="text" name="dpostcode"
@@ -201,6 +199,20 @@
 												for="address" class="text-info">以降の住所(届け住所): </label><input
 												type="text" name="dcyoumebanchi" class="am-radius">
 										</div>
+										
+										<div class="mb-3">
+												<label for="defaultadd" class="text-info">デフォルト住所:</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio"
+													name="defaultadd" id="girlRadio" value="1"> <label
+													class="form-check-label" for="girlRadio">はい</label>
+											</div>
+											<div class="form-check form-check-inline">
+												<input class="form-check-input" type="radio"
+													name="defaultadd" id="boyRadio" value="0"> <label
+													class="form-check-label" for="boyRadio">いいえ</label>
+											</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-secondary"
 												data-bs-dismiss="modal">キャンセル</button>
@@ -211,23 +223,20 @@
 							</div>
 						</div>
 					</div>
-
-
 				</div>
-				<ul class="address-list" th:if="${userDelivery!=null}"
-					>
+				<ul class="address-list" th:if="${useradd.deliveryId!=null}">
 					<li class="address-default" id="data-list-2737" data-value="2737">
 						<div class="address-left">
 							<div class="user-base">
 								<span class="am-badge am-badge-success-plain am-radius">默认</span>
-								<span class="address-detail"> <span class="user">[[${userDelivery.renrakuname}]]</span>
-									<span class="phone">[[${userDelivery.renrakuphone}]]</span>
+								<span class="address-detail"> <span class="user">[[${useradd.renrakuname}]]</span>
+									<span class="phone">[[${useradd.renrakuphone}]]</span>
 								</span>
 							</div>
 							<div class="region">
-								<span class="province">[[${userDelivery.dtodoufuken}]]</span> <span
-									class="city">[[${userDelivery.dshikucyouson}]]</span> <span
-									class="dist">[[${userDelivery.dcyoumebanchi}]]</span>
+								<span class="province">[[${useradd.dtodoufuken}]]</span> <span
+									class="city">[[${useradd.dshikucyouson}]]</span> <span
+									class="dist">[[${useradd.dcyoumebanchi}]]</span>
 							</div>
 						</div>
 						<div class="address-right">
@@ -235,12 +244,13 @@
 						</div>
 						<div class="address-operation-btn">
 							<button type="button" class="btn btn-success btn-sm"
-								data-bs-toggle="modal" th:data-bs-target="'#Modal'+${userDelivery.deliveryId}">編集</button>
+								data-bs-toggle="modal"
+								th:data-bs-target="'#Modal'+${useradd.deliveryId}">編集</button>
 							<!-- <span class="cut">|</span> <a type="button"
-								class="btn btn-warning btn-sm" th:href="@{/buy/userDelivery/delete}">删除</a> -->
+								class="btn btn-warning btn-sm" th:href="@{/buy/useradd/delete}">删除</a> -->
 						</div> <!-- 編集 -->
-						<div class="modal fade" th:id="'Modal'+${userDelivery.deliveryId}" tabindex="-1"
-							aria-labelledby="ModalLabel" aria-hidden="true">
+						<div class="modal fade" th:id="'Modal'+${useradd.deliveryId}"
+							tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
 							<div class="modal-dialog">
 								<div class="modal-content">
 									<div class="modal-header">
@@ -250,37 +260,38 @@
 									</div>
 									<div class="modal-body">
 										<form class="am-form form-validation" method="post"
-											th:action="@{/buy/userDelivery/edit/{id}(id=${userDelivery.deliveryId})}">
+											th:action="@{/buy/useradd/edit/{id}(id=${useradd.deliveryId})}">
 
 											<div class="am-form-group">
 												<label>連絡名前:<span
 													class="am-form-group-label-tips-must">必填</span></label> <input
 													type="text" name="renrakuname" placeholder="連絡名前"
-													maxlength="16" th:value="${userDelivery.renrakuname}"
+													maxlength="16" th:value="${useradd.renrakuname}"
 													class="am-radius">
 											</div>
 											<div class="am-form-group">
 												<label>連絡電話番号:<span
 													class="am-form-group-label-tips-must">必填</span></label> <input
 													type="text" name="renrakuphone" placeholder="連絡電話番号"
-													maxlength="30" th:value="${userDelivery.renrakuphone}"
+													maxlength="30" th:value="${useradd.renrakuphone}"
 													class="am-radius">
 											</div>
 
 											<div class="am-form-group region-linkage"
 												data-url="https://demo.shopxo.net/index/region/index.html">
 												<label>〒郵便番号</label> <input type="text" name="dpostcode"
-													th:value="${userDelivery.dpostcode}"
+													th:value="${useradd.dpostcode}"
 													onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
 													class="am-radius"><br> <label>都道府県(届け住所):</label>
 												<input type="text" name="dtodoufuken"
-													th:value="${userDelivery.dtodoufuken}" class="am-radius"><br>
+													th:value="${useradd.dtodoufuken}" class="am-radius"><br>
 												<label>市区町村(届け住所): </label><input type="text"
-													name="dshikucyouson" th:value="${userDelivery.dshikucyouson}"
+													name="dshikucyouson" th:value="${useradd.dshikucyouson}"
 													class="am-radius"><br> <label>以降の住所(届け住所):
 												</label><input type="text" name="dcyoumebanchi"
-													th:value="${userDelivery.dcyoumebanchi}" class="am-radius">
+													th:value="${useradd.dcyoumebanchi}" class="am-radius">
 											</div>
+											
 											<div class="modal-footer">
 												<button type="button" class="btn btn-secondary"
 													data-bs-dismiss="modal">キャンセル</button>
@@ -296,10 +307,6 @@
 			</div>
 
 
-
-
-
-
 			<div class="buy-items">
 				<h3>订单信息</h3>
 				<div class="goods-group-list">
@@ -310,7 +317,7 @@
 								class="iconfont icon-dianpu"></i> <a
 								href="https://demo.shopxo.net/shop-index-detail-1.html"
 								target="_blank" class="text-deco-none"> <strong
-									class="warehouse-name">ShopXO多商户店铺</strong>
+									class="warehouse-name">KIKUSHOP</strong>
 							</a>
 							</span>
 
@@ -321,10 +328,10 @@
 							<table class="am-table">
 								<thead>
 									<tr>
-										<th>商品信息</th>
-										<th class="am-hide-sm-only">单价</th>
+										<th>商品情報</th>
+										<th class="am-hide-sm-only">単価</th>
 										<th class="am-hide-sm-only">数量</th>
-										<th class="am-hide-sm-only">金额</th>
+										<th class="am-hide-sm-only">金額</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -333,12 +340,10 @@
 										<td class="base">
 											<!-- 分组商品详情基础顶部钩子-开始 --> <!-- 分组商品详情基础顶部钩子-结束 -->
 											<div class="goods-detail">
-												<a href="https://demo.shopxo.net/goods-4.html"
-													target="_blank"> <img th:src="${pro.productImg}">
-												</a>
+												<img th:src="${pro.productImg}">
+												
 												<div class="goods-base">
-													<a href="https://demo.shopxo.net/goods-4.html"
-														target="_blank" class="goods-title">[[${pro.productName}]]</a>
+													[[${pro.productName}]]
 												</div>
 											</div>
 											<div class="wap-base am-show-sm-only">
@@ -381,7 +386,7 @@
 			<!-- 订单确认页面分组商品底部钩子-开始 -->
 			<!-- 订单确认页面分组商品底部钩子-结束 -->
 
-			<!-- 支付方式 -->
+		<!-- 	
 			<div class="buy-items business-item payment" data-field="payment_id">
 				<h3>选择支付</h3>
 				<form th:action="@{/order/add}" method="post">
@@ -396,7 +401,7 @@
 						width="30" height="30">
 				</form>
 			</div>
-
+ -->
 
 
 			<!-- 基础信息 -->
@@ -410,16 +415,16 @@
 						</div>
 
 
-						<div class="pay-address" th:if="${userDelivery}!=null">
+						<div class="pay-address" th:if="${useradd}!=null">
 							<div class="buy-footer-address">
 								<span class="buy-line-title">联系人 :</span> <span class="buy-user">
-									[[${userDelivery.renrakuname}]] </span> <span class="buy-phone">
-									[[${userDelivery.renrakuphone}]] </span>
+									[[${useradd.renrakuname}]] </span> <span class="buy-phone">
+									[[${useradd.renrakuphone}]] </span>
 							</div>
 							<div class="buy-footer-address">
 								<span class="buy-line-title buy-line-title-type">地址 :</span> <span
-									class="buy-address-detail"> [[${userDelivery.dtodoufuken}]]
-									[[${userDelivery.dshikucyouson}]] [[${userDelivery.dcyoumebanchi}]] </span>
+									class="buy-address-detail"> [[${useradd.dtodoufuken}]]
+									[[${useradd.dshikucyouson}]] [[${useradd.dcyoumebanchi}]] </span>
 							</div>
 						</div>
 					</div>
