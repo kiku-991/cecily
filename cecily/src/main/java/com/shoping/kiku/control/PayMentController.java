@@ -22,4 +22,7 @@ public class PayMentController {
 		payMentService.crePayForm(ss.getUserId(), productId);
 		return "redirect:/center/myorder";
 	}
+	
+	
+	
 }

@@ -28,5 +28,9 @@ public class OrderProInfoEntity {
 	private Integer orderStatus;
 	private Integer purchasingPrice;
 	private Timestamp modifyTime;
+	private Integer payTotal;
+	private Integer payQuantity;
+	private Integer payMethod;
+	private Timestamp payTime;
 
 }

@@ -34,6 +34,7 @@ public class PayMentService {
 	@Autowired
 	ComAndOrderRepository comAndOrderRepository;
 
+
 	//AriPay
 	public void crePayForm(int userId, int productId) {
 
@@ -78,16 +79,8 @@ public class PayMentService {
 		myord.setPurchasingPrice(total);
 		myOrderRepository.save(myord);
 	}
-	
-	
-	//get payInfo
-	
-	public void getPayInfo(int userId) {
-		
-		
-		
-		
-	}
+
+
 	
 
 }

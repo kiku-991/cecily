@@ -160,7 +160,6 @@
 							<th class="">支付金额(元)</th>
 							<th>单价(元)</th>
 							<th class="am-grid-sm">地址信息</th>
-							<th class="" style="min-width: 125px;">取货信息</th>
 							<th>购买总数</th>
 							<th class="">支付方式</th>
 							<th class="">快递公司</th>
@@ -170,7 +169,6 @@
 							<th class="">发货时间</th>
 							<th class="">收货时间</th>
 							<th class="">取消时间</th>
-							<th class="">关闭时间</th>
 							<th class="">创建时间</th>
 							<th class="">更新时间</th>
 							<th
@@ -216,12 +214,12 @@
 							</td>
 							<td class="am-nowrap-initial"
 								th:text="${my.orderStatus==0?'等待支付':'已支付'}"></td>
-							<td class="am-nowrap-initial">
-								<p>待支付</p>
-								<p class="am-text-warning">线下支付</p>
+							<td class="am-nowrap-initial" th:text="${my.paymentId eq null?'等待支付':'已支付'}">
+								
+								<p class="am-text-warning" th:text="${my.payMethod ==1 ?'支付宝支付':'sonota'}"></p>
 							</td>
 							<td class="am-nowrap-initial" th:text="${my.productPrice}"></td>
-							<td class="am-nowrap-initial">支付金额</td>
+							<td class="am-nowrap-initial" th:text="${my.payTotal}"></td>
 							<td class="am-nowrap-initial" th:text="${my.productPrice}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
 								<div>
@@ -234,19 +232,17 @@
 									<div class="am-margin-top-xs"></div>
 								</div>
 							</td>
-							<td class="am-nowrap-initial" style="min-width: 125px;">取货</td>
-							<td class="am-nowrap-initial">my.purchasingQuantity</td>
-							<td class="am-nowrap-initial">支付方式</td>
+							<td class="am-nowrap-initial" th:text="${my.payQuantity}"></td>
+							<td class="am-nowrap-initial" th:text="${my.payMethod}==1?'支付宝支付':(my.payMethod==2?'クレジットカード支払い':'着払い')"></td>
 							<td class="am-nowrap-initial">快递公司</td>
 							<td class="am-nowrap-initial">快递单号</td>
 							<td class="am-nowrap-initial">确认时间</td>
-							<td class="am-nowrap-initial">支付时间</td>
+							<td class="am-nowrap-initial" th:text="${my.payTime}"></td>
 							<td class="am-nowrap-initial">发货时间</td>
 							<td class="am-nowrap-initialam-grid-sm ">完成时间</td>
 							<td class="am-nowrap-initial">取消时间</td>
-							<td class="am-nowrap-initial">关闭时间</td>
 							<td class="am-nowrap-initial" th:text="${my.createdate}"></td>
-							<td class="am-nowrap-initial">更新时间</td>
+							<td class="am-nowrap-initial" th:text="${my.modifyTime}"></td>
 							<td
 								class="am-nowrap-initial am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
 								style="width: 119px; right: 0.00650024px;" data-width="119"

@@ -26,10 +26,13 @@ public class MyOrderService {
 
 	@Autowired
 	MyOrderRepositoty orderRepositoty;
+
 	@Autowired
 	MyOrderItemRepository orderItemRepositoty;
+
 	@Autowired
 	CommerceRepository commerceRepository;
+
 	@Autowired
 	OrderProInfoRepository orderProInfoRepository;
 
@@ -97,7 +100,7 @@ public class MyOrderService {
 			order.setProductPrice(ord.getProductPrice());
 			order.setProductName(ord.getProductName());
 			order.setProductQuantity(ord.getProductQuantity());
-			order.setCreatedate(new Timestamp(System.currentTimeMillis()));
+			order.setCreatedate(ord.getCreatedate());
 			order.setProductImg(ord.getProductImg());
 			order.setProductContents(ord.getProductContents());
 			order.setMaker(ord.getMaker());
@@ -107,15 +110,18 @@ public class MyOrderService {
 			order.setPaymentId(ord.getPaymentId());
 			order.setOrderStatus(ord.getOrderStatus());
 			order.setPurchasingPrice(ord.getPurchasingPrice());
-			order.setModifyTime(null);
-
+			order.setModifyTime(ord.getModifyTime());
+			order.setPayMethod(ord.getPayMethod());
+			order.setPayQuantity(ord.getPayQuantity());
+			order.setPayTotal(ord.getPayTotal());
+			order.setPayTime(ord.getPayTime());
 			orderList.add(order);
 		}
 		return orderList;
 
 	}
 
-	//支払い金額
+	//支払い画面の支払い金額(まだ支払していない状態)
 
 	public int getPayPrice(int userId, int ProductId) {
 		int price = payPriceRepository.getpriceByUserIdAndProId(userId, ProductId);

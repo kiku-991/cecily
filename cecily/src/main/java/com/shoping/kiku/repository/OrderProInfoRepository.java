@@ -31,7 +31,11 @@ public interface OrderProInfoRepository extends JpaRepository<OrderProInfoEntity
 			+ "    , d.store_name\r\n"
 			+ "    , e.order_status\r\n"
 			+ "    , e.purchasing_price\r\n"
-			+ "    , e.modify_time \r\n"
+			+ "    , e.modify_time\r\n"
+			+ "    , f.pay_total\r\n"
+			+ "    , f.pay_quantity\r\n"
+			+ "    , f.pay_method\r\n"
+			+ "    , f.pay_time \r\n"
 			+ "from\r\n"
 			+ "    commerce a \r\n"
 			+ "    left join order_item b \r\n"
@@ -42,6 +46,8 @@ public interface OrderProInfoRepository extends JpaRepository<OrderProInfoEntity
 			+ "        on c.store_id = d.store_id \r\n"
 			+ "    left join myorder e \r\n"
 			+ "        on b.order_id = e.order_id \r\n"
+			+ "    left join payment f \r\n"
+			+ "        on a.payment_id = f.payment_id \r\n"
 			+ "where\r\n"
 			+ "    a.user_id = :userId", nativeQuery = true)
 	List<OrderProInfoEntity> getMyOrderInfo(int userId);
