@@ -10,28 +10,32 @@ import com.shoping.kiku.entity.PayPriceEntity;
 public interface PayPriceRepository extends JpaRepository<PayPriceEntity,Integer>{
 
 	@Query(value="select\r\n"
-			+ "    b.product_price \r\n"
+			+ "    sum(a.product_price) as alltotal \r\n"
 			+ "from\r\n"
-			+ "    commerce a \r\n"
-			+ "    left join order_item b \r\n"
+			+ "    order_item a \r\n"
+			+ "    left join commerce b \r\n"
 			+ "        on a.order_id = b.order_id \r\n"
+			+ "    left join userinfo c \r\n"
+			+ "        on b.user_id = c.id \r\n"
 			+ "where\r\n"
-			+ "    a.user_id = :userId \r\n"
-			+ "    and b.product_id = :productId",nativeQuery=true)
+			+ "    b.user_id = :userId \r\n"
+			+ "    and a.order_id = :orderId",nativeQuery=true)
 	
-	int getpriceByUserIdAndProId (int userId,int productId);
+	int getpriceByUserIdAndOrdId (int userId,String orderId);
 	
 	@Query(value="select\r\n"
-			+ "    b.product_quantity \r\n"
+			+ "    sum(a.product_quantity) as allquantity \r\n"
 			+ "from\r\n"
-			+ "    commerce a \r\n"
-			+ "    left join order_item b \r\n"
+			+ "    order_item a \r\n"
+			+ "    left join commerce b \r\n"
 			+ "        on a.order_id = b.order_id \r\n"
+			+ "    left join userinfo c \r\n"
+			+ "        on b.user_id = c.id \r\n"
 			+ "where\r\n"
-			+ "    a.user_id = :userId \r\n"
-			+ "    and b.product_id = :productId",nativeQuery=true)
+			+ "    b.user_id = :userId \r\n"
+			+ "    and a.order_id = :orderId",nativeQuery=true)
 	
-	int getquantityByUserIdAndProId(int userId,int productId);
+	int getquantityByUserIdAndOrdId(int userId,String orderId);
 	
 	
 

@@ -158,15 +158,17 @@
 							<th class="">支付状态</th>
 							<th>総額</th>
 							<th class="">支払い金額</th>
+							<th>単価</th>
 							<th class="am-grid-sm">連絡情報</th>
 							<th>購入数量</th>
-							<th class="">支付方式</th>
+							<th class="">支払方法</th>
 							<th class="">快递公司</th>
 							<th class="">快递单号</th>
 							<th class="">确认時間</th>
-							<th class="">支付時間</th>
+							<th class="">支払時間</th>
 							<th class="">发货時間</th>
 							<th class="">收货時間</th>
+							<th class="">取消時間</th>
 							<th class="">创建時間</th>
 							<th class="">更新時間</th>
 							<th
@@ -177,47 +179,48 @@
 
 
 					</thead>
-					<tbody th:each="my : ${orderInfoList}">
-						<tr id="data-list-4495" th:each="oid : ${my.orderIdList}" >
+					<tbody>
+						<tr id="data-list-4495" th:each="my : ${myoder}" >
 							<td class="am-nowrap-initialam-text-center "
 								style="min-width: 80px;"></td>
 							<td class="am-nowrap-initialam-grid-xl ">
 								<p class="am-margin-bottom-sm">
-									<strong class="am-icon-bookmark-o"> [[${oid.orderId}]]</strong>
+									<strong class="am-icon-bookmark-o"> [[${my.orderId}]]</strong>
 									<span class="warehouse-item-container am-fr"> <i
-										class="am-icon-cube"></i> <strong class="warehouse-name">KIKUSHOP</strong>
+										class="am-icon-cube"></i> <strong class="warehouse-name">[[${my.storeName}]]</strong>
 									</span>
 								</p>
 								<hr data-am-widget="divider"
 									class="am-divider am-divider-dashed am-margin-top-0 am-no-layout">
-								<div class="am-nbfc" th:each="pro : ${my.productList}">
+								<div class="am-nbfc">
 									<a href="https://demo.shopxo.net/goods-9.html" target="_blank">
-										<img th:src="${pro.productImg}"
+										<img th:src="${my.productImg}"
 										class="am-img-thumbnail am-radius am-margin-right-xs am-fl"
 										width="60" height="60">
 									</a>
 									<div class="am-nbfc">
-										<a href="/#" target="_blank" class="am-nowrap-initial">[[${pro.productName}]]</a>
+										<a href="/#" target="_blank" class="am-nowrap-initial">[[${my.productName}]]</a>
 									</div>
-									<div class="am-nbfc am-margin-top-xs" >
-									<span class="original-price am-margin-right-xs"></span> <span>￥[[${pro.productPrice}]]</span>
+								</div>
+								<div class="am-nbfc am-margin-top-xs">
+									<span class="original-price am-margin-right-xs"></span> <span>￥[[${my.productPrice}]]</span>
 
 									<div class="am-fr"></div>
 								</div>
-								</div>
-								
 								<hr data-am-widget="divider"
 									class="am-divider am-divider-dashed am-no-layout">
-								<div class="am-margin-top-sm">共[[${oid.qqt}]]件
-									合计:￥[[${oid.total}]]</div>
+								<div class="am-margin-top-sm">共[[${my.productQuantity}]]件
+									合计:￥[[${my.productPrice}]]</div>
 							</td>
-							<td class="am-nowrap-initial" th:text="${oid.orderStatus==0?'等待支付':'已支付'}"
-								></td>
-							<td class="am-nowrap-initial" th:text="${oid.paymentId != null?'支払完了':'支払待ち'}">
+							<td class="am-nowrap-initial"
+								th:text="${my.orderStatus==0?'等待支付':'已支付'}"></td>
+							<td class="am-nowrap-initial" th:text="${my.paymentId eq null?'等待支付':'已支付'}">
 								
+								<p class="am-text-warning" th:text="${my.payMethod ==1 ?'支付宝支付':'sonota'}"></p>
 							</td>
-							<td class="am-nowrap-initial" th:text="${oid.total}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
+							<td class="am-nowrap-initial" th:text="${my.productPrice}"></td>
+							<td class="am-nowrap-initial" th:text="${my.payTotal}"></td>
+							<td class="am-nowrap-initial" th:text="${my.productPrice}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
 								<div>
 									<span class="am-badge am-badge-secondary-plain am-radius">[[${addresss.renrakuname}]]</span>
@@ -229,16 +232,18 @@
 									<div class="am-margin-top-xs"></div>
 								</div>
 							</td>
-							<td class="am-nowrap-initial" th:text="${oid.qqt}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.payMethod==1?'AriPay':'sonota'}">支付方法</td>
-							<td class="am-nowrap-initial" th:text="${oid.courierCompany}">快递公司</td>
-							<td class="am-nowrap-initial" th:text="${oid.trackingNumber}">快递单号</td>
-							<td class="am-nowrap-initial" th:text="${oid.payTotal}">确认时间</td>
-							<td class="am-nowrap-initial" th:text="${oid.payTime}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.deliveryTime}">发货时间</td>
-							<td class="am-nowrap-initialam-grid-sm" th:text="${oid.receiptTime}">收货时间</td>
-							<td class="am-nowrap-initial" th:text="${oid.createTime}">创建时间</td>
-							<td class="am-nowrap-initial" th:text="${oid.modifyTime}">修正时间</td>
+							<td class="am-nowrap-initial" th:text="${my.payQuantity}"></td>
+							<td class="am-nowrap-initial" th:if="${my.payMethod!=null}" th:text="${my.payMethod==1?'支付宝支付':(my.payMethod==2?'クレジットカード支払い':'着払い')}"></td>
+							<td class="am-nowrap-initial" th:if="${my.payMethod==null}"></td>
+							<td class="am-nowrap-initial">快递公司</td>
+							<td class="am-nowrap-initial">快递单号</td>
+							<td class="am-nowrap-initial">确认時間</td>
+							<td class="am-nowrap-initial" th:text="${my.payTime}"></td>
+							<td class="am-nowrap-initial">发货時間</td>
+							<td class="am-nowrap-initialam-grid-sm ">完成時間</td>
+							<td class="am-nowrap-initial">取消時間</td>
+							<td class="am-nowrap-initial" th:text="${my.createdate}"></td>
+							<td class="am-nowrap-initial" th:text="${my.modifyTime}"></td>
 							<td
 								class="am-nowrap-initial am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
 								style="width: 119px; right: 0.00650024px;" data-width="119"
@@ -250,50 +255,13 @@
 									class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel"
 									data-url="/#" data-id="4495" data-view="reload">
 									<span>取消</span>
-								</button> <!-- Button trigger modal orderID -->
+								</button> <!-- Button trigger modal -->
 								<button type="button"
 									class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay"
-									data-bs-toggle="modal" th:if="${oid.paymentId==null}"
-									th:data-bs-target="'#pay'+${oid.orderId}">支付</button>
+									data-bs-toggle="modal"
+									th:data-bs-target="'#pay'+${my.productId}">商品発送</button>
 								</td>
-								<div class="modal fade" th:id="'pay'+${oid.orderId}"
-									data-bs-backdrop="pay" data-bs-keyboard="false" tabindex="-1"
-									aria-labelledby="payLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="payLabel">请选择支付</h5>
-												<button type="button" class="btn-close"
-													data-bs-dismiss="modal" aria-label="Close"></button>
-											</div>
-											<div class="modal-body">
-
-												<div class="form-check form-check-inline">
-													<input class="form-check-input" type="radio"
-														name="inlineRadioOptions" id="inlineRadio1" value="1">
-													<label class="form-check-label" for="inlineRadio1">支付宝</label>
-												</div>
-												<div class="form-check form-check-inline">
-													<input class="form-check-input" type="radio"
-														name="inlineRadioOptions" id="inlineRadio2" value="2">
-													<label class="form-check-label" for="inlineRadio2">信用卡支付</label>
-												</div>
-												<div class="form-check form-check-inline">
-													<input class="form-check-input" type="radio"
-														name="inlineRadioOptions" id="inlineRadio3" value="3">
-													<label class="form-check-label" for="inlineRadio3">货到付款
-													</label>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary"
-														data-bs-dismiss="modal">キャンセル</button>
-													<button type="button" id ="[[${oid.orderId}]]"class="btn btn-danger" th:onclick="getPay([[${oid.orderId}]])">確定</button>
-												</div>
-
-											</div>
-										</div>
-									</div>
-								</div>
+								
 						</tr>
 					</tbody>
 				</table>
@@ -310,54 +278,6 @@
 
 
 	<!-- footer start -->
-
-	<!-- Ajax -->
-	<script src="../ajax/jquery.min.js"></script>
-
-	<script>
-		function getPay(orderId) {
-
-			var selValue = $("input[type='radio']:checked").val();
-
-			var method = {
-				
-				method : selValue
-			};
-
-		
-			$.ajax({
-				url : '/getPaymethod',
-				type : 'POST',
-				timeout : 60000,
-				data : method,
-				async : false,
-				dataType : "json"
-			})
-			//Ajax通信成功の場合
-			.done(function(data) {
-
-				alert(data);
-				//window.location.href = "/aripay/{id}(id="+productId+")"
-				if (data == 1) {
-					window.location.href = "/aripay/"+orderId+""
-				} else if (data == 2) {
-					window.location.href = "/creditpay/"+orderId+""
-				} else {
-					window.location.href = 'daofu';
-				}
-
-			})
-			//Ajax通信失敗の場合
-			.fail(function() {
-				alert("---");
-			})
-			//Ajax通信の成功・失敗に関わらず最後に処理
-			.always(function() {
-
-			});
-
-		}
-	</script>
 
 
 

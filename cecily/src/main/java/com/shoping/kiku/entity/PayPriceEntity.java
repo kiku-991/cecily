@@ -11,8 +11,7 @@ public class PayPriceEntity {
 	@Id
 	private String  orderId;
 	private Integer userId;
-	private Integer productPrice;
-	private Integer productId;
-	private Integer productQuantity;
+	private Integer alltotal;
+	private Integer allquantity;
 //支払い画面の金額用
 }

@@ -49,11 +49,7 @@
 				th:class="${activeUrl=='/center/favorite' ? 'nav-link active' : 'nav-link'}">
 					<span data-feather="bar-chart-2"></span> お気に入り
 			</a></li>
- 			<li class="nav-item" th:if="${session?.userLogin?.role} eq 'user'"><a
-				class="nav-link" th:href="@{/center/moushikomi}"
-				th:class="${activeUrl=='/center/moushikomi' ? 'nav-link active' : 'nav-link'}">
-					<span data-feather="shopping-cart"></span> 我的消息
-			</a></li> 
+ 			
 			<li class="nav-item" th:if="${session?.userLogin?.role} eq 'user'"><a
 				class="nav-link" th:href="@{/center/myorder}" th:class="${activeUrl=='/center/myorder' ? 'nav-link active' : 'nav-link'}"> <span
 					data-feather="layers"></span> 我的注文

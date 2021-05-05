@@ -1,6 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <!-- saved from url=(0052)https://member.id.rakuten.co.jp/rms/nid/mpaymentfwd2 -->
-<html><head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <title>クレジットカード支払い</title>
@@ -44,10 +45,10 @@
 
 
 <div id="contents">
-<form name="PaymentForm" method="post" action="https://member.id.rakuten.co.jp/rms/nid/mpayment1" >
+<form name="PaymentForm" method="post" th:action="@{/creditpay/pay/{id}(id=${productId})}" >
 <h2 class="path">クレジットカード支払い</h2>
 
-<p>支払い金額<input type="text" value="productPrice"></p>
+<p>支払い金額<input type="text" th:value="${price}" readOnly></p>
 <!-- navi -->
 
 <p>以下の項目を入力し、「<em class="em">支払い</em>」ボタンを押してください。（ご家族など、本人以外の情報はご登録いただけません。）</p>
@@ -191,7 +192,7 @@
 
 <p class="submit">
 
-<input type="submit" name="execMethod" value="支払い" onclick="">
+<input type="submit" name="execMethod" value="支払い" >
 
 
 </p>

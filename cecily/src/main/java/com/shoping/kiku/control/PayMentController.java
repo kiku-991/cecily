@@ -16,13 +16,22 @@ public class PayMentController {
 	@Autowired
 	PayMentService payMentService;
 	
+	
+	//AriPay 
 	@RequestMapping("/aripay/pay/{id}")
-	public String ariPay(@PathVariable ("id")int productId,HttpServletRequest res) {
+	public String ariPay(@PathVariable ("id")String orderId,HttpServletRequest res) {
 		Session ss = (Session) res.getSession().getAttribute("userLogin");
-		payMentService.crePayForm(ss.getUserId(), productId);
+		payMentService.creAriPayForm(ss.getUserId(), orderId);
 		return "redirect:/center/myorder";
 	}
 	
 	
 	
+	//クレジットカード支払い
+	@RequestMapping("/creditpay/pay/{id}")
+	public String CreditPay(@PathVariable ("id")String orderId,HttpServletRequest res) {
+		Session ss = (Session) res.getSession().getAttribute("userLogin");
+		payMentService.creCreditPayForm(ss.getUserId(), orderId);
+		return "redirect:/center/myorder";
+	}
 }

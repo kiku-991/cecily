@@ -12,8 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.shoping.kiku.object.FavoriteDto;
 import com.shoping.kiku.object.ProductDto;
+import com.shoping.kiku.object.StoreDto;
 import com.shoping.kiku.service.FavoriteService;
 import com.shoping.kiku.service.ProductService;
+import com.shoping.kiku.service.StoreService;
 import com.shoping.kiku.until.Session;
 
 @Controller
@@ -24,6 +26,9 @@ public class ProductController {
 
 	@Autowired
 	FavoriteService favoriteService;
+	
+	@Autowired
+	StoreService storeService;
 
 	/**
 	 * 商品新規登録
@@ -99,11 +104,16 @@ public class ProductController {
 			//登録あり 商品と気に入り情報取得
 			FavoriteDto fap =favoriteService.getProByUserIdAndProId(ss.getUserId(),id);
 			mv.addObject("product", fap);
-			
+			int storeId =fap.getStoreId();
+			StoreDto storeInfo = storeService.findByStoreId(storeId);
+			mv.addObject("store", storeInfo);
 		} else {
 			//登録なし 商品情報取得
 			ProductDto pros = productService.getProByProductId(id);
 			mv.addObject("product", pros);
+			int storeId =pros.getStoreId();
+			StoreDto storeInfo = storeService.findByStoreId(storeId);
+			mv.addObject("store", storeInfo);
 		}
 		return mv;
 	}

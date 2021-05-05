@@ -96,6 +96,7 @@ public class FavoriteService {
 		fv.setProductContents(pro.getProductContents());
 		fv.setMaker(pro.getMaker());
 		fv.setStock(pro.getStock());
+		fv.setStoreId(pro.getStoreId());
 		return fv;
 
 	}

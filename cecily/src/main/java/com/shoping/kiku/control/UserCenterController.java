@@ -17,6 +17,7 @@ import com.shoping.kiku.object.UserDeliveryDto;
 import com.shoping.kiku.object.UserInfoDto;
 import com.shoping.kiku.object.UserLoginDto;
 import com.shoping.kiku.service.FavoriteService;
+import com.shoping.kiku.service.MyOrderService;
 import com.shoping.kiku.service.ProductService;
 import com.shoping.kiku.service.StoreService;
 import com.shoping.kiku.service.UserDeliveryService;
@@ -45,6 +46,9 @@ public class UserCenterController {
 
 	@Autowired
 	FavoriteService favoriteService;
+
+	@Autowired
+	MyOrderService myOrderService;
 	/*
 	@Autowired
 	MyCartService myCartService;*/
@@ -128,14 +132,6 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//マイ注文
-	@RequestMapping("/center/mycyumon")
-	public ModelAndView myCyoumon() {
-
-		ModelAndView mv = new ModelAndView("center/myCyoumon");
-		return mv;
-	}
-
 	//出店申込
 	@RequestMapping("/center/myshop")
 	public ModelAndView moushikomi(HttpServletRequest re) {
@@ -159,36 +155,33 @@ public class UserCenterController {
 	}
 
 	//注文管理
-	@RequestMapping("/center/cyumonManager")
-	public ModelAndView cyumonManager() {
-
-		ModelAndView mv = new ModelAndView("center/cyumonManager");
-		return mv;
-	}
-
-	//商品管理(店舗)
-	//	@RequestMapping(value = "/center/productmanger")
-	//	public ModelAndView prouct() throws Exception {
-	//		//該当ユーザのすべての商品取得
-	//				List<ProductEntity> pro = productService.getPro(request);
-	//				mv.addObject("products", pro);
-	//
-	//		ModelAndView mv = new ModelAndView("center/productmanger");
-	//		List<ProductDto> pros = productService.getAllPro();
-	//		mv.addObject("products", pros);
-	//		return mv;
-	//	}
-
-	/*//店舗申込
+	/*	@RequestMapping("/center/cyumonManager")
+		public ModelAndView cyumonManager(HttpServletRequest res) {
+			Session ss = (Session) res.getSession().getAttribute("userLogin");
+			int stId = storeService.getstoreIdByUserId(ss.getUserId());
+			List<OrderMangerDto> orm = myOrderService.getOrderInfo(stId);
 	
-	@RequestMapping(value = "/center/rolechange")
-	public ModelAndView changeRole() {
-	
-		ModelAndView mv = new ModelAndView("center/rolechange");
-		mv.addObject("tenpu", MsgContents.TENNPU);
-		return mv;
-	
-	}*/
+			List<OrderInfoByUserIdDto> xx = myOrderService.getOrderInfoByStoreId(stId);
+			ModelAndView mv = new ModelAndView("center/cyumonManager");
+			
+			
+			
+			
+			mv.addObject("orderInfo", orm);
+			mv.addObject("orderxx", xx);
+			return mv;
+		}*/
+
+	/*	//注文管理(Store)
+		@RequestMapping("/center/cyumonManager")
+		public ModelAndView orderManager(HttpServletRequest res) {
+			Session ss = (Session) res.getSession().getAttribute("userLogin");
+			int stId =storeService.getstoreIdByUserId(ss.getUserId());
+			 orm = myOrderService(stId);
+			ModelAndView mv = new ModelAndView("center/ordermanager");
+			mv.addObject("orderInfo", orm);
+			return mv;
+		}*/
 
 	/**
 	 * ユーザID によって商品取得(店舗)

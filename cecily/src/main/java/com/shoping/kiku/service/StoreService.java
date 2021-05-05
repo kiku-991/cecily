@@ -165,4 +165,8 @@ public class StoreService {
 		storeRepository.save(store);
 	}
 
+	public int getstoreIdByUserId(int userId) {
+		int storeId =storeRepository.findByUserId(userId).getStoreId();
+		return storeId;
+	}
 }
