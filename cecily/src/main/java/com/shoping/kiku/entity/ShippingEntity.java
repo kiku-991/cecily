@@ -10,15 +10,14 @@ import lombok.Data;
 
 @Entity
 @Data
-@Table(name = "commerce")
-
-public class CommerceEntity {
+@Table(name = "shipping")
+public class ShippingEntity {
 
 	@Id
-	private String orderId;
-	private String paymentId;
 	private String shippingId;
-	private Integer userId;
-	private Timestamp createdate;
+	private String courierCompany;
+	private String trackingNumber;
+	private Timestamp deliveryTime;
+	private Timestamp receiptTime;
 
 }

@@ -23,7 +23,7 @@ public class OrderProInfoEntity {
 	@Column(nullable = true)
 	private String paymentId;
 	@Column(nullable = true)
-	private Integer shippingId;
+	private String shippingId;
 	@Id
 	private Integer productId;
 	private Integer productPrice;

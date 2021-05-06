@@ -1,31 +1,34 @@
 package com.shoping.kiku.object;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class OrderInfoByUserIdDto {
+public class OrderIdGroupDto {
+
 	private String orderId;
 	private Integer orderStatus;
-	private Integer purchasingPrice;
-	private Timestamp createTime;
-	private Timestamp modifyTime;
 	private String paymentId;
+	private String shippingId;
+	private Timestamp createdate;
+	private String productImg;
+	private String dtodoufuken;
+	private String dshikucyouson;
+	private String dcyoumebanchi;
+	private String renrakuname;
+	private String renrakuphone;
 	private Integer payTotal;
 	private Integer payQuantity;
 	private Integer payMethod;
 	private Timestamp payTime;
-	private String shippingId;
 	private String courierCompany;
-	private Timestamp trackingNumber;
+	private String trackingNumber;
 	private Timestamp deliveryTime;
 	private Timestamp receiptTime;
-	private Integer total;
+	private String name;
 	private Integer qqt;
-	
-	List<ProductInfoForOrderIdDto> product;
+	private Integer total;
 }

@@ -9,9 +9,7 @@ import lombok.Data;
 @Data
 public class PayPriceEntity {
 	@Id
-	private String  orderId;
-	private Integer userId;
-	private Integer alltotal;
-	private Integer allquantity;
+	private Integer productPrice;
+	private Integer productQuantity;
 //支払い画面の金額用
 }

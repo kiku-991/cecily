@@ -1,6 +1,7 @@
 package com.shoping.kiku.control;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -155,22 +156,14 @@ public class UserCenterController {
 	}
 
 	//注文管理
-	/*	@RequestMapping("/center/cyumonManager")
+		@RequestMapping("/center/ordermanager")
 		public ModelAndView cyumonManager(HttpServletRequest res) {
 			Session ss = (Session) res.getSession().getAttribute("userLogin");
-			int stId = storeService.getstoreIdByUserId(ss.getUserId());
-			List<OrderMangerDto> orm = myOrderService.getOrderInfo(stId);
-	
-			List<OrderInfoByUserIdDto> xx = myOrderService.getOrderInfoByStoreId(stId);
-			ModelAndView mv = new ModelAndView("center/cyumonManager");
-			
-			
-			
-			
-			mv.addObject("orderInfo", orm);
-			mv.addObject("orderxx", xx);
+			Map<String, Object> xx = myOrderService.getOrderInfoByStoreId(ss.getUserId());
+			ModelAndView mv = new ModelAndView("center/ordermanager");
+			mv.addObject("ordermanger", xx);
 			return mv;
-		}*/
+		}
 
 	/*	//注文管理(Store)
 		@RequestMapping("/center/cyumonManager")

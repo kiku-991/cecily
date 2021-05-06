@@ -12,6 +12,8 @@ public class PayPriceDto {
 	private Integer productPrice;
 	private Integer productId;
 	private Integer productQuantity;
+	private Integer productTotal;
+	
 	
 
 }

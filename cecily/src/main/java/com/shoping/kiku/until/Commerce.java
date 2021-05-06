@@ -8,6 +8,6 @@ import lombok.Data;
 public class Commerce implements Serializable {
 
 	private String orderId;
-	private Integer paymentId;
-	private Integer shippingId;
+	private String paymentId;
+	private String shippingId;
 }

@@ -12,7 +12,7 @@ public class OrderProInfoDto {
 	private String orderId;
 	private Timestamp createdate;
 	private String paymentId;
-	private Integer shippingId;
+	private String shippingId;
 	private Integer productId;
 	private Integer productPrice;
 	private String productName;

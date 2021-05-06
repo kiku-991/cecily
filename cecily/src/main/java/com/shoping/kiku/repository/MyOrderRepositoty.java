@@ -10,4 +10,7 @@ public interface MyOrderRepositoty extends JpaRepository<MyOrderEntity, Integer>
 	
 
 	MyOrderEntity findByOrderId(String orderId);
+	
+	
+	
 }

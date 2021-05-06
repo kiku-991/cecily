@@ -11,7 +11,6 @@ import com.shoping.kiku.entity.PaymentEntity;
 import com.shoping.kiku.repository.ComAndOrderRepository;
 import com.shoping.kiku.repository.CommerceRepository;
 import com.shoping.kiku.repository.MyOrderRepositoty;
-import com.shoping.kiku.repository.PayPriceRepository;
 import com.shoping.kiku.repository.PaymentRepository;
 import com.shoping.kiku.until.OrderUtils;
 
@@ -28,19 +27,18 @@ public class PayMentService {
 	MyOrderRepositoty myOrderRepository;
 
 	@Autowired
-	PayPriceRepository payPriceRepository;
-
-	@Autowired
 	ComAndOrderRepository comAndOrderRepository;
 
+	@Autowired
+	MyOrderService myOrderService;
 
 	//AriPay
 	public void creAriPayForm(int userId, String orderId) {
 
 		//自動生成
 		String payId = OrderUtils.getPayCode(userId);
-		int total = payPriceRepository.getpriceByUserIdAndOrdId(userId, orderId);
-		int quantity = payPriceRepository.getquantityByUserIdAndOrdId(userId, orderId);
+		int total = myOrderService.getPayPrice(userId, orderId);
+		int quantity = myOrderService.getPayQuantiy(userId, orderId);
 		//payment table
 		PaymentEntity payment = new PaymentEntity();
 		payment.setPaymentId(payId);
@@ -81,8 +79,8 @@ public class PayMentService {
 	public void creCreditPayForm(int userId, String orderId) {
 		//自動生成
 		String payId = OrderUtils.getPayCode(userId);
-		int total = payPriceRepository.getpriceByUserIdAndOrdId(userId, orderId);
-		int quantity = payPriceRepository.getquantityByUserIdAndOrdId(userId, orderId);
+		int total = myOrderService.getPayPrice(userId, orderId);
+		int quantity = myOrderService.getPayQuantiy(userId, orderId);
 		//payment table
 		PaymentEntity payment = new PaymentEntity();
 		payment.setPaymentId(payId);

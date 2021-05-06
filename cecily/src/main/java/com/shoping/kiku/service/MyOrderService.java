@@ -2,7 +2,9 @@ package com.shoping.kiku.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +15,18 @@ import com.shoping.kiku.entity.MyOrderItemEntity;
 import com.shoping.kiku.entity.OrderInfoByUserIdEntity;
 import com.shoping.kiku.entity.OrderManagerEntity;
 import com.shoping.kiku.entity.OrderProInfoEntity;
+import com.shoping.kiku.entity.PayPriceEntity;
+import com.shoping.kiku.entity.ProductEntity;
 import com.shoping.kiku.entity.ProductInCartEntity;
 import com.shoping.kiku.entity.ProductInfoForOrderIdEntity;
+import com.shoping.kiku.entity.ShippingEntity;
+import com.shoping.kiku.object.OrderIdGroupDto;
 import com.shoping.kiku.object.OrderInfoByUserIdDto;
-import com.shoping.kiku.object.OrderMangerDto;
+import com.shoping.kiku.object.OrderItemDto;
 import com.shoping.kiku.object.OrderProInfoDto;
+import com.shoping.kiku.object.PayPriceDto;
 import com.shoping.kiku.object.ProductInfoForOrderIdDto;
+import com.shoping.kiku.object.ShippingDto;
 import com.shoping.kiku.repository.CommerceRepository;
 import com.shoping.kiku.repository.MyOrderItemRepository;
 import com.shoping.kiku.repository.MyOrderRepositoty;
@@ -28,6 +36,8 @@ import com.shoping.kiku.repository.OrderProInfoRepository;
 import com.shoping.kiku.repository.PayPriceRepository;
 import com.shoping.kiku.repository.ProductInCartRepository;
 import com.shoping.kiku.repository.ProductInfoForOrderIdRepository;
+import com.shoping.kiku.repository.ProductRepository;
+import com.shoping.kiku.repository.ShippingRepository;
 import com.shoping.kiku.until.OrderUtils;
 
 @Service
@@ -59,7 +69,16 @@ public class MyOrderService {
 	@Autowired
 	ProductInfoForOrderIdRepository productInfoForOrderIdRepository;
 
-	//オーダーフォーム生成
+	@Autowired
+	ProductRepository productRepository;
+
+	@Autowired
+	ShippingRepository shippingRepository;
+
+	/**
+	 * オーダーフォーム生成
+	 * @param userId
+	 */
 	public void createOrderForm(int userId) {
 		//自動生成
 		String orderId = OrderUtils.getOrderCode(userId);
@@ -102,8 +121,11 @@ public class MyOrderService {
 
 	}
 
-	//myOrderItemTblから取得 (Commerceを通じてorderInfo取得)
-
+	/**
+	 * myOrderItemTblから取得 (Commerceを通じてorderInfo取得)
+	 * @param userId
+	 * @return
+	 */
 	public List<OrderProInfoDto> getOrderItemInfoByUserId(int userId) {
 
 		List<OrderProInfoEntity> myOrder = orderProInfoRepository.getMyOrderInfo(userId);
@@ -139,83 +161,177 @@ public class MyOrderService {
 
 	}
 
-	//支払い画面の支払い金額(まだ支払していない状態)
-
+	/**
+	 * 支払い画面の支払い金額(まだ支払していない状態) user
+	 * @param userId
+	 * @param orderId
+	 * @return
+	 */
 	public int getPayPrice(int userId, String orderId) {
-		int price = payPriceRepository.getpriceByUserIdAndOrdId(userId, orderId);
-		return price;
+		List<PayPriceEntity> price = payPriceRepository.getpriceAndQuantityByUserIdAndOrdId(userId, orderId);
+		int amount = 0;
+		for (PayPriceEntity p : price) {
+			PayPriceDto pay = new PayPriceDto();
+			pay.setProductTotal(p.getProductPrice() * p.getProductQuantity());
+			int total = pay.getProductTotal();
+			amount = total + amount;
+		}
+
+		return amount;
 	}
-	//支払い画面の支払い数量(まだ支払していない状態)
+
+	/**
+	 * store
+	 * @param userId
+	 * @param orderId
+	 * @return
+	 */
+	public int getPayPriceStore(int userId, String orderId) {
+		List<PayPriceEntity> price = payPriceRepository.getUserTotalAndQuantity(userId, orderId);
+		int amount = 0;
+		for (PayPriceEntity p : price) {
+			PayPriceDto pay = new PayPriceDto();
+			pay.setProductTotal(p.getProductPrice() * p.getProductQuantity());
+			int total = pay.getProductTotal();
+			amount = total + amount;
+		}
+
+		return amount;
+	}
+
+	/**
+	 * 支払い画面の支払い数量(まだ支払していない状態) user
+	 * @param userId
+	 * @param orderId
+	 * @return
+	 */
 	public int getPayQuantiy(int userId, String orderId) {
-		int quantity = payPriceRepository.getquantityByUserIdAndOrdId(userId, orderId);
+		List<PayPriceEntity> qqt = payPriceRepository.getpriceAndQuantityByUserIdAndOrdId(userId, orderId);
+		int quantity = 0;
+		for (PayPriceEntity q : qqt) {
+			PayPriceDto pay = new PayPriceDto();
+			pay.setProductQuantity(q.getProductQuantity());
+			int total = pay.getProductQuantity();
+			quantity = total + quantity;
+		}
+
 		return quantity;
 	}
-	
 
-	//取消订单
-
-	public void changeOrderStatus() {
-
-	}
-
-	//orderManger (store)
-
-	public List<OrderMangerDto> getOrderInfo(int storeId) {
-		List<OrderManagerEntity> storeOr = orderManagerRepository.getOrderInfoWithStoreId(storeId);
-		List<OrderMangerDto> odm = new ArrayList<>();
-		for (OrderManagerEntity hh : storeOr) {
-			OrderMangerDto dto = new OrderMangerDto();
-			dto.setCreatedate(hh.getCreatedate());
-			dto.setDcyoumebanchi(hh.getDcyoumebanchi());
-			dto.setDshikucyouson(hh.getDshikucyouson());
-			dto.setDtodoufuken(hh.getDtodoufuken());
-			dto.setModifyTime(hh.getModifyTime());
-			dto.setOrderId(hh.getOrderId());
-			dto.setOrderStatus(hh.getOrderStatus());
-			dto.setPaymentId(hh.getPaymentId());
-			dto.setPayMethod(hh.getPayMethod());
-			dto.setPayQuantity(hh.getPayQuantity());
-			dto.setPayTime(hh.getCreatedate());
-			dto.setPayTotal(hh.getPayTotal());
-			dto.setProductId(hh.getProductId());
-			dto.setProductImg(hh.getProductImg());
-			dto.setProductName(hh.getProductName());
-			dto.setProductPrice(hh.getProductPrice());
-			dto.setProductQuantity(hh.getProductQuantity());
-			dto.setPurchasingPrice(hh.getPurchasingPrice());
-			dto.setShippingId(hh.getShippingId());
-			dto.setStoreId(hh.getStoreId());
-			dto.setUserId(hh.getUserId());
-			dto.setRenrakuname(hh.getRenrakuname());
-			dto.setRenrakuphone(hh.getRenrakuphone());
-
-			odm.add(dto);
+	/**
+	 * store
+	 * @param userId
+	 * @param orderId
+	 * @return
+	 */
+	public int getPayQuantiyStore(int userId, String orderId) {
+		List<PayPriceEntity> qqt = payPriceRepository.getUserTotalAndQuantity(userId, orderId);
+		int quantity = 0;
+		for (PayPriceEntity q : qqt) {
+			PayPriceDto pay = new PayPriceDto();
+			pay.setProductQuantity(q.getProductQuantity());
+			int total = pay.getProductQuantity();
+			quantity = total + quantity;
 		}
-		return odm;
+
+		return quantity;
 	}
 
-	//store
-	/*	public List<OrderInfoByUserIdDto> getOrderInfoByStoreId(int storeId) {
-			List<OrderInfoByUserIdEntity> orderId = groupByOrderIdRepository.getOrderInfoGroupByOrderIdInStoreId(storeId);
-			List<OrderInfoByUserIdDto> orders = new ArrayList<>();
-			for (OrderInfoByUserIdEntity group : orderId) {
-				OrderInfoByUserIdDto dto = new OrderInfoByUserIdDto();
-				dto.setOrderId(group.getOrderId());
-				orders.add(dto);
-			}
-			return orders;
-		}*/
+	/**
+	 * オーダー削除
+	 * @param orderId
+	 */
+	public void cancelOrder(String orderId) {
+		//myOrder table から該当オーダーを取得
+		MyOrderEntity cancel = orderRepositoty.findByOrderId(orderId);
+		//myOrder table から該当オーダーを削除
+		orderRepositoty.delete(cancel);
+		//OrderItem table から該当オーダーを取得
+		List<MyOrderItemEntity> ordercancel = orderItemRepositoty.findByOrderId(orderId);
+		int productId = 0;
+		int stock = 0;
+		for (MyOrderItemEntity ord : ordercancel) {
+			OrderItemDto dto = new OrderItemDto();
+			dto.setProductId(ord.getProductId());
+			dto.setProductQuantity(ord.getProductQuantity());
+			//OrderItem table から該当オーダーの商品IDを取得
+			productId = dto.getProductId();
+			//OrderItem table から該当オーダーの数量を取得
+			stock = dto.getProductQuantity();
+			//商品IDによって、product table から商品情報を取得
+			ProductEntity oldpro = productRepository.findByProductId(productId);
+			ProductEntity newpro = new ProductEntity();
+			newpro.setProductId(productId);
+			newpro.setMaker(oldpro.getMaker());
+			newpro.setProductContents(oldpro.getProductContents());
+			newpro.setProductImg(oldpro.getProductImg());
+			newpro.setProductName(oldpro.getProductName());
+			newpro.setProductPrice(oldpro.getProductPrice());
+			newpro.setStatus(oldpro.getStatus());
+			newpro.setStoreId(oldpro.getStoreId());
+			//商品ストックを戻す
+			newpro.setStock(oldpro.getStock() + stock);
+			productRepository.save(newpro);
+		}
+		//OrderItem table から該当オーダーを削除
+		orderItemRepositoty.deleteAll(ordercancel);
 
-	//userId　によって、オーダー情報を取得
+	}
+
+	/**
+	 * orderManger (store)
+	 * @param userId
+	 * @return
+	 */
+	public Map<String, Object> getOrderInfoByStoreId(int userId) {
+		List<OrderManagerEntity> storeOr = orderManagerRepository.getOrderInfoWithStoreId(userId);
+		List<OrderIdGroupDto> idlist = new ArrayList<>();
+		Map<String, Object> map = new HashMap<>();
+
+		for (OrderManagerEntity hh : storeOr) {
+			OrderIdGroupDto id = new OrderIdGroupDto();
+			int qqt = getPayQuantiyStore(userId, hh.getOrderId());
+			int total = getPayPriceStore(userId, hh.getOrderId());
+			id.setQqt(qqt);
+			id.setTotal(total);
+			id.setOrderId(hh.getOrderId());
+			id.setCreatedate(hh.getCreatedate());
+			id.setDcyoumebanchi(hh.getDcyoumebanchi());
+			id.setDshikucyouson(hh.getDshikucyouson());
+			id.setDtodoufuken(hh.getDtodoufuken());
+			id.setOrderStatus(hh.getOrderStatus());
+			id.setPaymentId(hh.getPaymentId());
+			id.setPayMethod(hh.getPayMethod());
+			id.setPayQuantity(hh.getPayQuantity());
+			id.setPayTime(hh.getCreatedate());
+			id.setPayTotal(hh.getPayTotal());
+			id.setShippingId(hh.getShippingId());
+			id.setRenrakuname(hh.getRenrakuname());
+			id.setRenrakuphone(hh.getRenrakuphone());
+			id.setCourierCompany(hh.getCourierCompany());
+			id.setTrackingNumber(hh.getTrackingNumber());
+			id.setDeliveryTime(hh.getDeliveryTime());
+			id.setReceiptTime(hh.getReceiptTime());
+			id.setName(hh.getName());
+			idlist.add(id);
+			//orderId によって、商品情報を取得
+			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(hh.getOrderId());
+
+			map.put("product", proInfo);
+		}
+		map.put("id", idlist);
+		return map;
+	}
+
+	//userId　によって、オーダー情報を取得(user)
 	public List<OrderInfoByUserIdDto> getOrderInfoByUserId(int userId) {
 		List<OrderInfoByUserIdEntity> orderId = groupByOrderIdRepository.getOrderInfoGroupByOrderIdByUserId(userId);
-		
-		
 		List<OrderInfoByUserIdDto> orderIdList = new ArrayList<>();
 		for (OrderInfoByUserIdEntity ord : orderId) {
-			int qqt =payPriceRepository.getquantityByUserIdAndOrdId(userId, ord.getOrderId());
-			int total =payPriceRepository.getpriceByUserIdAndOrdId(userId, ord.getOrderId());
 			OrderInfoByUserIdDto dto = new OrderInfoByUserIdDto();
+			//オーダー情報
+			int qqt = getPayQuantiy(userId, ord.getOrderId());
+			int total = getPayPrice(userId, ord.getOrderId());
 			dto.setOrderId(ord.getOrderId());
 			dto.setCourierCompany(ord.getCourierCompany());
 			dto.setCreateTime(ord.getCreateTime());
@@ -233,36 +349,78 @@ public class MyOrderService {
 			dto.setTrackingNumber(ord.getTrackingNumber());
 			dto.setTotal(total);
 			dto.setQqt(qqt);
-			
+			//orderId によって、商品情報を取得
+			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(ord.getOrderId());
+
+			dto.setProduct(proInfo);
+
 			orderIdList.add(dto);
+
 		}
 		return orderIdList;
 	}
 
 	//orderId によって、商品情報を取得
-	public List<ProductInfoForOrderIdDto> getProductOrderInfoByOrderId(int userId) {
-		List<OrderInfoByUserIdEntity> orderId = groupByOrderIdRepository.getOrderInfoGroupByOrderIdByUserId(userId);
 
+	public List<ProductInfoForOrderIdDto> getproductInfoByOrderId(String orderId) {
 		List<ProductInfoForOrderIdDto> proInfo = new ArrayList<>();
-		for (OrderInfoByUserIdEntity oid : orderId) {
-			List<ProductInfoForOrderIdEntity> xx = productInfoForOrderIdRepository
-					.productInfoByOrderId(oid.getOrderId());
-			for (ProductInfoForOrderIdEntity hh : xx) {
-				ProductInfoForOrderIdDto dto = new ProductInfoForOrderIdDto();
-				dto.setOrderId(hh.getOrderId());
-				dto.setProductId(hh.getProductId());
-				dto.setProductImg(hh.getProductImg());
-				dto.setProductName(hh.getProductName());
-				dto.setProductPrice(hh.getProductPrice());
-				dto.setProductQuantity(hh.getProductQuantity());
-				proInfo.add(dto);
-
-			}
+		List<ProductInfoForOrderIdEntity> xx = productInfoForOrderIdRepository
+				.productInfoByOrderId(orderId);
+		for (ProductInfoForOrderIdEntity hh : xx) {
+			ProductInfoForOrderIdDto dt = new ProductInfoForOrderIdDto();
+			dt.setOrderId(hh.getOrderId());
+			dt.setProductId(hh.getProductId());
+			dt.setProductImg(hh.getProductImg());
+			dt.setProductName(hh.getProductName());
+			dt.setProductPrice(hh.getProductPrice());
+			dt.setProductQuantity(hh.getProductQuantity());
+			proInfo.add(dt);
 
 		}
 
 		return proInfo;
 
+	}
+
+	//商品発送
+	public void productShip(String orderId, int userId, ShippingDto shipDto) {
+
+		MyOrderEntity oldOrder = orderRepositoty.findByOrderId(orderId);
+		MyOrderEntity newOrder = new MyOrderEntity();
+		newOrder.setCreateTime(oldOrder.getCreateTime());
+		newOrder.setModifyTime(null);
+		newOrder.setOrderId(orderId);
+		//商品発送 订单状态为待收货
+		newOrder.setOrderStatus(2);
+		newOrder.setPurchasingPrice(oldOrder.getPurchasingPrice());
+
+		//commerce table 物流ID生成
+
+		CommerceEntity comm = commerceRepository.findByOrderId(orderId);
+
+		CommerceEntity commerce = new CommerceEntity();
+		//物流ID生成
+		String shipId = OrderUtils.getShipCode(userId);
+		commerce.setShippingId(shipId);
+
+		commerce.setCreatedate(comm.getCreatedate());
+		commerce.setOrderId(orderId);
+		commerce.setPaymentId(comm.getPaymentId());
+		commerce.setUserId(comm.getUserId());
+		commerceRepository.save(commerce);
+
+		//shipping table 
+		//快递编号生成
+		String expressId = OrderUtils.getExpressCode(userId);
+		ShippingEntity ship = new ShippingEntity();
+		ship.setTrackingNumber(expressId);
+		ship.setCourierCompany(shipDto.getCourierCompany());
+		//发货时间
+		ship.setDeliveryTime(new Timestamp(System.currentTimeMillis()));
+		ship.setReceiptTime(null);
+		ship.setShippingId(shipId);
+
+		shippingRepository.save(ship);
 	}
 
 }

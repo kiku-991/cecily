@@ -158,19 +158,16 @@
 							<th class="">支付状态</th>
 							<th>総額</th>
 							<th class="">支払い金額</th>
-							<th>単価</th>
 							<th class="am-grid-sm">連絡情報</th>
 							<th>購入数量</th>
-							<th class="">支払方法</th>
+							<th class="">支付方式</th>
 							<th class="">快递公司</th>
 							<th class="">快递单号</th>
 							<th class="">确认時間</th>
-							<th class="">支払時間</th>
+							<th class="">支付時間</th>
 							<th class="">发货時間</th>
 							<th class="">收货時間</th>
-							<th class="">取消時間</th>
 							<th class="">创建時間</th>
-							<th class="">更新時間</th>
 							<th
 								class="am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
 								style="width: 119px; right: 0.00650024px;" data-width="119"
@@ -180,94 +177,157 @@
 
 					</thead>
 					<tbody>
-						<tr id="data-list-4495" th:each="my : ${myoder}" >
+						<tr id="data-list-4495" th:each="oid : ${ordermanger.id}">
 							<td class="am-nowrap-initialam-text-center "
 								style="min-width: 80px;"></td>
 							<td class="am-nowrap-initialam-grid-xl ">
 								<p class="am-margin-bottom-sm">
-									<strong class="am-icon-bookmark-o"> [[${my.orderId}]]</strong>
+									<strong class="am-icon-bookmark-o"> [[${oid.orderId}]]</strong>
 									<span class="warehouse-item-container am-fr"> <i
-										class="am-icon-cube"></i> <strong class="warehouse-name">[[${my.storeName}]]</strong>
+										class="am-icon-cube"></i> <strong class="warehouse-name">KIKUSHOP</strong>
 									</span>
 								</p>
 								<hr data-am-widget="divider"
 									class="am-divider am-divider-dashed am-margin-top-0 am-no-layout">
-								<div class="am-nbfc">
+								<div class="am-nbfc" th:each="pro:${ordermanger.product}">
 									<a href="https://demo.shopxo.net/goods-9.html" target="_blank">
-										<img th:src="${my.productImg}"
+										<img th:src="${pro.productImg}"
 										class="am-img-thumbnail am-radius am-margin-right-xs am-fl"
 										width="60" height="60">
 									</a>
 									<div class="am-nbfc">
-										<a href="/#" target="_blank" class="am-nowrap-initial">[[${my.productName}]]</a>
+										<a th:href="@{/productDetails/{id}(id=${pro.productId})}"
+											target="_blank" class="am-nowrap-initial">[[${pro.productName}]]</a>
 									</div>
-								</div>
-								<div class="am-nbfc am-margin-top-xs">
-									<span class="original-price am-margin-right-xs"></span> <span>￥[[${my.productPrice}]]</span>
+									<div class="am-nbfc am-margin-top-xs">
+										<span class="original-price am-margin-right-xs"></span> <span>￥[[${pro.productPrice}]]</span>
 
-									<div class="am-fr"></div>
+										<div class="am-fr"></div>
+									</div>
+									<hr data-am-widget="divider"
+										class="am-divider am-divider-dashed am-no-layout">
 								</div>
-								<hr data-am-widget="divider"
-									class="am-divider am-divider-dashed am-no-layout">
-								<div class="am-margin-top-sm">共[[${my.productQuantity}]]件
-									合计:￥[[${my.productPrice}]]</div>
+
+								<div class="am-margin-top-sm">共[[${oid.qqt}]]件
+									合计:￥[[${oid.total}]]</div>
 							</td>
 							<td class="am-nowrap-initial"
-								th:text="${my.orderStatus==0?'等待支付':'已支付'}"></td>
-							<td class="am-nowrap-initial" th:text="${my.paymentId eq null?'等待支付':'已支付'}">
-								
-								<p class="am-text-warning" th:text="${my.payMethod ==1 ?'支付宝支付':'sonota'}"></p>
-							</td>
-							<td class="am-nowrap-initial" th:text="${my.productPrice}"></td>
-							<td class="am-nowrap-initial" th:text="${my.payTotal}"></td>
-							<td class="am-nowrap-initial" th:text="${my.productPrice}"></td>
+								th:text="${oid.orderStatus==0?'待支付':'待发货'}"></td>
+							<td class="am-nowrap-initial"
+								th:text="${oid.paymentId != null?'支払完了':'支払待ち'}"></td>
+							<td class="am-nowrap-initial" >oid.total</td>
+							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
 								<div>
-									<span class="am-badge am-badge-secondary-plain am-radius">[[${addresss.renrakuname}]]</span>
-									<span class="am-margin-left-sm">[[${addresss.renrakuphone}]]</span>
+									<span class="am-badge am-badge-secondary-plain am-radius">[[${oid.renrakuname}]]</span>
+									<span class="am-margin-left-sm">[[${oid.renrakuphone}]]</span>
 								</div>
 								<div class="am-margin-top-xs">
-									<span>[[${addresss.dtodoufuken}]]</span> <span>[[${addresss.dshikucyouson}]]</span>
-									<span>[[${addresss.dcyoumebanchi}]]</span>
+									<span>[[${oid.dtodoufuken}]]</span> <span>[[${oid.dshikucyouson}]]</span>
+									<span>[[${oid.dcyoumebanchi}]]</span>
 									<div class="am-margin-top-xs"></div>
 								</div>
 							</td>
-							<td class="am-nowrap-initial" th:text="${my.payQuantity}"></td>
-							<td class="am-nowrap-initial" th:if="${my.payMethod!=null}" th:text="${my.payMethod==1?'支付宝支付':(my.payMethod==2?'クレジットカード支払い':'着払い')}"></td>
-							<td class="am-nowrap-initial" th:if="${my.payMethod==null}"></td>
-							<td class="am-nowrap-initial">快递公司</td>
-							<td class="am-nowrap-initial">快递单号</td>
-							<td class="am-nowrap-initial">确认時間</td>
-							<td class="am-nowrap-initial" th:text="${my.payTime}"></td>
-							<td class="am-nowrap-initial">发货時間</td>
-							<td class="am-nowrap-initialam-grid-sm ">完成時間</td>
-							<td class="am-nowrap-initial">取消時間</td>
-							<td class="am-nowrap-initial" th:text="${my.createdate}"></td>
-							<td class="am-nowrap-initial" th:text="${my.modifyTime}"></td>
+							<td class="am-nowrap-initial">[[${oid.qqt}]]</td>
+							<td class="am-nowrap-initial"
+								th:text="${oid.payMethod==1?'AriPay':'sonota'}"></td>
+							<td class="am-nowrap-initial" th:text="${oid.courierCompany}"></td>
+							<td class="am-nowrap-initial" th:text="${oid.trackingNumber}"></td>
+							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
+							<td class="am-nowrap-initial" th:text="${oid.payTime}"></td>
+							<td class="am-nowrap-initial" th:text="${oid.deliveryTime}"></td>
+							<td class="am-nowrap-initialam-grid-sm"
+								th:text="${oid.receiptTime}"></td>
+							<td class="am-nowrap-initial" th:text="${oid.createdate}"></td>
 							<td
 								class="am-nowrap-initial am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
 								style="width: 119px; right: 0.00650024px;" data-width="119"
-								data-right="0.006500244140625"><a href="/#"
-								class="am-btn am-btn-default am-btn-xs am-radius am-btn-block"
-								target="_blank"> <span>详情</span>
-							</a>
+								data-right="0.006500244140625">
 								<button type="button"
 									class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel"
-									data-url="/#" data-id="4495" data-view="reload">
+									data-view="reload" data-bs-toggle="modal"
+									th:data-bs-target="'#cancel'+${oid.orderId}">
 									<span>取消</span>
-								</button> <!-- Button trigger modal -->
+								</button> <!-- 
+								
+								<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="https://store.shopxo.net/index/order/collect.html" data-id="1347" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">
+       							 <i class="am-icon-check-circle-o"></i>
+       						 <span>收货</span>
+    							</button>
+								弹窗 
+								
+								<div class="am-modal-dialog"><div class="am-modal-hd">温馨提示</div><div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs">请仔细确认已收到货物、确认继续吗？</div></div><div class="am-modal-footer"><span class="am-modal-btn" data-am-modal-cancel="">取消</span><span class="am-modal-btn" data-am-modal-confirm="">确定</span></div></div>
+								
+								 --> <!-- Button trigger modal orderID -->
 								<button type="button"
 									class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay"
-									data-bs-toggle="modal"
-									th:data-bs-target="'#pay'+${my.productId}">商品発送</button>
-								</td>
-								
+									data-bs-toggle="modal" th:if="${oid.payTime!=null}"
+									th:data-bs-target="'#pay'+${oid.orderId}">发货</button></td>
+							<div class="modal fade" th:id="'pay'+${oid.orderId}"
+								data-bs-backdrop="pay" data-bs-keyboard="false" tabindex="-1"
+								aria-labelledby="payLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="payLabel">请选择支付</h5>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+
+											<form th:action="@{/center/myorder/cancelorder/{id}(id=${oid.orderId})}" method="post">
+
+												<p>このオーダーを削除しますか？</p>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">キャンセル</button>
+													<input type="submit" id="kakutei" class="btn btn-danger"
+														value="確定">
+												</div>
+											</form>
+										
+										
+
+										</div>
+									</div>
+								</div>
+							</div>
+
+
+							<div class="modal fade" th:id="'cancel'+${oid.orderId}"
+								data-bs-backdrop="cancel" data-bs-keyboard="false" tabindex="-1"
+								aria-labelledby="cancelLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="cancelLabel">オーダー削除確認</h5>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form th:action="@{/center/myorder/cancelorder/{id}(id=${oid.orderId})}" method="post">
+
+												<p>このオーダーを削除しますか？</p>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">キャンセル</button>
+													<input type="submit" id="kakutei" class="btn btn-danger"
+														value="確定">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
 						</tr>
+						
 					</tbody>
 				</table>
+							<div class="table-no" th:if="${ordermanger.size==0}">オーダー情報がないです!</div>
 			</div>
 			<!-- Modal -->
-			<!-- 订单确认页面底部钩子-结束 -->
+
+		
 		</div>
 	</div>
 
@@ -278,6 +338,53 @@
 
 
 	<!-- footer start -->
+
+	<!-- Ajax -->
+	<script src="../ajax/jquery.min.js"></script>
+
+	<script>
+		function getPay(orderId) {
+
+			var selValue = $("input[type='radio']:checked").val();
+
+			var method = {
+
+				method : selValue
+			};
+
+			$.ajax({
+				url : '/getPaymethod',
+				type : 'POST',
+				timeout : 60000,
+				data : method,
+				async : false,
+				dataType : "json"
+			})
+			//Ajax通信成功の場合
+			.done(function(data) {
+
+				alert(data);
+				//window.location.href = "/aripay/{id}(id="+productId+")"
+				if (data == 1) {
+					window.location.href = "/aripay/" + orderId + ""
+				} else if (data == 2) {
+					window.location.href = "/creditpay/" + orderId + ""
+				} else {
+					window.location.href = 'daofu';
+				}
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function() {
+				alert("---");
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+
+			});
+
+		}
+	</script>
 
 
 

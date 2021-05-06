@@ -15,7 +15,7 @@ public class ComAndOrderEntity {
 	private String orderId;
 	private Integer productId;
 	private Integer paymentId;
-	private Integer shippingId;
+	private String shippingId;
 	private Integer orderStatus;
 	private Integer purchasingPrice;
 	private Timestamp modifyTime;

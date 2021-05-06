@@ -21,11 +21,17 @@ public class OrderUtils {
 
 	private static final String PAY_CODE = "991";
 	/**
-	 * 退款类别头
+	 * 物流类别头
 	 */
 
-	private static final String REFUND_ORDER = "";
-
+	private static final String SHIP_ORDER = "992";
+	
+	/**
+	 * 快递类别头express
+	 */
+	private static final String EXPRESS_CODE = "993";
+	
+	
 	/**
 	 * 随即编码
 	 */
@@ -101,11 +107,21 @@ public class OrderUtils {
 	}
 
 	/**
-	 * 生成退款单号编码(调用方法)
+	 * 生成物流单号编码(调用方法)
 	 * @param userId  网站中该用户唯一ID 防止重复
 	 */
-	public static String getRefundCode(Integer userId) {
-		return REFUND_ORDER + getCode(userId);
+	public static String getShipCode(Integer userId) {
+		return SHIP_ORDER + getCode(userId);
 	}
 
+	
+	/**
+	 * 生成快递单号编码(调用方法)
+	 * @param userId  网站中该用户唯一ID 防止重复
+	 */
+	public static String getExpressCode(Integer userId) {
+		return EXPRESS_CODE + getCode(userId);
+	}
+	
+	
 }

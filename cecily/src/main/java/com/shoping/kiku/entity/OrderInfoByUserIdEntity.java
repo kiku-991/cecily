@@ -22,7 +22,7 @@ public class OrderInfoByUserIdEntity {
 	private Integer payQuantity;
 	private Integer payMethod;
 	private Timestamp payTime;
-	private Integer shippingId;
+	private String shippingId;
 	private String courierCompany;
 	private Timestamp trackingNumber;
 	private Timestamp deliveryTime;
