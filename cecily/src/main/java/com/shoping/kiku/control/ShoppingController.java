@@ -15,6 +15,7 @@ import com.shoping.kiku.service.FavoriteService;
 import com.shoping.kiku.service.MyCartService;
 import com.shoping.kiku.service.ProductService;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Url;
 
 @Controller
 public class ShoppingController {
@@ -33,7 +34,7 @@ public class ShoppingController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping({ "/shopping", "/" })
+	@RequestMapping({ Url.SHOPPING, Url.INDEX })
 	public ModelAndView shopping(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("shopping");
 		
@@ -53,7 +54,7 @@ public class ShoppingController {
 	 * @param productName
 	 * @return
 	 */
-	@RequestMapping("/shopping/keywordSearch")
+	@RequestMapping(Url.KEYWORD)
 	public ModelAndView keyword(String productName) {
 		ModelAndView mv = new ModelAndView("keywordsearch");
 		List<ProductDto> prolike = productService.keyLike(productName);
@@ -69,7 +70,7 @@ public class ShoppingController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/shopping/favorite")
+	@RequestMapping(Url.SHOPFAVPRITE)
 	public ModelAndView favorite(HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("center/favorite");

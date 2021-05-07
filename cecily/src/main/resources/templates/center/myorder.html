@@ -213,7 +213,7 @@
 									合计:￥[[${oid.total}]]</div>
 							</td>
 							<td class="am-nowrap-initial"
-								th:text="${oid.orderStatus==0?'待支付':'待发货'}"></td>
+								th:text="${oid.orderStatus==0?'待支付':(oid.orderStatus==1?'待发货':(oid.orderStatus==2?'待收货':'已完成'))}"></td>
 							<td class="am-nowrap-initial"
 								th:text="${oid.paymentId != null?'支払完了':'支払待ち'}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.total}"></td>
@@ -230,11 +230,13 @@
 								</div>
 							</td>
 							<td class="am-nowrap-initial" th:text="${oid.qqt}"></td>
-							<td class="am-nowrap-initial"
-								th:text="${oid.payMethod==1?'AriPay':'sonota'}"></td>
+							<td class="am-nowrap-initial"  th:if="${oid.payMethod!=null}"
+								th:text="${oid.payMethod==1?'AriPay':(oid.payMethod==2?'クレジットカード支払い':'その他')}"></td>
+							
+							<td class="am-nowrap-initial" th:if="${oid.payMethod==null}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.courierCompany}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.trackingNumber}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
+							<td class="am-nowrap-initial" th:text="${oid.certainTime}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.payTime}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.deliveryTime}"></td>
 							<td class="am-nowrap-initialam-grid-sm"
@@ -244,7 +246,7 @@
 							<td
 								class="am-nowrap-initial am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
 								style="width: 119px; right: 0.00650024px;" data-width="119"
-								data-right="0.006500244140625"><a href=""
+								data-right="0.006500244140625"><a th:href="@{/center/ordermanager/deliveryproduct/{id}(id=${oid.orderId})}"
 								th:if="${oid.payTime!=null && oid.receiptTime==null}"
 								class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm"
 								target="_blank"> <span>收货</span>

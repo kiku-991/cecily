@@ -1,5 +1,9 @@
 package com.shoping.kiku.entity;
 
+
+
+
+
 import java.sql.Timestamp;
 
 import javax.persistence.Entity;
@@ -24,7 +28,7 @@ public class OrderInfoByUserIdEntity {
 	private Timestamp payTime;
 	private String shippingId;
 	private String courierCompany;
-	private Timestamp trackingNumber;
+	private String trackingNumber;
 	private Timestamp deliveryTime;
 	private Timestamp receiptTime;
 

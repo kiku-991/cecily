@@ -158,7 +158,8 @@ public class UserInfoService {
 
 		/**
 		 * ユーザー情報編集(ADMIN)
-		 * 
+		 * @param userid
+		 * @param userInfodto
 		 */
 		public void updateAllUserInfo(int userid, UserInfoDto userInfodto) {
 
@@ -234,11 +235,5 @@ public class UserInfoService {
 			userLoginRepository.save(user);
 			
 		}
-		/*
-			//我的订单页面でユーザ届け住所削除
-			public void deleteTodoke(int userId) {
-				UserInfoEntity user = userInfoRepository.findById(userId);
-				userInfoRepository.delete(user);
-			}*/
 	
 }

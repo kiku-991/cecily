@@ -11,6 +11,7 @@ import com.shoping.kiku.object.StoreDto;
 import com.shoping.kiku.service.StoreService;
 import com.shoping.kiku.service.UserLoginService;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Url;
 
 @Controller
 public class StoreController {
@@ -27,7 +28,7 @@ public class StoreController {
 	 * @param st
 	 * @return
 	 */
-	@RequestMapping("/center/myshop/shopApply")
+	@RequestMapping(Url.SHOPAPPLY)
 	public String storeApp(HttpServletRequest re, StoreDto st) {
 
 		Session ss = (Session) re.getSession().getAttribute("userLogin");
@@ -41,7 +42,7 @@ public class StoreController {
 	 * @param storeId
 	 * @return
 	 */
-	@RequestMapping("/center/storemanger/agree/{id}")
+	@RequestMapping(Url.AGREEAPP)
 	public String storeAgree(@PathVariable("id") int storeId) {
 
 		storeService.agreeStore(storeId);
@@ -58,7 +59,7 @@ public class StoreController {
 	 * @param storeId
 	 * @return
 	 */
-	@RequestMapping("/center/storemanger/stop/{id}")
+	@RequestMapping(Url.STOPSHOP)
 	public String storeBlock(@PathVariable("id") int storeId) {
 
 		storeService.blockStore(storeId);
@@ -70,7 +71,7 @@ public class StoreController {
 	 * @param storeId
 	 * @return
 	 */
-	@RequestMapping("/center/storemanger/recovery/{id}")
+	@RequestMapping(Url.RECOVERYSHOP)
 	public String storeRecovery(@PathVariable("id") int storeId) {
 
 		storeService.agreeStore(storeId);

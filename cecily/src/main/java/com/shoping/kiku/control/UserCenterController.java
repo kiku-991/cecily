@@ -27,9 +27,11 @@ import com.shoping.kiku.service.UserLoginService;
 import com.shoping.kiku.until.MsgContents;
 import com.shoping.kiku.until.Session;
 import com.shoping.kiku.until.Status;
+import com.shoping.kiku.until.Url;
 
 @Controller
 public class UserCenterController {
+	
 	@Autowired
 	UserLoginService userService;
 
@@ -59,7 +61,7 @@ public class UserCenterController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/shopping/center")
+	@RequestMapping(Url.CENTER)
 	public ModelAndView center(HttpServletRequest request) throws Exception {
 
 		UserInfoDto userInfo = userInfoService.getUserInfo(request);
@@ -75,7 +77,7 @@ public class UserCenterController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/center/userInfo")
+	@RequestMapping(Url.USERINFO)
 	public ModelAndView userInfo(HttpServletRequest request) throws Exception {
 		UserInfoDto userInfo = userInfoService.getUserInfo(request);
 		ModelAndView mv = new ModelAndView("center/userInfo");
@@ -89,7 +91,7 @@ public class UserCenterController {
  * @return
  * @throws Exception
  */
-	@RequestMapping("/center/userTodoke")
+	@RequestMapping(Url.USERTODOKE)
 	public ModelAndView userTodoke(HttpServletRequest request) throws Exception {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		List<UserDeliveryDto> userdelivery = userDeliveryService.getUserDelivery(ss.getUserId());
@@ -102,9 +104,9 @@ public class UserCenterController {
 	/**
 	 * パスワード変更画面
 	 * @param session
-	 * @return
+	 * @return 
 	 */
-	@RequestMapping("/center/pwdChange")
+	@RequestMapping(Url.PWDCHANGE)
 	public ModelAndView pwdChange(HttpSession session) {
 		Session ss = (Session) session.getAttribute("userLogin");
 		String pw = userService.getPwd(ss.getUserMail());
@@ -119,7 +121,7 @@ public class UserCenterController {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/center/passfail")
+	@RequestMapping(value = Url.PWDCHANGEFAIL)
 	public ModelAndView pwdfail(HttpSession session) {
 		Session ss = (Session) session.getAttribute("userLogin");
 		String pw = userService.getPwd(ss.getUserMail());
@@ -136,7 +138,7 @@ public class UserCenterController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/center/favorite")
+	@RequestMapping(Url.FAVORITE)
 	public ModelAndView favorite(HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("center/favorite");
@@ -151,7 +153,7 @@ public class UserCenterController {
 	 * 買い物かご
 	 * @return
 	 */
-	@RequestMapping("/center/shopcart")
+	@RequestMapping(Url.SHOPCART)
 	public ModelAndView shopcart() {
 
 		ModelAndView mv = new ModelAndView("center/shopcart");
@@ -163,7 +165,7 @@ public class UserCenterController {
 	 * @param re
 	 * @return
 	 */
-	@RequestMapping("/center/myshop")
+	@RequestMapping(Url.MOSHIKOMISHOP)
 	public ModelAndView moushikomi(HttpServletRequest re) {
 		Session ss = (Session) re.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("center/myshop");
@@ -189,7 +191,7 @@ public class UserCenterController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("/center/ordermanager")
+	@RequestMapping(Url.CYOMONMANAGER)
 	public ModelAndView cyumonManager(HttpServletRequest res) {
 		Session ss = (Session) res.getSession().getAttribute("userLogin");
 		List<OrderMangerDto> orm = myOrderService.getOrderInfoByStoreId(ss.getUserId());
@@ -205,7 +207,7 @@ public class UserCenterController {
 	 * @param product
 	 * @return
 	 */
-	@RequestMapping(value = "/center/myproducts")
+	@RequestMapping(value = Url.MYPRODUCTS)
 	public ModelAndView getProByid(HttpServletRequest request, ProductDto product) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("/center/myproducts");
@@ -219,7 +221,7 @@ public class UserCenterController {
 	 * ユーザ一覧(ADMIN)
 	 * @return
 	 */
-	@RequestMapping("/center/userlist")
+	@RequestMapping(Url.USERLIST)
 	public ModelAndView userlist() {
 
 		List<UserLoginDto> users = userService.getAllUser();
@@ -233,8 +235,7 @@ public class UserCenterController {
 	 * ユーザ情報(ADMIN)
 	 * @return
 	 */
-	@RequestMapping("/center/userInfoList")
-
+	@RequestMapping(Url.USERINFOLIST)
 	public ModelAndView userInfoList() {
 		List<UserInfoDto> usersInfo = userInfoService.serchAll();
 		ModelAndView mv = new ModelAndView("center/userInfoList");
@@ -246,7 +247,7 @@ public class UserCenterController {
 	 * ユーザ届け住所連絡(ADMIN)
 	 * @return
 	 */
-	@RequestMapping("/center/userTodokeList")
+	@RequestMapping(Url.USERTODOKELIST)
 	public ModelAndView userTodokeList() {
 
 		List<UserDeliveryDto> usersadd = userDeliveryService.getAllUserDelivery();
@@ -259,7 +260,7 @@ public class UserCenterController {
 	 * 店舗管理(ADMIN)
 	 * @return
 	 */
-	@RequestMapping("/center/storemanger")
+	@RequestMapping(Url.STOREMANAGER)
 	public ModelAndView storeList() {
 
 		ModelAndView mv = new ModelAndView("center/storemanger");
@@ -274,7 +275,7 @@ public class UserCenterController {
 	 * @param product
 	 * @return
 	 */
-	@RequestMapping(value = "/center/productmanger")
+	@RequestMapping(value = Url.PRODUCTMANGER)
 	public ModelAndView getAllpro(HttpServletRequest request, ProductDto product) {
 		ModelAndView mv = new ModelAndView("/center/productmanger");
 		List<ProductDto> pros = productService.getAllPro();

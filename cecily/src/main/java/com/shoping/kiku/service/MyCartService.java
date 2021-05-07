@@ -26,7 +26,13 @@ public class MyCartService {
 	@Autowired
 	ProductRepository productRepository;
 
-	//SHOPPINGの買い物かご 商品を追加
+	
+	/**
+	 * SHOPPINGの買い物かご 商品を追加
+	 * @param productId
+	 * @param userId
+	 * @return
+	 */
 	public int addCart(int productId, int userId) {
 		//判断該当商品が買い物かごに追加されてるかどうか
 		MyCartEntity cartCheck = myCartRepository.findByUserIdAndProductId(userId, productId);
@@ -53,7 +59,12 @@ public class MyCartService {
 
 	}
 
-	//買い物かごに'+'ボタンを押下数量追加
+	/**
+	 * 買い物かごに'+'ボタンを押下数量追加
+	 * @param userId
+	 * @param productId
+	 * @return
+	 */
 	public boolean updateInc(int userId, int productId) {
 		int quantity = myCartRepository.getQuantity(userId, productId);
 		//'+'ボタンを押下時数量
@@ -80,7 +91,12 @@ public class MyCartService {
 
 	}
 
-	//買い物かごに'-'ボタンを押下　数量減少
+	/**
+	 * 買い物かごに'-'ボタンを押下　数量減少
+	 * @param userId
+	 * @param productId
+	 * @return
+	 */
 	public int updateDec(int userId, int productId) {
 		int quantity = myCartRepository.getQuantity(userId, productId);
 		MyCartEntity old = myCartRepository.findByUserIdAndProductId(userId, productId);
@@ -99,7 +115,11 @@ public class MyCartService {
 
 	}
 
-	//checkbox が選択され時処理
+	/**
+	 * checkbox が選択され時処理
+	 * @param userId
+	 * @param productId
+	 */
 	public void updateCheckStatus(int userId, int productId) {
 		MyCartEntity old = myCartRepository.findByUserIdAndProductId(userId, productId);
 		MyCartEntity now = new MyCartEntity();
@@ -117,7 +137,10 @@ public class MyCartService {
 
 	}
 
-	//全部選択処理
+	/**
+	 * 全部のチェックボックスが選択され処理
+	 * @param userId
+	 */
 	public void udateAllChecked(int userId) {
 		List<MyCartEntity> old = myCartRepository.findByUserId(userId);
 		List<MyCartEntity> nowCart = new ArrayList<>();
@@ -140,19 +163,31 @@ public class MyCartService {
 
 	}
 
-	//Get 数量
+	/**
+	 * Get 買い物かごの数量
+	 * @param userId
+	 * @return
+	 */
 	public int getcountInCartByUserId(int userId) {
 		int count = myCartRepository.getCountByUserId(userId);
 		return count;
 	}
 
-	//買い物かごにある商品を削除(单条削除)
+	/**
+	 * 買い物かごにある商品を削除(单条削除)
+	 * @param userId
+	 * @param productId
+	 */
 	public void deleteCart(int userId, int productId) {
 		MyCartEntity mcp = myCartRepository.findByUserIdAndProductId(userId, productId);
 		myCartRepository.delete(mcp);
 	}
 
-	//該当ユーザの買い物かごにある商品を取得
+	/**
+	 * 該当ユーザの買い物かごにある商品を取得
+	 * @param userId
+	 * @return
+	 */
 	public List<ProductInCartDto> getAllProuctInCartByUserId(int userId) {
 		List<ProductInCartEntity> prc = productAndCartRepository.getProCart(userId);
 		List<ProductInCartDto> productsCart = new ArrayList<>();
@@ -179,19 +214,30 @@ public class MyCartService {
 
 	}
 
-	//該当ユーザの買い物かごを取得
+	/**
+	 * 該当ユーザの買い物かごを取得
+	 * @param userId
+	 * @return
+	 */
 	public List<MyCartEntity> findAllCartsByUserId(int userId) {
 		List<MyCartEntity> mc = myCartRepository.findByUserId(userId);
 		return mc;
 	}
 
-	//すべての買い物かごにあるデータを取得(ADMIN)
+	/**
+	 * すべての買い物かごにあるデータを取得(ADMIN)
+	 * @return
+	 */
 	public List<MyCartEntity> findAllCart() {
 		List<MyCartEntity> allUserCaits = myCartRepository.findAll();
 		return allUserCaits;
 	}
 
-	//Get User 買い物かごにすべて商品の金額（総価格）
+	/**
+	 * Get User 買い物かごにすべて商品の金額（総価格）
+	 * @param userId
+	 * @return
+	 */
 	public int getAmountInCart(int userId) {
 		List<ProductInCartDto> prc = getAllProuctInCartByUserId(userId);
 		int amount = 0;
@@ -203,8 +249,12 @@ public class MyCartService {
 
 	}
 
-	//get 買い物かごにチェックされた商品の情報
 
+	/**
+	 * get 買い物かごにチェックされた商品の情報
+	 * @param userId
+	 * @return
+	 */
 	public int getCheckedPriceInCart(int userId) {
 		//checked=1時 の商品
 		List<ProductInCartEntity> prc = productAndCartRepository.getcheckedpro(userId);
@@ -225,7 +275,11 @@ public class MyCartService {
 		return amount;
 	}
 
-	//get 買い物かごにチェックされた商品の数量
+	/**
+	 * get 買い物かごにチェックされた商品の数量
+	 * @param userId
+	 * @return
+	 */
 	public int getCheckedQuantityInCart(int userId) {
 		int quantity = 0;
 		List<ProductInCartEntity> prc = productAndCartRepository.getcheckedpro(userId);
@@ -239,8 +293,12 @@ public class MyCartService {
 		return quantity;
 	}
 
-	//該当ユーザの買い物かごにcheckbox=1 のすべての商品取得(结算ボタンを押下処理)
 
+	/**
+	 * 該当ユーザの買い物かごにcheckbox=1 のすべての商品取得(结算ボタンを押下処理)
+	 * @param userId
+	 * @return
+	 */
 	public List<ProductInCartDto> getCheckedProductInCart(int userId) {
 
 		List<ProductInCartEntity> products = productAndCartRepository.getcheckedpro(userId);
@@ -262,7 +320,10 @@ public class MyCartService {
 
 	}
 
-	//該当ユーザの買い物かごにcheckbox=1 のすべての商品の数量取得(ストック減少)
+	/**
+	 * 該当ユーザの買い物かごにcheckbox=1 のすべての商品の数量取得(ストック減少)
+	 * @param userId
+	 */
 	public void desProStock(int userId) {
 		//チェックされた商品を取得
 		List<MyCartEntity> products = myCartRepository.getCheckedPro(userId);
@@ -288,7 +349,10 @@ public class MyCartService {
 
 	}
 
-	//チェックされた商品を削除 提交订单ボタン押す時処理
+	/**
+	 * チェックされた商品を削除 提交订单ボタン押す時処理
+	 * @param userId
+	 */
 	public void deleteCheckedPro(int userId) {
 
 		List<MyCartEntity> checkedPro = myCartRepository.getCheckedPro(userId);
@@ -296,7 +360,12 @@ public class MyCartService {
 		myCartRepository.deleteAll(checkedPro);
 	}
 
-	//ユーザIDと商品IDによって、金額（TOTAL）を取得
+	/**
+	 * ユーザIDと商品IDによって、金額（TOTAL）を取得
+	 * @param userId
+	 * @param productId
+	 * @return
+	 */
 	public int getTotalByUserIdAndProductId(int userId, int productId) {
 		int total = productAndCartRepository.getTotalByUserIdAndProductId(userId, productId);
 		return total;

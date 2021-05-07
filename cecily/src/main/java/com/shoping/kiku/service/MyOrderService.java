@@ -299,7 +299,7 @@ public class MyOrderService {
 			id.setPaymentId(hh.getPaymentId());
 			id.setPayMethod(hh.getPayMethod());
 			id.setPayQuantity(hh.getPayQuantity());
-			id.setPayTime(hh.getCreatedate());
+			id.setPayTime(hh.getPayTime());
 			id.setPayTotal(hh.getPayTotal());
 			id.setShippingId(hh.getShippingId());
 			id.setRenrakuname(hh.getRenrakuname());
@@ -319,7 +319,11 @@ public class MyOrderService {
 		return idlist;
 	}
 
-	//userId　によって、オーダー情報を取得(user)
+	/**
+	 * userId　によって、オーダー情報を取得(user)
+	 * @param userId
+	 * @return
+	 */
 	public List<OrderInfoByUserIdDto> getOrderInfoByUserId(int userId) {
 		List<OrderInfoByUserIdEntity> orderId = groupByOrderIdRepository.getOrderInfoGroupByOrderIdByUserId(userId);
 		List<OrderInfoByUserIdDto> orderIdList = new ArrayList<>();
@@ -345,7 +349,7 @@ public class MyOrderService {
 			dto.setTrackingNumber(ord.getTrackingNumber());
 			dto.setTotal(total);
 			dto.setQqt(qqt);
-			//orderId によって、商品情報を取得
+			dto.setCertainTime(ord.getReceiptTime());	//orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(ord.getOrderId());
 
 			dto.setProduct(proInfo);
@@ -356,8 +360,12 @@ public class MyOrderService {
 		return orderIdList;
 	}
 
-	//orderId によって、商品情報を取得
 
+	/**
+	 * orderId によって、商品情報を取得
+	 * @param orderId
+	 * @return
+	 */
 	public List<ProductInfoForOrderIdDto> getproductInfoByOrderId(String orderId) {
 		List<ProductInfoForOrderIdDto> proInfo = new ArrayList<>();
 		List<ProductInfoForOrderIdEntity> xx = productInfoForOrderIdRepository
@@ -390,12 +398,12 @@ public class MyOrderService {
 		MyOrderEntity oldOrder = orderRepositoty.findByOrderId(orderId);
 		MyOrderEntity newOrder = new MyOrderEntity();
 		newOrder.setCreateTime(oldOrder.getCreateTime());
-		newOrder.setModifyTime(null);
+		newOrder.setModifyTime(new Timestamp(System.currentTimeMillis()));
 		newOrder.setOrderId(orderId);
 		//商品発送 订单状态为待收货
 		newOrder.setOrderStatus(2);
 		newOrder.setPurchasingPrice(oldOrder.getPurchasingPrice());
-
+		orderRepositoty.save(newOrder);
 		//commerce table 物流ID生成
 
 		CommerceEntity comm = commerceRepository.findByOrderId(orderId);
@@ -406,7 +414,7 @@ public class MyOrderService {
 		String shipId = OrderUtils.getShipCode(wuliu);
 		commerce.setShippingId(shipId);
 
-		commerce.setCreatedate(comm.getCreatedate());
+		//commerce.setCreatedate(comm.getCreatedate());
 		commerce.setOrderId(orderId);
 		commerce.setPaymentId(comm.getPaymentId());
 		commerce.setUserId(comm.getUserId());
@@ -419,11 +427,42 @@ public class MyOrderService {
 		ship.setTrackingNumber(expressId);
 		ship.setCourierCompany(shipDto.getCourierCompany());
 		//发货时间
-		ship.setDeliveryTime(new Timestamp(System.currentTimeMillis()));
-		ship.setReceiptTime(null);
-		ship.setShippingId(shipId);
+//		final SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		
+		  Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+//		  sdf3.format(timestamp);
+			/*  java.sql.Timestamp ts = java.sql.Timestamp.valueOf(sdf3);*/
+			ship.setDeliveryTime(timestamp);
+			ship.setShippingId(shipId);
 
 		shippingRepository.save(ship);
 	}
 
+	/**
+	 * 收貨 (user) 訂單完成
+	 * @param orderId
+	 */
+	public void completeOrder(String orderId) {
+		MyOrderEntity oldOrder = orderRepositoty.findByOrderId(orderId);
+		MyOrderEntity newOrder = new MyOrderEntity();
+		newOrder.setCreateTime(oldOrder.getCreateTime());
+		newOrder.setModifyTime(new Timestamp(System.currentTimeMillis()));
+		newOrder.setOrderId(orderId);
+		//商品発送 订单状态为已完成
+		newOrder.setOrderStatus(3);
+		newOrder.setPurchasingPrice(oldOrder.getPurchasingPrice());
+		orderRepositoty.save(newOrder);
+		
+		//shipping table
+		ShippingEntity oldship= shippingRepository.getShipInfoFindByShippingId(orderId);
+		ShippingEntity ship = new ShippingEntity();
+		ship.setTrackingNumber(oldship.getTrackingNumber());
+		ship.setCourierCompany(oldship.getCourierCompany());
+		ship.setDeliveryTime(oldship.getDeliveryTime());
+		ship.setShippingId(oldship.getShippingId());
+		//設定 收貨時間
+		ship.setReceiptTime(new Timestamp(System.currentTimeMillis()));
+		shippingRepository.save(ship);
+		
+	}
 }

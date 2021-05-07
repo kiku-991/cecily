@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.shoping.kiku.entity.OrderInfoByUserIdEntity;
@@ -43,7 +44,7 @@ public interface OrderInfoByRepository extends JpaRepository<OrderInfoByUserIdEn
 			+ "    , d.courier_company\r\n"
 			+ "    , d.tracking_number\r\n"
 			+ "    , d.delivery_time\r\n"
-			+ "    , d.receipt_time \r\n"
+			+ "    , d.receipt_time\r\n"
 			+ "from\r\n"
 			+ "    order_item a \r\n"
 			+ "    left join commerce b \r\n"
@@ -58,7 +59,7 @@ public interface OrderInfoByRepository extends JpaRepository<OrderInfoByUserIdEn
 			+ "        on b.order_id = f.order_id \r\n"
 			+ "where\r\n"
 			+ "    b.user_id = :userId",nativeQuery=true)
-	List<OrderInfoByUserIdEntity> getOrderInfoGroupByOrderIdByUserId(int userId);
+	List<OrderInfoByUserIdEntity> getOrderInfoGroupByOrderIdByUserId(@Param(value="userId") int userId);
 	
 	
 }

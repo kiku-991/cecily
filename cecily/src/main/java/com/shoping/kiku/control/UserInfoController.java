@@ -20,9 +20,11 @@ import com.shoping.kiku.service.UserInfoService;
 import com.shoping.kiku.service.UserLoginService;
 import com.shoping.kiku.until.MsgContents;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Url;
 
 @Controller
 public class UserInfoController {
+	
 	@Autowired
 	UserLoginService userLoginService;
 
@@ -37,7 +39,7 @@ public class UserInfoController {
 	 * @param userDto
 	 * @param userInfoDto
 	 */
-	@RequestMapping(value = "/center/userInfo/usercrete", method = RequestMethod.POST)
+	@RequestMapping(value = Url.USERTCREATE, method = RequestMethod.POST)
 	public String createUserInfo(HttpServletRequest request, UserInfoDto userInfoDto) {
 
 		userInfoService.creatUserInfo(request, userInfoDto);
@@ -52,7 +54,7 @@ public class UserInfoController {
 	 * @return
 	 */
 
-	@RequestMapping(value = "/center/userInfo/edit", method = RequestMethod.POST)
+	@RequestMapping(value = Url.USERINFOEDIT, method = RequestMethod.POST)
 	public String updateUserInfo(HttpServletRequest request, UserInfoDto userInfo) {
 
 		userInfoService.updateUserInfo(request, userInfo);
@@ -65,7 +67,7 @@ public class UserInfoController {
 	 * @param userInfo
 	 * @return
 	 */
-	@RequestMapping(value = "/center/userTodoke/add", method = RequestMethod.POST)
+	@RequestMapping(value = Url.USERTODOKEADD, method = RequestMethod.POST)
 	public String creAdd(HttpServletRequest request, UserDeliveryDto userInfo) {
 
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
@@ -80,7 +82,7 @@ public class UserInfoController {
 	 * @param userInfo
 	 * @return
 	 */
-	@RequestMapping(value = "/center/userTodoke/edit/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = Url.USERTODOKEEDIT, method = RequestMethod.POST)
 	public String editAdd(@PathVariable("id") int id, HttpServletRequest request, UserDeliveryDto userInfo) {
 
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
@@ -95,7 +97,7 @@ public class UserInfoController {
 	 * @param userInfo
 	 * @return
 	 */
-	@RequestMapping(value = "/center/userTodoke/delete/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = Url.USERTODOKEEDELETE, method = RequestMethod.POST)
 	public String deleteAdd(@PathVariable("id") int id) {
 		userDeliveryService.deleteUserTodoke(id);
 		return "redirect:/center/userTodoke";
@@ -107,7 +109,7 @@ public class UserInfoController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/center/pwdChange/edit", method = RequestMethod.POST)
+	@RequestMapping(value = Url.PWDEDIT, method = RequestMethod.POST)
 	public String pwdChange(HttpSession session, UserLoginDto user, Model model) {
 
 		boolean pc = userLoginService.passChange(session, user);
@@ -131,7 +133,7 @@ public class UserInfoController {
 	 * @return
 	 */
 
-	@RequestMapping(value = "/buy/useradd/add", method = RequestMethod.POST)
+	@RequestMapping(value = Url.ADDTODOKRBUY, method = RequestMethod.POST)
 	public String creUserTodoke(HttpServletRequest request, UserDeliveryDto userDeliver) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		userDeliveryService.creUserDelivery(ss.getUserId(), userDeliver);
@@ -159,7 +161,7 @@ public class UserInfoController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/center/userlist", method = RequestMethod.GET)
+	@RequestMapping(value = Url.ALLUSER, method = RequestMethod.GET)
 	public String getAllUser(Model model) {
 
 		List<UserLoginDto> users = userLoginService.getAllUser();
@@ -173,7 +175,7 @@ public class UserInfoController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/center/userlist/userEdit/{id}")
+	@RequestMapping(value = Url.ALLUSEREDIT)
 	public String changeUser(@PathVariable("id") int id, UserLoginDto userdto) {
 
 		userLoginService.changerUser(id, userdto);
@@ -185,7 +187,7 @@ public class UserInfoController {
 	 * ユーザIDによるユーザ削除(ADMIN)
 	 * @param id
 	 */
-	@RequestMapping(value = "/center/userInfoList/deleteUser/{userId}")
+	@RequestMapping(value = Url.USERDELETEBYID)
 	public String deleteUser(@PathVariable("userId") int id) {
 		userLoginService.deleteUser(id);
 
@@ -197,7 +199,7 @@ public class UserInfoController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/center/userInfoList/{id}")
+	@RequestMapping(value = Url.ALLUSERINFO)
 	public String changeAllUserInfo(@PathVariable("id") int userid, UserInfoDto userInfodto) {
 
 		userInfoService.updateAllUserInfo(userid, userInfodto);
@@ -209,7 +211,7 @@ public class UserInfoController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/center/userTodokeList/edit/{id}")
+	@RequestMapping(value = Url.ALLUSERTODOKEEDIT)
 	public String changeAllUserAdd(@PathVariable("id") int userid, UserInfoDto userInfodto) {
 		userInfoService.updateAllUserAddInfo(userid, userInfodto);
 		return "redirect:/center/userTodokeList";

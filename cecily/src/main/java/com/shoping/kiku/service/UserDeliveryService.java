@@ -19,7 +19,11 @@ public class UserDeliveryService {
 	@Autowired
 	UserLoginRepository userLoginRepository;
 
-	//CREATEユーザ届け(user)
+	/**
+	 * CREATEユーザ届け(user)
+	 * @param userid
+	 * @param user
+	 */
 	public void creUserDelivery(int userid, UserDeliveryDto user) {
 		UserDeliveryEntity userDelivery = new UserDeliveryEntity();
 		userDelivery.setUserId(userid);
@@ -35,8 +39,11 @@ public class UserDeliveryService {
 
 	}
 
-	//ユーザ届けを取得(user)
-
+	/**
+	 * ユーザ届けを取得(user)
+	 * @param userId
+	 * @return
+	 */
 	public List<UserDeliveryDto> getUserDelivery(int userId) {
 		List<UserDeliveryEntity> userDelivery = userDeliveryRepository.findByUserId(userId);
 		List<UserDeliveryDto> userdelivery = new ArrayList<>();
@@ -59,8 +66,12 @@ public class UserDeliveryService {
 		return userdelivery;
 	}
 
-	//ユーザ届けを編集(user)
-
+	/**
+	 * ユーザ届けを編集(user)
+	 * @param deleveryId
+	 * @param userId
+	 * @param userDeliveryDto
+	 */
 	public void editUserDelivery(int deleveryId, int userId, UserDeliveryDto userDeliveryDto) {
 		UserDeliveryEntity userDelivery = new UserDeliveryEntity();
 		userDelivery.setId(deleveryId);
@@ -75,13 +86,19 @@ public class UserDeliveryService {
 		userDeliveryRepository.save(userDelivery);
 	}
 
-	//ユーザ届けを削除(user)
+	/**
+	 * ユーザ届けを削除(user)
+	 * @param id
+	 */
 	public void deleteUserTodoke(int id) {
 
 		userDeliveryRepository.deleteById(id);
 	}
 
-	//ユーザ届け一覧を取得(ADMIN）
+	/**
+	 * ユーザ届け一覧を取得(ADMIN）
+	 * @return
+	 */
 	public List<UserDeliveryDto> getAllUserDelivery() {
 		List<UserDeliveryEntity> usertt = userDeliveryRepository.findAll();
 		List<UserDeliveryDto> usersDelivery = new ArrayList<>();
@@ -101,7 +118,11 @@ public class UserDeliveryService {
 		return usersDelivery;
 	}
 
-	//ユーザデフォルト住所を取得(Buy画面とMyOrder画面)
+	/**
+	 * ユーザデフォルト住所を取得(Buy画面とMyOrder画面)
+	 * @param userId
+	 * @return
+	 */
 	public UserDeliveryDto getDefaultadd(int userId) {
 		UserDeliveryEntity users = userDeliveryRepository.getDefaultAddByUserId(userId);
 		UserDeliveryDto userDefaultAdd = new UserDeliveryDto();

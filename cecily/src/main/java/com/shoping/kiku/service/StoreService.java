@@ -17,7 +17,11 @@ public class StoreService {
 	@Autowired
 	StoreRepository storeRepository;
 
-	//店舗作成
+	/**
+	 * 店舗作成
+	 * @param userId
+	 * @param st
+	 */
 	public void creStore(int userId, StoreDto st) {
 		StoreEntity store = new StoreEntity();
 		store.setStoreId(storeRepository.getStoreId());
@@ -34,7 +38,11 @@ public class StoreService {
 
 	}
 
-	//店舗編集
+	/**
+	 * 店舗編集(store)
+	 * @param userId
+	 * @param st
+	 */
 	public void updateStore(int userId, StoreDto st) {
 		StoreEntity store = new StoreEntity();
 		store.setUserId(userId);
@@ -47,7 +55,11 @@ public class StoreService {
 		store.setStoreStatus(Status.SHOPOPAPP);
 	}
 
-	//店舗編集(ADMIN)
+	/**
+	 * 店舗編集(ADMIN)
+	 * @param userId
+	 * @param st
+	 */
 	public void editStore(int userId, StoreDto st) {
 		StoreEntity store = new StoreEntity();
 		store.setUserId(userId);
@@ -60,8 +72,11 @@ public class StoreService {
 		store.setStoreStatus(st.getStoreStatus());
 	}
 
-	//店舗情報を取得(USer)
-
+	/**
+	 * 店舗情報を取得(userIdによって)
+	 * @param userId
+	 * @return
+	 */
 	public StoreDto getStoreInfo(int userId) {
 
 		StoreEntity st = storeRepository.findByUserId(userId);
@@ -82,32 +97,38 @@ public class StoreService {
 		return store;
 
 	}
-	
-	
-	//店舗情報を取得(USer)
 
-		public StoreDto findByStoreId(int storeId) {
+	/**
+	 * 店舗情報を取得(storeId　によって)
+	 * @param storeId
+	 * @return
+	 */
 
-			StoreEntity st = storeRepository.findByStoreId(storeId);
-			StoreDto store = new StoreDto();
-			if (st != null) {
-				store.setStoreId(storeId);
-				store.setUserId(st.getUserId());
-				store.setStorePhone(st.getStorePhone());
-				store.setStorePostcode(st.getStorePostcode());
-				store.setStoreCyomebanchi(st.getStoreCyomebanchi());
-				store.setStoreTodoufuken(st.getStoreTodoufuken());
-				store.setStoreShikucyouson(st.getStoreShikucyouson());
-				store.setStoreName(st.getStoreName());
-				store.setStoreStatus(st.getStoreStatus());
-			} else {
-				store = null;
-			}
-			return store;
+	public StoreDto findByStoreId(int storeId) {
 
+		StoreEntity st = storeRepository.findByStoreId(storeId);
+		StoreDto store = new StoreDto();
+		if (st != null) {
+			store.setStoreId(storeId);
+			store.setUserId(st.getUserId());
+			store.setStorePhone(st.getStorePhone());
+			store.setStorePostcode(st.getStorePostcode());
+			store.setStoreCyomebanchi(st.getStoreCyomebanchi());
+			store.setStoreTodoufuken(st.getStoreTodoufuken());
+			store.setStoreShikucyouson(st.getStoreShikucyouson());
+			store.setStoreName(st.getStoreName());
+			store.setStoreStatus(st.getStoreStatus());
+		} else {
+			store = null;
 		}
-	//すべての店舗を取得(ADMIN)
+		return store;
 
+	}
+
+	/**
+	 * すべての店舗を取得(ADMIN)
+	 * @return
+	 */
 	public List<StoreDto> getAllStore() {
 		List<StoreEntity> allStore = storeRepository.findAll();
 		List<StoreDto> alls = new ArrayList<>();
@@ -129,7 +150,10 @@ public class StoreService {
 		return alls;
 	}
 
-	//申込同意 (回復)
+	/**
+	 * 申込同意 (回復) [ADMIN]
+	 * @param storeId
+	 */
 	public void agreeStore(int storeId) {
 
 		StoreEntity st = storeRepository.findByStoreId(storeId);
@@ -147,8 +171,10 @@ public class StoreService {
 
 	}
 
-	//店舗ブロック
-
+	/**
+	 * 店舗ブロック (ADMIN)
+	 * @param storeId
+	 */
 	public void blockStore(int storeId) {
 
 		StoreEntity st = storeRepository.findByStoreId(storeId);
@@ -166,7 +192,7 @@ public class StoreService {
 	}
 
 	public int getstoreIdByUserId(int userId) {
-		int storeId =storeRepository.findByUserId(userId).getStoreId();
+		int storeId = storeRepository.findByUserId(userId).getStoreId();
 		return storeId;
 	}
 }

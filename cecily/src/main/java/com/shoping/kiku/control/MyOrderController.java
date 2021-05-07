@@ -101,8 +101,7 @@ public class MyOrderController {
 		return mv;
 
 	}
-	
-	
+
 	/**
 	 * オーダー取消
 	 * @param orderId
@@ -110,12 +109,12 @@ public class MyOrderController {
 	 */
 	@RequestMapping("/center/myorder/cancelorder/{id}")
 	public String cancelOrder(@PathVariable("id") String orderId) {
-		
+
 		myOrderService.cancelOrder(orderId);
-		
+
 		return "redirect:/center/myorder";
 	}
-	
+
 	/**
 	 * 商品発送(store)
 	 * @param orderId
@@ -124,13 +123,22 @@ public class MyOrderController {
 	 * @return
 	 */
 	@RequestMapping("/center/ordermanager/shipproduct/{id}")
-	public String proShip(@PathVariable("id") String orderId,ShippingDto ship,HttpServletRequest res) {
-		
-		
+	public String proShip(@PathVariable("id") String orderId, ShippingDto ship, HttpServletRequest res) {
+
 		myOrderService.productShip(orderId, ship);
-		
+
 		return "redirect:/center/ordermanager";
 	}
-	
+
+	/**
+	 * 收貨 訂單已完成(user)
+	 * @param orderId
+	 * @return
+	 */
+	@RequestMapping("/center/ordermanager/deliveryproduct/{id}")
+	public String completeOrder(@PathVariable("id") String orderId) {
+		myOrderService.completeOrder(orderId);
+		return "redirect:/center/ordermanager";
+	}
 
 }

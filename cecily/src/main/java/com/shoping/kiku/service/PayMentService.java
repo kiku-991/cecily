@@ -32,7 +32,11 @@ public class PayMentService {
 	@Autowired
 	MyOrderService myOrderService;
 
-	//AriPay
+	/**
+	 * AriPay
+	 * @param userId
+	 * @param orderId
+	 */
 	public void creAriPayForm(int userId, String orderId) {
 
 		//自動生成
@@ -50,7 +54,6 @@ public class PayMentService {
 		payment.setPayTime(new Timestamp(System.currentTimeMillis()));
 		paymentRepository.save(payment);
 
-		
 		//Commerce Table
 		CommerceEntity commerce = commerceRepository.findByOrderId(orderId);
 		CommerceEntity com = new CommerceEntity();
@@ -74,8 +77,11 @@ public class PayMentService {
 		myOrderRepository.save(myord);
 	}
 
-
-	//クレジットカード支払い
+	/**
+	 * クレジットカード支払い
+	 * @param userId
+	 * @param orderId
+	 */
 	public void creCreditPayForm(int userId, String orderId) {
 		//自動生成
 		String payId = OrderUtils.getPayCode(userId);
@@ -92,7 +98,6 @@ public class PayMentService {
 		payment.setPayTime(new Timestamp(System.currentTimeMillis()));
 		paymentRepository.save(payment);
 
-	
 		//Commerce Table
 		CommerceEntity commerce = commerceRepository.findByOrderId(orderId);
 		CommerceEntity com = new CommerceEntity();
@@ -114,10 +119,7 @@ public class PayMentService {
 		myord.setModifyTime(new Timestamp(System.currentTimeMillis()));
 		myord.setPurchasingPrice(total);
 		myOrderRepository.save(myord);
-		
+
 	}
-
-
-	
 
 }

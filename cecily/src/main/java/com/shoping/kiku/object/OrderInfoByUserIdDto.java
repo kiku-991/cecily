@@ -21,11 +21,12 @@ public class OrderInfoByUserIdDto {
 	private Timestamp payTime;
 	private String shippingId;
 	private String courierCompany;
-	private Timestamp trackingNumber;
+	private String trackingNumber;
 	private Timestamp deliveryTime;
 	private Timestamp receiptTime;
 	private Integer total;
 	private Integer qqt;
+	private Timestamp certainTime;
 	
 	List<ProductInfoForOrderIdDto> product;
 }

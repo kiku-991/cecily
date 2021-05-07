@@ -21,10 +21,10 @@ import com.shoping.kiku.until.Status;
 
 @Service
 public class UserLoginService {
-	
+
 	@Autowired
 	UserLoginRepository userLoginRepository;
-	
+
 	@Autowired
 	UserInfoRepository userInfoRepository;
 
@@ -64,7 +64,7 @@ public class UserLoginService {
 			entity.setUserMail(user.getUserMail());
 			entity.setUserPassword(user.getUserPassword());
 			entity.setCreateDate(new Timestamp(System.currentTimeMillis()));
-			
+
 			entity.setRole("user");
 			entity.setStatus(Status.USERNOMAL);
 			userLoginRepository.save(entity);
@@ -123,32 +123,51 @@ public class UserLoginService {
 		}
 	}
 
-	//get セッションmail
+	/**
+	 * get セッションmail
+	 * @param request
+	 * @return
+	 */
 	public String getMail(HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		String mail = ss.getUserMail();
 		return mail;
 	}
 
-	//get DBのID
+	/**
+	 * get DBのID
+	 * @param userMail
+	 * @return
+	 */
 	public int getId(String userMail) {
 
 		return userLoginRepository.findByUserMail(userMail).getUserId();
 	}
 
-	//get DBのPwd
+	/**
+	 * get DBのPwd
+	 * @param userMail
+	 * @return
+	 */
 	public String getPwd(String userMail) {
 
 		return userLoginRepository.findByUserMail(userMail).getUserPassword();
 	}
 
-	//get DBのRole
+	/**
+	 * get DBのRole
+	 * @param userMail
+	 * @return
+	 */
 	public String getRole(String userMail) {
 
 		return userLoginRepository.findByUserMail(userMail).getRole();
 	}
 
-	//店舗申込Role変更
+	/**
+	 * 店舗申込Role変更
+	 * @param userId
+	 */
 	public void roleChange(int userId) {
 
 		UserLoginEntity user = userLoginRepository.findByUserId(userId);
@@ -165,7 +184,11 @@ public class UserLoginService {
 
 	}
 
-	//get DBのStatus
+	/**
+	 * get DBのStatus
+	 * @param userMail
+	 * @return
+	 */
 	public Integer getStatus(String userMail) {
 
 		return userLoginRepository.findByUserMail(userMail).getStatus();

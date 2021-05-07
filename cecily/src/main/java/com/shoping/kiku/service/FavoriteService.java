@@ -26,7 +26,12 @@ public class FavoriteService {
 	@Autowired
 	ProductRepository productRepository;
 
-	//気に入りを追加(ユーザIDと商品IDによる)
+	/**
+	 * 気に入りを追加(ユーザIDと商品IDによる)
+	 * @param userid
+	 * @param productId
+	 * @return
+	 */
 	public int creFavorite(int userid, int productId) {
 		// DBに気に入りあるかどうかを検索
 		FavoriteEntity check = favoriteRepository.findByUserIdAndProductId(
@@ -47,14 +52,22 @@ public class FavoriteService {
 		}
 	}
 
-	//気に入りをキャンセル(ユーザIDと商品IDによる削除)
+	/**
+	 * 気に入りをキャンセル(ユーザIDと商品IDによる削除)
+	 * @param userid
+	 * @param productId
+	 */
 	public void cancelFavorite(int userid, int productId) {
 		FavoriteEntity favarite = favoriteRepository.findByUserIdAndProductId(userid, productId);
 		favoriteRepository.delete(favarite);
 
 	}
 
-	//ユーザIDによる気に入りを取得(気に入り一覧)
+	/**
+	 * ユーザIDによる気に入りを取得(気に入り一覧)
+	 * @param userId
+	 * @return
+	 */
 	public List<FavoProDto> getFavorite(int userId) {
 
 		List<FavoriteProEntity> fp = favoriteProRepository.getFavoriteProByUserId(userId);
@@ -75,20 +88,24 @@ public class FavoriteService {
 		return favo;
 
 	}
-	
-	
-	//商品詳細画面　気に入り状態あるかどうか
+
+	/**
+	 * 商品詳細画面　気に入り状態あるかどうか
+	 * @param userid
+	 * @param proid
+	 * @return
+	 */
 	public FavoriteDto getProByUserIdAndProId(int userid, int proid) {
 		//気に入り判断
 		FavoriteEntity fet = favoriteRepository.findByUserIdAndProductId(userid, proid);
 		FavoriteDto fv = new FavoriteDto();
 		ProductEntity pro = productRepository.findByProductId(proid);
 		//気に入りなし
-			if (fet != null) {
-				fv.setUserId(fet.getUserId());
-			}
+		if (fet != null) {
+			fv.setUserId(fet.getUserId());
+		}
 		//商品情報
-		
+
 		fv.setProductId(pro.getProductId());
 		fv.setProductImg(pro.getProductImg());
 		fv.setProductName(pro.getProductName());

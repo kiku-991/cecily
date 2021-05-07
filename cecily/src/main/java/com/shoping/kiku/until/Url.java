@@ -1,116 +1,183 @@
 package com.shoping.kiku.until;
 
 public class Url {
+
+	/**
+	 * LoginController
+	 */
+
+	//ログイン画面
+	public static final String LOGIN = "/login";
+
+	//ログアウト 
+	public static final String LOGINOUT = "/loginout";
+
 	//imgフォルダに画像
-		public static final String SRC = "../img/";
+	public static final String SRC = "../img/";
 
-		//ProductController
+	/**
+	 * UserInfoController
+	 */
 
-		//商品新規登録
-		public static final String CREATEProduct = "/center/productmanger";
-		//商品IDによって商品編集
-		public static final String UPDATEPROBYID = "/center/product/edit/{id}";
-		//商品IDによって商品削除
-		public static final String DELETEPROBYID = "/center/productmanger/deleteProduct/{id}";
-		//商品IDによって商品を中止
-		public static final String STOPSTATUSBYID = "/center/productmanger/stop/{id}";
-		//商品IDによって中止商品を回復
-		public static final String RECOVERYPROBYID = "/center/productmanger/recovery/{id}";
+	//ユーザ情報登録
+	public static final String USERTCREATE = "/center/userInfo/usercrete";
 
-		//LoginController
+	//該当ユーザ情報更新
+	public static final String USERINFOEDIT = "/center/userInfo/edit";
 
-		//ログイン画面
-		public static final String LOGIN = "/login";
+	//該当届け住所作成
+	public static final String USERTODOKEADD = "/center/userTodoke/add";
 
-		//ログアウト 
-		public static final String LOGINOUT = "/loginout";
+	//該当届け住所編集
+	public static final String USERTODOKEEDIT = "/center/userTodoke/edit/{id}";
 
-		//ShoppingController
+	//該当届け住所削除
+	public static final String USERTODOKEEDELETE = "/center/userTodoke/delete/{id}";
 
-		//ホームページ
-		public static final String SHOPPING = "/shopping";
+	//パスワード変更
+	public static final String PWDEDIT = "/center/pwdChange/edit";
 
-		//ホームページ
-		public static final String INDEX = "/";
+	//登录届け住所(buy画面)
+	public static final String ADDTODOKRBUY = "/buy/useradd/add";
 
-		//TorokuController
+	//編集届け住所(buy画面)
 
-		//登録画面
-		public static final String TOUROKU = "/touroku";
+	//ユーザ一覧(ADMIN)
+	public static final String ALLUSER = "/center/userlist";
 
-		//UserCenterController
+	//ユーザー操作(ADMIN)
+	public static final String ALLUSEREDIT = "/center/userlist/userEdit/{id}";
 
-		//マイページ 
-		public static final String CENTER = "/shopping/center";
+	//ユーザIDによるユーザ削除(ADMIN)
+	public static final String USERDELETEBYID = "/center/userInfoList/deleteUser/{userId}";
 
-		//会員基本情報画面 
-		public static final String USERINFO = "/center/userInfo";
+	//すべてのユーザー情報操作(ADMIN)
+	public static final String ALLUSERINFO = "/center/userInfoList/{id}";
 
-		//届け住所編集画面
-		public static final String USERTODOKE = "/center/userTodoke";
+	//すべてのユーザー届け住所情報操作(ADMIN)
+	public static final String ALLUSERTODOKEEDIT = "/center/userTodokeList/edit/{id}";
 
-		//パスワード変更画面 
-		public static final String PWDCHANGE = "/center/pwdChange";
+	//すべてのユーザー届け住所情報操作(ADMIN)
+	//public static final String USERTODOKEEDITBYID = "/center/userTodokeList/edit/{userId}";
 
-		//お気に入り
-		public static final String FAVORITE = "/center/favorite";
+	/**
+	 * TorokuController
+	 */
 
-		//買い物かご
-		public static final String SHOPCART = "/center/shopcart";
+	//登録画面
+	public static final String TOUROKU = "/touroku";
 
-		//マイ注文
-		public static final String MYCYOUMON = "/center/mycyumon";
+	/**
+	 * UserCenterController
+	 */
 
-		//出店申込
-		public static final String MOSHIKOMI = "/center/moushikomi";
+	//マイページ 
+	public static final String CENTER = "/shopping/center";
 
-		//注文管理
-		public static final String CYOMONMANAGER = "/center/cyumonManager";
+	//会員基本情報画面 
+	public static final String USERINFO = "/center/userInfo";
 
-		//商品管理(店舗)
-		public static final String PRODUCTMANGER = "/center/productmanger";
+	//届け住所編集画面
+	public static final String USERTODOKE = "/center/userTodoke";
 
-		//ユーザ一覧
-		public static final String USERLIST = "/center/userlist";
+	//パスワード変更画面 
+	public static final String PWDCHANGE = "/center/pwdChange";
 
-		//ユーザ情報
-		public static final String USERINFOLIST = "/center/userInfoList";
+	//パスワード変更失敗画面
+	public static final String PWDCHANGEFAIL = "/center/passfail";
 
-		//ユーザ届け住所連絡
+	//お気に入り
+	public static final String FAVORITE = "/center/favorite";
 
-		public static final String USERTODOKELIST = "/center/userTodokeList";
+	//買い物かご
+	public static final String SHOPCART = "/center/shopcart";
 
-		//UserController
-		
-		
+	//マイ注文
+	public static final String MYCYOUMON = "/center/mycyumon";
 
-		//ユーザ情報登録
-		public static final String USERTCREATE = "/center/userInfo/usercrete";
+	//出店申込
+	public static final String MOSHIKOMISHOP = "/center/myshop";
 
-		//該当ユーザ情報更新
-		public static final String USERINFOEDIT = "/center/userInfo/edit";
+	//注文管理
+	public static final String CYOMONMANAGER = "/center/ordermanager";
+	
+	//ユーザID によって商品取得(店舗)
+	public static final String MYPRODUCTS = "/center/myproducts";
 
-		//該当届け住所編集
-		public static final String USERTODOKEEDIT = "/center/userTodoke/edit";
+	//商品管理(店舗)
+	public static final String PRODUCTMANGER = "/center/productmanger";
 
-		//パスワード変更
-		public static final String PWDEDIT = "/center/pwdChange/edit";
-		//Role 変更 店舗申込
-		public static final String USERTEDIT = "/center/moushikomi";
+	//店舗管理(ADMIN)
+	public static final String STOREMANAGER = "/center/storemanger";
+	//ユーザ一覧
+	public static final String USERLIST = "/center/userlist";
 
-		//ユーザ一覧(ADMIN)
-		public static final String ALLUSER = "/center/userlist";
+	//ユーザ情報
+	public static final String USERINFOLIST = "/center/userInfoList";
 
-		//すべてのユーザー情報操作(ADMIN)
-		public static final String ALLUSERINFO = "/center/userInfoList";
+	//ユーザ届け住所連絡
 
-		//ユーザー操作(ADMIN)
-		public static final String ALLUSEREDIT = "/center/userlist/userEdit";
+	public static final String USERTODOKELIST = "/center/userTodokeList";
 
-		//ユーザIDによるユーザ削除(ADMIN)
-		public static final String USERDELETEBYID = "/center/userInfoList/deleteUser/{userId}";
+	//Role 変更 店舗申込
+	public static final String USERTEDIT = "/center/moushikomi";
 
-		//すべてのユーザー届け住所情報操作(ADMIN)
-		public static final String USERTODOKEEDITBYID = "/center/userTodokeList/edit/{userId}";
+	/**
+	 * StoreController
+	 */
 
+	//出店申込
+	public static final String SHOPAPPLY = "/center/myshop/shopApply";
+
+	//申込同意(ADMIN)
+
+	public static final String AGREEAPP = "/center/storemanger/agree/{id}";
+
+	//店舗ブロック(ADMIN)
+	public static final String STOPSHOP = "/center/storemanger/stop/{id}";
+
+	//店舗回復(ADMIN)
+	public static final String RECOVERYSHOP = "/center/storemanger/recovery/{id}";
+
+	/**
+	 * ShoppingController
+	 */
+
+	//ホームページ
+	public static final String SHOPPING = "/shopping";
+
+	//ホームページ
+	public static final String INDEX = "/";
+
+	//キーワード検索
+	public static final String KEYWORD = "/shopping/keywordSearch";
+
+	//気に入り一覧
+	public static final String SHOPFAVPRITE = "/shopping/favorite";
+
+	/**
+	 * ProductController
+	 */
+
+	//商品新規登録
+	public static final String CREATEPRODUCT = "/center/myproducts/create";
+	//商品IDによって商品編集
+	public static final String UPDATEPROBYID = "/center/myproducts/edit/{id}";
+	//商品IDによって商品削除
+	public static final String DELETEPROBYID = "/center/myproducts/deleteProduct/{id}";
+	//商品IDによって商品を中止
+	public static final String STOPSTATUSBYID = "/center/myproducts/stop/{id}";
+	//商品IDによって中止商品を回復
+	public static final String RECOVERYPROBYID = "/center/myproducts/recovery/{id}";
+
+	//商品詳細画面
+	public static final String PRODUCTDETAILS = "/productDetails/{id}";
+	//商品IDによって商品編集(ADMIN)
+	public static final String PROMANAGEREDIT = "/center/productmanger/edit/{id}";
+	//商品IDによって商品削除(ADMIN)
+	public static final String PROMANAGEREDELETE = "/center/productmanger/deleteProduct/{id}";
+	//商品IDによって商品を中止(ADMIN)
+	public static final String PROMANAGERSTOP = "/center/productmanger/stop/{id}";
+	//商品IDによって中止商品を回復(ADMIN)
+	public static final String PROMANAGERRECOVERY = "/center/productmanger/recovery/{id}";
 }

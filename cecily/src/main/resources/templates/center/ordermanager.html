@@ -37,17 +37,6 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
 	rel="stylesheet">
-<!-- <script type="text/javascript">
-	var __root__ = 'https://demo.shopxo.net/';
-	var __my_url__ = 'https://demo.shopxo.net/';
-	var __my_public_url__ = 'https://demo.shopxo.net/';
-	var __public__ = 'https://demo.shopxo.net/';
-	var __default_theme__ = 'default';
-	var __attachment_host__ = 'https://demo.shopxo.net';
-	var __seo_url_suffix__ = 'html';
-	var __user_id__ = 71192;
-	var __currency_symbol__ = '￥';
-</script> -->
 
 <!-- 公共header内钩子 -->
 <style type="text/css">
@@ -212,7 +201,7 @@
 									合计:￥[[${oid.total}]]</div>
 							</td>
 							<td class="am-nowrap-initial"
-								th:text="${oid.orderStatus==0?'待支付':'待发货'}"></td>
+								th:text="${oid.orderStatus==0?'待支付':(oid.orderStatus==1?'待发货':(oid.orderStatus==2?'待收货':'已完成'))}"></td>
 							<td class="am-nowrap-initial"
 								th:text="${oid.paymentId != null?'支払完了':'支払待ち'}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.total}"></td>
@@ -233,7 +222,7 @@
 								th:text="${oid.payMethod==1?'AriPay':'sonota'}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.courierCompany}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.trackingNumber}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
+							<td class="am-nowrap-initial" ></td>
 							<td class="am-nowrap-initial" th:text="${oid.payTime}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.deliveryTime}"></td>
 							<td class="am-nowrap-initialam-grid-sm"
@@ -249,19 +238,16 @@
 									th:data-bs-target="'#cancel'+${oid.orderId}">
 									<span>取消</span>
 								</button> <!-- 
-								
 								<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="https://store.shopxo.net/index/order/collect.html" data-id="1347" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">
        							 <i class="am-icon-check-circle-o"></i>
        						 <span>收货</span>
     							</button>
 								弹窗 
-								
 								<div class="am-modal-dialog"><div class="am-modal-hd">温馨提示</div><div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs">请仔细确认已收到货物、确认继续吗？</div></div><div class="am-modal-footer"><span class="am-modal-btn" data-am-modal-cancel="">取消</span><span class="am-modal-btn" data-am-modal-confirm="">确定</span></div></div>
-								
 								 --> <!-- Button trigger modal orderID -->
 								<button type="button"
 									class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay"
-									data-bs-toggle="modal" th:if="${oid.payTime!=null}"
+									data-bs-toggle="modal" th:if="${oid.paymentId!=null&&oid.deliveryTime==null}"
 									th:data-bs-target="'#pay'+${oid.orderId}">发货</button></td>
 							<div class="modal fade" th:id="'pay'+${oid.orderId}"
 								data-bs-backdrop="pay" data-bs-keyboard="false" tabindex="-1"
@@ -275,20 +261,20 @@
 										</div>
 										<div class="modal-body">
 
-											<form th:action="@{/center/myorder/cancelorder/{id}(id=${oid.orderId})}" method="post">
+											<form th:action="@{/center/ordermanager/shipproduct/{id}(id=${oid.orderId})}" method="post">
 													<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="courierCompany" id="inlineRadio1" value="shunfeng">
+													name="courierCompany" id="inlineRadio1" value="顺丰">
 												<label class="form-check-label" for="inlineRadio1">顺丰</label>
 											</div>
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="courierCompany" id="inlineRadio2" value="zhongtong">
+													name="courierCompany" id="inlineRadio2" value="中通">
 												<label class="form-check-label" for="inlineRadio2">中通</label>
 											</div>
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="courierCompany" id="inlineRadio3" value="yunda">
+													name="courierCompany" id="inlineRadio3" value="韵达">
 												<label class="form-check-label" for="inlineRadio3">韵达
 												</label>
 											</div>
@@ -300,9 +286,6 @@
 														value="確定">
 												</div>
 											</form>
-										
-										
-
 										</div>
 									</div>
 								</div>

@@ -17,6 +17,7 @@ import com.shoping.kiku.service.FavoriteService;
 import com.shoping.kiku.service.ProductService;
 import com.shoping.kiku.service.StoreService;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Url;
 
 @Controller
 public class ProductController {
@@ -36,7 +37,7 @@ public class ProductController {
 	 * @param product
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/myproducts/create", method = RequestMethod.POST)
+	@RequestMapping(value = Url.CREATEPRODUCT, method = RequestMethod.POST)
 	public String creProduct(HttpServletRequest request, ProductDto product) {
 
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
@@ -51,7 +52,7 @@ public class ProductController {
 	 * @param pro
 	 * @return productmanger
 	 */
-	@PostMapping(value = "/center/myproducts/edit/{id}")
+	@PostMapping(value = Url.UPDATEPROBYID)
 	public String updateProById(@PathVariable("id") int id, ProductDto pro) {
 		productService.updateProduct(pro, id);
 		return "redirect:/center/myproducts";
@@ -62,7 +63,7 @@ public class ProductController {
 	 * @param pro
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/myproducts/deleteProduct/{id}")
+	@RequestMapping(value = Url.DELETEPROBYID)
 	public String deleteProById(@PathVariable("id") int id) {
 		productService.deletePro(id);
 		return "redirect:/center/myproducts";
@@ -73,7 +74,7 @@ public class ProductController {
 	 * @param id
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/myproducts/stop/{id}")
+	@RequestMapping(value = Url.STOPSTATUSBYID)
 	public String stopStatusById(@PathVariable("id") int id) {
 		productService.stopStatus(id);
 		return "redirect:/center/myproducts";
@@ -85,7 +86,7 @@ public class ProductController {
 	 * @param id
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/myproducts/recovery/{id}")
+	@RequestMapping(value = Url.RECOVERYPROBYID)
 	public String recoveryProById(@PathVariable("id") int id) {
 		productService.recovery(id);
 		return "redirect:/center/myproducts";
@@ -95,7 +96,7 @@ public class ProductController {
 	 * 商品詳細画面に遷移
 	 * @return 商品詳細画面
 	 */
-	@RequestMapping(value = "/productDetails/{id}")
+	@RequestMapping(value = Url.PRODUCTDETAILS)
 	public ModelAndView proDetails(@PathVariable("id") int id, HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("productdetails");
@@ -124,7 +125,7 @@ public class ProductController {
 	 * @param pro
 	 * @return productmanger
 	 */
-	@PostMapping(value = "/center/productmanger/edit/{id}")
+	@PostMapping(value = Url.PROMANAGEREDIT)
 	public String editProById(@PathVariable("id") int id, ProductDto pro) {
 		productService.updateProduct(pro, id);
 		return "redirect:/center/productmanger";
@@ -135,7 +136,7 @@ public class ProductController {
 	 * @param pro
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/productmanger/deleteProduct/{id}")
+	@RequestMapping(value = Url.PROMANAGEREDELETE)
 	public String deProById(@PathVariable("id") int id) {
 		productService.deletePro(id);
 		return "redirect:/center/productmanger";
@@ -146,7 +147,7 @@ public class ProductController {
 	 * @param id
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/productmanger/stop/{id}")
+	@RequestMapping(value = Url.PROMANAGERSTOP)
 	public String blockProById(@PathVariable("id") int id) {
 		productService.stopStatus(id);
 		return "redirect:/center/productmanger";
@@ -158,7 +159,7 @@ public class ProductController {
 	 * @param id
 	 * @return productmanger
 	 */
-	@RequestMapping(value = "/center/productmanger/recovery/{id}")
+	@RequestMapping(value = Url.PROMANAGERRECOVERY)
 	public String reProById(@PathVariable("id") int id) {
 		productService.recovery(id);
 		return "redirect:/center/productmanger";

@@ -32,8 +32,11 @@ public class ProductService {
 	@Autowired
 	FavoriteProRepository favoriteProRepository;
 
-	//homepage 
-
+	/**
+	 * ホームページの商品表示(個人気に入り情報が含まれる)
+	 * @param res
+	 * @return
+	 */
 	public List<FavoProDto> getAllProductByStatusNormal(HttpServletRequest res) {
 		Session session = (Session) res.getSession().getAttribute("userLogin");
 		List<FavoProDto> pros = new ArrayList<>();
@@ -300,6 +303,7 @@ public class ProductService {
 		}
 		return prolike;
 	}
+
 	/**
 	 * キーワード検索
 	 * @param keyword
@@ -310,16 +314,25 @@ public class ProductService {
 		return count;
 	}
 
-	//get Stock 
+	/**
+	 * 該当商品のストックを取得
+	 * @param proId
+	 * @return
+	 */
 	public int getStock(int proId) {
 		int stock = productRepository.findByProductId(proId).getStock();
 		return stock;
 	}
 
-	public int getTotal(int proId) {
-		ProductEntity stopro = productRepository.findByProductId(proId);
-		int total = stopro.getProductPrice() * stopro.getStock();
-		return total;
-	}
+	/*	*//**
+			* 要らない
+			* @param proId
+			* @return
+			*//*
+				public int getTotal(int proId) {
+				ProductEntity stopro = productRepository.findByProductId(proId);
+				int total = stopro.getProductPrice() * stopro.getStock();
+				return total;
+				}*/
 
 }

@@ -11,6 +11,7 @@ import com.shoping.kiku.object.UserLoginDto;
 import com.shoping.kiku.service.UserLoginService;
 import com.shoping.kiku.until.MsgContents;
 import com.shoping.kiku.until.PwdHashing;
+import com.shoping.kiku.until.Url;
 
 
 @Controller
@@ -24,7 +25,7 @@ public class TourokuController {
 	 * 登録画面
 	 * @return
 	 */
-	@RequestMapping("/touroku")
+	@RequestMapping(Url.TOUROKU)
 	public ModelAndView toroku() {
 		ModelAndView mv = new ModelAndView("touroku");
 		return mv;
@@ -35,7 +36,7 @@ public class TourokuController {
 	 * @param user
 	 * @return
 	 */
-	@PostMapping("/touroku")
+	@PostMapping(Url.TOUROKU)
 	public String createUser(UserLoginDto user, Model model) {
 
 		//パスワード非表示設定
