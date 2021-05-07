@@ -1,7 +1,6 @@
 package com.shoping.kiku.control;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shoping.kiku.object.FavoProDto;
+import com.shoping.kiku.object.OrderMangerDto;
 import com.shoping.kiku.object.ProductDto;
 import com.shoping.kiku.object.StoreDto;
 import com.shoping.kiku.object.UserDeliveryDto;
@@ -50,14 +50,15 @@ public class UserCenterController {
 
 	@Autowired
 	MyOrderService myOrderService;
-	/*
-	@Autowired
-	MyCartService myCartService;*/
-
+	
 	//以下すべて遷移画面になります
 
-	//マイページ 
-
+	/**
+	 * マイページ 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/shopping/center")
 	public ModelAndView center(HttpServletRequest request) throws Exception {
 
@@ -68,7 +69,12 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//会員基本情報画面
+	/**
+	 * 会員基本情報画面
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/center/userInfo")
 	public ModelAndView userInfo(HttpServletRequest request) throws Exception {
 		UserInfoDto userInfo = userInfoService.getUserInfo(request);
@@ -77,8 +83,12 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//届け住所編集画面
-
+/**
+ * 届け住所編集画面
+ * @param request
+ * @return
+ * @throws Exception
+ */
 	@RequestMapping("/center/userTodoke")
 	public ModelAndView userTodoke(HttpServletRequest request) throws Exception {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
@@ -88,8 +98,12 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//パスワード変更画面
 
+	/**
+	 * パスワード変更画面
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/center/pwdChange")
 	public ModelAndView pwdChange(HttpSession session) {
 		Session ss = (Session) session.getAttribute("userLogin");
@@ -100,7 +114,11 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//パスワード変更失敗画面
+	/**
+	 * パスワード変更失敗画面
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping(value = "/center/passfail")
 	public ModelAndView pwdfail(HttpSession session) {
 		Session ss = (Session) session.getAttribute("userLogin");
@@ -113,7 +131,11 @@ public class UserCenterController {
 
 	}
 
-	//お気に入り
+	/**
+	 * お気に入り
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/center/favorite")
 	public ModelAndView favorite(HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
@@ -125,7 +147,10 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//買い物かご
+	/**
+	 * 買い物かご
+	 * @return
+	 */
 	@RequestMapping("/center/shopcart")
 	public ModelAndView shopcart() {
 
@@ -133,7 +158,11 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//出店申込
+	/**
+	 * 出店申込
+	 * @param re
+	 * @return
+	 */
 	@RequestMapping("/center/myshop")
 	public ModelAndView moushikomi(HttpServletRequest re) {
 		Session ss = (Session) re.getSession().getAttribute("userLogin");
@@ -155,26 +184,20 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//注文管理
-		@RequestMapping("/center/ordermanager")
-		public ModelAndView cyumonManager(HttpServletRequest res) {
-			Session ss = (Session) res.getSession().getAttribute("userLogin");
-			Map<String, Object> xx = myOrderService.getOrderInfoByStoreId(ss.getUserId());
-			ModelAndView mv = new ModelAndView("center/ordermanager");
-			mv.addObject("ordermanger", xx);
-			return mv;
-		}
+	/**
+	 * 注文管理(STORE)
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/center/ordermanager")
+	public ModelAndView cyumonManager(HttpServletRequest res) {
+		Session ss = (Session) res.getSession().getAttribute("userLogin");
+		List<OrderMangerDto> orm = myOrderService.getOrderInfoByStoreId(ss.getUserId());
+		ModelAndView mv = new ModelAndView("center/ordermanager");
+		mv.addObject("ordermanger", orm);
+		return mv;
+	}
 
-	/*	//注文管理(Store)
-		@RequestMapping("/center/cyumonManager")
-		public ModelAndView orderManager(HttpServletRequest res) {
-			Session ss = (Session) res.getSession().getAttribute("userLogin");
-			int stId =storeService.getstoreIdByUserId(ss.getUserId());
-			 orm = myOrderService(stId);
-			ModelAndView mv = new ModelAndView("center/ordermanager");
-			mv.addObject("orderInfo", orm);
-			return mv;
-		}*/
 
 	/**
 	 * ユーザID によって商品取得(店舗)
@@ -192,7 +215,10 @@ public class UserCenterController {
 
 	}
 
-	//ユーザ一覧
+	/**
+	 * ユーザ一覧(ADMIN)
+	 * @return
+	 */
 	@RequestMapping("/center/userlist")
 	public ModelAndView userlist() {
 
@@ -203,7 +229,10 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//ユーザ情報(ADMIN)
+	/**
+	 * ユーザ情報(ADMIN)
+	 * @return
+	 */
 	@RequestMapping("/center/userInfoList")
 
 	public ModelAndView userInfoList() {
@@ -213,7 +242,10 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//ユーザ届け住所連絡(ADMIN)
+	/**
+	 * ユーザ届け住所連絡(ADMIN)
+	 * @return
+	 */
 	@RequestMapping("/center/userTodokeList")
 	public ModelAndView userTodokeList() {
 
@@ -223,7 +255,10 @@ public class UserCenterController {
 		return mv;
 	}
 
-	//店舗管理(ADMIN)
+	/**
+	 * 店舗管理(ADMIN)
+	 * @return
+	 */
 	@RequestMapping("/center/storemanger")
 	public ModelAndView storeList() {
 

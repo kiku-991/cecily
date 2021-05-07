@@ -20,7 +20,10 @@ public class TourokuController {
 	UserLoginService userLoginService;
 	
 	
-	//登録画面
+	/**
+	 * 登録画面
+	 * @return
+	 */
 	@RequestMapping("/touroku")
 	public ModelAndView toroku() {
 		ModelAndView mv = new ModelAndView("touroku");

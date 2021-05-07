@@ -17,7 +17,12 @@ public class PayMentController {
 	PayMentService payMentService;
 	
 	
-	//AriPay 
+	/**
+	 * AriPay 支払い
+	 * @param orderId
+	 * @param res
+	 * @return
+	 */
 	@RequestMapping("/aripay/pay/{id}")
 	public String ariPay(@PathVariable ("id")String orderId,HttpServletRequest res) {
 		Session ss = (Session) res.getSession().getAttribute("userLogin");
@@ -27,7 +32,12 @@ public class PayMentController {
 	
 	
 	
-	//クレジットカード支払い
+	/**
+	 * クレジットカード支払い
+	 * @param orderId
+	 * @param res
+	 * @return
+	 */
 	@RequestMapping("/creditpay/pay/{id}")
 	public String CreditPay(@PathVariable ("id")String orderId,HttpServletRequest res) {
 		Session ss = (Session) res.getSession().getAttribute("userLogin");

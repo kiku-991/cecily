@@ -28,7 +28,11 @@ public class ShoppingController {
 	@Autowired
 	MyCartService myCartService;
 
-	//ホームページ
+	/**
+	 * ホームページ
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping({ "/shopping", "/" })
 	public ModelAndView shopping(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("shopping");
@@ -44,7 +48,11 @@ public class ShoppingController {
 		return mv;
 	}
 
-	//キーワード検索
+	/**
+	 * キーワード検索
+	 * @param productName
+	 * @return
+	 */
 	@RequestMapping("/shopping/keywordSearch")
 	public ModelAndView keyword(String productName) {
 		ModelAndView mv = new ModelAndView("keywordsearch");
@@ -56,7 +64,11 @@ public class ShoppingController {
 
 	}
 
-	//気に入り
+	/**
+	 * 気に入り一覧
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/shopping/favorite")
 	public ModelAndView favorite(HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");

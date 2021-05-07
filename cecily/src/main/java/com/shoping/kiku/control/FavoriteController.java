@@ -18,8 +18,12 @@ public class FavoriteController {
 	@Autowired
 	FavoriteService favoriteService;
 
-	//気に入りボタンイベント
-
+	/**
+	 * 気に入りボタンイベント
+	 * @param productId
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/part/myfavorite")
 	@ResponseBody
 	public int kiniClick(@RequestBody String productId,
@@ -48,10 +52,16 @@ public class FavoriteController {
 		return proId;
 	}
 
+	/**
+	 * 気に入り取消(削除)
+	 * @param id
+	 * @param re
+	 * @return
+	 */
 	@RequestMapping("/center/favorite/delete/{id}")
 	public String deleteFavo(@PathVariable("id") int id, HttpServletRequest re) {
 		Session ss = (Session) re.getSession().getAttribute("userLogin");
-		favoriteService.cancelFavorite(ss.getUserId(),id);
+		favoriteService.cancelFavorite(ss.getUserId(), id);
 
 		return "redirect:/center/favorite";
 	}

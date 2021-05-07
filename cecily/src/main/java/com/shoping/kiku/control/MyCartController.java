@@ -97,7 +97,12 @@ public class MyCartController {
 		return "redirect:/shopping/myCart";
 	}
 
-	//'+'ボタンを押下
+	/**
+	 * '+'ボタンを押下
+	 * @param proudtId
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/increse")
 	@ResponseBody
 	public HashMap<String, Integer> incre(@RequestBody String proudtId, HttpServletRequest request) {
@@ -118,7 +123,12 @@ public class MyCartController {
 		return map;
 	}
 
-	//'-'ボタンを押下
+	/**
+	 * '-'ボタンを押下
+	 * @param proudtId
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/descre")
 	@ResponseBody
 	public int descre(@RequestBody String proudtId, HttpServletRequest request) {
@@ -135,7 +145,12 @@ public class MyCartController {
 		return total;
 	}
 
-	//checkbox選択され処理
+	/**
+	 * checkbox選択され処理
+	 * @param proudtId
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/changeStatus")
 	@ResponseBody
 	public HashMap<String, Integer> statusChange(@RequestBody String proudtId, HttpServletRequest request) {
@@ -153,7 +168,13 @@ public class MyCartController {
 		return map;
 	}
 
-	//全選処理
+	/**
+	 * 全選処理
+	 * @param allcheck
+	 * @param request
+	 * @return
+	 */
+
 	@RequestMapping("/changeAllStatus")
 	@ResponseBody
 	public HashMap<String, Integer> statusAllChange(@RequestBody String allcheck, HttpServletRequest request) {
@@ -179,7 +200,12 @@ public class MyCartController {
 		return map;
 	}
 
-	//買い物かご画面に決算ボタンを押下処理 buy 画面に遷移
+	/**
+	 * 買い物かご画面に決算ボタンを押下処理 buy 画面に遷移
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping("/mycart/buy")
 	public ModelAndView buy(HttpServletRequest request) throws Exception {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
@@ -196,7 +222,12 @@ public class MyCartController {
 		return mv;
 	}
 
-	//buy 画面提交订单之后跳转页面
+	/**
+	 * buy 画面提交订单之后跳转页面
+	 * @param order
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/order/add")
 	public ModelAndView buyAdd(MyOrderDto order, HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");

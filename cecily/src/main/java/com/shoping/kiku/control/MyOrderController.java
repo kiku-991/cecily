@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shoping.kiku.object.OrderInfoByUserIdDto;
+import com.shoping.kiku.object.ShippingDto;
 import com.shoping.kiku.object.UserDeliveryDto;
 import com.shoping.kiku.service.MyOrderService;
 import com.shoping.kiku.service.PayMentService;
@@ -50,7 +51,11 @@ public class MyOrderController {
 
 	}
 
-	//支払い（AJAX判断支払い方法）
+	/**
+	 * 支払い（AJAX判断支払い方法）
+	 * @param value
+	 * @return
+	 */
 	@RequestMapping("/getPaymethod")
 	@ResponseBody
 	public int paymethond(@RequestBody String value) {
@@ -62,7 +67,12 @@ public class MyOrderController {
 
 	}
 
-	//支付宝页面·
+	/**
+	 * 支付宝页面·
+	 * @param orderId
+	 * @param res
+	 * @return
+	 */
 	@RequestMapping("/aripay/{id}")
 	public ModelAndView ariPay(@PathVariable("id") String orderId, HttpServletRequest res) {
 		Session ss = (Session) res.getSession().getAttribute("userLogin");
@@ -75,7 +85,12 @@ public class MyOrderController {
 
 	}
 
-	//クレジットカード画面
+	/**
+	 * クレジットカード画面
+	 * @param orderId
+	 * @param res
+	 * @return
+	 */
 	@RequestMapping("/creditpay/{id}")
 	public ModelAndView creditPay(@PathVariable("id") String orderId, HttpServletRequest res) {
 		ModelAndView mv = new ModelAndView("paymethod/creditpay");
@@ -88,7 +103,11 @@ public class MyOrderController {
 	}
 	
 	
-	//取消オーダー
+	/**
+	 * オーダー取消
+	 * @param orderId
+	 * @return
+	 */
 	@RequestMapping("/center/myorder/cancelorder/{id}")
 	public String cancelOrder(@PathVariable("id") String orderId) {
 		
@@ -97,7 +116,21 @@ public class MyOrderController {
 		return "redirect:/center/myorder";
 	}
 	
-	
+	/**
+	 * 商品発送(store)
+	 * @param orderId
+	 * @param ship
+	 * @param res
+	 * @return
+	 */
+	@RequestMapping("/center/ordermanager/shipproduct/{id}")
+	public String proShip(@PathVariable("id") String orderId,ShippingDto ship,HttpServletRequest res) {
+		
+		
+		myOrderService.productShip(orderId, ship);
+		
+		return "redirect:/center/ordermanager";
+	}
 	
 
 }

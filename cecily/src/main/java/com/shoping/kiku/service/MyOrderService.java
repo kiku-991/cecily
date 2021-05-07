@@ -2,9 +2,7 @@ package com.shoping.kiku.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,9 +18,9 @@ import com.shoping.kiku.entity.ProductEntity;
 import com.shoping.kiku.entity.ProductInCartEntity;
 import com.shoping.kiku.entity.ProductInfoForOrderIdEntity;
 import com.shoping.kiku.entity.ShippingEntity;
-import com.shoping.kiku.object.OrderIdGroupDto;
 import com.shoping.kiku.object.OrderInfoByUserIdDto;
 import com.shoping.kiku.object.OrderItemDto;
+import com.shoping.kiku.object.OrderMangerDto;
 import com.shoping.kiku.object.OrderProInfoDto;
 import com.shoping.kiku.object.PayPriceDto;
 import com.shoping.kiku.object.ProductInfoForOrderIdDto;
@@ -283,13 +281,11 @@ public class MyOrderService {
 	 * @param userId
 	 * @return
 	 */
-	public Map<String, Object> getOrderInfoByStoreId(int userId) {
+	public List<OrderMangerDto> getOrderInfoByStoreId(int userId) {
 		List<OrderManagerEntity> storeOr = orderManagerRepository.getOrderInfoWithStoreId(userId);
-		List<OrderIdGroupDto> idlist = new ArrayList<>();
-		Map<String, Object> map = new HashMap<>();
-
+		List<OrderMangerDto> idlist = new ArrayList<>();
 		for (OrderManagerEntity hh : storeOr) {
-			OrderIdGroupDto id = new OrderIdGroupDto();
+			OrderMangerDto id = new OrderMangerDto();
 			int qqt = getPayQuantiyStore(userId, hh.getOrderId());
 			int total = getPayPriceStore(userId, hh.getOrderId());
 			id.setQqt(qqt);
@@ -313,14 +309,14 @@ public class MyOrderService {
 			id.setDeliveryTime(hh.getDeliveryTime());
 			id.setReceiptTime(hh.getReceiptTime());
 			id.setName(hh.getName());
-			idlist.add(id);
 			//orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(hh.getOrderId());
-
-			map.put("product", proInfo);
+			id.setProduct(proInfo);
+			idlist.add(id);		
 		}
-		map.put("id", idlist);
-		return map;
+
+
+		return idlist;
 	}
 
 	//userId　によって、オーダー情報を取得(user)
@@ -381,9 +377,15 @@ public class MyOrderService {
 		return proInfo;
 
 	}
+	
+	/**
+	 * 商品発送
+	 * @param orderId
+	 * @param userId
+	 * @param shipDto
+	 */
 
-	//商品発送
-	public void productShip(String orderId, int userId, ShippingDto shipDto) {
+	public void productShip(String orderId,ShippingDto shipDto) {
 
 		MyOrderEntity oldOrder = orderRepositoty.findByOrderId(orderId);
 		MyOrderEntity newOrder = new MyOrderEntity();
@@ -400,7 +402,8 @@ public class MyOrderService {
 
 		CommerceEntity commerce = new CommerceEntity();
 		//物流ID生成
-		String shipId = OrderUtils.getShipCode(userId);
+		Integer wuliu = 99;
+		String shipId = OrderUtils.getShipCode(wuliu);
 		commerce.setShippingId(shipId);
 
 		commerce.setCreatedate(comm.getCreatedate());
@@ -411,7 +414,7 @@ public class MyOrderService {
 
 		//shipping table 
 		//快递编号生成
-		String expressId = OrderUtils.getExpressCode(userId);
+		String expressId = OrderUtils.getExpressCode(wuliu);
 		ShippingEntity ship = new ShippingEntity();
 		ship.setTrackingNumber(expressId);
 		ship.setCourierCompany(shipDto.getCourierCompany());
