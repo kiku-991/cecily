@@ -49,4 +49,14 @@ public interface PayPriceRepository extends JpaRepository<PayPriceEntity,Integer
 	List<PayPriceEntity> getUserTotalAndQuantity(int userId,String orderId);
 
 	
+	
+	@Query(value="select\r\n"
+			+ "    product_price\r\n"
+			+ "    , product_quantity \r\n"
+			+ "from\r\n"
+			+ "    order_item \r\n"
+			+ "where\r\n"
+			+ "    order_id = :orderId",nativeQuery=true)
+	List<PayPriceEntity> getTotalAndQuantityByOrderId(String orderId);
+	
 }

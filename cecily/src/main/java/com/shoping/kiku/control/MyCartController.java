@@ -24,6 +24,7 @@ import com.shoping.kiku.service.MyOrderService;
 import com.shoping.kiku.service.ProductService;
 import com.shoping.kiku.service.UserDeliveryService;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Url;
 
 @Controller
 public class MyCartController {
@@ -45,7 +46,7 @@ public class MyCartController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/shopping/myCart", method = RequestMethod.GET)
+	@RequestMapping(value = Url.SHOPMYCART, method = RequestMethod.GET)
 	public ModelAndView myCart(HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("center/mycart");
@@ -68,7 +69,7 @@ public class MyCartController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping("/addMyCart")
+	@RequestMapping(Url.ADDCART)
 	@ResponseBody
 	public int add(@RequestBody String proudtId, HttpServletRequest request, Model model) {
 
@@ -103,7 +104,7 @@ public class MyCartController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/increse")
+	@RequestMapping(Url.INCRESE)
 	@ResponseBody
 	public HashMap<String, Integer> incre(@RequestBody String proudtId, HttpServletRequest request) {
 		String id = proudtId.replace("id=", "");
@@ -129,7 +130,7 @@ public class MyCartController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/descre")
+	@RequestMapping(Url.DESCRE)
 	@ResponseBody
 	public int descre(@RequestBody String proudtId, HttpServletRequest request) {
 		String id = proudtId.replace("id=", "");
@@ -151,7 +152,7 @@ public class MyCartController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/changeStatus")
+	@RequestMapping(Url.SINGLECHECKED)
 	@ResponseBody
 	public HashMap<String, Integer> statusChange(@RequestBody String proudtId, HttpServletRequest request) {
 		String id = proudtId.replace("id=", "");
@@ -175,7 +176,7 @@ public class MyCartController {
 	 * @return
 	 */
 
-	@RequestMapping("/changeAllStatus")
+	@RequestMapping(Url.ALLCHECKED)
 	@ResponseBody
 	public HashMap<String, Integer> statusAllChange(@RequestBody String allcheck, HttpServletRequest request) {
 		System.out.println(allcheck);
@@ -206,7 +207,7 @@ public class MyCartController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping("/mycart/buy")
+	@RequestMapping(Url.BUY)
 	public ModelAndView buy(HttpServletRequest request) throws Exception {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("center/buy");
@@ -228,7 +229,7 @@ public class MyCartController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/order/add")
+	@RequestMapping(Url.ORDERADD)
 	public ModelAndView buyAdd(MyOrderDto order, HttpServletRequest request) {
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("orderfinish");

@@ -204,8 +204,8 @@
 			<!-- 数据容器 -->
 			<ul
 				class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 am-margin-top-sm search-list"
-				th:each="product: ${prolike}">
-				<li class="am-animation-scale-up">
+				>
+				<li class="am-animation-scale-up" th:each="product: ${prolike}">
 					<div class="items am-padding-bottom-xs">
 						<!-- 搜索页面商品信息顶部钩子 -->
 						<a  th:href="@{/productDetails/{id}(id=${product.productId})}">
@@ -248,7 +248,7 @@
 			<!-- 分页 -->
 			<button type="button"
 				class="am-btn am-btn-default am-btn-block am-margin-vertical-sm search-pages-submit"
-				data-url="" style="" data-page="2" disabled="disabled">
+				data-url=""  data-page="2" disabled="disabled">
 				加载更多 <i class="am-icon-angle-double-down"></i>
 			</button>
 

@@ -19,6 +19,7 @@ import com.shoping.kiku.service.MyOrderService;
 import com.shoping.kiku.service.PayMentService;
 import com.shoping.kiku.service.UserDeliveryService;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Url;
 
 @Controller
 public class MyOrderController {
@@ -37,7 +38,7 @@ public class MyOrderController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("/center/myorder")
+	@RequestMapping(Url.MYORDER)
 	public ModelAndView getmyorder(HttpServletRequest res) {
 		Session ss = (Session) res.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("center/myorder");
@@ -56,7 +57,7 @@ public class MyOrderController {
 	 * @param value
 	 * @return
 	 */
-	@RequestMapping("/getPaymethod")
+	@RequestMapping(Url.PAYMETHOD)
 	@ResponseBody
 	public int paymethond(@RequestBody String value) {
 		System.out.println(value);
@@ -73,7 +74,7 @@ public class MyOrderController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("/aripay/{id}")
+	@RequestMapping(Url.ARIPAYID)
 	public ModelAndView ariPay(@PathVariable("id") String orderId, HttpServletRequest res) {
 		Session ss = (Session) res.getSession().getAttribute("userLogin");
 		ModelAndView mv = new ModelAndView("paymethod/aripay");
@@ -91,7 +92,7 @@ public class MyOrderController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("/creditpay/{id}")
+	@RequestMapping(Url.CREDITPAYID)
 	public ModelAndView creditPay(@PathVariable("id") String orderId, HttpServletRequest res) {
 		ModelAndView mv = new ModelAndView("paymethod/creditpay");
 		Session ss = (Session) res.getSession().getAttribute("userLogin");
@@ -107,7 +108,7 @@ public class MyOrderController {
 	 * @param orderId
 	 * @return
 	 */
-	@RequestMapping("/center/myorder/cancelorder/{id}")
+	@RequestMapping(Url.ORDERCANCEL)
 	public String cancelOrder(@PathVariable("id") String orderId) {
 
 		myOrderService.cancelOrder(orderId);
@@ -122,7 +123,7 @@ public class MyOrderController {
 	 * @param res
 	 * @return
 	 */
-	@RequestMapping("/center/ordermanager/shipproduct/{id}")
+	@RequestMapping(Url.SHIPPRODUCT)
 	public String proShip(@PathVariable("id") String orderId, ShippingDto ship, HttpServletRequest res) {
 
 		myOrderService.productShip(orderId, ship);
@@ -135,7 +136,7 @@ public class MyOrderController {
 	 * @param orderId
 	 * @return
 	 */
-	@RequestMapping("/center/ordermanager/deliveryproduct/{id}")
+	@RequestMapping(Url.RECEIPTPRODUCT)
 	public String completeOrder(@PathVariable("id") String orderId) {
 		myOrderService.completeOrder(orderId);
 		return "redirect:/center/ordermanager";

@@ -235,6 +235,47 @@ public class MyOrderService {
 		return quantity;
 	}
 
+	
+	/**
+	 * get qqt (ADMIN)
+	 * @param orderId
+	 * @return
+	 */
+	public int getQqt(String orderId) {
+		
+		List<PayPriceEntity> qqt =payPriceRepository.getTotalAndQuantityByOrderId(orderId);
+		int quantity = 0;
+		for (PayPriceEntity q : qqt) {
+			PayPriceDto pay = new PayPriceDto();
+			pay.setProductQuantity(q.getProductQuantity());
+			int total = pay.getProductQuantity();
+			quantity = total + quantity;
+		}
+
+		return quantity;
+	}
+	
+	
+	/**
+	 * get total (ADMIN)
+	 * @param orderId
+	 * @return
+	 */
+	public int getTotal(String orderId) {
+		
+		List<PayPriceEntity> price =payPriceRepository.getTotalAndQuantityByOrderId(orderId);
+		int amount = 0;
+		for (PayPriceEntity p : price) {
+			PayPriceDto pay = new PayPriceDto();
+			pay.setProductTotal(p.getProductPrice() * p.getProductQuantity());
+			int total = pay.getProductTotal();
+			amount = total + amount;
+		}
+
+		return amount;
+	}
+	
+	
 	/**
 	 * オーダー削除
 	 * @param orderId
@@ -318,6 +359,47 @@ public class MyOrderService {
 
 		return idlist;
 	}
+	
+	
+	/**
+	 * orderManger (ADMIN)
+	 * @return orderList
+	 */
+	
+	public List<OrderMangerDto> getAllOrderInfo(){
+		List<OrderManagerEntity> allOrder = orderManagerRepository.getAllOrderInfo();
+		List<OrderMangerDto> orderList =new ArrayList<>();
+		for(OrderManagerEntity all :allOrder) {
+			OrderMangerDto id = new OrderMangerDto();
+			int total =getTotal(all.getOrderId());
+			int qqt =getQqt(all.getOrderId());
+			id.setQqt(qqt);
+			id.setTotal(total);
+			id.setOrderId(all.getOrderId());
+			id.setCreatedate(all.getCreatedate());
+			id.setDcyoumebanchi(all.getDcyoumebanchi());
+			id.setDshikucyouson(all.getDshikucyouson());
+			id.setDtodoufuken(all.getDtodoufuken());
+			id.setOrderStatus(all.getOrderStatus());
+			id.setPaymentId(all.getPaymentId());
+			id.setPayMethod(all.getPayMethod());
+			id.setPayQuantity(all.getPayQuantity());
+			id.setPayTime(all.getPayTime());
+			id.setPayTotal(all.getPayTotal());
+			id.setShippingId(all.getShippingId());
+			id.setRenrakuname(all.getRenrakuname());
+			id.setRenrakuphone(all.getRenrakuphone());
+			id.setCourierCompany(all.getCourierCompany());
+			id.setTrackingNumber(all.getTrackingNumber());
+			id.setDeliveryTime(all.getDeliveryTime());
+			id.setReceiptTime(all.getReceiptTime());
+			//orderId によって、商品情報を取得
+			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(all.getOrderId());
+			id.setProduct(proInfo);
+			orderList.add(id);		
+		}
+		return orderList;
+	}
 
 	/**
 	 * userId　によって、オーダー情報を取得(user)
@@ -359,6 +441,7 @@ public class MyOrderService {
 		}
 		return orderIdList;
 	}
+
 
 
 	/**

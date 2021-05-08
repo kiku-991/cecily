@@ -283,4 +283,17 @@ public class UserCenterController {
 		return mv;
 
 	}
+	
+	
+	/**
+	 * 注文管理(ADMIN)
+	 * @return
+	 */
+	@RequestMapping(Url.ALLORDERINFO)
+	public ModelAndView allOrderManager() {
+		List<OrderMangerDto> orm = myOrderService.getAllOrderInfo();
+		ModelAndView mv = new ModelAndView("center/cyumonManager");
+		mv.addObject("ordermanger", orm);
+		return mv;
+	}
 }

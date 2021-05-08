@@ -98,9 +98,9 @@ public class Url {
 	//出店申込
 	public static final String MOSHIKOMISHOP = "/center/myshop";
 
-	//注文管理
+	//注文管理(店舗)
 	public static final String CYOMONMANAGER = "/center/ordermanager";
-	
+
 	//ユーザID によって商品取得(店舗)
 	public static final String MYPRODUCTS = "/center/myproducts";
 
@@ -116,8 +116,10 @@ public class Url {
 	public static final String USERINFOLIST = "/center/userInfoList";
 
 	//ユーザ届け住所連絡
-
 	public static final String USERTODOKELIST = "/center/userTodokeList";
+	
+	//すべての注文管理(ADMIN)
+	public static final String ALLORDERINFO = "/center/cyumonManager";
 
 	//Role 変更 店舗申込
 	public static final String USERTEDIT = "/center/moushikomi";
@@ -180,4 +182,105 @@ public class Url {
 	public static final String PROMANAGERSTOP = "/center/productmanger/stop/{id}";
 	//商品IDによって中止商品を回復(ADMIN)
 	public static final String PROMANAGERRECOVERY = "/center/productmanger/recovery/{id}";
+
+	/**
+	 * PayMentController
+	 */
+
+	//AriPay 支払い
+	public static final String ARIPAY = "/aripay/pay/{id}";
+
+	//クレジットカード支払い
+	public static final String CREDITPAY = "/creditpay/pay/{id}";
+
+	//到付
+	public static final String CYAKUHARAI = "/atopay/pay/{id}";
+
+	/**
+	 * MyOrderController
+	 */
+
+	//マイ　オーダー
+	public static final String MYORDER = "/center/myorder";
+
+	//支払い（AJAX判断支払い方法）
+	public static final String PAYMETHOD = "/getPaymethod";
+
+	//支付宝页面·
+	public static final String ARIPAYID = "/aripay/{id}";
+
+	//クレジットカード画面
+	public static final String CREDITPAYID = "/creditpay/{id}";
+
+	//オーダー取消
+	public static final String ORDERCANCEL = "/center/myorder/cancelorder/{id}";
+	
+	//商品発送(store)
+	public static final String SHIPPRODUCT = "/center/ordermanager/shipproduct/{id}";
+
+	//收貨 訂單已完成(user)
+	public static final String RECEIPTPRODUCT = "/center/ordermanager/receiptproduct/{id}";
+	
+	
+	/**
+	 * MyCartController
+	 */
+	
+	//買い物かご画面
+	public static final String SHOPMYCART = "/shopping/myCart";
+	
+	//買い物かご追加
+	public static final String ADDCART = "/addMyCart";
+	
+	
+	//買い物かご削除
+	public static final String DELETECART = "/myCart/deleteCart/{productId}";
+	
+	
+	//'+'ボタンを押下
+	public static final String INCRESE = "/increse";
+	
+	
+	//'-'ボタンを押下
+	public static final String DESCRE = "/descre";
+	
+	
+	//checkbox選択され処理
+	public static final String SINGLECHECKED = "/changeStatus";
+	
+	
+	//全選処理
+	public static final String ALLCHECKED = "/changeAllStatus";
+	
+	
+	
+	//買い物かご画面に決算ボタンを押下処理 buy 画面に遷移
+	public static final String BUY = "/mycart/buy";
+	
+	
+	//buy 画面提交订单之后跳转页面
+	public static final String ORDERADD = "/order/add";
+	
+	
+	
+	/**
+	 * FavoriteController
+	 */
+	
+	
+	
+	//気に入りボタンイベント
+	public static final String KINIIRICHICK = "/part/myfavorite";
+	
+	//気に入り取消(削除)
+	public static final String KINIIRICANCEL = "/center/favorite/delete/{id}";
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

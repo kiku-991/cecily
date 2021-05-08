@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.shoping.kiku.service.FavoriteService;
 import com.shoping.kiku.until.Session;
+import com.shoping.kiku.until.Url;
 
 @Controller
 public class FavoriteController {
@@ -24,7 +25,7 @@ public class FavoriteController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/part/myfavorite")
+	@RequestMapping(Url.KINIIRICHICK)
 	@ResponseBody
 	public int kiniClick(@RequestBody String productId,
 			HttpServletRequest request) {
@@ -58,7 +59,7 @@ public class FavoriteController {
 	 * @param re
 	 * @return
 	 */
-	@RequestMapping("/center/favorite/delete/{id}")
+	@RequestMapping(Url.KINIIRICANCEL)
 	public String deleteFavo(@PathVariable("id") int id, HttpServletRequest re) {
 		Session ss = (Session) re.getSession().getAttribute("userLogin");
 		favoriteService.cancelFavorite(ss.getUserId(), id);

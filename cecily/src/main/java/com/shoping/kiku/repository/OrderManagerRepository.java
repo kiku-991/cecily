@@ -57,5 +57,57 @@ public interface OrderManagerRepository extends JpaRepository<OrderManagerEntity
 			+ "    and e.defaultadd = 1",nativeQuery=true)
 	
 	List<OrderManagerEntity> getOrderInfoWithStoreId(int userId);
+	
+	
+	
+	@Query(value="select\r\n"
+			+ "    a.order_id\r\n"
+			+ "    , a.order_status\r\n"
+			+ "    , b.payment_id\r\n"
+			+ "    , b.shipping_id\r\n"
+			+ "    , b.createdate\r\n"
+			+ "    , c.dtodoufuken\r\n"
+			+ "    , c.dshikucyouson\r\n"
+			+ "    , c.dcyoumebanchi\r\n"
+			+ "    , c.renrakuname\r\n"
+			+ "    , c.renrakuphone\r\n"
+			+ "    , d.pay_total\r\n"
+			+ "    , d.pay_quantity\r\n"
+			+ "    , d.pay_method\r\n"
+			+ "    , d.pay_time\r\n"
+			+ "    , f.courier_company\r\n"
+			+ "    , f.tracking_number\r\n"
+			+ "    , f.delivery_time\r\n"
+			+ "    , f.receipt_time\r\n"
+			+ "    , g.name \r\n"
+			+ "from\r\n"
+			+ "    myorder a \r\n"
+			+ "    left join commerce b \r\n"
+			+ "        on a.order_id = b.order_id \r\n"
+			+ "    left join user_delivery c \r\n"
+			+ "        on b.user_id = c.user_id \r\n"
+			+ "    left join payment d \r\n"
+			+ "        on b.payment_id = d.payment_id \r\n"
+			+ "    left join shipping f \r\n"
+			+ "        on b.shipping_id = f.shipping_id \r\n"
+			+ "    left join userinfo g \r\n"
+			+ "        on c.user_id = g.id \r\n"
+			+ "where\r\n"
+			+ "    c.defaultadd = 1",nativeQuery=true)
+	
+	List<OrderManagerEntity>getAllOrderInfo();
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
