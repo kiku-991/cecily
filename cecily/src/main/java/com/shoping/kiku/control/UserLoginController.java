@@ -85,12 +85,12 @@ public class UserLoginController {
 	 * 
 	 */
 	@RequestMapping(Url.LOGINOUT)
-	public ModelAndView loginout(HttpSession session) {
+	public String loginout(HttpSession session) {
 
 		session.removeAttribute("userLogin");
 
-		ModelAndView mv = new ModelAndView("shopping");
-		return mv;
+		return "redirect:/shopping";
+		
 	}
 
 }

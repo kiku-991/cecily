@@ -235,15 +235,14 @@ public class MyOrderService {
 		return quantity;
 	}
 
-	
 	/**
 	 * get qqt (ADMIN)
 	 * @param orderId
 	 * @return
 	 */
 	public int getQqt(String orderId) {
-		
-		List<PayPriceEntity> qqt =payPriceRepository.getTotalAndQuantityByOrderId(orderId);
+
+		List<PayPriceEntity> qqt = payPriceRepository.getTotalAndQuantityByOrderId(orderId);
 		int quantity = 0;
 		for (PayPriceEntity q : qqt) {
 			PayPriceDto pay = new PayPriceDto();
@@ -254,16 +253,15 @@ public class MyOrderService {
 
 		return quantity;
 	}
-	
-	
+
 	/**
 	 * get total (ADMIN)
 	 * @param orderId
 	 * @return
 	 */
 	public int getTotal(String orderId) {
-		
-		List<PayPriceEntity> price =payPriceRepository.getTotalAndQuantityByOrderId(orderId);
+
+		List<PayPriceEntity> price = payPriceRepository.getTotalAndQuantityByOrderId(orderId);
 		int amount = 0;
 		for (PayPriceEntity p : price) {
 			PayPriceDto pay = new PayPriceDto();
@@ -274,8 +272,7 @@ public class MyOrderService {
 
 		return amount;
 	}
-	
-	
+
 	/**
 	 * オーダー削除
 	 * @param orderId
@@ -349,30 +346,29 @@ public class MyOrderService {
 			id.setTrackingNumber(hh.getTrackingNumber());
 			id.setDeliveryTime(hh.getDeliveryTime());
 			id.setReceiptTime(hh.getReceiptTime());
+			id.setCertainTime(hh.getReceiptTime());
 			id.setName(hh.getName());
 			//orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(hh.getOrderId());
 			id.setProduct(proInfo);
-			idlist.add(id);		
+			idlist.add(id);
 		}
-
 
 		return idlist;
 	}
-	
-	
+
 	/**
 	 * orderManger (ADMIN)
 	 * @return orderList
 	 */
-	
-	public List<OrderMangerDto> getAllOrderInfo(){
+
+	public List<OrderMangerDto> getAllOrderInfo() {
 		List<OrderManagerEntity> allOrder = orderManagerRepository.getAllOrderInfo();
-		List<OrderMangerDto> orderList =new ArrayList<>();
-		for(OrderManagerEntity all :allOrder) {
+		List<OrderMangerDto> orderList = new ArrayList<>();
+		for (OrderManagerEntity all : allOrder) {
 			OrderMangerDto id = new OrderMangerDto();
-			int total =getTotal(all.getOrderId());
-			int qqt =getQqt(all.getOrderId());
+			int total = getTotal(all.getOrderId());
+			int qqt = getQqt(all.getOrderId());
 			id.setQqt(qqt);
 			id.setTotal(total);
 			id.setOrderId(all.getOrderId());
@@ -393,10 +389,11 @@ public class MyOrderService {
 			id.setTrackingNumber(all.getTrackingNumber());
 			id.setDeliveryTime(all.getDeliveryTime());
 			id.setReceiptTime(all.getReceiptTime());
+			id.setCertainTime(all.getReceiptTime()); 
 			//orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(all.getOrderId());
 			id.setProduct(proInfo);
-			orderList.add(id);		
+			orderList.add(id);
 		}
 		return orderList;
 	}
@@ -431,7 +428,7 @@ public class MyOrderService {
 			dto.setTrackingNumber(ord.getTrackingNumber());
 			dto.setTotal(total);
 			dto.setQqt(qqt);
-			dto.setCertainTime(ord.getReceiptTime());	//orderId によって、商品情報を取得
+			dto.setCertainTime(ord.getReceiptTime()); //orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(ord.getOrderId());
 
 			dto.setProduct(proInfo);
@@ -441,8 +438,6 @@ public class MyOrderService {
 		}
 		return orderIdList;
 	}
-
-
 
 	/**
 	 * orderId によって、商品情報を取得
@@ -468,7 +463,7 @@ public class MyOrderService {
 		return proInfo;
 
 	}
-	
+
 	/**
 	 * 商品発送
 	 * @param orderId
@@ -476,7 +471,7 @@ public class MyOrderService {
 	 * @param shipDto
 	 */
 
-	public void productShip(String orderId,ShippingDto shipDto) {
+	public void productShip(String orderId, ShippingDto shipDto) {
 
 		MyOrderEntity oldOrder = orderRepositoty.findByOrderId(orderId);
 		MyOrderEntity newOrder = new MyOrderEntity();
@@ -497,7 +492,7 @@ public class MyOrderService {
 		String shipId = OrderUtils.getShipCode(wuliu);
 		commerce.setShippingId(shipId);
 
-		//commerce.setCreatedate(comm.getCreatedate());
+		commerce.setCreatedate(comm.getCreatedate());
 		commerce.setOrderId(orderId);
 		commerce.setPaymentId(comm.getPaymentId());
 		commerce.setUserId(comm.getUserId());
@@ -510,13 +505,10 @@ public class MyOrderService {
 		ship.setTrackingNumber(expressId);
 		ship.setCourierCompany(shipDto.getCourierCompany());
 		//发货时间
-//		final SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		
-		  Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-//		  sdf3.format(timestamp);
-			/*  java.sql.Timestamp ts = java.sql.Timestamp.valueOf(sdf3);*/
-			ship.setDeliveryTime(timestamp);
-			ship.setShippingId(shipId);
+
+		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+		ship.setDeliveryTime(timestamp);
+		ship.setShippingId(shipId);
 
 		shippingRepository.save(ship);
 	}
@@ -535,9 +527,9 @@ public class MyOrderService {
 		newOrder.setOrderStatus(3);
 		newOrder.setPurchasingPrice(oldOrder.getPurchasingPrice());
 		orderRepositoty.save(newOrder);
-		
+
 		//shipping table
-		ShippingEntity oldship= shippingRepository.getShipInfoFindByShippingId(orderId);
+		ShippingEntity oldship = shippingRepository.getShipInfoFindByShippingId(orderId);
 		ShippingEntity ship = new ShippingEntity();
 		ship.setTrackingNumber(oldship.getTrackingNumber());
 		ship.setCourierCompany(oldship.getCourierCompany());
@@ -546,6 +538,6 @@ public class MyOrderService {
 		//設定 收貨時間
 		ship.setReceiptTime(new Timestamp(System.currentTimeMillis()));
 		shippingRepository.save(ship);
-		
+
 	}
 }

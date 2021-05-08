@@ -35,6 +35,7 @@ public class OrderMangerDto {
 	private String name;
 	private Integer qqt;
 	private Integer total;
+	private Timestamp certainTime;
 
 	//商品
 
