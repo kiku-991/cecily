@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>订单确认</title>
+<title>注文一覧</title>
 <link rel="stylesheet" type="text/css" href="../css/amazeui.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.switch.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.chosen.css">
@@ -201,9 +201,9 @@
 									合计:￥[[${oid.total}]]</div>
 							</td>
 							<td class="am-nowrap-initial"
-								th:text="${oid.orderStatus==0?'待支付':(oid.orderStatus==1?'待发货':(oid.orderStatus==2?'待收货':'已完成'))}"></td>
+								th:text="${oid.ordStatus}"></td>
 							<td class="am-nowrap-initial"
-								th:text="${oid.paymentId != null?'支払完了':'支払待ち'}"></td>
+								th:text="${oid.payTime != null?'支払完了':'支払待ち'}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.total}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
@@ -218,8 +218,9 @@
 								</div>
 							</td>
 							<td class="am-nowrap-initial">[[${oid.qqt}]]</td>
-							<td class="am-nowrap-initial"
-								th:text="${oid.payMethod==1?'AriPay':'sonota'}"></td>
+							<td class="am-nowrap-initial" th:if="${oid.payMethod!=null}"
+								th:text="${oid.payMethod==1?'AriPay':(oid.payMethod==2?'クレジットカード支払い':'到付')}"></td>
+							<td class="am-nowrap-initial" th:if="${oid.payMethod==null}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.courierCompany}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.trackingNumber}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.certainTime}"></td>

@@ -1,0 +1,1529 @@
+window.jQuery && (function($, window) {
+    'use strict';
+
+    var $win = $(window),
+        $html = $('html'),
+        config = function() {
+            return {
+                lteIE9: $html.hasClass('lte-ie9'),
+                Trident: document.uniqueID,
+                blink: window.chrome,
+                webkit: typeof window.chrome == 'undefined' && 'WebkitAppearance' in document.documentElement.style,
+                iOS: /iPhone|iPod|iPad/i.test(navigator.userAgent),
+                Android: /Android/i.test(navigator.userAgent)
+            };
+        }(),
+        transitionEnd = 'transitionend webkitTransitionEnd',
+        focusable = 'a, area, input, select, textarea, button, [tabindex]',
+        /*SmoothScroll, */Carousel, NavCurrent, Toggle, TabSwitch, Finder;
+
+    $(function(){
+        $html.removeClass('js-unavailable');
+        /*$('a[href^=#top], a[href^=#anchor]').setSmoothScroll();*/
+
+        $('.js-carousel').setCarousel();
+        $('.js-carousel-02').setCarousel({
+            indicator: false,
+            fade: true
+        });
+
+        $('.js-current').setNavCurrent();
+        $('.js-toggle > .toggle-inner').setToggle();
+        $('.js-tab').setTabSwitch();
+        $('.js-finder').setFinder();
+
+        // 高さ揃え
+		/**
+        $win.on('load', function() {
+            $('.list-column-01, .list-flow-01, .list-flow-02, .link-list-03, .link-list-04, .link-list-05, .link-list-07, .lyt-column.line').setAdjustHeight({
+                each: 'flex',
+                monitorInterval: '0'
+            });
+            $('.link-list-anchor-02, .link-list-03, .link-list-release').setAdjustHeight({
+                target: '> li > a',
+                each: 'flex',
+                monitorInterval: '0'
+            });
+        });*/
+    });
+
+    /**
+     * [smoothScroll スムーススクロール]
+     * @param {[object]} $root [クリックした要素]
+     * @param {[object]} o     [$.fn.setSmoothScroll 内で設定した options]
+     */
+    /*SmoothScroll = function($root, o) {
+        this.$root = $root;
+        this.$target = config.blink || config.webkit || config.iOS || config.Android ? $('body') : $html;
+        this.o = o;
+    };
+
+    SmoothScroll.prototype = {
+
+        /**
+         * [init 初期化]
+         */
+        /*init: function() {
+            var hash = this.$root.attr('href');
+
+            this.$root.on('click', $.proxy(function(e) {
+                e.preventDefault();
+                this.scroll(hash);
+            }, this));
+        },
+
+        /**
+         * [scroll スクロールの動作]
+         *  @param {[String]} hash [a 要素から取得した href の値]
+         */
+        /*scroll: function(hash) {
+            $.proxy($.Animation(this.$target[0], {
+                scrollTop: hash === this.o.hashTop ? 0 : $(hash).offset().top
+            }, this.o.animation), this);
+        }
+    };
+
+    $.fn.setSmoothScroll = function(options) {
+
+        if (!this) {
+            return false;
+        }
+
+        var o = $.extend({
+            hashTop: '#top',
+            animation: {
+                duration: 700,
+                easing: 'swing'
+            }
+        }, options);
+
+        return this.each(function() {
+            var $root = $(this),
+                smoothScroll = new SmoothScroll($root, o);
+
+            smoothScroll.init();
+        });
+    };
+
+    /**
+     * [carousel カルーセル]
+     * @param {[object]} $root     [$root]
+     * @param {[object]} $inner    [表示領域の要素]
+     * @param {[object]} $itemWrap [各スライドを包容する要素]
+     * @param {[object]} o         [$.fn.setCarousel 内で設定した options]
+     */
+    Carousel = function($root, $inner, $itemWrap, o) {
+        this.$root = $root;
+        this.$inner = $inner;
+        this.$item = $itemWrap.children();
+        this.$controler = null;
+        this.$prev = null;
+        this.$next = null;
+        this.$stop = null;
+        this.$indicator = null;
+        this.itemWidth = this.$item.width();
+        this.distance = [];
+        this.fadeout = {};
+        this.fadein = {};
+        this.countNum = 0;
+        this.itemNum = this.$item.length;
+        this.maxNum = this.itemNum - 1;
+        this.animating = false;
+        this.winActive = true;
+        this.timer = null;
+        this.zIndexValue = null;
+        this.directive = null;
+        this.o = o;
+        this.autoPlay = this.o.autoPlay;
+        this.fade = this.o.fade;
+    };
+
+    Carousel.prototype = {
+
+        /**
+         * [init 初期化]
+         */
+        init: function() {
+            this.$root.addClass(this.o.active);
+
+            // 各スライドの移動距離を配列化
+            this.distance = [
+                'translate3d(0, 0, 0)',
+                'translate3d(' + this.itemWidth + 'px, 0, 0)',
+                'translate3d(-' + this.itemWidth + 'px, 0, 0)'
+            ];
+
+            if (this.itemNum > 1) {
+                this.directive = this.o.controler.next;
+                this.controler();
+                this.tabindex();
+            }
+
+            if (this.autoPlay && this.itemNum > 1) {
+                this.auto();
+
+                // スライド停止・再生処理
+                this.$inner.on('mouseover mouseout focusin focusout', $.proxy(function(e) {
+                    if (this.autoPlay && e.type === 'mouseover' || this.autoPlay && e.type === 'focusin') {
+                        this.stop();
+                    } else if (this.autoPlay && e.type === 'mouseout' || this.autoPlay && e.type === 'focusout') {
+                        this.auto();
+                    }
+                }, this));
+            }
+
+            if (this.o.indicator && this.itemNum > 1) {
+                this.createIndicator();
+            }
+
+            this.$root.css({
+                'opacity': 1
+            });
+            // スライドの初期配置処理
+            // スライドが1枚のときを考慮して maxNum → countNum の順に処理
+            this.$item.eq(this.maxNum).css({
+                'transform': this.distance[2],
+                'z-index': this.o.style.zIndex - 1 // 初期配置時のみ z-index の値を更に低く設定
+            });
+            this.$item.eq(this.countNum).css({
+                'transform': this.distance[0],
+                'z-index': this.zIndexValue
+            });
+
+            if (this.fade && this.itemNum > 1) {
+                this.fadeout = {'opacity': 0};
+                this.fadein = {'opacity': 1};
+                this.$item.eq(this.maxNum).css(this.fadeout);
+            }
+
+            if (this.itemNum === 1) {
+                // アニメーションと z-index の値をリセット
+                this.$item.eq(this.maxNum).css({
+                    'transition': 'none',
+                    'z-index': ''
+                });
+            } else if (this.itemNum === 2) {
+                // IE10 以上はアクセス時に focus blur イベントが実行されてしまうので初期化
+                if (config.Trident) {
+                    this.winActive = false;
+                }
+                // スライドを強制的に一時停止
+                $win.on('focus blur', $.proxy(function() {
+                    this.halt();
+                }, this));
+            }
+        },
+
+        /**
+         * [prev 前送り]
+         */
+        prev: function() {
+            this.directive = this.o.controler.prev;
+
+            if (this.countNum === 0) {
+                this.countNum = this.maxNum;
+            } else {
+                this.countNum--;
+            }
+            this.action();
+        },
+
+        /**
+         * [next 次送り]
+         */
+        next: function() {
+            this.directive = this.o.controler.next;
+
+            if (this.countNum === this.maxNum) {
+                this.countNum = 0;
+            } else {
+                this.countNum++;
+            }
+            this.action();
+        },
+
+        /**
+         * [action 動作の開始]
+         */
+        action: function() {
+            this.stop();
+            this.move();
+            this.tabindex();
+
+            if (this.autoPlay && this.itemNum > 1) {
+                this.auto();
+            }
+        },
+
+        /**
+         * [move スライドの動作]
+         */
+        move: function() {
+            // スライドの枚数によって動作を振り分け（判定内容：2枚ちょうどか2枚よりも多いか）
+            if (this.itemNum > 2) {
+                // 次に表示される画像
+                if (this.countNum === this.maxNum) {
+                    this.$item.eq(0).css({
+                        'transform': this.distance[1]
+                    });
+                } else {
+                    this.$item.eq(this.countNum + 1).css({
+                        'transform': this.distance[1]
+                    });
+                }
+
+                // 1つ前の画像
+                this.$item.eq(this.countNum - 1).css({
+                    'transform': this.distance[2],
+                    'z-index': ''
+                });
+
+                // 2つ以上前の画像
+                this.$item.eq(this.countNum - 2).css({
+                    'transform': this.distance[1],
+                    'z-index': this.o.style.zIndex
+                }).one(transitionEnd, function() {
+                    $(this).css({
+                        'z-index': ''
+                    });
+                });
+
+                // 表示領域の画像
+                this.$item.eq(this.countNum).css({
+                    'transform': this.distance[0],
+                    'z-index': this.zIndexValue
+                }).one(transitionEnd, $.proxy(function() {
+                    this.animating = false;
+                }, this));
+
+                // フェード処理
+                if (this.fade) {
+                    if (this.countNum === this.maxNum) {
+                        this.$item.eq(0).css(this.fadeout);
+                    } else {
+                        this.$item.eq(this.countNum + 1).css(this.fadeout);
+                    }
+                    this.$item.eq(this.countNum - 1).css(this.fadeout);
+                    this.$item.eq(this.countNum - 2).css(this.fadeout);
+                    this.$item.eq(this.countNum).css(this.fadein);
+                }
+
+            } else if (this.itemNum === 2) {
+                var invertNum = 0 < this.countNum ? 0 : 1,
+                    n = 0,
+                    sync, deferred;
+
+                // スタイルの設定
+                var showMotionStyle = {
+                        'transform': this.distance[0],
+                        'z-index': this.zIndexValue,
+                        'transition-duration': ''
+                    },
+                    hiddenPrepareStyle = {
+                        'z-index': this.o.style.zIndex,
+                        'transition-duration': this.o.style.transitionDuration
+                    },
+                    hiddenMotionStyle = {
+                        'transform': this.distance[2],
+                        'z-index': ''
+                    };
+
+                // アニメーション用変数定義
+                var next = {
+                        hiddenPrepare: '',
+                        hiddenSlide: '',
+                        showSlide: ''
+                    },
+                    prev = {
+                        hiddenPrepare: '',
+                        hiddenSlide: '',
+                        showSlide: ''
+                    };
+
+                // 2枚のスライドの動作の同期取得
+                sync = $.proxy(function() {
+                    deferred = $.Deferred();
+
+                    if (n >= 2) {
+                        this.animating = false;
+                        n = 0;
+                        deferred.resolve();
+                    }
+                }, this);
+
+                // フェード処理
+                if (this.fade) {
+                    var fade = $.proxy(function() {
+                        if (this.fade) {
+                            this.$item.eq(this.countNum).css(this.fadein);
+                            this.$item.eq(invertNum).css(this.fadeout);
+                        }
+                    }, this);
+                }
+
+                // 表示領域の左側に隠れている要素を右側へ移動する準備
+                next.hiddenPrepare = $.proxy(function() {
+                    deferred = $.Deferred();
+
+                    this.$item.eq(this.countNum).css(hiddenPrepareStyle).one(transitionEnd, function() {
+                        deferred.resolve();
+                    });
+
+                    return deferred.promise();
+                }, this);
+
+                // 表示領域の左側に隠れている要素を一瞬で右側へ移動
+                next.hiddenSlide = $.proxy(function() {
+                    deferred = $.Deferred();
+
+                    this.$item.eq(this.countNum).css({
+                        'transform': this.distance[1]
+                    }).one(transitionEnd, function() {
+                        deferred.resolve();
+                    });
+
+                    return deferred.promise();
+                }, this);
+
+                // 右側への移動完了後に表示領域へ移動し、表示領域の要素を表示領域の左側へ移動
+                next.showSlide = $.proxy(function() {
+                    deferred = $.Deferred();
+
+                    this.$item.eq(this.countNum).css(showMotionStyle).one(transitionEnd, $.proxy(function() {
+                        n++;
+                        this.$item.eq(this.countNum).off(transitionEnd); // 意図しない複数回処理を回避
+                        sync();
+                    }, this));
+
+                    this.$item.eq(invertNum).css(hiddenMotionStyle).one(transitionEnd, $.proxy(function() {
+                        n++;
+                        this.$item.eq(invertNum).off(transitionEnd); // 意図しない複数回処理を回避
+                        sync();
+                    }, this));
+
+                    fade();
+
+                    return deferred.promise();
+                }, this);
+
+                // 表示領域の左側に隠れている要素を表示領域へ移動
+                prev.hiddenPrepare = $.proxy(function() {
+                    deferred = $.Deferred();
+
+                    this.$item.eq(invertNum).css(hiddenPrepareStyle).one(transitionEnd, function() {
+                        deferred.resolve();
+                    });
+
+                    return deferred.promise();
+                }, this);
+
+                // 右側への移動完了後に表示領域の左側へ移動
+                prev.hiddenSlide = $.proxy(function() {
+                    deferred = $.Deferred();
+
+                    this.$item.eq(invertNum).css(hiddenMotionStyle).one(transitionEnd, $.proxy(function() {
+                        this.$item.eq(invertNum).css({
+                            'transition-duration': ''
+                        });
+                        this.animating = false;
+                        this.$item.eq(invertNum).off(transitionEnd); // 意図しない複数回処理を回避
+
+                        deferred.resolve();
+                    }, this));
+
+                    return deferred.promise();
+                }, this);
+
+                // 表示領域の左側に隠れている要素を表示領域へ移動し、表示領域の要素を表示領域の右側へ移動
+                prev.showSlide = $.proxy(function() {
+                    deferred = $.Deferred();
+
+                    this.$item.eq(this.countNum).css(showMotionStyle);
+                    this.$item.eq(invertNum).css({
+                        'transform': this.distance[1]
+                    }).one(transitionEnd, $.proxy(function() {
+                        deferred.resolve();
+                    }, this));
+
+                    fade();
+
+                    return deferred.promise();
+                }, this);
+
+                // 操作したコントローラーを判別して処理を振り分け
+                if (this.directive === this.o.controler.prev) {
+                    prev.showSlide().then(prev.hiddenPrepare).then(prev.hiddenSlide);
+                } else if (this.directive === this.o.controler.next) {
+                    next.hiddenPrepare().then(next.hiddenSlide).then(next.showSlide);
+                }
+            }
+
+            if (this.o.indicator) {
+                this.currentIndicator();
+            }
+
+            // IE9 以下用の処理
+            if (config.lteIE9) {
+                this.animating = false;
+                this.$item.css({
+                    'z-index': this.o.style.zIndex
+                });
+                this.$item.eq(this.countNum).css({
+                    'z-index': this.zIndexValue
+                });
+            }
+        },
+
+        /**
+         * [auto 自動化]
+         */
+        auto: function() {
+            if (this.autoPlay) {
+                this.stop();
+            }
+
+            this.timer = setTimeout($.proxy(function() {
+                this.next();
+            }, this), this.o.duration);
+        },
+
+        /**
+         * [stop 停止]
+         */
+        stop: function() {
+            clearTimeout(this.timer);
+        },
+
+        /**
+         * [pause 一時停止]
+         */
+        pause: function() {
+            var $btn = this.$stop.find('button');
+
+            if (this.autoPlay) {
+                this.stop();
+                $btn.text(this.o.controler.playAlt).addClass(this.o.controler.pauseClass);
+            } else if (!this.autoPlay) {
+                this.auto();
+                $btn.text(this.o.controler.pauseAlt).removeClass(this.o.controler.pauseClass);
+            }
+            this.autoPlay = !this.autoPlay;
+        },
+
+        /**
+         * [controler コントローラー生成とコントローラー操作]
+         */
+        controler: function() {
+            this.$controler  = '<ul class="' + this.o.controler.root + '">';
+            this.$controler += '<li class="' + this.o.controler.prev + '"><button type="button">' + this.o.controler.prevAlt + '</button></li>';
+            this.$controler += '<li class="' + this.o.controler.next + '"><button type="button">' + this.o.controler.nextAlt + '</button></li>';
+            this.$controler += '</ul>';
+            this.$inner.append(this.$controler);
+
+            // 生成した各コントローラーを格納
+            this.$prev = this.$root.find('.' + this.o.controler.prev);
+            this.$next = this.$root.find('.' + this.o.controler.next);
+
+            // 自動再生が機能していれば一時停止を追加
+            if (this.autoPlay) {
+                this.$root.find('.' + this.o.controler.root).append('<li class="' + this.o.controler.pause + '"><button type="button">' + this.o.controler.pauseAlt + '</button></li>');
+                this.$stop = this.$root.find('.' + this.o.controler.pause);
+            }
+
+            // z-index の値をコントロール関連のボタンよりも常に低い値になるように設定
+            this.zIndexValue = parseInt(this.$prev.find('button').css('z-index'), 10) - 1;
+
+            // 「前へ」ボタンをクリックしたときの挙動
+            this.$prev.on('click', $.proxy(function(e) {
+                e.preventDefault();
+                if (!this.animating) {
+                    this.animating = true;
+                    this.prev();
+                }
+            }, this));
+
+            // 「次へ」ボタンをクリックしたときの挙動
+            this.$next.on('click', $.proxy(function(e) {
+                e.preventDefault();
+                if (!this.animating) {
+                    this.animating = true;
+                    this.next();
+                }
+            }, this));
+
+            // 自動再生機能があれば一時停止機能（ボタン）を追加
+            if (this.$stop !== null) {
+                this.$stop.on('click', $.proxy(function(e) {
+                    e.preventDefault();
+                    this.pause();
+                }, this));
+            }
+        },
+
+        /**
+         * [createIndicator インジケーター生成]
+         */
+        createIndicator: function() {
+            this.$indicator = '<ul class="' + this.o.nav + '">';
+            for (var i = 0, indicatorNum; i < this.itemNum; i++) {
+                indicatorNum = i + 1;
+                this.$indicator += '<li>' + indicatorNum + '</li>';
+            }
+            this.$indicator += '</ul>';
+            this.$inner.append(this.$indicator);
+
+            this.$indicator = this.$root.find('.' + this.o.nav).children();
+            this.$indicator.eq(0).addClass(this.o.current);
+        },
+
+        /**
+         * [currentIndicator インジケーターのカレント表示]
+         */
+        currentIndicator: function() {
+            this.$indicator.removeClass(this.o.current);
+            this.$indicator.eq(this.countNum).addClass(this.o.current);
+        },
+
+        /**
+         * [tabindex タブインデックスの設定]
+         */
+        tabindex: function() {
+            this.$item.find(focusable).attr('tabindex', -1);
+            this.$item.eq(this.countNum).find(focusable).attr('tabindex', '');
+        },
+
+        /**
+         * [halt 一時停止させる]
+         */
+        halt: function() {
+            // 自動再生が機能しているときのみ処理
+            // （アニメーションの不具合回避のため）
+            if (this.autoPlay) {
+                if (this.winActive) {
+                    this.stop();
+                } else if (!this.winActive) {
+                    this.auto();
+                }
+                this.winActive = !this.winActive;
+            }
+        }
+    };
+
+    $.fn.setCarousel = function(options) {
+
+        if (!this) {
+            return false;
+        }
+
+        var o = $.extend({
+            controler: {
+                root: 'carousel-control',
+                prev: 'prev',
+                next: 'next',
+                pause: 'pause',
+                prevAlt: '\u524d\u3078', // 前へ
+                nextAlt: '\u6b21\u3078', // 次へ
+                pauseAlt: '\u4e00\u6642\u505c\u6b62', // 一時停止
+                playAlt: '\u518d\u751f', // 再生
+                pauseClass: 'is-pause'
+            },
+            style: {
+                zIndex: '-1',
+                transitionDuration: '.04s'
+            },
+            nav: 'carousel-nav',
+            active: 'is-active',
+            current: 'is-current',
+            duration: '5000',
+            autoPlay: true,
+            indicator: true,
+            fade: false
+        }, options);
+
+        return this.each(function() {
+            var $root = $(this),
+                $inner = $root.find('.carousel-inner'),
+                $itemWrap = $root.find('.carousel-item'),
+                carousel = new Carousel($root, $inner, $itemWrap, o);
+
+            carousel.init();
+        });
+    };
+
+
+    /**
+     * [navCurrent ナビゲーションのカレント表示]
+     * @param {[object]} $root [$root]
+     * @param {[object]} $list [ナビゲーションのリスト]
+     * @param {[object]} o     [$.fn.setNavCurrent 内で設定した options]
+     */
+    NavCurrent = function($root, $list, o) {
+        this.$root = $root;
+        this.$list = $list;
+        this.countNum = 0;
+        this.o = o;
+        this.navLocal = this.o.navLocal;
+    };
+
+    NavCurrent.prototype = {
+
+        /**
+         * [init 初期化]
+         */
+        init: function() {
+            var condIndex = /\/index\.html?/,
+                path = location.pathname.replace(condIndex, "/");
+
+            this.dataComparison(this.getPath(path), this.buildCategoryList(condIndex));
+        },
+
+        /**
+         * [dataComparison URL とカテゴリの比較とマッチした時の処理]
+         * @param {[array]} paths      [現在の URL のパス一覧]
+         * @param {[array]} categories [カテゴリ一覧]
+         */
+        dataComparison: function(paths, categories) {
+            for (var i = 0; i < paths.length; i++) {
+                for (var j = 0; j < categories.length; j++) {
+                    if (paths[i] === categories[j]) {
+                        this.$list.eq(j).addClass(this.o.current);
+                        return false;
+                    } else if (paths[i] === '/' && this.countNum === 0) {
+                        this.$list.eq(0).addClass(this.o.current);
+                        return false;
+                    }
+                }
+            }
+        },
+
+        /**
+         * [getPath URL からパスを取得]
+         * @param {[string]} path  [現在の URL]
+         * @return {[array]} paths [現在の URL のパス一覧]
+         */
+        getPath: function(path) {
+            var paths = [path];
+
+            while (path && '/' !== path) {
+                path = path.replace(/[^\/]*\/?$/, '');
+                paths.push(path);
+                this.countNum++; // カウンターを回してトップページを判別
+            }
+
+            return paths;
+        },
+
+        /**
+         * [buildCategoryList カテゴリデータのリスト化]
+         * @param {[string]} condIndex  [index.html]
+         * @return {[array]} categories [カテゴリ一覧]
+         */
+        buildCategoryList: function(condIndex) {
+            var categories = [];
+
+            // 各カテゴリの値を配列に挿入
+            for (var i = 0; i < this.$list.length; i++) {
+                categories.push('/' + this.$list.eq(i).find('a').attr('href').replace(/\.\.\//g, '').replace(condIndex, '/'));
+            }
+
+            return categories;
+        }
+    };
+
+    $.fn.setNavCurrent = function(options) {
+
+        if (!this) {
+            return false;
+        }
+
+        var o = $.extend({
+            current: 'is-current'
+        }, options);
+
+        return this.each(function() {
+            var $root = $(this),
+                $list = $root.find('li'),
+                navCurrent = new NavCurrent($root, $list, o);
+
+            navCurrent.init();
+        });
+    };
+
+
+    /**
+     * [toggle トグル]
+     * @param {[object]} $root     [$root]
+     * @param {[object]} $hook     [フックとなる要素]
+     * @param {[object]} $contents [トグル内コンテンツ]
+     * @param {[object]} $nextMove [次の動作を表す要素]
+     * @param {[object]} o         [$.fn.setSmoothScroll 内で設定した options]
+     */
+    Toggle = function($root, $hook, $contents, $nextMove, o) {
+        this.$root = $root;
+        this.$hook = $hook;
+        this.$contents = $contents;
+        this.$nextMove = $nextMove;
+        this.animation = false;
+        this.o = o;
+        this.expanded = this.$root.hasClass('.' + this.o.state.expand);
+    };
+
+    Toggle.prototype = {
+
+        /**
+         * [init 初期化]
+         */
+        init: function() {
+            this.tabindex();
+
+            this.$hook.on('click keydown', $.proxy(function(e) {
+                if (!this.animation && 13 === e.which || !this.animation && 'click' === e.type) {
+                    e.preventDefault();
+                    this.action();
+                }
+            }, this));
+        },
+
+        /**
+         * [action 基本動作]
+         */
+        action: function() {
+            var contentsHeight = this.getHeight();
+
+            this.animation = true;
+            this.$contents.addClass(this.o.state.animate);
+
+            this.expanded ? this.collapse(contentsHeight) : this.expand(contentsHeight);
+            this.expanded = !this.expanded;
+        },
+
+        /**
+         * [expand 開く処理]
+         * @param {[number]} contentsHeight [コンテンツの高さの値]
+         */
+        expand: function(contentsHeight) {
+            this.$contents.css({'height': '0'});
+            this.$contents[0].offsetTop; // 強制リフロー
+            this.$contents.css({'height': contentsHeight});
+            this.$nextMove.text(this.o.nextMove.collapseText);
+            this.complete();
+        },
+
+        /**
+         * [collapse 閉じる処理]
+         * @param {[number]} contentsHeight [コンテンツの高さの値]
+         */
+        collapse: function(contentsHeight) {
+            var reset = false;
+            if (config.iOS || config.Android) {
+                reset = true;
+            }
+            this.$contents.css({'height': contentsHeight});
+            this.$contents[0].offsetTop; // 強制リフロー
+            this.$contents.css({'height': '0'});
+            this.$nextMove.text(this.o.nextMove.expandText);
+            this.complete(reset);
+        },
+
+        /**
+         * [getHeight コンテンツの高さを取得]
+         * @return {[number]} height [コンテンツの高さの値]
+         */
+        getHeight: function() {
+            var height, paddingTop, paddingBottom;
+
+            // 瞬間的にブロック要素にして高さを取得し、その後元に戻す
+            this.$contents.css({'display': 'block'});
+            height = this.$contents.height();
+            this.$contents.css({'display': ''});
+
+            paddingTop = parseInt(this.$contents.css('padding-top'), 10);
+            paddingBottom = parseInt(this.$contents.css('padding-bottom'), 10);
+
+            height = height + paddingTop + paddingBottom;
+
+            return height;
+        },
+
+        /**
+         * [complete アニメーション完了後の処理]
+         * @param {[boolean]} reset [コンテンツの高さの値を削除するときの条件]
+         */
+        complete: function(reset) {
+            this.$root.toggleClass(this.o.state.expand);
+            this.$contents.one(transitionEnd, $.proxy(function() {
+                this.$contents.removeClass(this.o.state.animate);
+                // iOS と Android は閉じるときだけ高さの値を削除する
+                if (!config.iOS && !config.Android) {
+                    this.$contents.css({'height': ''});
+                } else if (config.iOS && reset || config.Android && reset) {
+                    this.$contents.css({'height': ''});
+                }
+                this.animation = false;
+            }, this));
+        },
+
+        /**
+         * [tabindex フックとなる要素に tabindex を設定]
+         */
+        tabindex: function() {
+            this.$hook.attr('tabindex', 0);
+        }
+    };
+
+    $.fn.setToggle = function(options) {
+
+        if (!this) {
+            return false;
+        }
+
+        var o = $.extend({
+            hook: '.toggle-hook',
+            contents: '.toggle-contents',
+            nextMove: {
+                class: '.toggle-state',
+                expandText: '\u958b\u304f', // 開く
+                collapseText: '\u9589\u3058\u308b' // 閉じる
+            },
+            state: {
+                expand: 'is-open',
+                animate: 'is-animate'
+            }
+        }, options);
+
+        return this.each(function() {
+            var $root = $(this),
+                $hook = $root.find(o.hook),
+                $contents = $root.find(o.contents),
+                $nextMove = $root.find(o.nextMove.class),
+                toggle = new Toggle($root, $hook, $contents, $nextMove, o);
+
+            toggle.init();
+        });
+    };
+
+
+    /**
+     * [tabSwitch タブ切り替え]
+     * @param {[object]} $root     [$root]
+     * @param {[object]} $tabs     [タブのリスト]
+     * @param {[object]} $contents [タブのコンテンツ]
+     * @param {[object]} o         [$.fn.setTabSwitch 内で設定した options]
+     */
+    TabSwitch = function($root, $tabs, $contents, o) {
+        this.$root = $root;
+        this.$tabs = $tabs;
+        this.$contents = $contents;
+        this.o = o;
+    };
+
+    TabSwitch.prototype = {
+
+        /**
+         * [init 初期化]
+         */
+        init: function() {
+            var hash = '#' + location.hash.replace(/[^\w-]/g, ''),
+                self = this,
+                $this;
+
+            // hash の初期化
+            if (hash === '#') {
+                hash = '';
+            }
+
+            // data 属性で tabindex の初期値の管理
+            this.$contents.find(focusable).each(function() {
+                $this = $(this);
+                $this.attr(self.o.dataFormat.tabindex, $this.attr('tabindex'));
+            });
+
+            this.resetTabindex();
+            this.initActivate(hash);
+
+            this.$tabs.on('click', $.proxy(function(e) {
+                e.preventDefault();
+                this.activate(e.currentTarget, $(e.currentTarget).find('a').attr('href'));
+            }, this));
+        },
+
+        /**
+         * [initActivate アクセス時のアクティブ化]
+         *  @param {[String]} hash [URL から取得した hash 値]
+         */
+        initActivate: function(hash) {
+            // ハッシュがなければ最初のタブをアクティブ
+            if (!hash) {
+                this.activateFirstTab();
+            } else {
+                var i = 0,
+                    $appropriateContents;
+
+                // 指定されたハッシュに関連したタブをアクティブ
+                this.$root.find('[href="' + hash +'"]').parent().addClass(this.o.active);
+                this.$root.find(hash).addClass(this.o.active);
+                // アクティブタブのみタブインデックスを初期化
+                while (i < this.$contents.length) {
+                    $appropriateContents = this.$contents.eq(i);
+
+                    if ($appropriateContents.hasClass(this.o.active)) {
+                        this.setTabindex($appropriateContents.find(focusable));
+                    }
+                    i++;
+                }
+
+                // 該当するアンカーがなければ最初のタブをアクティブ
+                if (!this.$tabs.hasClass(this.o.active)) {
+                    this.activateFirstTab();
+                }
+            }
+        },
+
+        /**
+         * [activateFirstTab 最初のタブをアクティブ化]
+         */
+        activateFirstTab: function() {
+            var $firstContents = this.$contents.eq(0);
+
+            this.$tabs.eq(0).addClass(this.o.active);
+            $firstContents.addClass(this.o.active);
+
+            this.setTabindex($firstContents.find(focusable));
+        },
+
+        /**
+         * [activate アクティブ化]
+         *  @param {[object]} target [クリックされた要素]
+         *  @param {[String]} hash   [a 要素から取得した href の値]
+         */
+        activate: function(target, hash) {
+            var $appropriateContents = this.$root.find(hash);
+
+            // リセット
+            this.resetTabindex();
+            this.$tabs.removeClass(this.o.active);
+            this.$contents.removeClass(this.o.active);
+
+            // 該当要素のアクティブ化
+            $(target).addClass(this.o.active);
+            $appropriateContents.addClass(this.o.active);
+
+            this.setTabindex($appropriateContents.find(focusable));
+        },
+
+        /**
+         * [resetTabindex タブインデックスのリセット]
+         */
+        resetTabindex: function() {
+            this.$contents.find(focusable).attr('tabindex', '-1');
+        },
+
+        /**
+         * [setTabindex タブインデックスの設定]
+         *  @param {[object]} target [タブ内のフォーカスの当たる要素全て]
+         */
+        setTabindex: function(target) {
+            var self = this,
+                $this, dataTabindex;
+
+            target.each(function() {
+                $this = $(this);
+                dataTabindex = $(this).attr(self.o.dataFormat.tabindex);
+
+                if (dataTabindex !== undefined) {
+                    $this.attr('tabindex', dataTabindex);
+                } else {
+                    $this.attr('tabindex', '');
+                }
+            });
+        }
+    };
+
+    $.fn.setTabSwitch = function(options) {
+
+        if (!this) {
+            return false;
+        }
+
+        var o = $.extend({
+            tabList: '.tab-list',
+            tabItem: '.tab-item',
+            active: 'is-active',
+            dataFormat: {
+                tabindex: 'data-tabindex'
+            }
+        }, options);
+
+        return this.each(function() {
+            var $root = $(this),
+                $tabs = $root.find(o.tabList).children(),
+                $contents = $root.find(o.tabItem),
+                tabSwitch = new TabSwitch($root, $tabs, $contents, o);
+
+            tabSwitch.init();
+        });
+    };
+
+    /**
+     * [finder 目的から探す]
+     * @param {[object]} $root     [クリックした要素]
+     * @param {[object]} $list     [セレクトボックスを包容する要素]
+     * @param {[object]} $selected [プルダウン風のボタン]
+     * @param {[object]} $menu     [プルダウン風のメニュー]
+     * @param {[object]} $resetBtn [リセットボタン]
+     * @param {[object]} $wrapper  [コンテンツを包容する要素]
+     * @param {[object]} $contents [コンテンツリスト]
+     * @param {[object]} o         [$.fn.setFinder 内で設定した options]
+     */
+    Finder = function($root, $list, $selected, $menu, $resetBtn, $wrapper, $contents, o) {
+        this.$root = $root;
+        this.$list = $list;
+        this.$selected = $selected;
+        this.$selectedBtn = this.$selected.find('button');
+        this.$menu = $menu;
+        this.$menuBtn = this.$menu.find('button');
+        this.$resetBtn = $resetBtn;
+        this.$wrapper = $wrapper;
+        this.$contents = $contents;
+        this.$heading = null;
+        this.$lead = null;
+        this.$loader = null;
+        this.load = false;
+        this.expanding = false;
+        this.focus = false;
+        this.o = o;
+    };
+
+    Finder.prototype = {
+
+        /**
+         * [init 初期化]
+         */
+        init: function() {
+            var hash = location.hash.replace(/[^\w-]/g, ''),
+                target;
+
+            // hash の初期化
+            if (hash === '#') {
+                hash = '';
+            }
+
+            this.initTabindex();
+            this.heading();
+
+            // hash 付でページ遷移してきたときの処理
+            if (hash) {
+                var id = '[' + this.o.dataFormat.id + '="' + hash + '"]';
+
+                $win.on('load', $.proxy(function() {
+                    this.outputResult($(id).find('button'));
+                    this.changeSelectedText(id);
+                }, this));
+            }
+
+            // セレクトボックスの操作
+            this.$selected.on('click', $.proxy(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                target = e.currentTarget;
+
+                if (this.expanding && $(target).hasClass(this.o.active)) {
+                    this.collapse();
+                } else {
+                    this.collapse();
+                    this.expand(target);
+                }
+            }, this));
+
+            // セレクトボックス以外をクリックしたらセレクトボックスを閉じる
+            $html.on('click', $.proxy(function() {
+                if (this.expanding) {
+                    this.collapse();
+                }
+            }, this));
+
+            // プルダウンメニューのキーボード操作
+            this.$menuBtn.on({
+                'focusin': $.proxy(function() {
+                    this.focus = true;
+                }, this),
+                'focusout': $.proxy(function() {
+                    this.blurCollapse();
+                }, this)
+            });
+            // セレクトボックスを開いた後にフォーカスを前の要素に移動させたときにもプルダウンメニューを閉じる
+            this.$selectedBtn.on('focusout', $.proxy(function() {
+                this.blurCollapse();
+            }, this));
+
+            // プルダウンメニューをクリックした時の処理
+            this.$menuBtn.on('click', $.proxy(function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                target = e.currentTarget;
+
+                this.outputResult(target);
+                this.changeSelectedText(target);
+                this.collapse();
+            }, this));
+
+            this.$resetBtn.on('click', $.proxy(function(e) {
+                e.preventDefault();
+                this.reset();
+            }, this));
+        },
+
+        /**
+         * [initTabindex タブインデックスの初期設定]
+         */
+        initTabindex: function() {
+            this.$menuBtn.attr('tabindex', '-1');
+        },
+
+        /**
+         * [expand プルダウンを開く]
+         *  @param {[Object]} target [クリックされた要素]
+         */
+        expand: function(target) {
+            var $this = $(target),
+                $menu = $this.siblings(this.$menu);
+
+            this.$menu.removeClass(this.o.active);
+            $this.addClass(this.o.active);
+            $menu.addClass(this.o.active).one(transitionEnd, $.proxy(function() {
+                $menu.find('button').attr('tabindex', '');
+                this.expanding = true;
+            }, this));
+        },
+
+        /**
+         * [collapse プルダウンを閉じる]
+         */
+        collapse: function() {
+            this.initTabindex();
+            this.$selected.removeClass(this.o.active);
+            this.$menu.removeClass(this.o.active);
+            this.expanding = false;
+        },
+
+        /**
+         * [blurCollapse フォーカスが外れたらプルダウンを閉じる]
+         */
+        blurCollapse: function() {
+            this.focus = false;
+            setTimeout($.proxy(function() {
+                if(!this.focus) {
+                    this.collapse();
+                }
+            }, this), 100);
+        },
+
+        /**
+         * [loading ロード画面の生成]
+         *  @param {[Object]} html [ロード画面用 DOM]
+         */
+        loading: function() {
+            var html;
+            html = '<div class="' + this.o.loader.class + '">';
+            html += '<img src="' + this.o.loader.imgPath + '" alt="' + this.o.loader.alt + '">';
+            html += '</div>';
+            this.$contents.after(html);
+
+            this.$loader = this.$root.find('.' + this.o.loader.class);
+            this.load = true;
+        },
+
+        /**
+         * [outputResult 出力結果を表示]
+         *  @param {[Object]} target [クリックされた要素]
+         *  @param {[Array]} data    [クリックされた要素の持つカテゴリデータリスト]
+         */
+        outputResult: function(target) {
+            var data = $(target).data(this.o.dataFormat.get),
+                i;
+
+            if (data !== undefined && !this.load) {
+                // 全ての項目を非表示
+                this.$contents.children().addClass(this.o.hidden);
+                this.$wrapper.addClass(this.o.block);
+
+                this.loading();
+
+                setTimeout($.proxy(function() {
+                    // ロード完了後の処理
+                    this.$loader.addClass(this.o.animate).one(transitionEnd, $.proxy(function() {
+                        // 該当する項目のみ再表示
+                        for (i = 0; i < data.length; ++i) {
+                            this.$contents.find('[' + this.o.dataFormat.selector + '="' + data[i] + '"]').removeClass(this.o.hidden);
+                        }
+
+                        // ロード画面が消えた後の処理
+                        this.$loader.removeClass(this.o.animate).one(transitionEnd, $.proxy(function() {
+                            this.$loader.remove();
+                            this.load = false;
+                        }, this));
+
+                        // コンテンツの高さ揃え
+                        this.$contents.setAdjustHeight({
+                            target: '> li > a'
+                        });
+                    }, this));
+
+                }, this), this.o.loader.startTimer);
+            }
+        },
+
+        /**
+         * [heading 見出し風テキストの生成]
+         *  @param {[Object]} html [見出し風テキストの DOM]
+         */
+        heading: function() {
+            var html;
+            html = '<div class="' + this.o.heading.wrapper + ' ' + this.o.heading.class + '">';
+            html += '<p class="' + this.o.heading.text + '"></p>';
+            html += '</div>';
+            this.$list.before(html);
+
+            this.$heading = this.$root.find('.' + this.o.heading.class);
+        },
+
+        /**
+         * [changeSelectedText セレクトボックスのテキスト変更]
+         *  @param {[Object]} target      [クリックされた要素]
+         *  @param {[String]} label       [クリックされた要素のテキスト]
+         *  @param {[String]} defaultText [プルダウンメニューの最初の項目のテキスト]
+         */
+        changeSelectedText: function(target) {
+            var $this = $(target),
+                label = $this.text(),
+                defaultText = this.$menuBtn.eq(0).text(),
+                changeText = $.proxy(function() {
+                    this.$lead.addClass(this.o.visible).text(label);
+                }, this);
+
+            this.$lead = this.$heading.children();
+
+            this.$selectedBtn.text(defaultText);
+            $this.closest(this.o.selectbox).find(this.o.selected).find('button').text(label);
+
+            if (defaultText !== label) {
+                if (!this.$heading.hasClass(this.o.block)) {
+                    this.$heading.addClass(this.o.block);
+                    changeText();
+                } else {
+                    this.$lead.removeClass(this.o.visible).one(transitionEnd, $.proxy(function() {
+                        changeText();
+                    }, this));
+                }
+            }
+        },
+
+        /**
+         * [reset 表示内容のリセット]
+         */
+        reset: function() {
+            // コンテンツ表示中のみ有効
+            if (this.$wrapper.hasClass(this.o.block)) {
+                this.changeSelectedText();
+                this.$wrapper.removeClass(this.o.block);
+                this.$heading.removeClass(this.o.block);
+                this.load = false;
+            }
+        }
+    };
+
+    $.fn.setFinder = function(options) {
+
+        if (!this) {
+            return false;
+        }
+
+        var o = $.extend({
+            list: '.finder-list',
+            selectbox: '.finder-list-selectbox',
+            selected: '.finder-list-selected',
+            menu: '.finder-list-menu',
+            resetBtn: '.finder-clear-btn',
+            wrapper: '.finder-contents',
+            contents: '.finder-contents-list',
+            loader: {
+                class: 'finder-loading',
+                imgPath: '/common/images/contents/loading.gif',
+                alt: 'Now Loading',
+                startTimer: 100
+            },
+            heading: {
+                class: 'finder-heading',
+                wrapper: 'box-02',
+                text: 'lead-01'
+            },
+            dataFormat: {
+                get: 'finderCategory',
+                selector: 'data-finder-category',
+                id: 'data-finder-id'
+            },
+            animate: 'is-animate',
+            hidden: 'is-hidden',
+            active: 'is-active',
+            block: 'is-block',
+            visible: 'is-visible'
+        }, options);
+
+        return this.each(function() {
+            var $root = $(this),
+                $list = $root.find(o.list),
+                $selected = $list.find(o.selected),
+                $menu = $list.find(o.menu),
+                $resetBtn = $root.find(o.resetBtn),
+                $wrapper = $root.find(o.wrapper),
+                $contents = $wrapper.find(o.contents),
+                finder = new Finder($root, $list, $selected, $menu, $resetBtn, $wrapper, $contents, o);
+
+            finder.init();
+        });
+    };
+
+    /**
+     *  jQuery setAdjustHeight plugin
+     *  version: 1.0.0
+     *  required: jQuery 2++
+     *
+     *  Copyright (c) 2013 Mitsue-Links Co., Ltd.
+     *
+     *  Permission is hereby granted, free of charge, to any person obtaining a
+     *  copy of this software and associated documentation files (the
+     *  "Software"), to deal in the Software without restriction, including
+     *  without limitation the rights to use, copy, modify, merge, publish,
+     *  distribute, sublicense, and/or sell copies of the Software, and to
+     *  permit persons to whom the Software is furnished to do so, subject to
+     *  the following conditions:
+     *
+     *  The above copyright notice and this permission notice shall be included
+     *  in all copies or substantial portions of the Software.
+     *
+     *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+     *  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+     *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+     *  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+     *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+     *  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+     *  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+     */
+    $.fn.setAdjustHeight = function (options) {
+
+        if (!this) {
+            return false;
+        }
+
+        var o = $.extend({
+            'target' : '>*',
+            'each' : 0,
+            'monitorInterval' : 0
+        }, options);
+        var timer, i, task = [];
+        var cullInterval = 100;
+
+        function fontSizeMonitor () {
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                for (i = 0; i < task.length; ++i) {
+                    task[i]();
+                }
+                fontSizeMonitor();
+            }, o.monitorInterval);
+        }
+
+        o.monitorInterval = parseInt(o.monitorInterval, 10) || 0;
+        if (0 > o.monitorInterval) {
+            o.monitorInterval = 0;
+        }
+        (o.monitorInterval) && fontSizeMonitor();
+
+        return this.each(function () {
+
+            var $root = $(this);
+            var $targets = $root.find(o.target);
+            var $target;
+            var flex = 'flex' === o.each;
+            var each = Math.floor(parseInt(o.each, 10)) || $targets.length;
+            var height = 0;
+            var fontSize = $root.css('fontSize');
+            var display, temp, i, j, k, l, cullTimer;
+            if (!$targets.length) {
+                return;
+            }
+
+            function adjust () {
+                $targets.css('height', 'auto');
+                if (flex) {
+                    each = Math.floor($root.eq(0).innerWidth() / $targets.eq(0).outerWidth());
+                }
+                for (i = 0, l = Math.ceil($targets.length / each); i < l; ++i) {
+                    height = 0;
+                    for (j = 0; j < each; ++j) {
+                        $target = $targets.eq((i * each) + j);
+                        if ($target.length) {
+                            height = Math.max(height, Math.max(
+                                getStyleNum($target, 'minHeight'),
+                                getStyleNum($target, 'height')
+                            ));
+                        }
+                    }
+                    if (height) {
+                        for (k = 0; k < each; ++k) {
+                            $target = $targets.eq((i * each) + k).css('height', height);
+                            display = $target.css('display');
+                            // BUG: IE9未満で描画が更新されない場合があるのでリフロー
+                            if ((document.uniqueID && !document.getElementsByClassName) && ('none' !== display)) {
+                                $target.css('display', 'none').css('display', display);
+                            }
+                        }
+                    }
+                }
+            }
+            function getStyleNum ($elem, style) {
+                return (parseFloat($elem.css(style)) || 0);
+            }
+
+            ($root.find('img').length) && $(window).on('load', function () {
+                adjust();
+            });
+            $(window).on('resize', function () {
+                clearTimeout(cullTimer);
+                cullTimer = setTimeout(function () {
+                    adjust();
+                }, cullInterval);
+            });
+            adjust();
+            (o.monitorInterval) && task.push(function () {
+                temp = $root.css('fontSize');
+                if (temp !== fontSize) {
+                    fontSize = temp;
+                    adjust();
+                }
+            });
+        });
+    };
+	$(function() {
+	$("#menubtn").click(function () {
+  $("#menu").slideToggle();
+});
+		 });
+         	$(function() {
+	$("#sbigl_btn").click(function () {
+  $("#sbigl_toggle").slideToggle();
+});
+		 });
+		 	$(function() {
+	var nav = $('#menu'),
+	offset = nav.offset();
+	$(window).scroll(function () {
+	  if($(window).scrollTop() > offset.top) {
+	    nav.addClass('fixed-menu');
+	  } else {
+	    nav.removeClass('fixed-menu');
+	  }
+	});
+		 });	 
+})(jQuery, window);
+    

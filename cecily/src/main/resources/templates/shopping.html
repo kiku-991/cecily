@@ -245,13 +245,13 @@
 			.done(function(data) {
 
 				if (data != 0) {
-					//	$('#myCart').addClass('am-badge am-badge-danger');
+					$('#myCart').addClass('am-badge am-badge-danger');
 					//$toast("買い物かごに追加済み!");
 					$('#myCart').text(data);
 
 					alert('買い物かごに追加済み!');
 
-					window.location.href = "/shopping"
+				//	window.location.href = "/shopping"
 				}
 
 			})

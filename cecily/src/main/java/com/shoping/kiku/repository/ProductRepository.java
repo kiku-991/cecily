@@ -25,6 +25,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 			+ "order by\r\n"
 			+ "    a.product_id asc",nativeQuery=true)
 	List<ProductEntity> findByStoreIdOrderByProductIdAsc(int userId);
+	
+	List<ProductEntity> findByStoreId(int storeId);
 
 	ProductEntity findByProductId(int productid);
 
@@ -60,13 +62,22 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 	
 	
 	@Query(value="select\r\n"
-			+ "    * \r\n"
+			+ "    a.product_id\r\n"
+			+ "    , a.store_id\r\n"
+			+ "    , a.product_name\r\n"
+			+ "    , a.product_price\r\n"
+			+ "    , a.product_img\r\n"
+			+ "    , a.product_contents\r\n"
+			+ "    , a.maker\r\n"
+			+ "    , a.status\r\n"
+			+ "    , a.stock \r\n"
 			+ "from\r\n"
-			+ "    product \r\n"
+			+ "    product a \r\n"
+			+ "    left join store b \r\n"
+			+ "        on a.store_id = b.store_id \r\n"
 			+ "where\r\n"
-			+ "    product.status <> 0 \r\n"
-			+ "order by\r\n"
-			+ "    product_id",nativeQuery=true)
+			+ "    a.status <> 0 \r\n"
+			+ "    and b.store_status <> 2",nativeQuery=true)
 	List<ProductEntity> getNormalPro();
 	
 	/**

@@ -13,6 +13,7 @@ import com.shoping.kiku.repository.CommerceRepository;
 import com.shoping.kiku.repository.MyOrderRepositoty;
 import com.shoping.kiku.repository.PaymentRepository;
 import com.shoping.kiku.until.OrderUtils;
+import com.shoping.kiku.until.Status;
 
 @Service
 public class PayMentService {
@@ -50,7 +51,7 @@ public class PayMentService {
 		payment.setPayQuantity(quantity);
 		payment.setPayTotal(total);
 		//AriPay
-		payment.setPayMethod(1);
+		payment.setPayMethod(Status.ARIPAY);
 		payment.setPayTime(new Timestamp(System.currentTimeMillis()));
 		paymentRepository.save(payment);
 
@@ -94,7 +95,7 @@ public class PayMentService {
 		payment.setPayQuantity(quantity);
 		payment.setPayTotal(total);
 		//CreditPay
-		payment.setPayMethod(2);
+		payment.setPayMethod(Status.CREDITPAY);
 		payment.setPayTime(new Timestamp(System.currentTimeMillis()));
 		paymentRepository.save(payment);
 
@@ -121,5 +122,54 @@ public class PayMentService {
 		myOrderRepository.save(myord);
 
 	}
+
+	/**
+	 * CashOndelivery
+	 * @param userId
+	 * @param orderId
+	 */
+	public void creCashOndeliveryForm(int userId, String orderId) {
+		// TODO 自動生成されたメソッド・スタブ
+		//自動生成
+				String payId = OrderUtils.getPayCode(userId);
+				int total = myOrderService.getPayPrice(userId, orderId);
+				int quantity = myOrderService.getPayQuantiy(userId, orderId);
+				//payment table
+				PaymentEntity payment = new PaymentEntity();
+				payment.setPaymentId(payId);
+				payment.setUserId(userId);
+				payment.setPayQuantity(quantity);
+				payment.setPayTotal(total);
+				//CashOndeliveryPay
+				payment.setPayMethod(Status.CASHPAY);
+				//このタイミングまだ支払っていない
+				payment.setPayTime(null);
+				paymentRepository.save(payment);
+
+				//Commerce Table
+				CommerceEntity commerce = commerceRepository.findByOrderId(orderId);
+				CommerceEntity com = new CommerceEntity();
+				com.setCreatedate(commerce.getCreatedate());
+				com.setOrderId(commerce.getOrderId());
+				com.setPaymentId(payId);
+				com.setShippingId(null);
+				com.setUserId(commerce.getUserId());
+				commerceRepository.save(com);
+
+				//MyOrder table
+				MyOrderEntity myorder = myOrderRepository.findByOrderId(orderId);
+
+				MyOrderEntity myord = new MyOrderEntity();
+				myord.setCreateTime(myorder.getCreateTime());
+				myord.setOrderId(orderId);
+				//支払いまだ完了
+				myord.setOrderStatus(0);
+				myord.setModifyTime(new Timestamp(System.currentTimeMillis()));
+				myord.setPurchasingPrice(total);
+				myOrderRepository.save(myord);
+		
+	}
+
+	
 
 }

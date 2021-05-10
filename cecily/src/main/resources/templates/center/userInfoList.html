@@ -80,9 +80,9 @@
 				<!-- 内容ここから -->
 
 				<br> <br> <br>
-				<h3>ユーザ情報一覧</h3>
 
-				<table class="table table-striped table-sm">
+				<table class="table table-striped table-sm"
+					th:if="${usersInfo.size!=0}">
 					<thead>
 						<tr>
 							<th>ユーザID</th>
@@ -196,15 +196,13 @@
 
 
 
-
-
-
-
-
-				<!-- 内容ここまで -->
-			</main>
+				<br> <br> <br> <br> <br>
+				<p style="color: red;" th:if="${usersInfo.size==0}">
+					まだユーザが一人も登録されてない
+					<p></main>
 		</div>
 	</div>
 
-</body>
+</bod
+			y>
 </html>

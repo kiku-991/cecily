@@ -339,7 +339,7 @@ th:last-child {
 
 					</div>
 				</td>
-				<td th:id="'price'+${item.productId}"><strong
+				<td ><strong th:id="'price'+${item.productId}"
 					style="color: red; font-size: 20px;" th:text="${item.total}"></strong></td>
 				<td>
 					<!--  <a th:href="@{/deleteCart/{productId}(productId=${item.productId})}">削除</a>-->
@@ -401,8 +401,8 @@ th:last-child {
 			<!-- 导航右侧内部 结束 -->
 
 			<form th:action="@{/mycart/buy}" method="post" class="am-fr">
-				<span id="jianshu" class="selected-tips am-fl"><span>已选商品</span>
-					<strong>０</strong> <span>件</span></span> <span
+				<span  class="selected-tips am-fl"><span>已选商品</span>
+					<strong id="jianshu"></strong> <span>件</span></span> <span
 					class="total-price-tips am-fl">合计：</span> <strong id="gokei"></strong>
 				<input type="hidden" name="ids" value="2856,2855"> <input
 					type="hidden" name="buy_type" value="cart">
@@ -552,10 +552,11 @@ th:last-child {
 
 				$('#text' + productId).val(newVal);
 				$('#price' + productId).text(total);
-				window.location.href = "/shopping/myCart"
+				//window.location.href = "/shopping/myCart"
 			} else {
 				$('#price' + productId).text(total);
 				alert('該商品のストックを超えるため,追加できません');
+				window.location.href = "/shopping/myCart"
 			}
 
 		})
@@ -594,7 +595,7 @@ th:last-child {
 			if (data != 0) {
 				$('#text' + productId).val(newVal);
 				$('#price' + productId).text(data)
-				window.location.href = "/shopping/myCart"
+				//window.location.href = "/shopping/myCart"
 			}
 
 			window.location.href = "/shopping/myCart"

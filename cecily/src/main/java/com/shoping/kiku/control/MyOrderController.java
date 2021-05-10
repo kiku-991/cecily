@@ -103,6 +103,20 @@ public class MyOrderController {
 
 	}
 
+	
+	/**
+	 * 收货并付款
+	 * CYAKUHARAI
+	 */
+	
+	@RequestMapping(Url.RECEIPTANDPAY)
+	public String receivedAndPay(@PathVariable ("id")String orderId) {
+		myOrderService.receivedAndPay( orderId);
+		return "redirect:/center/myorder";
+	}
+	
+	
+	
 	/**
 	 * オーダー取消
 	 * @param orderId
@@ -139,7 +153,7 @@ public class MyOrderController {
 	@RequestMapping(Url.RECEIPTPRODUCT)
 	public String completeOrder(@PathVariable("id") String orderId) {
 		myOrderService.completeOrder(orderId);
-		return "redirect:/center/ordermanager";
+		return "redirect:/center/myorder";
 	}
 
 }

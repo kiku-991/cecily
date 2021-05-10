@@ -363,36 +363,11 @@ function FromInit(form_name)
 				var $button = $form.find('button[type="submit"]');
 				$button.button('loading');
 
-				// 获取表单数据
-				var action = $form.attr('action') || null;
-				var method = $form.attr('method') || null;
-				var request_type = $form.attr('request-type') || null;
-				var request_value = $form.attr('request-value') || null;
-				// 以 ajax 开头的都会先请求再处理
-				// ajax-reload  请求完成后刷新页面
-				// ajax-url 	请求完成后调整到指定的请求值
-				// ajax-fun 	请求完成后调用指定方法
-				// ajax-view 	请求完成后仅提示文本信息
-				// sync 		不发起请求、直接同步调用指定的方法
-				// jump 		不发起请求、拼接数据参数跳转到指定 url 地址
-				var request_handle = ['ajax-reload', 'ajax-url', 'ajax-fun', 'ajax-view', 'sync', 'jump', 'form'];
+				
 
-				// 参数校验
-				if(request_handle.indexOf(request_type) == -1)
-				{
-	            	$button.button('reset');
-	            	Prompt('表单[类型]参数配置有误');
-	            	return false;
-				}
+			
 
-				// 类型值必须配置校验
-				var request_type_value = ['ajax-url', 'ajax-fun', 'sync', 'jump']
-				if(request_type_value.indexOf(request_type) != -1 && request_value == null)
-				{
-	        		$button.button('reset');
-					Prompt('表单[类型值]参数配置有误');
-					return false;
-				}
+			
 
 				// 请求类型
 				switch(request_type)

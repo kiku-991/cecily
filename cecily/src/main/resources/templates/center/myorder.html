@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>订单确认</title>
+<title>注文確認</title>
 <link rel="stylesheet" type="text/css" href="../css/amazeui.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.switch.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.chosen.css">
@@ -202,10 +202,10 @@
 								<div class="am-margin-top-sm">共[[${oid.qqt}]]件
 									合计:￥[[${oid.total}]]</div>
 							</td>
+							<!-- th:text="${oid.orderStatus==0?'待支付':(oid.orderStatus==1?'待发货':(oid.orderStatus==2?'待收货':'已完成'))}" -->
+							<td class="am-nowrap-initial" th:text="${oid.ordStatus}"></td>
 							<td class="am-nowrap-initial"
-								th:text="${oid.orderStatus==0?'待支付':(oid.orderStatus==1?'待发货':(oid.orderStatus==2?'待收货':'已完成'))}"></td>
-							<td class="am-nowrap-initial"
-								th:text="${oid.paymentId != null?'支払完了':'支払待ち'}"></td>
+								th:text="${oid.payTime != null?'支払完了':'支払待ち'}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.total}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
@@ -220,9 +220,9 @@
 								</div>
 							</td>
 							<td class="am-nowrap-initial" th:text="${oid.qqt}"></td>
-							<td class="am-nowrap-initial"  th:if="${oid.payMethod!=null}"
-								th:text="${oid.payMethod==1?'AriPay':(oid.payMethod==2?'クレジットカード支払い':'その他')}"></td>
-							
+							<td class="am-nowrap-initial" th:if="${oid.payMethod!=null}"
+								th:text="${oid.payMethod==1?'AriPay':(oid.payMethod==2?'クレジットカード支払い':'到付')}"></td>
+
 							<td class="am-nowrap-initial" th:if="${oid.payMethod==null}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.courierCompany}"></td>
 							<td class="am-nowrap-initial" th:text="${oid.trackingNumber}"></td>
@@ -236,10 +236,16 @@
 							<td
 								class="am-nowrap-initial am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
 								style="width: 119px; right: 0.00650024px;" data-width="119"
-								data-right="0.006500244140625"><a th:href="@{/center/ordermanager/receiptproduct/{id}(id=${oid.orderId})}"
-								th:if="${oid.payTime!=null && oid.receiptTime==null}"
+								data-right="0.006500244140625"><a
+								th:href="@{/center/ordermanager/receiptproduct/{id}(id=${oid.orderId})}"
+								th:if="${oid.deliveryTime!=null && oid.receiptTime==null && oid.payTime!=null}"
 								class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm"
 								target="_blank"> <span>收货</span>
+							</a> <a
+								th:if="${oid.deliveryTime!=null && oid.receiptTime==null && oid.payTime==null}"
+								th:href="@{/center/myorder/receiptpay/{id}(id=${oid.orderId})}"
+								class="am-btn am-btn-default am-btn-xs am-radius am-btn-block"
+								target="_blank"> <span>收货并付款</span>
 							</a>
 								<button type="button"
 									class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel"
@@ -315,7 +321,9 @@
 												data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
 										<div class="modal-body">
-											<form th:action="@{/center/myorder/cancelorder/{id}(id=${oid.orderId})}" method="post">
+											<form
+												th:action="@{/center/myorder/cancelorder/{id}(id=${oid.orderId})}"
+												method="post">
 
 												<p>このオーダーを削除しますか？</p>
 												<div class="modal-footer">
@@ -330,14 +338,14 @@
 								</div>
 							</div>
 						</tr>
-						
+
 					</tbody>
 				</table>
-							<div class="table-no" th:if="${orderId.size==0}">オーダー情報がないです!</div>
+				<div class="table-no" th:if="${orderId.size==0}">オーダー情報がないです!</div>
 			</div>
 			<!-- Modal -->
 
-		
+
 		</div>
 	</div>
 
@@ -371,19 +379,21 @@
 				dataType : "json"
 			})
 			//Ajax通信成功の場合
-			.done(function(data) {
+			.done(
+					function(data) {
 
-				alert(data);
-				//window.location.href = "/aripay/{id}(id="+productId+")"
-				if (data == 1) {
-					window.location.href = "/aripay/" + orderId + ""
-				} else if (data == 2) {
-					window.location.href = "/creditpay/" + orderId + ""
-				} else {
-					window.location.href = 'daofu';
-				}
+						alert(data);
+						//window.location.href = "/aripay/{id}(id="+productId+")"
+						if (data == 1) {
+							window.location.href = "/aripay/" + orderId + ""
+						} else if (data == 2) {
+							window.location.href = "/creditpay/" + orderId + ""
+						} else {
+							window.location.href = "/cashondelivery/pay/"
+									+ orderId + ""
+						}
 
-			})
+					})
 			//Ajax通信失敗の場合
 			.fail(function() {
 				alert("---");

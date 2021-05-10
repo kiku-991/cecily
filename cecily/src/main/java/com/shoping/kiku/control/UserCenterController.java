@@ -132,6 +132,16 @@ public class UserCenterController {
 		return mv;
 
 	}
+	/**
+	 * パスワード変更成功画面
+	 * @return
+	 */
+	@RequestMapping(value = Url.PWDCHANGESUCESS)
+	public ModelAndView pwdsuccess() {
+		ModelAndView mv = new ModelAndView("center/passwordchanged");
+		mv.addObject("pwchange", MsgContents.PASSCHANGE);
+		return mv;
+	}
 
 	/**
 	 * お気に入り

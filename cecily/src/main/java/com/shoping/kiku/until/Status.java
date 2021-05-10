@@ -30,5 +30,33 @@ public class Status {
 	public static final Integer PRODUCTSTOP = 0;
 	
 	
+	//支払い方法 AriPay
+	public static final Integer ARIPAY = 1;
+	
+	//支払い方法 CreditPay
+	public static final Integer CREDITPAY = 2;
+	//支払い方法 CashOndelivery
+	public static final Integer CASHPAY = 3;
+	
+	
+	//オーダー状態 0 待支付
+	public static final Integer ORDERWAITPAY =0;
+	
+	public static final String ORDERWAIT ="待支付";
+	
+	
+	//オーダー状態 1 待发货
+	public static final Integer ORDERDELIVEY =1;
+	
+	public static final String ORDETOBEDELIVED ="待发货";
+	
+	//オーダー状態 2 待收货
+	public static final Integer ORDERRECEIVE =2;
+	public static final String ORDETOBERECEIVED ="待收货";
+	
+	//オーダー状態 3 已完成
+	public static final Integer ORDERCOMPLETE =3;
+	public static final String ORDETOBECOM ="已完成";
+	
 
 }

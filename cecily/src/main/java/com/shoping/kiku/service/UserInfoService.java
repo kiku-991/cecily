@@ -77,6 +77,7 @@ public class UserInfoService {
 				userinfodto.setName(userInfo.getName());
 				userinfodto.setNickname(userInfo.getNickname());
 				userinfodto.setSex(userInfo.getSex());
+				userinfodto.setPostcode(userInfo.getPostcode());
 				userinfodto.setTodoufuken(userInfo.getTodoufuken());
 				userinfodto.setShikucyouson(userInfo.getShikucyouson());
 				userinfodto.setCyoumebanchi(userInfo.getCyoumebanchi());

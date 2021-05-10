@@ -75,22 +75,20 @@
 			<!--  side-->
 			<nav th:insert="~{centertmp::side}"></nav>
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-			
-			<div
-				th:insert="~{centertmp::#sidebarMenu(activeUrl='/center/storemanger')}"></div>
+
+				<div
+					th:insert="~{centertmp::#sidebarMenu(activeUrl='/center/storemanger')}"></div>
 				<!-- 内容ここから -->
 
 
-				<br>
-				<hr />
-
-				<br> <br>
-			
-				<!-- 店舗表示 -->
 				<br> <br> <br>
 
-
-				<table class="table table-striped ">
+				<!-- 店舗表示 -->
+				<br> <br> <br>
+				<p style="color: red;" th:if="${storeList.size==0}">店舗まだ登録されてない
+				
+				<p>
+				<table class="table table-striped " th:if="${storeList.size != 0}">
 					<thead>
 						<tr>
 							<th>ユーザID</th>
@@ -104,15 +102,16 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${storeList != null}"
-							th:each="store : ${storeList}">
+						<tr th:each="store : ${storeList}">
 							<td th:text="${store.userId}"></td>
 							<td th:text="${store.storeId}"></td>
 							<td th:text="${store.storeName}"></td>
 							<td th:text="${store.storePostcode}"></td>
-							<td th:text="${store.storeTodoufuken+store.storeShikucyouson+store.storeCyomebanchi}"></td>
+							<td
+								th:text="${store.storeTodoufuken+store.storeShikucyouson+store.storeCyomebanchi}"></td>
 							<td th:text="${store.storePhone}"></td>
-							<td th:text="${store.storeStatus==0?'申請中':(store.storeStatus==1?'出店中':'出店中止')}"></td>
+							<td
+								th:text="${store.storeStatus==0?'申請中':(store.storeStatus==1?'出店中':'出店中止')}"></td>
 
 							<td>
 								<button type="button" class="btn btn-primary btn-sm"
@@ -138,8 +137,8 @@
 														<input type="text" name="storeName" class="form-control"
 															th:value="${store.storeId}" readOnly>
 													</div>
-													
-													
+
+
 													<div class="mb-3">
 														<label for="name" class="text-info">店舗名:</label><br>
 														<input type="text" name="storeName" class="form-control"
@@ -177,12 +176,14 @@
 											</div>
 										</div>
 									</div>
-								</div>
-								<a type="button" class="btn btn-danger btn-sm" th:if="${store.storeStatus==0}"
+								</div> <a type="button" class="btn btn-danger btn-sm"
+								th:if="${store.storeStatus==0}"
 								th:href="@{/center/storemanger/agree/{id}(id=${store.storeId})}">同意</a>
-								<br> <a type="button" class="btn btn-danger btn-sm" th:if="${store.storeStatus==1}"
+								<br> <a type="button" class="btn btn-danger btn-sm"
+								th:if="${store.storeStatus==1}"
 								th:href="@{/center/storemanger/stop/{id}(id=${store.storeId})}">中止</a>
-								<br> <a type="button" class="btn btn-success btn-sm" th:if="${store.storeStatus==2}"
+								<br> <a type="button" class="btn btn-success btn-sm"
+								th:if="${store.storeStatus==2}"
 								th:href="@{/center/storemanger/recovery/{id}(id=${store.storeId})}">回復</a>
 							</td>
 						</tr>

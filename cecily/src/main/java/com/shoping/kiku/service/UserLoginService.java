@@ -10,8 +10,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.shoping.kiku.entity.ProductEntity;
+import com.shoping.kiku.entity.StoreEntity;
 import com.shoping.kiku.entity.UserLoginEntity;
 import com.shoping.kiku.object.UserLoginDto;
+import com.shoping.kiku.repository.ProductRepository;
+import com.shoping.kiku.repository.StoreRepository;
 import com.shoping.kiku.repository.UserInfoRepository;
 import com.shoping.kiku.repository.UserLoginRepository;
 import com.shoping.kiku.until.MsgContents;
@@ -27,7 +31,12 @@ public class UserLoginService {
 
 	@Autowired
 	UserInfoRepository userInfoRepository;
-
+	
+	@Autowired
+	StoreRepository storeRepository;
+	
+	@Autowired
+	ProductRepository productRepository;
 	/**
 	 * ログインチェック
 	 * @param user
@@ -212,6 +221,73 @@ public class UserLoginService {
 		us.setStatus(userdto.getStatus());
 		us.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 		userLoginRepository.save(us);
+		
+		//該当ユーザは店舗の場合　ブラックユーザの同時に店舗もブラック 店舗の商品も
+		if(us.getRole().equals("store")&&us.getStatus()==0) {
+			StoreEntity old = storeRepository.findByUserId(userid);
+			
+			StoreEntity now = new StoreEntity();
+			now.setStoreCyomebanchi(old.getStoreCyomebanchi());
+			now.setStoreId(old.getStoreId());
+			now.setStoreName(old.getStoreName());
+			now.setStorePhone(old.getStorePhone());
+			now.setStorePostcode(old.getStorePostcode());
+			now.setStoreShikucyouson(old.getStoreShikucyouson());
+			now.setStoreTodoufuken(old.getStoreTodoufuken());
+			now.setUserId(old.getUserId());
+			now.setStoreStatus(Status.SHOPCLOSE);
+			storeRepository.save(now);
+			List<ProductEntity> oldpro = productRepository.findByStoreId(old.getStoreId());
+			for(ProductEntity pro :oldpro) {
+				ProductEntity blockPro = new ProductEntity();
+				blockPro.setProductContents(pro.getProductContents());	
+				blockPro.setMaker(pro.getMaker());	
+				blockPro.setProductId(pro.getProductId());	
+				blockPro.setProductImg(pro.getProductImg());	
+				blockPro.setProductName(pro.getProductName());	
+				blockPro.setProductPrice(pro.getProductPrice());	
+				blockPro.setStock(pro.getStock());	
+				blockPro.setStoreId(pro.getStoreId());	
+				//商品状態ブラック
+				blockPro.setStatus(Status.PRODUCTSTOP);	
+				productRepository.save(blockPro);			
+			}
+			
+			
+		}
+		//回復
+		if(us.getRole().equals("store")&&us.getStatus()==1) {
+			StoreEntity old = storeRepository.findByUserId(userid);
+			
+			StoreEntity now = new StoreEntity();
+			now.setStoreCyomebanchi(old.getStoreCyomebanchi());
+			now.setStoreId(old.getStoreId());
+			now.setStoreName(old.getStoreName());
+			now.setStorePhone(old.getStorePhone());
+			now.setStorePostcode(old.getStorePostcode());
+			now.setStoreShikucyouson(old.getStoreShikucyouson());
+			now.setStoreTodoufuken(old.getStoreTodoufuken());
+			now.setUserId(old.getUserId());
+			now.setStoreStatus(Status.SHOPOPEN);
+			storeRepository.save(now);
+			
+			List<ProductEntity> oldpro = productRepository.findByStoreId(old.getStoreId());
+			for(ProductEntity pro :oldpro) {
+				ProductEntity blockPro = new ProductEntity();
+				blockPro.setProductContents(pro.getProductContents());	
+				blockPro.setMaker(pro.getMaker());	
+				blockPro.setProductId(pro.getProductId());	
+				blockPro.setProductImg(pro.getProductImg());	
+				blockPro.setProductName(pro.getProductName());	
+				blockPro.setProductPrice(pro.getProductPrice());	
+				blockPro.setStock(pro.getStock());	
+				blockPro.setStoreId(pro.getStoreId());	
+				//商品状態ブラック
+				blockPro.setStatus(Status.PRODUCTIN);	
+				productRepository.save(blockPro);			
+			}
+			
+		}
 	}
 
 	/**

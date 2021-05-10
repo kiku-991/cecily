@@ -46,8 +46,12 @@ public interface FavoriteProRepository extends JpaRepository<FavoriteProEntity, 
 			+ "    product a \r\n"
 			+ "    left join favorite b \r\n"
 			+ "        on a.product_id = b.product_id \r\n"
-			+ "        and a.status <> 0 \r\n"
 			+ "        and b.user_id = :userId \r\n"
+			+ "    left join store c \r\n"
+			+ "        on a.store_id = c.store_id \r\n"
+			+ "where\r\n"
+			+ "    a.status <> 0 \r\n"
+			+ "    and c.store_status <> 2 \r\n"
 			+ "order by\r\n"
 			+ "    a.product_id",nativeQuery=true)
 	List<FavoriteProEntity> getProsWithFavByUserId(int userId);

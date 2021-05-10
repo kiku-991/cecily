@@ -1,231 +1,283 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<!-- saved from url=(0052)https://member.id.rakuten.co.jp/rms/nid/mpaymentfwd2 -->
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<!-- saved from url=(0053)https://www.cardservice.co.jp/service/demo/pay01.html -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><!--<![endif]-->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>クレジットカード支払い</title>
-<meta http-equiv="Content-Script-Type" content="text/javascript">
-<script type="text/javascript" src="../pay/r-cc-rat.js.ダウンロード" ></script>
-<script type="text/javascript" src="../pay/ral-1.7.1.js.ダウンロード"></script>
-<script type="text/javascript" src="../pay/jquery-1.12.4.min.js.ダウンロード"></script>
-<script type="text/javascript" src="../pay/hint.js.ダウンロード"></script>
-<link rel="stylesheet" type="text/css" media="screen" href="../pay/set.css">
-<link rel="stylesheet"  type="text/css" href="../pay/common.css">
-</head>
-<body id="address">
+<title>クレジットカード決済</title>
+<link rel="shortcut icon" href="https://www.cardservice.co.jp/common/images/zeus.ico">
+<link rel="stylesheet" href="../pay/master.css" media="all">
+<link rel="stylesheet" href="../pay/device.css" media="screen">
+<link rel="stylesheet" href="../pay/demo_cre.css" media="screen">
+<!--[if lte IE 9]><link rel="stylesheet" href="/common/css/ie.css" media="all"><![endif]-->
+<script  src="../js/saved_resource"></script>
+<script type="text/javascript"  src="../pay/ytag.js.ダウンロード"></script>
+<script type="text/javascript"  src="../pay/ytag.js.ダウンロード"></script>
+<script type="text/javascript"  src="../pay/f.txt"></script>
+<script src="../js/616183912483383" ></script>
+<script  src="../js/fbevents.js.ダウンロード"></script>
+<script type="text/javascript"  src="../pay/ytag.js.ダウンロード"></script>
+<script type="text/javascript"  src="../pay/analytics.js.ダウンロード"></script>
+<script type="text/javascript"  src="../pay/js"></script>
+<script type="text/javascript"  src="../pay/LFT-10268-1"></script>
+<script type="text/javascript"  src="../pay/track"></script>
+<script type="text/javascript"  src="../pay/linkid.js.ダウンロード"></script>
+<script type="text/javascript"  src="../pay/track.js.ダウンロード"></script>
+<script  src="../pay/analytics.js.ダウンロード"></script><script  src="../pay/gtm.js.ダウンロード"></script>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5V7RMQK');</script>
+<script src="../pay/ga.js.ダウンロード"></script>
+<script src="../pay/lft.js.ダウンロード"></script>
+<script src="../pay/f(1).txt"></script>
+<script type="text/javascript" src="../pay/f(2).txt"></script>
+<script src="../pay/f(3).txt"></script></head>
 
-<!-- tagLine -->
-<table border="0" cellpadding="0" cellspacing="0" width="100%">
-<tbody><tr>
-<td align="right">
-<font color="#999999" size="-1"><br></font></td>
-</tr>
-</tbody></table>
-<div><img src="../pay/t.gif"  height="3" width="1"></div>
-<!-- /sectionNav -->
+<body>
 
-<!-- subSectionNav -->
-<table bgcolor="#bd0000" border="0" cellpadding="0" cellspacing="0" width="100%">
-	<tbody><tr>
-		<td><img src="../pay/t.gif" alt="" height="3" width="1"></td>
-	</tr>
-</tbody></table>
+<!-- ========================= Google Tag Manager ========================= -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5V7RMQK"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- ========================= Google Tag Manager ========================= -->
 
+<!-- ========================= Header ========================= -->
+<div class="header" role="banner">
+<div class="header-inner">
+<div class="header-logo" itemscope="" itemtype="https://schema.org/Organization">
 
-
-<div id="container">
-
-
-
-<div id="language" align="right">
-
-日本語
-
+<img src="../img/20210504171318.jpg"  itemprop="logo">
 
 </div>
 
+<div class="header-utility">
+<div id="header-search-prb" role="search">
+<!-- /header-search-prb --></div>
 
-<div id="contents">
+
+<!-- /nav-utility --></div>
+<!-- /header-utility --></div>
+<div id="sp-nav">
+<input id="sp-nav-input" type="checkbox" class="sp-nav-unshown">
+
+<label class="sp-nav-unshown" id="sp-nav-close" for="sp-nav-input"></label>
+<div id="sp-nav-content">
+<div class="sp-nav-box">
+<ul>
+<li data-category="top">
+<li data-category="service">
+<input type="checkbox" id="label2" class="subnav">
+<label for="label2">決済サービス</label>
+</li>
+</ul>
+</div>
+</div>
+<!-- /sp-nav --></div>
+<!-- /header-inner --></div>
+
+<!-- ========================= Navigation Global ========================= -->
+<div class="nav-global" role="navigation" id="menu">
+<div class="nav-global-inner" id="menu-s">
+<ul class="nav-global-list">
+<li data-category="service"><a href="https://www.cardservice.co.jp/service/"><span class="on">決済サービス</span></a>
+</li>
+</ul>
+<!-- /nav-global-inner --></div>
+<!-- /nav-global --></div>
+<!-- ========================= Navigation Global ========================= -->
+
+<hr>
+
+<!-- ========================= Contents ========================= -->
+<div class="contents" role="main">
+
+
+
+<!-- ========================= Primary ========================= -->
+<div class="row-fixed" data-content-category="primary">
+<div class="nav-local toggle js-toggle">
+<div class="toggle-inner">
+<div class="toggle-hook-wrap">
+<div class="toggle-hook-inner">
+<h1 class="hdg-l1-01"><span>クレジットカード決済画面</span></h1>
+<!-- /toggle-hook-inner --></div>
+<!-- /toggle-hook-wrap --></div>
+<div class="toggle-contents">
+<div class="toggle-contents-inner">
+<!-- /toggle-contents-inner --></div>
+<!-- /toggle-contents --></div>
+<!-- /toggle-inner --></div>
+<!-- /nav-local --></div>
+
+<div class="row-inner">
+<ul class="list-notice-01">
+<li><small><span class="mark">※</span> 
+<div class="note">このページはサンプルです。実際に購入はできません。</div></small></li></ul>
+
+<div class="demo_cre">
+<h2>クレジットカード決済お申し込み<br>
+</h2>
+<p class="p-10">お申し込みになる場合は、以下の項目をすべてご入力いただき「お申し込み内容確認」ボタンを押してください。</p>
+
+<h3 class="dl_form_h3">ご利用内容</h3>
+<dl class="dl_form">
+<dt>ご利用金額</dt>
+<dd>¥[[${price}]]</dd>
+</dl>
+
+<h3 class="dl_form_h3">クレジットカード決済申し込みフォーム</h3>
+<dl class="dl_form">
+<dt>電話番号</dt>
+<dd><input type="text">
+<span class="dt-ex">（例）0001234567<span class="fc-01">【半角】【ハイフンなし】</span></span>
+<span class="mb-ex">半角数字（例：0001234567）</span></dd>
+<dt>メールアドレス</dt>
+<dd><input type="text">
+<span class="dt-ex">（例）zeus@example.jp<span class="fc-01">【半角】</span></span>
+<span class="mb-ex">半角英数（例：zeus@example.jp）</span></dd>
+<dt>カード名義</dt>
+<dd><div><input type="text"></div>
+<span class="dt-ex">（例）TARO YAMADA<span class="fc-01">【半角】</span></span>
+<span class="mb-ex">半角英字（例：TARO YAMADA）</span>
+<p class="clear-both mb-0 dt-no-sp">カード上の名前と申込者名が一致しない場合、クレジットカード使用停止などの処分が課せられる場合があります。</p></dd>
+<dt>カード番号</dt>
+<dd><div><input type="text"></div><span class="dt-ex">（例）1234567891234567<span class="fc-01">【半角】【ハイフンなし】</span></span>
+<span class="mb-ex">半角数字（例：1234567891234567）</span></dd>
+<dt>カード有効期限</dt>
+<dd>
+<select>
+<option selected="selected"></option>
+<option>01</option>
+<option>02</option>
+<option>03</option>
+<option>04</option>
+<option>05</option>
+<option>06</option>
+<option>07</option>
+<option>08</option>
+<option>09</option>
+<option>10</option>
+<option>11</option>
+<option>12</option>
+</select>
+<label>月 /</label>
+<label>20</label>
+<select>
+<option selected="selected"></option>
+<option>19</option>
+<option>20</option>
+<option>21</option>
+<option>22</option>
+<option>23</option>
+<option>24</option>
+<option>25</option>
+<option>26</option>
+<option>27</option>
+<option>28</option>
+<option>29</option>
+<option>29</option>
+<option>30</option>
+</select>
+<label for="expy">年</label>
+<span class="dt-no-sp">（例）12 月 / 2010 年</span></dd>
+<dt>セキュリティコード
+</dt>
+<dd><div><input type="text"></div>
+<span class="dt-ex">（例）999<span class="fc-01">【半角】</span></span>
+<span class="mb-ex">半角数字（例：999）</span>
+<h4 class="clear-both">セキュリティコードとは？</h4>
+クレジットカードの裏面に記載されている3桁または、表面に記載されている4桁の番号です。
+</dd>
+<dt>支払回数
+</dt>
+<dd class="mb-boder">
+<select class="mb-5 block">
+<option selected="selected">一括払い</option>
+<option>3回払い</option>
+<option>5回払い</option>
+<option>6回払い</option>
+<option>リボ払い</option>
+</select>
+<span class="annotation">ご利用のカードによっては、ご希望のお支払い回数では処理出来ない場合があります。ご注意ください。</span><br>
+<span class="dt-no-sp">
+<span class="fw-bold">【利用条件】<br>
+分割払い</span>：1回あたりのお支払い金額3,000円以上<br>
+<span class="fw-bold">リボ払い</span>：10,000円以上
+</span></dd>
+</dl>
+
+<p class="ta-c dt-no-sp">※下記「個人情報の取扱いについて」にご同意いただける場合は、「お申し込み内容確認」を押してください。</p>
+<p class="fw-bold dt-no p-10">下記、「お申し込みのご案内」と「個人情報の取扱いについて」をお読みいただき、ご同意いただける場合は、申込確認ボタンを押してください。</p>
+
 <form name="PaymentForm" method="post" th:action="@{/creditpay/pay/{id}(id=${productId})}" >
-<h2 class="path">クレジットカード支払い</h2>
-
-<p>支払い金額<input type="text" th:value="${price}" readOnly></p>
-<!-- navi -->
-
-<p>以下の項目を入力し、「<em class="em">支払い</em>」ボタンを押してください。（ご家族など、本人以外の情報はご登録いただけません。）</p>
+<ul class="list-btn">
+<li><input type="submit" name="execMethod" value="お申し込み内容確認" >
+</ul>
 
 
-
-<table class="address" cellspacing="0" summary="memberInformation">
-<tbody><tr>
-<th class="headCol" scope="col" colspan="3">国内決済用 クレジットカード情報</th>
-
-</tr>
-
-
-<tr>
-<th class="headRow" id="issuer_id" scope="row">カード会社</th>
-<td>
-<!-- <em>???ja.F_CREDIT_CARD.text1???</em><br/> -->
-<select name="issuer_id"><option value="">選択してください</option>
-
-<option value="1">VISA</option>
-
-<option value="2">MASTER</option>
-
-<option value="3">JCB</option>
-
-<option value="4">Diners</option>
-
-<option value="5">AMEX</option></select>
-<br>
-
-</td>
-<td class="note">&nbsp;</td>
-</tr>
-
-
-
-<tr>
-<th class="headRow" id="card_num1,card_num2,card_num3,card_num4" scope="row">カード番号</th>
-<td>
-<br>
-
-
-  <input type="text" name="card_num1" accesskey="N" maxlength="32" size="65" tabindex="4" value="" class="text m_phone" title="" style="color: rgb(153, 153, 153);"  />
-
-  
-</td>
-<td class="note">&nbsp;</td>
-</tr>
-
-
-<tr>
-<th class="headRow" id="card_year,card_month" scope="row">カード有効期限</th>
-<td>
-<br>
-<label>
-<select name="card_month" tabindex="8"><option value="">-</option>
-  <option value="1">01</option>
-  <option value="2">02</option>
-  <option value="3">03</option>
-  <option value="4">04</option>
-  <option value="5">05</option>
-  <option value="6">06</option>
-  <option value="7">07</option>
-  <option value="8">08</option>
-  <option value="9">09</option>
-  <option value="10">10</option>
-  <option value="11">11</option>
-  <option value="12">12</option></select>
-月</label>
-<label>
-  <select name="card_year" tabindex="9"><option value="">-</option>
-  
-  <option value="2021">21</option>
-  
-  <option value="2022">22</option>
-  
-  <option value="2023">23</option>
-  
-  <option value="2024">24</option>
-  
-  <option value="2025">25</option>
-  
-  <option value="2026">26</option>
-  
-  <option value="2027">27</option>
-  
-  <option value="2028">28</option>
-  
-  <option value="2029">29</option>
-  
-  <option value="2030">30</option>
-  
-  <option value="2031">31</option>
-  
-  <option value="2032">32</option>
-  
-  <option value="2033">33</option>
-  
-  <option value="2034">34</option>
-  
-  <option value="2035">35</option>
-  
-  <option value="2036">36</option>
-  
-  <option value="2037">37</option>
-  
-  <option value="2038">38</option>
-  
-  <option value="2039">39</option>
-  
-  <option value="2040">40</option></select>
-  年</label>
-  
-  
-</td>
-<td class="note">&nbsp;</td>
-</tr>
-
-
-<tr>
-<th class="headRow" id="card_owner" scope="row">カード名義人</th>
-<td>
-
-<em>ご本人様名義のみ有効。ご家族の名義などでは登録できません。</em><br>
-<input type="text"  name="card_owner" accesskey="N" maxlength="42" tabindex="10" value="" class="text mail" title="(例) TARO RAKUTEN " style="color: rgb(153, 153, 153);"><br>
-
-</td>
-
-<td class="note">&nbsp;</td>
-</tr>
-<tr>
-<th class="headRow" id="card_owner" scope="row">セキュリティ番号</th>
-<td><input type="text" maxlength="5" tabindex="10" value="" class="text mail" title="(例) 123 " style="color: rgb(153, 153, 153);"></td>
-</tr>
-
-
-</tbody></table>
-<!-- cardinfo -->
-
-
-
-<p class="submit">
-
-<input type="submit" name="execMethod" value="支払い" >
-
-
-</p>
-<!-- submit -->
 
 </form>
 
+<section>
+<div class="payment_privacy">
+<h3>個人情報の取扱いについて</h3>
+<ul class="list-bullet-01">
+<li>ご提供いただきました個人情報は、弊社においてお客様の申し込まれたオンライン決済の実行・承認、実行に付随する連絡、および本人確認のためにのみ利用いたします。</li>
+<li>弊社より商品販売会社またはサービス提供会社に顧客識別と顧客管理を目的としてご入力されたメールアドレス、電話番号をデータ送信により提供します。</li>
+<li>個人情報の取扱い、苦情及びご相談、各種ご請求（利用目的の通知、開示、訂正・追加・削除、利用または提供の拒否等）に関しましては、末尾記載の個人情報お問合せ窓口までご連絡ください。</li>
+<li>ご提供いただきました個人情報はご利用されたクレジットカード会社に提供し、弊社にて決済日より7年間保存いたします。</li>
+</ul>
+<!-- /payment_privacy --></div>
+</section>
 
+<!-- /demo_cre --></div>
+<!-- /row-inner --></div>
+<!-- /row-fixed --></div>
+
+<!-- ========================= SBI ========================= -->
+<div class="row-fixed dt-no" data-content-category="sbi">
+<div class="row-inner">
+<!-- /row-inner --></div>
+<!-- /row-fixed --></div>
+
+
+<!-- /contents --></div>
+<hr>
+
+<div class="footer" role="contentinfo">
+<div class="footer-inner">
+
+<div class="nav-footer-utility">
+<!-- /nav-footer-utility --></div>
+
+
+<p class="copyright">Copyright (C) KIKU.,LTD.All Rights Reserved.</p>
+<!-- /footer-inner --></div>
+<!-- /footer --></div>
+<!-- ========================= Footer ========================= -->
+
+<!-- ========================= Script ========================= -->
+<script src="../pay/jquery.js.ダウンロード"></script>
+<script src="../pay/run_sp.js.ダウンロード"></script>
+<script src="../pay/popterm2.js.ダウンロード"></script>
+<script></script>
+<!-- ========================= Script ========================= -->
+
+
+<div style="display: none; visibility: hidden;">
+
+
+<script type="text/javascript">"boolean"==typeof _vis_opt_settings_loaded&&document.write('\x3cscript src\x3d"'+_vis_opt_protocol+'d5phz18u4wuww.cloudfront.net/vis_opt.js" type\x3d"text/javascript"\x3e\x3c/script\x3e');</script><script src="./wqf/vis_opt.js.ダウンロード" type="text/javascript"></script><script src="./wqf/vis_opt-999c23cad4c401eaab2eba180359e037.js.ダウンロード" type="text/javascript"></script>
+
+<script type="text/javascript">"boolean"==typeof _vis_opt_settings_loaded&&"function"==typeof _vis_opt_top_initialize&&(_vis_opt_top_initialize(),vwo_$(document).ready(function(){_vis_opt_bottom_initialize()}));</script>
+</div><script type="text/javascript" id="">var google_conversion_id=819569180,google_custom_params=window.google_tag_params,google_remarketing_only=!0;</script>
+<script type="text/javascript" id="" src="./wqf/f(4).txt"></script>
+<script type="text/javascript" id="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","616183912483383");fbq("track","PageView");</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=616183912483383&amp;ev=PageView&amp;noscript=1"></noscript>
+
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/819569180/?guid=ON&amp;script=0">
 </div>
-</div>
-
-<div align="center">
-
-
-<font size="-1"><a href="/" target="_blank">個人情報保護方針</a></font><br>
-<hr size="1" style="display:block;">
-
-<font size="-1">© KIKUSHOP, Inc.</font>
-
-</div>
-
-
-<input type="hidden" name="rat" id="ratAccountId" value="429">
-<input type="hidden" name="rat" id="ratServiceId" value="1">
-<input type="hidden" name="rat" id="ratPageLayout" value="pc">
-<input type="hidden" name="rat" id="ratSiteSection" value="id">
-<input type="hidden" name="rat" id="ratAdobeSiteSection" value="other">    
-
-<input type="hidden" name="rat" id="ratCustomParameters" value="">
-
-<input type="hidden" name="rat" id="ratCvEvent" value="">
-<script type="text/javascript" src="../pay/rat-main.js.ダウンロード"></script>
-
-</body></html>
+</noscript></body></html>

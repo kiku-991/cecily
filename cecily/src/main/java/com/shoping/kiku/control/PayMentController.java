@@ -51,5 +51,13 @@ public class PayMentController {
 	 * CYAKUHARAI
 	 */
 	
+	@RequestMapping(Url.CASHONDELIVERY)
+	public String cashOndelivery(@PathVariable ("id")String orderId,HttpServletRequest res) {
+		Session ss = (Session) res.getSession().getAttribute("userLogin");
+		payMentService.creCashOndeliveryForm(ss.getUserId(), orderId);
+		return "redirect:/center/myorder";
+	}
+	
+
 	
 }

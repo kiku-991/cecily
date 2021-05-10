@@ -27,6 +27,7 @@ public class OrderInfoByUserIdDto {
 	private Integer total;
 	private Integer qqt;
 	private Timestamp certainTime;
+	private String ordStatus;
 	
 	List<ProductInfoForOrderIdDto> product;
 }

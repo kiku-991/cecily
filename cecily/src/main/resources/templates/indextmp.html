@@ -3,7 +3,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="refresh" content="5"> 
 <title>KIKUSHOP</title>
 
 <link rel="stylesheet" type="text/css" href="../css/amazeui.css">
@@ -155,9 +154,9 @@
 				<div class="top-nav-items">
 				<div class="menu-hd login-event">
 					<a th:href="@{/shopping/myCart}" target="_top"> <span>買い物かご</span>
-						<strong
-						th:class="${count}!=0?'common-cart-total am-round am-badge am-badge-danger':'common-cart-total am-round'"
-						th:id="myCart" th:text="${count}"></strong>
+						<strong id="myCart"
+						class="common-cart-total am-round"
+						 th:text="${count}"></strong>
 					</a>
 				</div>
 			</div>
@@ -227,28 +226,28 @@
 					<li
 						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
 						title="小问号" class="clone" aria-hidden="true">
-						<!-- 地图 --> <a href="javascript:;" class="submit-map-popup"
+						<!-- 地图 --> <a href="/shopping" class="submit-map-popup"
 						data-lng="121.626444" data-lat="31.20843"><img
 							src="../img/IMG_9401.JPG"  draggable="false"></a>
 					</li>
 					<li
 						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
 						title="KIKU" class="am-active-slide" data-thumb-alt="">
-						<!-- 默认url地址 --> <a href="https://shopxo.net/" target="_blank"><img
+						<!-- 默认url地址 --> <a href="/shopping" target="_blank"><img
 							src="../img/IMG_9400.JPG" alt="KIKU"
 							draggable="false"></a>
 					</li>
 					<li
 						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
 						title="鞠婧祎" data-thumb-alt="">
-						<!-- 地图 --> <a href="javascript:;" class="submit-map-popup"
+						<!-- 地图 --> <a href="/shopping" class="submit-map-popup"
 						data-lng="121.626444" data-lat="31.20843"><img
 							src="../img/IMG_9666.JPG"  draggable="false"></a>
 					</li>
 					<li
 						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
 						title="CECILY" class="clone" aria-hidden="true">
-						<!-- 默认url地址 --> <a href="https://shopxo.net/" target="_blank"><img
+						<!-- 默认url地址 --> <a href="/shopping" target="_blank"><img
 							src="../img/IMG_8437.JPG" alt="KIKU"
 							draggable="false"></a>
 					</li>
@@ -301,21 +300,21 @@
 			data-am-gallery="{}">
 			<li>
 				<div class="am-gallery-item">
-					<a href="https://shopxo.net/"> <img
+					<a href="/shopping"> <img
 						src="../img/1555929400479636.jpg" alt="智能" title="智能">
 					</a>
 				</div>
 			</li>
 			<li>
 				<div class="am-gallery-item">
-					<a href="javascript:;"> <img src="../img/1555929400647560.jpg"
+					<a href="/shopping"> <img src="../img/1555929400647560.jpg"
 						alt="平板" title="平板">
 					</a>
 				</div>
 			</li>
 			<li>
 				<div class="am-gallery-item">
-					<a href="https://demo.shopxo.net/search-k-8EFBE98E1A3A8E3A99.html"
+					<a href="/shopping"
 						target="_blank"> <img src="../img/1555929400237551.jpg"
 						alt="手机" title="手机">
 					</a>
@@ -323,7 +322,7 @@
 			</li>
 			<li>
 				<div class="am-gallery-item">
-					<a href="javascript:;"> <img src="../img/1555929400780646.jpg"
+					<a href="/shopping"> <img src="../img/1555929400780646.jpg"
 						alt="数码" title="数码">
 					</a>
 				</div>
@@ -352,25 +351,25 @@
 				<div class="am-u-sm-3 aggregation"
 					style="background-color: rgb(35, 172, 255); height: 591px;">
 					<div class="word">
-						<a href="https://demo.shopxo.net/search-c-58.html" class="outer"
+						<a href="/shopping" class="outer"
 							target="_blank">TEST</a> <a
-							href="https://demo.shopxo.net/search-c-59.html" class="outer"
+							href="/shopping" class="outer"
+							target="_blank">PHONECASE</a> <a
+							href="/shopping" class="outer"
 							target="_blank"></a> <a
-							href="https://demo.shopxo.net/search-c-60.html" class="outer"
+							href="/shopping" class="outer"
 							target="_blank"></a> <a
-							href="https://demo.shopxo.net/search-c-61.html" class="outer"
+							href="/shopping" class="outer"
 							target="_blank"></a> <a
-							href="https://demo.shopxo.net/search-c-62.html" class="outer"
-							target="_blank"></a> <a
-							href="https://demo.shopxo.net/search-c-63.html" class="outer"
+							href="/shopping" class="outer"
 							target="_blank"></a>
 
 					</div>
 					<div class="outer-con">
 						<div class="describe">iphoneX新品发布了</div>
 					</div>
-					<a href="https://demo.shopxo.net/search-c-1.html" target="_blank">
-						<img src="../img/20180814180843848554.png">
+					<a href="/shopping" target="_blank">
+						<img src="../img/006toOQzgy1gk9eoj83mkj31p82qkhdu.jpg">
 					</a>
 					<div class="triangle-topright"></div>
 

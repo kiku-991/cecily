@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.shoping.kiku.entity.PayPriceEntity;
@@ -12,8 +13,9 @@ import com.shoping.kiku.entity.PayPriceEntity;
 public interface PayPriceRepository extends JpaRepository<PayPriceEntity,Integer>{
 
 	@Query(value="select\r\n"
-			+ "   a.product_price,\r\n"
-			+ "   a.product_quantity \r\n"
+			+ "    a.order_id\r\n"
+			+ "    , a.product_price\r\n"
+			+ "    , a.product_quantity \r\n"
 			+ "from\r\n"
 			+ "    order_item a \r\n"
 			+ "    left join commerce b \r\n"
@@ -21,14 +23,15 @@ public interface PayPriceRepository extends JpaRepository<PayPriceEntity,Integer
 			+ "    left join userinfo c \r\n"
 			+ "        on b.user_id = c.id \r\n"
 			+ "where\r\n"
-			+ "    b.user_id = :userId \r\n"
-			+ "    and a.order_id = :orderId",nativeQuery=true)
+			+ "    a.order_id = :orderId\r\n"
+			+ "    and b.user_id = :userId",nativeQuery=true)
 	
-	List<PayPriceEntity> getpriceAndQuantityByUserIdAndOrdId (int userId,String orderId);
+	List<PayPriceEntity> getpriceAndQuantityByUserIdAndOrdId (@Param(value="userId")int userId,@Param(value="orderId")String orderId);
 	
 	
 	@Query(value="select\r\n"
-			+ "    a.product_price\r\n"
+			+ "    a.order_id\r\n"
+			+ "    , a.product_price\r\n"
 			+ "    , a.product_quantity \r\n"
 			+ "from\r\n"
 			+ "    order_item a \r\n"
@@ -46,17 +49,18 @@ public interface PayPriceRepository extends JpaRepository<PayPriceEntity,Integer
 			+ "    g.user_id = :userId \r\n"
 			+ "    and a.order_id = :orderId",nativeQuery=true)
 	
-	List<PayPriceEntity> getUserTotalAndQuantity(int userId,String orderId);
+	List<PayPriceEntity> getUserTotalAndQuantity(@Param(value="userId")int userId,@Param(value="orderId")String orderId);
 
 	
 	
 	@Query(value="select\r\n"
-			+ "    product_price\r\n"
+			+ "    a.order_id\r\n"
+			+ "    , a.product_price\r\n"
 			+ "    , product_quantity \r\n"
 			+ "from\r\n"
 			+ "    order_item \r\n"
 			+ "where\r\n"
 			+ "    order_id = :orderId",nativeQuery=true)
-	List<PayPriceEntity> getTotalAndQuantityByOrderId(String orderId);
+	List<PayPriceEntity> getTotalAndQuantityByOrderId(@Param(value="orderId")String orderId);
 	
 }

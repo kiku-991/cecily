@@ -86,6 +86,9 @@ public class Url {
 	//パスワード変更失敗画面
 	public static final String PWDCHANGEFAIL = "/center/passfail";
 
+	//パスワード変更成功
+	public static final String PWDCHANGESUCESS = "/center/passwordchanged";
+	
 	//お気に入り
 	public static final String FAVORITE = "/center/favorite";
 
@@ -194,7 +197,7 @@ public class Url {
 	public static final String CREDITPAY = "/creditpay/pay/{id}";
 
 	//到付
-	public static final String CYAKUHARAI = "/atopay/pay/{id}";
+	public static final String CASHONDELIVERY = "/cashondelivery/pay/{id}";
 
 	/**
 	 * MyOrderController
@@ -221,6 +224,8 @@ public class Url {
 	//收貨 訂單已完成(user)
 	public static final String RECEIPTPRODUCT = "/center/ordermanager/receiptproduct/{id}";
 	
+	
+	public static final String RECEIPTANDPAY="/center/myorder/receiptpay/{id}";
 	
 	/**
 	 * MyCartController

@@ -9,4 +9,6 @@ import com.shoping.kiku.entity.PaymentEntity;
 public interface PaymentRepository extends JpaRepository<PaymentEntity, Integer>{
 
 	
+	PaymentEntity findByPaymentId(String paymentId);
+	
 }

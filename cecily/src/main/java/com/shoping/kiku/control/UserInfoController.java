@@ -18,7 +18,6 @@ import com.shoping.kiku.object.UserLoginDto;
 import com.shoping.kiku.service.UserDeliveryService;
 import com.shoping.kiku.service.UserInfoService;
 import com.shoping.kiku.service.UserLoginService;
-import com.shoping.kiku.until.MsgContents;
 import com.shoping.kiku.until.Session;
 import com.shoping.kiku.until.Url;
 
@@ -110,18 +109,18 @@ public class UserInfoController {
 	 * @return
 	 */
 	@RequestMapping(value = Url.PWDEDIT, method = RequestMethod.POST)
-	public String pwdChange(HttpSession session, UserLoginDto user, Model model) {
+	public String pwdChange(HttpSession session, UserLoginDto user) {
 
 		boolean pc = userLoginService.passChange(session, user);
 
 		if (pc == false) {
 			//失敗
-			model.addAttribute("pwcheck", MsgContents.CHECKPWD);
+			//model.addAttribute("pwcheck", MsgContents.CHECKPWD);
 			return "redirect:/center/passfail";
 		} else {
 			//成功
-			model.addAttribute("pwchange", MsgContents.PASSCHANGE);
-			return "login";
+			//model.addAttribute("pwchange", MsgContents.PASSCHANGE);
+			return "redirect:/center/passwordchanged";
 		}
 
 	}

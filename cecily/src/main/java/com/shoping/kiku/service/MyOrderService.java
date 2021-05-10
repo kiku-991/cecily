@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import com.shoping.kiku.entity.OrderInfoByUserIdEntity;
 import com.shoping.kiku.entity.OrderManagerEntity;
 import com.shoping.kiku.entity.OrderProInfoEntity;
 import com.shoping.kiku.entity.PayPriceEntity;
+import com.shoping.kiku.entity.PaymentEntity;
 import com.shoping.kiku.entity.ProductEntity;
 import com.shoping.kiku.entity.ProductInCartEntity;
 import com.shoping.kiku.entity.ProductInfoForOrderIdEntity;
@@ -32,6 +35,7 @@ import com.shoping.kiku.repository.OrderInfoByRepository;
 import com.shoping.kiku.repository.OrderManagerRepository;
 import com.shoping.kiku.repository.OrderProInfoRepository;
 import com.shoping.kiku.repository.PayPriceRepository;
+import com.shoping.kiku.repository.PaymentRepository;
 import com.shoping.kiku.repository.ProductInCartRepository;
 import com.shoping.kiku.repository.ProductInfoForOrderIdRepository;
 import com.shoping.kiku.repository.ProductRepository;
@@ -72,6 +76,9 @@ public class MyOrderService {
 
 	@Autowired
 	ShippingRepository shippingRepository;
+
+	@Autowired
+	PaymentRepository paymentRepository;
 
 	/**
 	 * オーダーフォーム生成
@@ -124,6 +131,7 @@ public class MyOrderService {
 	 * @param userId
 	 * @return
 	 */
+	@Transactional
 	public List<OrderProInfoDto> getOrderItemInfoByUserId(int userId) {
 
 		List<OrderProInfoEntity> myOrder = orderProInfoRepository.getMyOrderInfo(userId);
@@ -165,6 +173,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
+	@Transactional
 	public int getPayPrice(int userId, String orderId) {
 		List<PayPriceEntity> price = payPriceRepository.getpriceAndQuantityByUserIdAndOrdId(userId, orderId);
 		int amount = 0;
@@ -184,6 +193,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
+	@Transactional
 	public int getPayPriceStore(int userId, String orderId) {
 		List<PayPriceEntity> price = payPriceRepository.getUserTotalAndQuantity(userId, orderId);
 		int amount = 0;
@@ -203,6 +213,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
+	@Transactional
 	public int getPayQuantiy(int userId, String orderId) {
 		List<PayPriceEntity> qqt = payPriceRepository.getpriceAndQuantityByUserIdAndOrdId(userId, orderId);
 		int quantity = 0;
@@ -222,6 +233,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
+	@Transactional
 	public int getPayQuantiyStore(int userId, String orderId) {
 		List<PayPriceEntity> qqt = payPriceRepository.getUserTotalAndQuantity(userId, orderId);
 		int quantity = 0;
@@ -240,6 +252,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
+	@Transactional
 	public int getQqt(String orderId) {
 
 		List<PayPriceEntity> qqt = payPriceRepository.getTotalAndQuantityByOrderId(orderId);
@@ -259,6 +272,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
+	@Transactional
 	public int getTotal(String orderId) {
 
 		List<PayPriceEntity> price = payPriceRepository.getTotalAndQuantityByOrderId(orderId);
@@ -277,6 +291,7 @@ public class MyOrderService {
 	 * オーダー削除
 	 * @param orderId
 	 */
+	@Transactional
 	public void cancelOrder(String orderId) {
 		//myOrder table から該当オーダーを取得
 		MyOrderEntity cancel = orderRepositoty.findByOrderId(orderId);
@@ -319,6 +334,7 @@ public class MyOrderService {
 	 * @param userId
 	 * @return
 	 */
+	@Transactional
 	public List<OrderMangerDto> getOrderInfoByStoreId(int userId) {
 		List<OrderManagerEntity> storeOr = orderManagerRepository.getOrderInfoWithStoreId(userId);
 		List<OrderMangerDto> idlist = new ArrayList<>();
@@ -348,6 +364,16 @@ public class MyOrderService {
 			id.setReceiptTime(hh.getReceiptTime());
 			id.setCertainTime(hh.getReceiptTime());
 			id.setName(hh.getName());
+			if (id.getOrderStatus() == 0) {
+				id.setOrdStatus("待支付");
+			} else if (id.getOrderStatus() == 1) {
+				id.setOrdStatus("待发货");
+			} else if (id.getOrderStatus() == 2) {
+				id.setOrdStatus("待收货");
+			} else {
+				id.setOrdStatus("已完成");
+			}
+
 			//orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(hh.getOrderId());
 			id.setProduct(proInfo);
@@ -361,7 +387,7 @@ public class MyOrderService {
 	 * orderManger (ADMIN)
 	 * @return orderList
 	 */
-
+	@Transactional
 	public List<OrderMangerDto> getAllOrderInfo() {
 		List<OrderManagerEntity> allOrder = orderManagerRepository.getAllOrderInfo();
 		List<OrderMangerDto> orderList = new ArrayList<>();
@@ -389,7 +415,17 @@ public class MyOrderService {
 			id.setTrackingNumber(all.getTrackingNumber());
 			id.setDeliveryTime(all.getDeliveryTime());
 			id.setReceiptTime(all.getReceiptTime());
-			id.setCertainTime(all.getReceiptTime()); 
+			id.setCertainTime(all.getReceiptTime());
+
+			if (id.getOrderStatus() == 0) {
+				id.setOrdStatus("待支付");
+			} else if (id.getOrderStatus() == 1) {
+				id.setOrdStatus("待发货");
+			} else if (id.getOrderStatus() == 2) {
+				id.setOrdStatus("待收货");
+			} else {
+				id.setOrdStatus("已完成");
+			}
 			//orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(all.getOrderId());
 			id.setProduct(proInfo);
@@ -403,6 +439,7 @@ public class MyOrderService {
 	 * @param userId
 	 * @return
 	 */
+	@Transactional
 	public List<OrderInfoByUserIdDto> getOrderInfoByUserId(int userId) {
 		List<OrderInfoByUserIdEntity> orderId = groupByOrderIdRepository.getOrderInfoGroupByOrderIdByUserId(userId);
 		List<OrderInfoByUserIdDto> orderIdList = new ArrayList<>();
@@ -417,6 +454,7 @@ public class MyOrderService {
 			dto.setDeliveryTime(ord.getDeliveryTime());
 			dto.setModifyTime(ord.getModifyTime());
 			dto.setOrderStatus(ord.getOrderStatus());
+
 			dto.setPaymentId(ord.getPaymentId());
 			dto.setPayMethod(ord.getPayMethod());
 			dto.setPayQuantity(ord.getPayQuantity());
@@ -428,7 +466,18 @@ public class MyOrderService {
 			dto.setTrackingNumber(ord.getTrackingNumber());
 			dto.setTotal(total);
 			dto.setQqt(qqt);
-			dto.setCertainTime(ord.getReceiptTime()); //orderId によって、商品情報を取得
+			dto.setCertainTime(ord.getReceiptTime());
+			if (dto.getOrderStatus() == 0) {
+				dto.setOrdStatus("待支付");
+			} else if (dto.getOrderStatus() == 1) {
+				dto.setOrdStatus("待发货");
+			} else if (dto.getOrderStatus() == 2) {
+				dto.setOrdStatus("待收货");
+			} else {
+				dto.setOrdStatus("已完成");
+			}
+
+			//orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(ord.getOrderId());
 
 			dto.setProduct(proInfo);
@@ -444,6 +493,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
+	@Transactional
 	public List<ProductInfoForOrderIdDto> getproductInfoByOrderId(String orderId) {
 		List<ProductInfoForOrderIdDto> proInfo = new ArrayList<>();
 		List<ProductInfoForOrderIdEntity> xx = productInfoForOrderIdRepository
@@ -538,6 +588,51 @@ public class MyOrderService {
 		//設定 收貨時間
 		ship.setReceiptTime(new Timestamp(System.currentTimeMillis()));
 		shippingRepository.save(ship);
+
+	}
+
+	/**
+	 * 收货并付款 
+	 * @param orderId
+	 */
+	public void receivedAndPay(String orderId) {
+
+		//shipping table
+		ShippingEntity oldship = shippingRepository.getShipInfoFindByShippingId(orderId);
+		ShippingEntity ship = new ShippingEntity();
+		ship.setTrackingNumber(oldship.getTrackingNumber());
+		ship.setCourierCompany(oldship.getCourierCompany());
+		ship.setDeliveryTime(oldship.getDeliveryTime());
+		ship.setShippingId(oldship.getShippingId());
+		//設定 收貨時間
+		ship.setReceiptTime(new Timestamp(System.currentTimeMillis()));
+		shippingRepository.save(ship);
+
+		//付款
+
+		//payment table
+		String paymentId =commerceRepository.findByOrderId(orderId).getPaymentId();
+		PaymentEntity oldpay = paymentRepository.findByPaymentId(paymentId);
+		PaymentEntity payment = new PaymentEntity();
+		payment.setPaymentId(oldpay.getPaymentId());
+		payment.setUserId(oldpay.getUserId());
+		payment.setPayQuantity(oldpay.getPayQuantity());
+		payment.setPayTotal(oldpay.getPayTotal());
+		payment.setPayMethod(oldpay.getPayMethod());
+		//このタイミングで支払
+		payment.setPayTime(new Timestamp(System.currentTimeMillis()));
+		paymentRepository.save(payment);
+
+		//order table
+		MyOrderEntity oldOrder = orderRepositoty.findByOrderId(orderId);
+		MyOrderEntity newOrder = new MyOrderEntity();
+		newOrder.setCreateTime(oldOrder.getCreateTime());
+		newOrder.setModifyTime(new Timestamp(System.currentTimeMillis()));
+		newOrder.setOrderId(orderId);
+		//收货 订单状态为已完成
+		newOrder.setOrderStatus(3);
+		newOrder.setPurchasingPrice(oldOrder.getPurchasingPrice());
+		orderRepositoty.save(newOrder);
 
 	}
 }

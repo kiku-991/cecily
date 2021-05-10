@@ -37,6 +37,7 @@ public class OrderMangerDto {
 	private Integer total;
 	private Timestamp certainTime;
 
+	private String ordStatus;
 	//商品
 
 	private List<ProductInfoForOrderIdDto> product;

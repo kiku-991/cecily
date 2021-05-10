@@ -82,8 +82,11 @@
 				<h5>気に入り一覧</h5>
 				<br>
 				<hr>
+				<p style="color: red;" th:if="${favoritePros.size==0}">
+					気に入り商品まだないです、追加しましょう。
+					<p>
 				<!-- 気に入り一覧 th:each="xx:${}"  -->
-				<table class="table table-striped table-sm">
+				<table class="table table-striped table-sm" th:if="${favoritePros.size!=0}">
 					<thead>
 						<tr>
 							<th>商品名</th>

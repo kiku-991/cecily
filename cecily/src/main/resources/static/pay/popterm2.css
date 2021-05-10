@@ -1,0 +1,33 @@
+#popterm {
+  /* margin-top: 45px; */
+  /* width: 200px; */
+  /* z-index: 1000; */
+  cursor: default;
+  overflow: hidden;
+  background-color: #FFF;
+  border-collapse: collapse;
+  margin: 15px 0 0;
+  padding: 3px;
+  border: 1px solid #999;
+  z-index: 3000; 
+}
+
+#popterm .popterm_selected {
+  background-color: #FFF;
+  color: #c93555 !important;
+}
+
+#popterm tr {
+  background-color: #FFF;
+}
+
+#popterm td {
+  font-style: normal;
+  overflow: hidden;
+  margin: 0px;
+  padding: 2px 5px;
+  text-align: left;
+  font-size: 1.4rem;
+  z-index: 3000;
+}
+
