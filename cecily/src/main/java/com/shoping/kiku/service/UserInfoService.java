@@ -15,7 +15,6 @@ import com.shoping.kiku.object.UserInfoDto;
 import com.shoping.kiku.repository.UserInfoRepository;
 import com.shoping.kiku.repository.UserLoginRepository;
 import com.shoping.kiku.until.Session;
-import com.shoping.kiku.until.Url;
 
 @Service
 public class UserInfoService {
@@ -32,9 +31,8 @@ public class UserInfoService {
 		 * @param userDto
 		 * @param userInfo
 		 */
-		public void creatUserInfo(HttpServletRequest request, UserInfoDto userInfo) {
-			Session ss = (Session) request.getSession().getAttribute("userLogin");
-			int userId = ss.getUserId();
+		public void creatUserInfo(int userId, String icon,UserInfoDto userInfo) {
+			
 			UserInfoEntity userInfott = userInfoRepository.findById(userId);
 			if (userInfott == null) {
 				UserInfoEntity userInfoEntity = new UserInfoEntity();
@@ -49,7 +47,7 @@ public class UserInfoService {
 				userInfoEntity.setTodoufuken(userInfo.getTodoufuken());
 				userInfoEntity.setShikucyouson(userInfo.getShikucyouson());
 				userInfoEntity.setCyoumebanchi(userInfo.getCyoumebanchi());
-				userInfoEntity.setIcon(Url.SRC + userInfo.getIcon());
+				userInfoEntity.setIcon(icon);
 				userInfoRepository.save(userInfoEntity);
 			}
 
@@ -98,12 +96,11 @@ public class UserInfoService {
 		 * @param session
 		 * @param userInfoDto
 		 */
-		public void updateUserInfo(HttpServletRequest request, UserInfoDto userInfoDto) {
+		public void updateUserInfo(int userId,String icon, UserInfoDto userInfoDto) {
 
-			Session ss = (Session) request.getSession().getAttribute("userLogin");
-			UserInfoEntity userInfott = userInfoRepository.findById(ss.getUserId());
+			UserInfoEntity userInfott = userInfoRepository.findById(userId);
 			UserInfoEntity userInfoEntity = new UserInfoEntity();
-			userInfoEntity.setId(ss.getUserId());
+			userInfoEntity.setId(userId);
 			//基本情報
 			userInfoEntity.setSex(userInfoDto.getSex());
 			userInfoEntity.setBirth(userInfoDto.getBirth());
@@ -116,12 +113,11 @@ public class UserInfoService {
 			userInfoEntity.setCyoumebanchi(userInfoDto.getCyoumebanchi());
 
 			//アイコン
-			if (userInfoDto.getIcon().equals("")) {
+			if (icon.equals("")) {
 				userInfoEntity.setIcon(userInfott.getIcon());
 			} else {
-				userInfoEntity.setIcon(Url.SRC + userInfoDto.getIcon());
+				userInfoEntity.setIcon(icon);
 			}
-			
 			
 			userInfoRepository.save(userInfoEntity);
 		}
@@ -162,7 +158,7 @@ public class UserInfoService {
 		 * @param userid
 		 * @param userInfodto
 		 */
-		public void updateAllUserInfo(int userid, UserInfoDto userInfodto) {
+		public void updateAllUserInfo(int userid, UserInfoDto userInfodto,String icon) {
 
 			UserInfoEntity userInfott = userInfoRepository.findById(userid);
 			UserInfoEntity userInfoEntity = new UserInfoEntity();
@@ -177,14 +173,14 @@ public class UserInfoService {
 			userInfoEntity.setShikucyouson(userInfodto.getShikucyouson());
 			userInfoEntity.setCyoumebanchi(userInfodto.getCyoumebanchi());
 
+			
 			//アイコン
-			if (userInfodto.getIcon().equals("")) {
+			if (icon.equals("")) {
 				userInfoEntity.setIcon(userInfott.getIcon());
 			} else {
-				userInfoEntity.setIcon(Url.SRC + userInfodto.getIcon());
+				userInfoEntity.setIcon(icon);
 			}
 
-		
 			userInfoRepository.save(userInfoEntity);
 
 			//ユーザ情報更新時ユーザの更新時間も変更
@@ -234,6 +230,35 @@ public class UserInfoService {
 			user.setCreateDate(usertt.getCreateDate());
 			user.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 			userLoginRepository.save(user);
+			
+		}
+
+		/**
+		 * アイコンアップロード
+		 * @param userId
+		 * @param userUrl
+		 */
+		public void updateUserUserUrl(UserInfoDto user,int userId) {
+			
+			UserInfoEntity userInfott = userInfoRepository.findById(userId);
+			UserInfoEntity userInfoEntity = new UserInfoEntity();
+			//基本情報
+			userInfoEntity.setId(userId);
+			userInfoEntity.setIcon(user.getIcon());
+			
+			//
+			userInfoEntity.setSex(userInfott.getSex());
+			userInfoEntity.setBirth(userInfott.getBirth());
+			userInfoEntity.setName(userInfott.getName());
+			userInfoEntity.setNickname(userInfott.getNickname());
+			userInfoEntity.setPhone(userInfott.getPhone());
+			userInfoEntity.setTodoufuken(userInfott.getTodoufuken());
+			userInfoEntity.setShikucyouson(userInfott.getShikucyouson());
+			userInfoEntity.setCyoumebanchi(userInfott.getCyoumebanchi());
+			userInfoEntity.setPostcode(userInfott.getPostcode());
+			
+			userInfoRepository.save(userInfoEntity);
+			
 			
 		}
 	

@@ -236,39 +236,30 @@
 							<td
 								class="am-nowrap-initial am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
 								style="width: 119px; right: 0.00650024px;" data-width="119"
-								data-right="0.006500244140625"><a
-								th:href="@{/center/ordermanager/receiptproduct/{id}(id=${oid.orderId})}"
-								th:if="${oid.deliveryTime!=null && oid.receiptTime==null && oid.payTime!=null}"
-								class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm"
-								target="_blank"> <span>收货</span>
-							</a> <a
+								data-right="0.006500244140625"><button
+									th:if="${oid.deliveryTime!=null && oid.receiptTime==null && oid.payTime!=null}"
+									class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm"
+									data-view="reload" data-bs-toggle="modal"
+									th:data-bs-target="'#shouhuo'+${oid.orderId}">
+									<span>收货</span>
+								</button> <button
 								th:if="${oid.deliveryTime!=null && oid.receiptTime==null && oid.payTime==null}"
-								th:href="@{/center/myorder/receiptpay/{id}(id=${oid.orderId})}"
 								class="am-btn am-btn-default am-btn-xs am-radius am-btn-block"
-								target="_blank"> <span>收货并付款</span>
-							</a>
+								data-view="reload" data-bs-toggle="modal"
+									th:data-bs-target="'#shoupay'+${oid.orderId}"> <span>收货并付款</span>
+							</button>
 								<button type="button"
 									class="am-btn am-btn-warning am-btn-xs am-radius am-btn-block submit-ajax submit-cancel"
 									data-view="reload" data-bs-toggle="modal"
 									th:data-bs-target="'#cancel'+${oid.orderId}">
 									<span>取消</span>
-								</button> <!-- 
-								
-								
-								<button type="button" class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm" data-url="https://store.shopxo.net/index/order/collect.html" data-id="1347" data-view="reload" data-msg="请仔细确认已收到货物、确认继续吗？">
-        <i class="am-icon-check-circle-o"></i>
-        <span>收货</span>
-    </button>
-								弹窗 
-								
-								<div class="am-modal-dialog"><div class="am-modal-hd">温馨提示</div><div class="am-modal-bd"><div class="am-padding-horizontal-xl am-padding-vertical-xs">请仔细确认已收到货物、确认继续吗？</div></div><div class="am-modal-footer"><span class="am-modal-btn" data-am-modal-cancel="">取消</span><span class="am-modal-btn" data-am-modal-confirm="">确定</span></div></div>
-								
-								 --> <!-- Button trigger modal orderID -->
+								</button>
 								<button type="button"
 									class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay"
 									data-bs-toggle="modal" th:if="${oid.paymentId==null}"
 									th:data-bs-target="'#pay'+${oid.orderId}">支付</button></td>
-							<div class="modal fade" th:id="'pay'+${oid.orderId}"
+							<!-- 支払Modal -->
+							<div class="modal fade " th:id="'pay'+${oid.orderId}"
 								data-bs-backdrop="pay" data-bs-keyboard="false" tabindex="-1"
 								aria-labelledby="payLabel" aria-hidden="true">
 								<div class="modal-dialog">
@@ -309,7 +300,7 @@
 								</div>
 							</div>
 
-
+							<!-- キャンセル　Model -->
 							<div class="modal fade" th:id="'cancel'+${oid.orderId}"
 								data-bs-backdrop="cancel" data-bs-keyboard="false" tabindex="-1"
 								aria-labelledby="cancelLabel" aria-hidden="true">
@@ -337,6 +328,67 @@
 									</div>
 								</div>
 							</div>
+							<!-- 收货Model -->
+
+							<div class="modal fade" th:id="'shouhuo'+${oid.orderId}"
+								data-bs-backdrop="shouhuo" data-bs-keyboard="false" tabindex="-1"
+								aria-labelledby="shouhuoLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="shouhuoLabel">收货確認</h5>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form
+												th:action="@{/center/ordermanager/receiptproduct/{id}(id=${oid.orderId})}"
+												method="post">
+
+												<p>是否已收到货？</p>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">キャンセル</button>
+													<input type="submit" id="kakutei" class="btn btn-danger"
+														value="確定">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+	<!-- 收货并付款Model -->
+
+							<div class="modal fade" th:id="'shoupay'+${oid.orderId}"
+								data-bs-backdrop="shoupay" data-bs-keyboard="false" tabindex="-1"
+								aria-labelledby="shoupayLabel" aria-hidden="true">
+								<div class="modal-dialog">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title" id="shoupayLabel">收货并付款確認</h5>
+											<button type="button" class="btn-close"
+												data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<form
+												th:action="@{/center/myorder/receiptpay/{id}(id=${oid.orderId})}"
+												method="post">
+
+												<p>是否已收到货？请付款</p>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary"
+														data-bs-dismiss="modal">キャンセル</button>
+													<input type="submit" id="kakutei" class="btn btn-danger"
+														value="確定">
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+
+
 						</tr>
 
 					</tbody>

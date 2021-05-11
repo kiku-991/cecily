@@ -14,6 +14,9 @@ public class Url {
 
 	//imgフォルダに画像
 	public static final String SRC = "../img/";
+	
+	//path
+	public static final String SAVEPATH ="D:\\project\\cecily\\cecily\\src\\main\\resources\\static\\img\\";
 
 	/**
 	 * UserInfoController

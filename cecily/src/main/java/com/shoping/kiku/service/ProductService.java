@@ -18,7 +18,6 @@ import com.shoping.kiku.repository.ProductRepository;
 import com.shoping.kiku.repository.StoreRepository;
 import com.shoping.kiku.until.Session;
 import com.shoping.kiku.until.Status;
-import com.shoping.kiku.until.Url;
 
 @Service
 public class ProductService {
@@ -54,8 +53,6 @@ public class ProductService {
 				pr.setProductContents(pro.getProductContents());
 				pr.setMaker(pro.getMaker());
 				pr.setStatus(pro.getStatus());
-				//pr.setStock(pro.getStock());
-				//pr.setStoreId(pro.getStoreId());
 
 				pros.add(pr);
 			}
@@ -90,7 +87,7 @@ public class ProductService {
 	 * 新規商品登録
 	 * @param product
 	 */
-	public void createProduct(int userId, ProductDto product) {
+	public void createProduct(int userId,String img,ProductDto product) {
 
 		ProductEntity prott = new ProductEntity();
 		StoreEntity store = storeRepository.findByUserId(userId);
@@ -99,7 +96,7 @@ public class ProductService {
 		prott.setStoreId(store.getStoreId());
 		prott.setProductName(product.getProductName());
 		prott.setProductPrice(product.getProductPrice());
-		prott.setProductImg(Url.SRC + product.getProductImg());
+		prott.setProductImg(img);
 		prott.setProductContents(product.getProductContents());
 		prott.setMaker(product.getMaker());
 		prott.setStatus(Status.PRODUCTIN);
@@ -176,7 +173,7 @@ public class ProductService {
 	 * @param request
 	 * @param product
 	 */
-	public void updateProduct(ProductDto product, int id) {
+	public void updateProduct(ProductDto product, int id,String img) {
 
 		ProductEntity oldpro = productRepository.findByProductId(id);
 		ProductEntity prott = new ProductEntity();
@@ -186,10 +183,10 @@ public class ProductService {
 		prott.setStoreId(oldpro.getStoreId());
 		prott.setProductName(product.getProductName());
 		prott.setProductPrice(product.getProductPrice());
-		if (product.getProductImg().equals("")) {
+		if (img.equals("")) {
 			prott.setProductImg(oldpro.getProductImg());
 		} else {
-			prott.setProductImg(Url.SRC + product.getProductImg());
+			prott.setProductImg(img);
 
 		}
 		prott.setProductContents(product.getProductContents());
@@ -283,12 +280,12 @@ public class ProductService {
 	}
 
 	/**
-	 * キーワード検索
+	 * 商品名検索　総合検索
 	 * @param keyword
 	 * @return prolike 商品情報
 	 */
-	public List<ProductDto> keyLike(String keyword) {
-		List<ProductEntity> likes = productRepository.getLikePro(keyword);
+	public List<ProductDto> keyLike(String proname) {
+		List<ProductEntity> likes = productRepository.getLikeProByProname(proname);
 		List<ProductDto> prolike = new ArrayList<>();
 		for (ProductEntity p : likes) {
 			ProductDto pro = new ProductDto();
@@ -304,6 +301,28 @@ public class ProductService {
 		return prolike;
 	}
 
+	/**
+	 * 商品名検索OrderBy価格
+	 * @param proname
+	 * @return
+	 */
+	public List<ProductDto> keyLikeOrderByPrice(String proname){
+		List<ProductEntity> likes = productRepository.getLikeProOrderByPrice(proname);
+		List<ProductDto> prolike = new ArrayList<>();
+		for (ProductEntity p : likes) {
+			ProductDto pro = new ProductDto();
+			pro.setProductId(p.getProductId());
+			pro.setProductName(p.getProductName());
+			pro.setProductImg(p.getProductImg());
+			pro.setProductContents(p.getProductContents());
+			pro.setProductPrice(p.getProductPrice());
+			pro.setMaker(p.getMaker());
+			prolike.add(pro);
+
+		}
+		return prolike;
+	}
+	
 	/**
 	 * キーワード検索
 	 * @param keyword
@@ -324,15 +343,5 @@ public class ProductService {
 		return stock;
 	}
 
-	/*	*//**
-			* 要らない
-			* @param proId
-			* @return
-			*//*
-				public int getTotal(int proId) {
-				ProductEntity stopro = productRepository.findByProductId(proId);
-				int total = stopro.getProductPrice() * stopro.getStock();
-				return total;
-				}*/
 
 }

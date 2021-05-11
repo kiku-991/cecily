@@ -98,46 +98,34 @@
 											</span>
 										</p>
 										<p>
-											<label>Mail：</label> <input type="text"
-												th:value="${user.userMail}" maxlength="25">
+											<label>Mail：</label> 
+												<label>[[${user.userMail}]]</label> 
 
 										</p>
 										<p>
-											<label>ニックネーム：</label> <input type="text"
-												th:value="${user.nickname}">
+											<label>ニックネーム：</label> 
+											<label>[[${user.nickname}]]</label>
+											
 										</p>
 										<p>
 											<label>性別：</label>
+											<label th:text="${user.sex==1?'女':(user.sex==0?'男':'秘密')}"></label>
 										</p>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="sex"
-												id="girlRadio" value="1" th:checked="${user.sex}==1">
-											<label class="form-check-label" for="girlRadio">女</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="sex"
-												id="boyRadio" value="0" th:checked="${user.sex}==0">
-											<label class="form-check-label" for="boyRadio">男</label>
-										</div>
-										<div class="form-check form-check-inline">
-											<input class="form-check-input" type="radio" name="sex"
-												id="secretRadio" value="2" th:checked="${user.sex}==2">
-											<label class="form-check-label" for="secretRadio">秘密</label>
-
-										</div>
+									
 
 
 										<p>
-											<label>誕生日：</label> <input type="text"
-												th:value="${user.birth}">
+											<label>誕生日：</label> 
+											<label>[[${user.birth}]]</label> 
 										</p>
 										<p>
-											<label>電話番号：</label> <input type="text"
-												th:value="${user.phone}">
+											<label>電話番号：</label> 
+											<label>[[${user.phone}]]</label> 
 										</p>
 										<p>
-											<label>住所：</label> <input type="text"
-												th:value="${user.todoufuken==null?'':(user.todoufuken+user.shikucyouson+user.cyoumebanchi)}">
+											<label>住所：</label> 
+											<label th:text="${user.todoufuken==null?'':(user.todoufuken+user.shikucyouson+user.cyoumebanchi)}"></label> 
+											
 										</p>
 
 

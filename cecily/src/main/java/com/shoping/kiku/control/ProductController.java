@@ -1,5 +1,7 @@
 package com.shoping.kiku.control;
 
+import java.io.File;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shoping.kiku.object.FavoriteDto;
@@ -21,13 +25,13 @@ import com.shoping.kiku.until.Url;
 
 @Controller
 public class ProductController {
-	
+
 	@Autowired
 	ProductService productService;
 
 	@Autowired
 	FavoriteService favoriteService;
-	
+
 	@Autowired
 	StoreService storeService;
 
@@ -38,23 +42,47 @@ public class ProductController {
 	 * @return productmanger
 	 */
 	@RequestMapping(value = Url.CREATEPRODUCT, method = RequestMethod.POST)
-	public String creProduct(HttpServletRequest request, ProductDto product) {
+	public String creProduct(@RequestParam("file") MultipartFile img, HttpServletRequest request, ProductDto product) {
 
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
-		productService.createProduct(ss.getUserId(), product);
+
+		String proimg = img.getOriginalFilename();
+		try {
+			img.transferTo(new File(Url.SAVEPATH + proimg));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		String productImg = Url.SRC + proimg;
+		productService.createProduct(ss.getUserId(), productImg, product);
 
 		return "redirect:/center/myproducts";
 	}
 
-
 	/**
 	 * 商品IDによって商品編集
+	 * @param id
+	 * @param img
 	 * @param pro
-	 * @return productmanger
+	 * @return
 	 */
 	@PostMapping(value = Url.UPDATEPROBYID)
-	public String updateProById(@PathVariable("id") int id, ProductDto pro) {
-		productService.updateProduct(pro, id);
+	public String updateProById(@PathVariable("id") int id, @RequestParam("file") MultipartFile img,ProductDto pro) {
+		String productImg = "";
+		if (img.isEmpty() == false) {
+			String proImg = img.getOriginalFilename();
+			try {
+				img.transferTo(
+						new File(Url.SAVEPATH + proImg));
+				System.out.println(img);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			productImg = Url.SRC + proImg;
+		}
+		productService.updateProduct(pro, id,productImg);
 		return "redirect:/center/myproducts";
 	}
 
@@ -103,31 +131,43 @@ public class ProductController {
 		//登録あり
 		if (ss != null) {
 			//登録あり 商品と気に入り情報取得
-			FavoriteDto fap =favoriteService.getProByUserIdAndProId(ss.getUserId(),id);
+			FavoriteDto fap = favoriteService.getProByUserIdAndProId(ss.getUserId(), id);
 			mv.addObject("product", fap);
-			int storeId =fap.getStoreId();
+			int storeId = fap.getStoreId();
 			StoreDto storeInfo = storeService.findByStoreId(storeId);
 			mv.addObject("store", storeInfo);
 		} else {
 			//登録なし 商品情報取得
 			ProductDto pros = productService.getProByProductId(id);
 			mv.addObject("product", pros);
-			int storeId =pros.getStoreId();
+			int storeId = pros.getStoreId();
 			StoreDto storeInfo = storeService.findByStoreId(storeId);
 			mv.addObject("store", storeInfo);
 		}
 		return mv;
 	}
 
-	
 	/**
 	 * 商品IDによって商品編集(ADMIN)
 	 * @param pro
 	 * @return productmanger
 	 */
 	@PostMapping(value = Url.PROMANAGEREDIT)
-	public String editProById(@PathVariable("id") int id, ProductDto pro) {
-		productService.updateProduct(pro, id);
+	public String editProById(@PathVariable("id") int id,  @RequestParam("file") MultipartFile img,ProductDto pro) {
+		String productImg = "";
+		if (img.isEmpty() == false) {
+			String proImg = img.getOriginalFilename();
+			try {
+				img.transferTo(
+						new File(Url.SAVEPATH + proImg));
+				System.out.println(img);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			productImg = Url.SRC + proImg;
+		}
+		productService.updateProduct(pro, id,productImg);
 		return "redirect:/center/productmanger";
 	}
 

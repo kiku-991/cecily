@@ -72,7 +72,7 @@ public class PayMentService {
 		myord.setCreateTime(myorder.getCreateTime());
 		myord.setOrderId(orderId);
 		//支払い完了
-		myord.setOrderStatus(1);
+		myord.setOrderStatus(Status.ORDERDELIVEY);
 		myord.setModifyTime(new Timestamp(System.currentTimeMillis()));
 		myord.setPurchasingPrice(total);
 		myOrderRepository.save(myord);
@@ -116,7 +116,7 @@ public class PayMentService {
 		myord.setCreateTime(myorder.getCreateTime());
 		myord.setOrderId(orderId);
 		//支払い完了
-		myord.setOrderStatus(1);
+		myord.setOrderStatus(Status.ORDERDELIVEY);
 		myord.setModifyTime(new Timestamp(System.currentTimeMillis()));
 		myord.setPurchasingPrice(total);
 		myOrderRepository.save(myord);
@@ -163,7 +163,7 @@ public class PayMentService {
 				myord.setCreateTime(myorder.getCreateTime());
 				myord.setOrderId(orderId);
 				//支払いまだ完了
-				myord.setOrderStatus(0);
+				myord.setOrderStatus(Status.ORDERWAITPAY);
 				myord.setModifyTime(new Timestamp(System.currentTimeMillis()));
 				myord.setPurchasingPrice(total);
 				myOrderRepository.save(myord);

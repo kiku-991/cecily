@@ -112,8 +112,8 @@
 							<td th:text="${user.cyoumebanchi}"></td>
 							<td><button type="button" class="btn btn-success btn-sm"
 									data-bs-toggle="modal"
-									th:data-bs-target="'#userModal'+${user.userId}">編集</button>
-								<div class="modal fade" th:id="'userModal'+${user.userId}"
+									th:data-bs-target="'#userModal'+${user.Id}">編集</button>
+								<div class="modal fade" th:id="'userModal'+${user.Id}"
 									tabindex="-1" aria-labelledby="userModalLabel"
 									aria-hidden="true">
 									<div class="modal-dialog">
@@ -125,14 +125,14 @@
 											</div>
 
 											<div class="modal-body">
-												<form
-													th:action="@{/center/userInfoList/{id}(id=${user.userId})}"
+												<form enctype="multipart/form-data"
+													th:action="@{/center/userInfoList/{id}(id=${user.Id})}"
 													method="post">
 													<div class="mb-3">
 														<label for="name" class="text-info">アイコン:</label><br>
 														<img th:src="${user.icon}" width="80" height="80"><br>
 														<label for="edit" class="text-info">アイコン編集:</label><br>
-														<input type="file" name="icon" class="form-control" /> <label
+														<input type="file" name="file" class="form-control" /> <label
 															for="name" class="text-info">氏名:</label><br> <input
 															type="text" name="name" th:value="${user.name}"
 															class="form-control" /> <label for="nicname"
@@ -203,6 +203,5 @@
 		</div>
 	</div>
 
-</bod
-			y>
+</body>
 </html>

@@ -320,7 +320,7 @@ th:last-child {
 							th:onclick="|changeStatus(${item.productId})|"> <img
 							th:src="${item.productImg}" alt="加载中...">
 
-						<p class="goods-title" th:text="${item.productName}"></p>
+						<a class="goods-title" th:text="${item.productName}" th:href="@{/productDetails/{id}(id=${item.productId})}"></a>
 						<br> <br>
 
 					</div>

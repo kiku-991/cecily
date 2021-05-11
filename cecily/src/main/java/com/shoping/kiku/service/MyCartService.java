@@ -13,6 +13,7 @@ import com.shoping.kiku.object.ProductInCartDto;
 import com.shoping.kiku.repository.MyCartRepository;
 import com.shoping.kiku.repository.ProductInCartRepository;
 import com.shoping.kiku.repository.ProductRepository;
+import com.shoping.kiku.until.Status;
 
 @Service
 public class MyCartService {
@@ -125,10 +126,10 @@ public class MyCartService {
 		MyCartEntity now = new MyCartEntity();
 		//チェックされる
 		if (old.getCheckstatus() == 0) {
-			now.setCheckstatus(1);
+			now.setCheckstatus(Status.CHECKED);
 		} else {
 			//チェック外す
-			now.setCheckstatus(0);
+			now.setCheckstatus(Status.CHECKOUT);
 		}
 		now.setUserId(old.getUserId());
 		now.setProductId(old.getProductId());
@@ -151,10 +152,10 @@ public class MyCartService {
 			ee.setQuantity(now.getQuantity());
 			//チェックされる
 			if (now.getCheckstatus() == 0) {
-				ee.setCheckstatus(1);
+				ee.setCheckstatus(Status.CHECKED);
 			} else {
 				//チェック外す
-				ee.setCheckstatus(0);
+				ee.setCheckstatus(Status.CHECKOUT);
 			}
 
 			myCartRepository.save(ee);

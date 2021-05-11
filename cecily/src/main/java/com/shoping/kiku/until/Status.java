@@ -30,6 +30,13 @@ public class Status {
 	public static final Integer PRODUCTSTOP = 0;
 	
 	
+	
+	//チェックボックス選択状態
+	public static final Integer CHECKED =1;
+	
+	//チェックボックス外す状態
+	public static final Integer CHECKOUT =0;
+	
 	//支払い方法 AriPay
 	public static final Integer ARIPAY = 1;
 	

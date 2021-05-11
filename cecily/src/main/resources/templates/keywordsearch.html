@@ -154,7 +154,7 @@
 							<li class="am-nbfc">
 								<p class="am-fl am-margin-left-sm">
 									<span>筛选出</span> <strong
-										class="map-result-count am-text-danger">[[${count}]]</strong> <span>条数据</span>
+										class="map-result-count am-text-danger">[[${total}]]</strong> <span>条数据</span>
 								</p> <span
 								class="map-remove-submit am-fr am-margin-right-sm am-hide">清除</span>
 							</li>
@@ -181,14 +181,9 @@
 						<li class="active" data-field="default" data-type="desc"><a
 							href="javascript:;" title="综合"> <span>综合</span>
 						</a></li>
-						<li data-field="sales_count" data-type="desc"><a
-							href="javascript:;" title="销量"> <span>销量</span> 
-						</a></li>
-						<li data-field="access_count" data-type="desc"><a
-							href="javascript:;" title="热度"> <span>热度</span> 
-						</a></li>
+						
 						<li data-field="min_price" data-type="desc"><a
-							href="javascript:;" title="价格"> <span>价格</span> 
+							th:href="@{/shopping/keywordSearch/orderbyprice}" title="价格"> <span>价格</span> 
 						</a></li>
 						<li data-field="id" data-type="desc"><a href="javascript:;"
 							title="最新"> <span>最新</span> 
@@ -209,7 +204,7 @@
 					<div class="items am-padding-bottom-xs">
 						<!-- 搜索页面商品信息顶部钩子 -->
 						<a  th:href="@{/productDetails/{id}(id=${product.productId})}">
-						<img th:src="${product.productImg}" class="goods-images">
+						<img th:src="${product.productImg}" width="230" height="345" class="goods-images">
 						</a>
 						<p class="am-text-truncate-2 goods-title"
 							th:text="${product.productName}"></p>

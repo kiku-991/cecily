@@ -1,5 +1,7 @@
 package com.shoping.kiku.control;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.shoping.kiku.object.UserDeliveryDto;
 import com.shoping.kiku.object.UserInfoDto;
@@ -23,7 +27,7 @@ import com.shoping.kiku.until.Url;
 
 @Controller
 public class UserInfoController {
-	
+
 	@Autowired
 	UserLoginService userLoginService;
 
@@ -39,9 +43,20 @@ public class UserInfoController {
 	 * @param userInfoDto
 	 */
 	@RequestMapping(value = Url.USERTCREATE, method = RequestMethod.POST)
-	public String createUserInfo(HttpServletRequest request, UserInfoDto userInfoDto) {
+	public String createUserInfo(@RequestParam("file") MultipartFile icon, HttpServletRequest res,
+			UserInfoDto userInfoDto) throws IOException {
+		Session ss = (Session) res.getSession().getAttribute("userLogin");
+		String userIcon = icon.getOriginalFilename();
+		try {
+			icon.transferTo(new File(Url.SAVEPATH + userIcon));
+			System.out.println(icon);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		userInfoService.creatUserInfo(request, userInfoDto);
+		String ic =Url.SRC + userIcon;
+		userInfoService.creatUserInfo(ss.getUserId(),ic, userInfoDto);
+		//userInfoService.updateUserUserUrl(user, ss.getUserId());
 		return "redirect:/center/userInfo";
 
 	}
@@ -54,9 +69,24 @@ public class UserInfoController {
 	 */
 
 	@RequestMapping(value = Url.USERINFOEDIT, method = RequestMethod.POST)
-	public String updateUserInfo(HttpServletRequest request, UserInfoDto userInfo) {
+	public String updateUserInfo(@RequestParam("file") MultipartFile icon, HttpServletRequest res,
+			UserInfoDto userInfo) {
+		Session ss = (Session) res.getSession().getAttribute("userLogin");
+		String ic = "";
+		if (icon.isEmpty() == false) {
+			String userIcon = icon.getOriginalFilename();
+			try {
+				icon.transferTo(
+						new File(Url.SAVEPATH + userIcon));
+				System.out.println(icon);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-		userInfoService.updateUserInfo(request, userInfo);
+			ic = Url.SRC + userIcon;
+		}
+		userInfoService.updateUserInfo(ss.getUserId(), ic, userInfo);
+
 		return "redirect:/center/userInfo";
 	}
 
@@ -199,9 +229,22 @@ public class UserInfoController {
 	 * @return
 	 */
 	@RequestMapping(value = Url.ALLUSERINFO)
-	public String changeAllUserInfo(@PathVariable("id") int userid, UserInfoDto userInfodto) {
+	public String changeAllUserInfo(@PathVariable("id") int userid,  @RequestParam("file") MultipartFile icon, UserInfoDto userInfodto) {
 
-		userInfoService.updateAllUserInfo(userid, userInfodto);
+		String ic = "";
+		if (icon.isEmpty() == false) {
+			String userIcon = icon.getOriginalFilename();
+			try {
+				icon.transferTo(
+						new File(Url.SAVEPATH + userIcon));
+				System.out.println(icon);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			ic = Url.SRC + userIcon;
+		}
+		userInfoService.updateAllUserInfo(userid, userInfodto,ic);
 		return "redirect:/center/userInfoList";
 	}
 

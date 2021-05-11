@@ -41,6 +41,7 @@ import com.shoping.kiku.repository.ProductInfoForOrderIdRepository;
 import com.shoping.kiku.repository.ProductRepository;
 import com.shoping.kiku.repository.ShippingRepository;
 import com.shoping.kiku.until.OrderUtils;
+import com.shoping.kiku.until.Status;
 
 @Service
 public class MyOrderService {
@@ -97,7 +98,7 @@ public class MyOrderService {
 			order.setOrderId(orderId);
 
 			//提交订单的时候把订单状态设为 0 待付款
-			order.setOrderStatus(0);
+			order.setOrderStatus(Status.ORDERWAITPAY);
 			//购买总额 待付款
 			order.setPurchasingPrice(0);
 			//创建订单时间
@@ -364,14 +365,14 @@ public class MyOrderService {
 			id.setReceiptTime(hh.getReceiptTime());
 			id.setCertainTime(hh.getReceiptTime());
 			id.setName(hh.getName());
-			if (id.getOrderStatus() == 0) {
-				id.setOrdStatus("待支付");
-			} else if (id.getOrderStatus() == 1) {
-				id.setOrdStatus("待发货");
-			} else if (id.getOrderStatus() == 2) {
-				id.setOrdStatus("待收货");
+			if (id.getOrderStatus() == Status.ORDERWAITPAY) {
+				id.setOrdStatus(Status.ORDERWAIT);
+			} else if (id.getOrderStatus() == Status.ORDERDELIVEY) {
+				id.setOrdStatus(Status.ORDETOBEDELIVED);
+			} else if (id.getOrderStatus() == Status.ORDERRECEIVE) {
+				id.setOrdStatus(Status.ORDETOBERECEIVED);
 			} else {
-				id.setOrdStatus("已完成");
+				id.setOrdStatus(Status.ORDETOBECOM);
 			}
 
 			//orderId によって、商品情報を取得
@@ -417,15 +418,16 @@ public class MyOrderService {
 			id.setReceiptTime(all.getReceiptTime());
 			id.setCertainTime(all.getReceiptTime());
 
-			if (id.getOrderStatus() == 0) {
-				id.setOrdStatus("待支付");
-			} else if (id.getOrderStatus() == 1) {
-				id.setOrdStatus("待发货");
-			} else if (id.getOrderStatus() == 2) {
-				id.setOrdStatus("待收货");
+			if (id.getOrderStatus() == Status.ORDERWAITPAY) {
+				id.setOrdStatus(Status.ORDERWAIT);
+			} else if (id.getOrderStatus() == Status.ORDERDELIVEY) {
+				id.setOrdStatus(Status.ORDETOBEDELIVED);
+			} else if (id.getOrderStatus() == Status.ORDERRECEIVE) {
+				id.setOrdStatus(Status.ORDETOBERECEIVED);
 			} else {
-				id.setOrdStatus("已完成");
+				id.setOrdStatus(Status.ORDETOBECOM);
 			}
+
 			//orderId によって、商品情報を取得
 			List<ProductInfoForOrderIdDto> proInfo = getproductInfoByOrderId(all.getOrderId());
 			id.setProduct(proInfo);
@@ -467,14 +469,15 @@ public class MyOrderService {
 			dto.setTotal(total);
 			dto.setQqt(qqt);
 			dto.setCertainTime(ord.getReceiptTime());
-			if (dto.getOrderStatus() == 0) {
-				dto.setOrdStatus("待支付");
-			} else if (dto.getOrderStatus() == 1) {
-				dto.setOrdStatus("待发货");
-			} else if (dto.getOrderStatus() == 2) {
-				dto.setOrdStatus("待收货");
+
+			if (dto.getOrderStatus() == Status.ORDERWAITPAY) {
+				dto.setOrdStatus(Status.ORDERWAIT);
+			} else if (dto.getOrderStatus() == Status.ORDERDELIVEY) {
+				dto.setOrdStatus(Status.ORDETOBEDELIVED);
+			} else if (dto.getOrderStatus() == Status.ORDERRECEIVE) {
+				dto.setOrdStatus(Status.ORDETOBERECEIVED);
 			} else {
-				dto.setOrdStatus("已完成");
+				dto.setOrdStatus(Status.ORDETOBECOM);
 			}
 
 			//orderId によって、商品情報を取得
@@ -529,7 +532,7 @@ public class MyOrderService {
 		newOrder.setModifyTime(new Timestamp(System.currentTimeMillis()));
 		newOrder.setOrderId(orderId);
 		//商品発送 订单状态为待收货
-		newOrder.setOrderStatus(2);
+		newOrder.setOrderStatus(Status.ORDERRECEIVE);
 		newOrder.setPurchasingPrice(oldOrder.getPurchasingPrice());
 		orderRepositoty.save(newOrder);
 		//commerce table 物流ID生成
@@ -574,7 +577,7 @@ public class MyOrderService {
 		newOrder.setModifyTime(new Timestamp(System.currentTimeMillis()));
 		newOrder.setOrderId(orderId);
 		//商品発送 订单状态为已完成
-		newOrder.setOrderStatus(3);
+		newOrder.setOrderStatus(Status.ORDERCOMPLETE);
 		newOrder.setPurchasingPrice(oldOrder.getPurchasingPrice());
 		orderRepositoty.save(newOrder);
 
@@ -611,7 +614,7 @@ public class MyOrderService {
 		//付款
 
 		//payment table
-		String paymentId =commerceRepository.findByOrderId(orderId).getPaymentId();
+		String paymentId = commerceRepository.findByOrderId(orderId).getPaymentId();
 		PaymentEntity oldpay = paymentRepository.findByPaymentId(paymentId);
 		PaymentEntity payment = new PaymentEntity();
 		payment.setPaymentId(oldpay.getPaymentId());
@@ -630,7 +633,7 @@ public class MyOrderService {
 		newOrder.setModifyTime(new Timestamp(System.currentTimeMillis()));
 		newOrder.setOrderId(orderId);
 		//收货 订单状态为已完成
-		newOrder.setOrderStatus(3);
+		newOrder.setOrderStatus(Status.ORDERCOMPLETE);
 		newOrder.setPurchasingPrice(oldOrder.getPurchasingPrice());
 		orderRepositoty.save(newOrder);
 

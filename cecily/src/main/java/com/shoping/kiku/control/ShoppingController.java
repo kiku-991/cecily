@@ -50,7 +50,7 @@ public class ShoppingController {
 	}
 
 	/**
-	 * キーワード検索
+	 * 商品名検索
 	 * @param productName
 	 * @return
 	 */
@@ -60,11 +60,27 @@ public class ShoppingController {
 		List<ProductDto> prolike = productService.keyLike(productName);
 		int count =productService.getCountByKey(productName);
 		mv.addObject("prolike", prolike);
-		mv.addObject("count", count);
+		mv.addObject("total", count);
 		return mv;
 
 	}
 
+	/**
+	 * 商品名検索 OrderBy価格
+	 * @param productName
+	 * @return
+	 */
+	@RequestMapping("/shopping/keywordSearch/orderbyprice")
+	public String keywordOrderByPrice(String productName) {
+		ModelAndView mv = new ModelAndView("keywordsearch");
+		List<ProductDto> prolike = productService.keyLikeOrderByPrice(productName);
+		int count =productService.getCountByKey(productName);
+		mv.addObject("prolike", prolike);
+		mv.addObject("total", count);
+		return "redirect:/shopping/keywordSearch";
+
+	}
+	
 	/**
 	 * 気に入り一覧
 	 * @param request

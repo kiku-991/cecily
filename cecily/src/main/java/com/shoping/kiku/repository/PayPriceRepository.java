@@ -13,7 +13,8 @@ import com.shoping.kiku.entity.PayPriceEntity;
 public interface PayPriceRepository extends JpaRepository<PayPriceEntity,Integer>{
 
 	@Query(value="select\r\n"
-			+ "    a.order_id\r\n"
+			+ "    a.order_id,\r\n"
+			+ "    a.product_id\r\n"
 			+ "    , a.product_price\r\n"
 			+ "    , a.product_quantity \r\n"
 			+ "from\r\n"
@@ -22,15 +23,16 @@ public interface PayPriceRepository extends JpaRepository<PayPriceEntity,Integer
 			+ "        on a.order_id = b.order_id \r\n"
 			+ "    left join userinfo c \r\n"
 			+ "        on b.user_id = c.id \r\n"
+			+ "        and b.user_id = :userId \r\n"
 			+ "where\r\n"
-			+ "    a.order_id = :orderId\r\n"
-			+ "    and b.user_id = :userId",nativeQuery=true)
+			+ "    b.order_id = :orderId",nativeQuery=true)
 	
 	List<PayPriceEntity> getpriceAndQuantityByUserIdAndOrdId (@Param(value="userId")int userId,@Param(value="orderId")String orderId);
 	
 	
 	@Query(value="select\r\n"
 			+ "    a.order_id\r\n"
+			+ "    ,a.product_id\r\n"
 			+ "    , a.product_price\r\n"
 			+ "    , a.product_quantity \r\n"
 			+ "from\r\n"
@@ -54,8 +56,9 @@ public interface PayPriceRepository extends JpaRepository<PayPriceEntity,Integer
 	
 	
 	@Query(value="select\r\n"
-			+ "    a.order_id\r\n"
-			+ "    , a.product_price\r\n"
+			+ "    order_id\r\n"
+			+ "    , product_id\r\n"
+			+ "    , product_price\r\n"
 			+ "    , product_quantity \r\n"
 			+ "from\r\n"
 			+ "    order_item \r\n"

@@ -123,13 +123,13 @@
 				<div class="top-nav-items">
 					<div class="menu-hd">
 						<!-- 公共顶部小导航钩子-左侧前面   <a th:text="${session?.UserLogin.userMail}"> -->
-						<em><a th:text="${session?.userLogin?.userMail}"></a></em> <em>ようこそ</em>
+						<em><a th:text="${session?.userLogin?.userMail}" th:href="@{/shopping/center}"></a></em> <em>ようこそ</em>
 
 
 						<a th:if="${session?.userLogin == null}" th:href="@{/login}"
 							style="text-decoration: none;">ログイン</a> <a
 							th:if="${session?.userLogin == null}" th:href="@{/touroku}"
-							style="text-decoration: none;">登録</a> <a
+							style="text-decoration: none;">新規登録</a> <a
 							th:if="${session?.userLogin != null}" th:href="@{/loginout}"
 							style="text-decoration: none;">ログアウト</a>
 						<!-- 公共顶部小导航钩子-左侧后面 -->
@@ -182,7 +182,7 @@
 				<form th:action="@{/shopping/keywordSearch}" method="POST">
 					<div class="search-group">
 						<input id="search-input" name="productName" type="text"
-							placeholder="ようこそKIKUショップへ ，キーワード検索" autocomplete="off">
+							placeholder="ようこそKIKUショップへ ，商品名を入力して検索" autocomplete="off">
 						<button type="submit" id="ai-topsearch" class="submit am-btn">
 							<span>検索</span>
 						</button>
@@ -301,29 +301,29 @@
 			<li>
 				<div class="am-gallery-item">
 					<a href="/shopping"> <img
-						src="../img/1555929400479636.jpg" alt="智能" title="智能">
+						src="../img/006toOQzgy1ggrxrcigkkj31gf0tjnhx.jpg" alt="鞠婧祎" title="鞠婧祎">
 					</a>
 				</div>
 			</li>
 			<li>
 				<div class="am-gallery-item">
-					<a href="/shopping"> <img src="../img/1555929400647560.jpg"
-						alt="平板" title="平板">
+					<a href="/shopping"> <img src="../img/006toOQzgy1gp3a9l834cj321j15dqv5.jpg"
+						alt="鞠婧贰" title="鞠婧贰">
 					</a>
 				</div>
 			</li>
 			<li>
 				<div class="am-gallery-item">
 					<a href="/shopping"
-						target="_blank"> <img src="../img/1555929400237551.jpg"
-						alt="手机" title="手机">
+						target="_blank"> <img src="../img/IMG_1857.JPG"
+						alt="鞠婧伍" title="鞠婧伍">
 					</a>
 				</div>
 			</li>
 			<li>
 				<div class="am-gallery-item">
-					<a href="/shopping"> <img src="../img/1555929400780646.jpg"
-						alt="数码" title="数码">
+					<a href="/shopping"> <img src="../img/IMG_1180.JPG"
+						alt="鞠婧捌" title="鞠婧捌">
 					</a>
 				</div>
 			</li>
@@ -338,7 +338,7 @@
 		<div id="floor1">
 			<div class="am-container">
 				<div class="items-nav-title"
-					style="border-bottom: 2px solid #23acff;">
+					style="border-bottom: 2px solid #444c7d;">
 					<p class="floor-title">嘻嘻哈哈</p>
 					<p class="floor-desc">今日は楽しい！</p>
 
@@ -349,7 +349,7 @@
 				<!-- 首页楼层内部顶部钩子 -->
 
 				<div class="am-u-sm-3 aggregation"
-					style="background-color: rgb(35, 172, 255); height: 591px;">
+					style="background-color: #444c7d; height: 591px;">
 					<div class="word">
 						<a href="/shopping" class="outer"
 							target="_blank">TEST</a> <a
@@ -366,7 +366,7 @@
 
 					</div>
 					<div class="outer-con">
-						<div class="describe">iphoneX新品发布了</div>
+						<div class="describe">KIKU发布了</div>
 					</div>
 					<a href="/shopping" target="_blank">
 						<img src="../img/006toOQzgy1gk9eoj83mkj31p82qkhdu.jpg">

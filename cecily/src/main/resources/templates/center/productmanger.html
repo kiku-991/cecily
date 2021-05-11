@@ -101,7 +101,7 @@
 							<th>商品内容</th>
 							<th>メーカー</th>
 							<th>商品状態</th>
-							<th>ストック</th>
+							<th>在庫</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -137,7 +137,7 @@
 											</div>
 
 											<div class="modal-body">
-												<form
+												<form enctype="multipart/form-data"
 													th:action="@{/center/productmanger/edit/{id}(id=${product.productId})}"
 													method="post">
 
@@ -148,7 +148,7 @@
 													<div class="mb-3">
 														<label for="picture" class="text-info">画像:</label><br>
 														<img th:src="${product.productImg}" width="69"
-															height="105"> <input type="file" name="productImg"
+															height="105"> <input type="file" name="file"
 															class="form-control">
 													</div>
 													<div class="mb-3">
@@ -168,8 +168,8 @@
 															th:value="${product.maker}">
 													</div>
 													<div class="mb-3">
-														<label for="stock" class="text-info">ストック:</label><br>
-														<input type="text" name="stock" class="form-control"
+														<label for="stock" class="text-info">在庫:</label><br>
+														<input type="number" name="stock" class="form-control"
 															th:value="${product.stock}">
 													</div>
 													<div class="modal-footer">
@@ -215,9 +215,9 @@
 											</div>
 										</div>
 									</div>
-								</div> <br> <a type="button" class="btn btn-danger btn-sm"
+								</div> <br> <a type="button" class="btn btn-danger btn-sm" th:if="${product.status==1}"
 								th:href="@{/center/productmanger/stop/{id}(id=${product.productId})}">中止</a>
-								<br> <a type="button" class="btn btn-success btn-sm"
+								 <a type="button" class="btn btn-success btn-sm" th:if="${product.status==0}"
 								th:href="@{/center/productmanger/recovery/{id}(id=${product.productId})}">回復</a>
 							</td>
 

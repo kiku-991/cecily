@@ -87,7 +87,7 @@
 				<br> <br>
 				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
 					data-bs-target="#Modal"
-					th:if="${session?.userLogin?.role} eq 'store'">商品登録</button>
+					th:if="${session?.userLogin?.role} eq 'store'">商品新規登録</button>
 
 				<!-- 商品表示 -->
 				<br> <br> <br>
@@ -103,7 +103,7 @@
 							<th>商品内容</th>
 							<th>メーカー</th>
 							<th>商品状態</th>
-							<th>ストック</th>
+							<th>在庫</th>
 							<th>操作</th>
 						</tr>
 					</thead>
@@ -137,7 +137,7 @@
 											</div>
 
 											<div class="modal-body">
-												<form
+												<form enctype="multipart/form-data"
 													th:action="@{/center/myproducts/edit/{id}(id=${product.productId})}"
 													method="post">
 
@@ -148,7 +148,7 @@
 													<div class="mb-3">
 														<label for="picture" class="text-info">画像:</label><br>
 														<img th:src="${product.productImg}" width="69"
-															height="105"> <input type="file" name="productImg"
+															height="105"> <input type="file" name="file"
 															class="form-control">
 													</div>
 													<div class="mb-3">
@@ -168,8 +168,8 @@
 															th:value="${product.maker}">
 													</div>
 													<div class="mb-3">
-														<label for="stock" class="text-info">ストック:</label><br>
-														<input type="text" name="stock" class="form-control"
+														<label for="stock" class="text-info">在庫:</label><br>
+														<input type="number" name="stock" class="form-control"
 															th:value="${product.stock}">
 													</div>
 													<div class="modal-footer">
@@ -201,7 +201,7 @@
 
 											<div class="modal-body">
 												<form
-													th:action="@{/center/productmanger/deleteProduct/{id}(id=${product.productId})}"
+													th:action="@{/center/myproducts/deleteProduct/{id}(id=${product.productId})}"
 													method="post">
 
 													<p>この商品を削除しますか？</p>
@@ -215,10 +215,10 @@
 											</div>
 										</div>
 									</div>
-								</div> <br> <a type="button" class="btn btn-danger btn-sm"
-								th:href="@{/center/myproducts/stop/{id}(id=${product.productId})}">中止</a>
-								<br> <a type="button" class="btn btn-success btn-sm"
-								th:href="@{/center/myproducts/recovery/{id}(id=${product.productId})}">回復</a>
+								</div> <br> <a type="button" class="btn btn-danger btn-sm" th:if="${product.status==1}"
+								th:href="@{/center/myproducts/stop/{id}(id=${product.productId})}">上架</a>
+								<a type="button" class="btn btn-success btn-sm" th:if="${product.status==0}"
+								th:href="@{/center/myproducts/recovery/{id}(id=${product.productId})}">下架</a>
 							</td>
 
 						</tr>
@@ -239,7 +239,7 @@
 							</div>
 							<div class="modal-body">
 								<form id="userinfo" th:action="@{/center/myproducts/create}"
-									method="post">
+									enctype="multipart/form-data" method="post">
 									<div class="mb-3">
 										<label for="name" class="text-info">商品名:</label><br> <input
 											type="text" name="productName" class="form-control"
@@ -247,7 +247,7 @@
 									</div>
 									<div class="mb-3">
 										<label for="picture" class="text-info">画像:</label><br> <input
-											type="file" name="productImg" class="form-control"
+											type="file" name="file" class="form-control"
 											placeholder="価格を入力してください" required />
 									</div>
 									<div class="mb-3">
@@ -267,8 +267,8 @@
 											placeholder="メーカーを入力してください" required />
 									</div>
 									<div class="mb-3">
-										<label for="stock" class="text-info">ストック:</label><br> <input
-											type="text" name="stock" class="form-control"
+										<label for="stock" class="text-info">在庫:</label><br> <input
+											type="number" name="stock" class="form-control"
 											placeholder="ストックを入力してください" required />
 
 									</div>
