@@ -179,9 +179,9 @@
 			<!-- logo右侧 -->
 
 			<div class="search-bar">
-				<form th:action="@{/shopping/keywordSearch}" method="POST">
+				<form th:action="@{/keywordSearch}" method="POST">
 					<div class="search-group">
-						<input id="search-input" name="productName" type="text"
+						<input id="search-input" name="productName" type="text" th:value="${searchName}"
 							placeholder="ようこそKIKUショップへ ，商品名を入力して検索" autocomplete="off">
 						<button type="submit" id="ai-topsearch" class="submit am-btn">
 							<span>検索</span>
@@ -671,7 +671,7 @@
 	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
 
 	<!-- 公共页面底部钩子 -->
-	<div id="edui_fixedlayer" class="edui-default"
+	<!-- <div id="edui_fixedlayer" class="edui-default"
 		style="position: fixed; left: 0px; top: 0px; width: 0px; height: 0px;">
 		<div id="edui20" class="edui-popup  edui-bubble edui-default"
 			onmousedown="return false;" style="display: none;">
@@ -685,6 +685,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </body>
 </html>

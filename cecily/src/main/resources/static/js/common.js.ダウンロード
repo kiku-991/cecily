@@ -41,7 +41,8 @@ function Prompt(msg, type, time)
 				break;
 
 		}
-		var html = '<div id="common-prompt" class="am-alert am-alert-'+type+' am-animation-slide-top" data-am-alert><button type="button" class="am-close">&times;</button><div class="prompt-content"><i class="'+icon+' am-icon-sm am-margin-right-sm"></i><p class="prompt-msg">'+msg+'</p></div></div>';
+		var html = '<div id="common-prompt" class="am-alert am-alert-'+type+' am-animation-slide-top" data-am-alert><button type="button" class="am-close">&times;</button>
+		<div class="prompt-content"><i class="'+icon+' am-icon-sm am-margin-right-sm"></i><p class="prompt-msg">'+msg+'</p></div></div>';
 		$('body').append(html);
 
 		// 自动关闭提示

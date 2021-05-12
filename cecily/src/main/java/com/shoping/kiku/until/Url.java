@@ -157,9 +157,14 @@ public class Url {
 	//ホームページ
 	public static final String INDEX = "/";
 
-	//キーワード検索
-	public static final String KEYWORD = "/shopping/keywordSearch";
+	//キーワード検索By　商品名
+	public static final String KEYWORDPRONAME = "/keywordSearch";
+	//キーワード検索By　価格区块
+	public static final String KEYWORDPROPRICE = "/part/priceSearch";
 
+	//キーワード検索By　综合区块
+//	public static final String KEYWORDNAME = "/part/nameSearch";
+	
 	//気に入り一覧
 	public static final String SHOPFAVPRITE = "/shopping/favorite";
 

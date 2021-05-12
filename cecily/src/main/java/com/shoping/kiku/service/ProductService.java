@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -284,6 +285,7 @@ public class ProductService {
 	 * @param keyword
 	 * @return prolike 商品情報
 	 */
+	@Transactional
 	public List<ProductDto> keyLike(String proname) {
 		List<ProductEntity> likes = productRepository.getLikeProByProname(proname);
 		List<ProductDto> prolike = new ArrayList<>();
@@ -306,8 +308,10 @@ public class ProductService {
 	 * @param proname
 	 * @return
 	 */
+	@Transactional
 	public List<ProductDto> keyLikeOrderByPrice(String proname){
-		List<ProductEntity> likes = productRepository.getLikeProOrderByPrice(proname);
+		List<ProductEntity> likes = productRepository.getLikeProOrderPrice(proname);
+		System.out.println(likes.size());
 		List<ProductDto> prolike = new ArrayList<>();
 		for (ProductEntity p : likes) {
 			ProductDto pro = new ProductDto();

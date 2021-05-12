@@ -51,8 +51,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 			+ "where\r\n"
 			+ "    product_name like concat(concat('%', :key ),'%') \r\n"
 			+ "order by\r\n"
-			+ "    product_price asc",nativeQuery=true)
-	List<ProductEntity> getLikeProOrderByPrice(String key);
+			+ "    product_price desc",nativeQuery=true)
+	List<ProductEntity> getLikeProOrderPrice(String key);
 	
 	
 	

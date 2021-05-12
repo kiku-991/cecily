@@ -86,7 +86,6 @@ public class UserInfoService {
 				userinfodto=null;
 			}
 			
-			
 			return userinfodto;
 
 		}

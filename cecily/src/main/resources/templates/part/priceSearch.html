@@ -1,0 +1,30 @@
+			<ul id ="searchproduct"
+				class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 am-margin-top-sm search-list"
+				>
+				<li class="am-animation-scale-up" th:each="product: ${prolike}">
+					<div class="items am-padding-bottom-xs">
+						<!-- 搜索页面商品信息顶部钩子 -->
+						<a  th:href="@{/productDetails/{id}(id=${product.productId})}">
+						<img th:src="${product.productImg}" width="230" height="345" class="goods-images">
+						</a>
+						<p class="am-text-truncate-2 goods-title"
+							th:text="${product.productName}"></p>
+						
+
+						<!-- 搜索页面商品信息售价顶部钩子 -->
+
+						<p class="price am-padding-horizontal-xs am-text-truncate">
+							<strong>￥[[${product.productPrice}]]</strong>
+						</p>
+
+						<!-- 搜索页面商品信息底部钩子 -->
+						<div
+							class="plugins-membershiplevelvip-items-goods-price am-padding-xs am-hide-sm-only">
+
+							<p class="am-text-truncate">
+								<span>销售价</span> <span class="goods-price">￥[[${product.productPrice}]]</span>
+							</p>
+						</div>
+					</div>
+				</li>
+			</ul>

@@ -1,12 +1,16 @@
 package com.shoping.kiku.control;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shoping.kiku.object.FavoProDto;
@@ -25,7 +29,7 @@ public class ShoppingController {
 
 	@Autowired
 	FavoriteService favoriteService;
-	
+
 	@Autowired
 	MyCartService myCartService;
 
@@ -37,11 +41,11 @@ public class ShoppingController {
 	@RequestMapping({ Url.SHOPPING, Url.INDEX })
 	public ModelAndView shopping(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("shopping");
-		
-		Session ss = (Session)request.getSession().getAttribute("userLogin");
+
+		Session ss = (Session) request.getSession().getAttribute("userLogin");
 		int count = 0;
-		if(ss!=null) {
-			count=myCartService.getcountInCartByUserId(ss.getUserId());
+		if (ss != null) {
+			count = myCartService.getcountInCartByUserId(ss.getUserId());
 		}
 		List<FavoProDto> product = productService.getAllProductByStatusNormal(request);
 		mv.addObject("products", product);
@@ -49,38 +53,69 @@ public class ShoppingController {
 		return mv;
 	}
 
+	/*	@RequestMapping("/shopping/keywordSearch")
+		public ModelAndView keyWordSearch(String productName) {
+			ModelAndView mv = new ModelAndView("keywordsearch");
+				List<ProductDto> prolike = productService.keyLike(productName);
+				int count = productService.getCountByKey(productName);
+				mv.addObject("prolike", prolike);
+				mv.addObject("total", count);
+				mv.addObject("searchName", productName);
+			return mv;
+	
+		}*/
+
 	/**
 	 * 商品名検索
 	 * @param productName
 	 * @return
 	 */
-	@RequestMapping(Url.KEYWORD)
+
+	@RequestMapping(Url.KEYWORDPRONAME)
 	public ModelAndView keyword(String productName) {
 		ModelAndView mv = new ModelAndView("keywordsearch");
 		List<ProductDto> prolike = productService.keyLike(productName);
-		int count =productService.getCountByKey(productName);
+		int count = productService.getCountByKey(productName);
 		mv.addObject("prolike", prolike);
 		mv.addObject("total", count);
+		mv.addObject("searchName", productName);
 		return mv;
 
 	}
 
+	
+
 	/**
-	 * 商品名検索 OrderBy価格
+	 * 検索(区块)
 	 * @param productName
 	 * @return
 	 */
-	@RequestMapping("/shopping/keywordSearch/orderbyprice")
-	public String keywordOrderByPrice(String productName) {
-		ModelAndView mv = new ModelAndView("keywordsearch");
-		List<ProductDto> prolike = productService.keyLikeOrderByPrice(productName);
-		int count =productService.getCountByKey(productName);
+	@ResponseBody
+	@RequestMapping(Url.KEYWORDPROPRICE)
+	public ModelAndView keywordOrderByPrice(@RequestBody HashMap<String,String> map) {
+		String proname =map.get("name");
+		String id = map.get("id");
+		int liid = Integer.parseInt(id);
+		System.out.println(proname);
+		
+		List<ProductDto> prolike = new ArrayList<>();
+			if (liid == 1) {
+				//総合
+				prolike = productService.keyLike(proname);
+			} else if (liid == 2) {
+				//価格
+				prolike = productService.keyLikeOrderByPrice(proname);
+		
+			}
+		ModelAndView mv = new ModelAndView();
 		mv.addObject("prolike", prolike);
-		mv.addObject("total", count);
-		return "redirect:/shopping/keywordSearch";
+		return mv;
 
 	}
+
 	
+	
+
 	/**
 	 * 気に入り一覧
 	 * @param request

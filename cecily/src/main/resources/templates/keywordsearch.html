@@ -110,6 +110,7 @@
 	defer="defer"></script>
 
 
+
 </head>
 <body>
 	<!--  top-->
@@ -154,7 +155,8 @@
 							<li class="am-nbfc">
 								<p class="am-fl am-margin-left-sm">
 									<span>筛选出</span> <strong
-										class="map-result-count am-text-danger">[[${total}]]</strong> <span>条数据</span>
+										class="map-result-count am-text-danger">[[${total}]]</strong>
+									<span>条数据</span>
 								</p> <span
 								class="map-remove-submit am-fr am-margin-right-sm am-hide">清除</span>
 							</li>
@@ -178,15 +180,15 @@
 						style="margin: 0px;">
 						<!-- 搜索页面搜索导航条内前面钩子 -->
 
-						<li class="active" data-field="default" data-type="desc"><a
-							href="javascript:;" title="综合"> <span>综合</span>
+						<li id="li1" class="active" data-field="default" data-type="desc"><a
+							th:onclick="ordPrice(1)" title="综合"> <span>综合</span>
 						</a></li>
-						
-						<li data-field="min_price" data-type="desc"><a
-							th:href="@{/shopping/keywordSearch/orderbyprice}" title="价格"> <span>价格</span> 
+						<!-- |javascript:click([[${searchName}]])| -->
+						<li id="li2" data-field="min_price" data-type="desc"><a
+							th:onclick="ordPrice(2)"> <span>价格</span>
 						</a></li>
-						<li data-field="id" data-type="desc"><a href="javascript:;"
-							title="最新"> <span>最新</span> 
+						<li id="li3" data-field="id" data-type="desc"><a
+							th:onclick="ordPrice(3)"> <span>最新</span>
 						</a></li>
 
 						<!-- 搜索页面排序导航条内尾部钩子 -->
@@ -199,16 +201,17 @@
 			<!-- 数据容器 -->
 			<ul
 				class="am-avg-sm-2 am-avg-md-3 am-avg-lg-5 am-margin-top-sm search-list"
-				>
+				id="searchproduct">
 				<li class="am-animation-scale-up" th:each="product: ${prolike}">
 					<div class="items am-padding-bottom-xs">
 						<!-- 搜索页面商品信息顶部钩子 -->
-						<a  th:href="@{/productDetails/{id}(id=${product.productId})}">
-						<img th:src="${product.productImg}" width="230" height="345" class="goods-images">
+						<a th:href="@{/productDetails/{id}(id=${product.productId})}">
+							<img th:src="${product.productImg}" width="230" height="345"
+							class="goods-images">
 						</a>
 						<p class="am-text-truncate-2 goods-title"
 							th:text="${product.productName}"></p>
-						
+
 
 						<!-- 搜索页面商品信息售价顶部钩子 -->
 
@@ -243,7 +246,7 @@
 			<!-- 分页 -->
 			<button type="button"
 				class="am-btn am-btn-default am-btn-block am-margin-vertical-sm search-pages-submit"
-				data-url=""  data-page="2" disabled="disabled">
+				data-url="" data-page="2" disabled="disabled">
 				加载更多 <i class="am-icon-angle-double-down"></i>
 			</button>
 
@@ -251,6 +254,11 @@
 
 		<!-- 搜索页面顶部内部结构里面钩子 -->
 	</div>
+
+	<!-- Ajax -->
+
+
+
 
 
 	<!-- echarts 图表 -->
@@ -287,20 +295,7 @@
 
 	<!-- baidu map -->
 
-	<!-- 隐藏编辑器初始化 -->
-	<script type="text/javascript">
-		var upload_editor = UE.getEditor("upload-editor-view", {
-			isShow : false,
-			focus : false,
-			enableAutoSave : false,
-			autoSyncData : false,
-			autoFloatEnabled : false,
-			wordCount : false,
-			sourceEditor : null,
-			scaleEnabled : true,
-			toolbars : [ [ "insertimage", "insertvideo", "attachment" ] ]
-		});
-	</script>
+
 
 	<!-- 项目公共 -->
 	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
@@ -320,15 +315,104 @@
 	<script type="text/javascript" src="../js/style.js(3).ダウンロード"></script>
 	<script type="text/javascript" src="../js/style.js(4).ダウンロード"></script>
 	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
-	<script type="text/javascript">
-		// 回顶部监测
-		$(window).scroll(function() {
-			if ($(window).scrollTop() > 100) {
-				$("#plugins-commongobacktop").fadeIn(1000);
-			} else {
-				$("#plugins-commongobacktop").fadeOut(1000);
+
+
+	<script src="../ajax/jquery.min.js"></script>
+
+
+	<script>
+		//「POSTで遷移（Ajax）」価格ボタン押下時の処理
+
+		function ordPrice(liid) {
+
+			var proname = $('#search-input').val();
+			var product ={
+					name:proname,
+					id:liid
 			}
-		});
+
+			$.ajax({
+				//MainControllerのpostIndex()メソッドに遷移
+				url : 'part/priceSearch',
+				type : 'POST',
+				timeout : 60000,
+				data : JSON.stringify(product),
+				contentType:"application/json",
+				async : false,
+				dataType : "html"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+				//var prolike = data.prolike;
+
+				if (liid == 1) {
+					$('#li1').addClass("active");
+					$('#li2').removeClass('active')
+				} else if (liid == 2) {
+					$('#li2').addClass("active");
+					$('#li1').removeClass('active')
+				}else{
+					
+				}
+				//当前点击的li加上class
+
+				$('#searchproduct').html(data);
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function(data) {
+				alert(data);
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+
+			});
+
+		}
 	</script>
+
+	<script>
+		//「POSTで遷移（Ajax）」価格ボタン押下時の処理
+
+		function ordName() {
+
+			var proname = $('#search-input').val();
+
+			$.ajax({
+				//MainControllerのpostIndex()メソッドに遷移
+				url : 'part/nameSearch',
+				type : 'POST',
+				timeout : 60000,
+				data : proname,
+				async : false,
+				dataType : "html"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+				//var prolike = data.prolike;
+
+				//当前点击的li加上class
+				$('#li1').addClass("active");
+				$('#li2').removeClass('active')
+				$('#searchproduct').html(data);
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function(data) {
+				alert(data);
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+
+			});
+
+		}
+	</script>
+
+
 </body>
 </html>
