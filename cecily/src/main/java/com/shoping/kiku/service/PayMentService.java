@@ -2,6 +2,8 @@ package com.shoping.kiku.service;
 
 import java.sql.Timestamp;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,7 @@ public class PayMentService {
 	 * @param userId
 	 * @param orderId
 	 */
+	@Transactional
 	public void creAriPayForm(int userId, String orderId) {
 
 		//自動生成
@@ -83,6 +86,7 @@ public class PayMentService {
 	 * @param userId
 	 * @param orderId
 	 */
+	@Transactional
 	public void creCreditPayForm(int userId, String orderId) {
 		//自動生成
 		String payId = OrderUtils.getPayCode(userId);
@@ -128,6 +132,7 @@ public class PayMentService {
 	 * @param userId
 	 * @param orderId
 	 */
+	@Transactional
 	public void creCashOndeliveryForm(int userId, String orderId) {
 		// TODO 自動生成されたメソッド・スタブ
 		//自動生成

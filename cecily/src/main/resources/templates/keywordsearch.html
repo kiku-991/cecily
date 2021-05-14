@@ -129,17 +129,7 @@
 		<div
 			class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0"
 			data-category-id="" data-brand-id="">
-			<!-- 手机模式下基础信息+搜索条件按钮 -->
-			<div
-				class="map-base-tips am-nbfc am-padding-horizontal-xs am-padding-vertical-sm am-show-sm">
-				<p class="am-fl">
-					<span>筛选出</span> <strong class="map-result-count am-text-danger">6</strong>
-					<span>条数据</span>
-				</p>
-				<button
-					class="am-btn am-btn-primary am-icon-filter map-offcanvas-submit"
-					data-am-offcanvas="{target: &#39;#search-map&#39;}"></button>
-			</div>
+	
 
 			<!-- 搜索条件顶部钩子 -->
 
@@ -239,15 +229,17 @@
 			</div>
 
 			<!-- 没有数据 -->
-			<div class="table-no" style="display: none;">
-				<i class="am-icon-warning"></i> 没有相关数据
+			<div class="table-no"  th:if="${total==0}">
+				 !没有相关数据
 			</div>
+	
+
 
 			<!-- 分页 -->
-			<button type="button"
+			<button type="button" th:if="${total!=0}"
 				class="am-btn am-btn-default am-btn-block am-margin-vertical-sm search-pages-submit"
 				data-url="" data-page="2" disabled="disabled">
-				加载更多 <i class="am-icon-angle-double-down"></i>
+				加载更多 
 			</button>
 
 		</div>
@@ -349,11 +341,15 @@
 				if (liid == 1) {
 					$('#li1').addClass("active");
 					$('#li2').removeClass('active')
+					$('#li3').removeClass('active')
 				} else if (liid == 2) {
 					$('#li2').addClass("active");
 					$('#li1').removeClass('active')
+					$('#li3').removeClass('active')
 				}else{
-					
+					$('#li3').addClass("active");
+					$('#li1').removeClass('active')
+					$('#li2').removeClass('active')
 				}
 				//当前点击的li加上class
 

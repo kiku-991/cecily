@@ -28,6 +28,11 @@
 	th:fragment="side">
 	<div class="position-sticky pt-3">
 		<ul class="nav flex-column" id="myTab">
+		<li class="nav-item"><a class="nav-link active"
+				aria-current="page" th:href="@{/shopping/center}"
+				th:class="${activeUrl=='/shopping/center' ? 'nav-link active' : 'nav-link'}">
+					<span data-feather="home"></span> 个人中心
+			</a></li>
 			<li class="nav-item"><a class="nav-link active"
 				aria-current="page" th:href="@{/center/userInfo}"
 				th:class="${activeUrl=='/center/userInfo' ? 'nav-link active' : 'nav-link'}">

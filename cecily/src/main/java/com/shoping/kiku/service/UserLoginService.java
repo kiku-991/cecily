@@ -4,9 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +17,6 @@ import com.shoping.kiku.repository.UserInfoRepository;
 import com.shoping.kiku.repository.UserLoginRepository;
 import com.shoping.kiku.until.MsgContents;
 import com.shoping.kiku.until.PwdHashing;
-import com.shoping.kiku.until.Session;
 import com.shoping.kiku.until.Status;
 
 @Service
@@ -31,12 +27,13 @@ public class UserLoginService {
 
 	@Autowired
 	UserInfoRepository userInfoRepository;
-	
+
 	@Autowired
 	StoreRepository storeRepository;
-	
+
 	@Autowired
 	ProductRepository productRepository;
+
 	/**
 	 * ログインチェック
 	 * @param user
@@ -49,7 +46,6 @@ public class UserLoginService {
 		//入力したメールアドレスとパスワードとDBのデータが一致する場合
 		if (!um.getUserMail().equals(user.getUserMail()) ||
 				!um.getUserPassword().equals(pwd)) {
-
 			return MsgContents.CHECKFALSE;
 		} else {
 			//ログインさせ
@@ -73,7 +69,6 @@ public class UserLoginService {
 			entity.setUserMail(user.getUserMail());
 			entity.setUserPassword(user.getUserPassword());
 			entity.setCreateDate(new Timestamp(System.currentTimeMillis()));
-
 			entity.setRole("user");
 			entity.setStatus(Status.USERNOMAL);
 			userLoginRepository.save(entity);
@@ -109,39 +104,23 @@ public class UserLoginService {
 	 * @param userDto
 	 */
 
-	public boolean passChange(HttpSession session, UserLoginDto userDto) {
-		Session ss = (Session) session.getAttribute("userLogin");
-		UserLoginEntity user = userLoginRepository.findByUserId(ss.getUserId());
+	public void passChange(int userId, String pwd) {
+		UserLoginEntity user = userLoginRepository.findByUserId(userId);
 		UserLoginEntity usertt = new UserLoginEntity();
-		//暗号化
-		String pwd = PwdHashing.pwdEnCode(userDto.getUserPassword());
-		String oldpwd = PwdHashing.pwdEnCode(userDto.getOldPassword());
-		if (oldpwd.equals(user.getUserPassword())) {
-			usertt.setUserPassword(pwd);
-			usertt.setUserId(user.getUserId());
-			usertt.setCreateDate(user.getCreateDate());
-			usertt.setUserMail(user.getUserMail());
-			usertt.setRole(user.getRole());
-			usertt.setStatus(user.getStatus());
-			usertt.setUpdateDate(new Timestamp(System.currentTimeMillis()));
-			userLoginRepository.save(usertt);
-			return true;
 
-		} else {
-			return false;
-		}
+		usertt.setUserPassword(pwd);
+		usertt.setUserId(user.getUserId());
+		usertt.setCreateDate(user.getCreateDate());
+		usertt.setUserMail(user.getUserMail());
+		usertt.setRole(user.getRole());
+		usertt.setStatus(user.getStatus());
+		usertt.setUpdateDate(new Timestamp(System.currentTimeMillis()));
+		userLoginRepository.save(usertt);
+		
+
 	}
 
-	/**
-	 * get セッションmail
-	 * @param request
-	 * @return
-	 */
-	public String getMail(HttpServletRequest request) {
-		Session ss = (Session) request.getSession().getAttribute("userLogin");
-		String mail = ss.getUserMail();
-		return mail;
-	}
+
 
 	/**
 	 * get DBのID
@@ -221,11 +200,11 @@ public class UserLoginService {
 		us.setStatus(userdto.getStatus());
 		us.setUpdateDate(new Timestamp(System.currentTimeMillis()));
 		userLoginRepository.save(us);
-		
+
 		//該当ユーザは店舗の場合　ブラックユーザの同時に店舗もブラック 店舗の商品も
-		if(us.getRole().equals("store")&&us.getStatus()==0) {
+		if (us.getRole().equals("store") && us.getStatus() == 0) {
 			StoreEntity old = storeRepository.findByUserId(userid);
-			
+
 			StoreEntity now = new StoreEntity();
 			now.setStoreCyomebanchi(old.getStoreCyomebanchi());
 			now.setStoreId(old.getStoreId());
@@ -238,27 +217,28 @@ public class UserLoginService {
 			now.setStoreStatus(Status.SHOPCLOSE);
 			storeRepository.save(now);
 			List<ProductEntity> oldpro = productRepository.findByStoreId(old.getStoreId());
-			for(ProductEntity pro :oldpro) {
+			for (ProductEntity pro : oldpro) {
 				ProductEntity blockPro = new ProductEntity();
-				blockPro.setProductContents(pro.getProductContents());	
-				blockPro.setMaker(pro.getMaker());	
-				blockPro.setProductId(pro.getProductId());	
-				blockPro.setProductImg(pro.getProductImg());	
-				blockPro.setProductName(pro.getProductName());	
-				blockPro.setProductPrice(pro.getProductPrice());	
-				blockPro.setStock(pro.getStock());	
-				blockPro.setStoreId(pro.getStoreId());	
+				blockPro.setProductContents(pro.getProductContents());
+				blockPro.setMaker(pro.getMaker());
+				blockPro.setProductId(pro.getProductId());
+				blockPro.setProductImg(pro.getProductImg());
+				blockPro.setProductName(pro.getProductName());
+				blockPro.setProductPrice(pro.getProductPrice());
+				blockPro.setStock(pro.getStock());
+				blockPro.setStoreId(pro.getStoreId());
+				blockPro.setCreateTime(pro.getCreateTime());
+
 				//商品状態ブラック
-				blockPro.setStatus(Status.PRODUCTSTOP);	
-				productRepository.save(blockPro);			
+				blockPro.setStatus(Status.PRODUCTSTOP);
+				productRepository.save(blockPro);
 			}
-			
-			
+
 		}
 		//回復
-		if(us.getRole().equals("store")&&us.getStatus()==1) {
+		if (us.getRole().equals("store") && us.getStatus() == 1) {
 			StoreEntity old = storeRepository.findByUserId(userid);
-			
+
 			StoreEntity now = new StoreEntity();
 			now.setStoreCyomebanchi(old.getStoreCyomebanchi());
 			now.setStoreId(old.getStoreId());
@@ -270,23 +250,24 @@ public class UserLoginService {
 			now.setUserId(old.getUserId());
 			now.setStoreStatus(Status.SHOPOPEN);
 			storeRepository.save(now);
-			
+
 			List<ProductEntity> oldpro = productRepository.findByStoreId(old.getStoreId());
-			for(ProductEntity pro :oldpro) {
+			for (ProductEntity pro : oldpro) {
 				ProductEntity blockPro = new ProductEntity();
-				blockPro.setProductContents(pro.getProductContents());	
-				blockPro.setMaker(pro.getMaker());	
-				blockPro.setProductId(pro.getProductId());	
-				blockPro.setProductImg(pro.getProductImg());	
-				blockPro.setProductName(pro.getProductName());	
-				blockPro.setProductPrice(pro.getProductPrice());	
-				blockPro.setStock(pro.getStock());	
-				blockPro.setStoreId(pro.getStoreId());	
+				blockPro.setProductContents(pro.getProductContents());
+				blockPro.setMaker(pro.getMaker());
+				blockPro.setProductId(pro.getProductId());
+				blockPro.setProductImg(pro.getProductImg());
+				blockPro.setProductName(pro.getProductName());
+				blockPro.setProductPrice(pro.getProductPrice());
+				blockPro.setStock(pro.getStock());
+				blockPro.setStoreId(pro.getStoreId());
+				blockPro.setCreateTime(pro.getCreateTime());
 				//商品状態ブラック
-				blockPro.setStatus(Status.PRODUCTIN);	
-				productRepository.save(blockPro);			
+				blockPro.setStatus(Status.PRODUCTIN);
+				productRepository.save(blockPro);
 			}
-			
+
 		}
 	}
 

@@ -138,7 +138,6 @@
 															th:value="${store.storeId}" readOnly>
 													</div>
 
-
 													<div class="mb-3">
 														<label for="name" class="text-info">店舗名:</label><br>
 														<input type="text" name="storeName" class="form-control"
@@ -182,14 +181,13 @@
 								<br> <a type="button" class="btn btn-danger btn-sm"
 								th:if="${store.storeStatus==1}"
 								th:href="@{/center/storemanger/stop/{id}(id=${store.storeId})}">中止</a>
-								<br> <a type="button" class="btn btn-success btn-sm"
+								 <a type="button" class="btn btn-success btn-sm"
 								th:if="${store.storeStatus==2}"
 								th:href="@{/center/storemanger/recovery/{id}(id=${store.storeId})}">回復</a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-
 
 				<!-- 内容ここまで -->
 			</main>

@@ -13,6 +13,8 @@ public class UserLoginDto {
 	private String userPassword;
 	//パスワード変更用 現在のパスワード
 	private String oldPassword;
+	//確認用パスワード
+	private String confirmPassword;
 	private Timestamp createDate;
 	private Timestamp updateDate;
 	private String role;

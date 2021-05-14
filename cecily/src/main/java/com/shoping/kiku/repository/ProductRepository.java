@@ -55,6 +55,17 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 	List<ProductEntity> getLikeProOrderPrice(String key);
 	
 	
+	@Query(value="select\r\n"
+			+ "    * \r\n"
+			+ "from\r\n"
+			+ "    product \r\n"
+			+ "where\r\n"
+			+ "    product_name like concat(concat('%', :key ),'%') \r\n"
+			+ "order by\r\n"
+			+ "    create_time desc",nativeQuery=true)
+	List<ProductEntity> getLikeProOrderTime(String key);
+	
+	
 	
 	@Query(value="select\r\n"
 			+ "    count(product_name) \r\n"
@@ -85,6 +96,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 			+ "    , a.maker\r\n"
 			+ "    , a.status\r\n"
 			+ "    , a.stock \r\n"
+			+ "    , a.create_time \r\n"
 			+ "from\r\n"
 			+ "    product a \r\n"
 			+ "    left join store b \r\n"
@@ -93,12 +105,10 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 			+ "    a.status <> 0 \r\n"
 			+ "    and b.store_status <> 2",nativeQuery=true)
 	List<ProductEntity> getNormalPro();
+
 	
-	/**
-	 * 
-	 * 
-	 * 
-	 */
+	
+	
 	
 	
 	

@@ -1,5 +1,7 @@
 package com.shoping.kiku.entity;
 
+import java.sql.Timestamp;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,5 +23,6 @@ public class ProductEntity {
 	private String maker;
 	private int status;
 	private int stock;
+	private Timestamp createTime;
 	
 }

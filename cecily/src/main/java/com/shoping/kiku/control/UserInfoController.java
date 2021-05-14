@@ -2,18 +2,20 @@ package com.shoping.kiku.control;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.shoping.kiku.object.UserDeliveryDto;
@@ -22,6 +24,7 @@ import com.shoping.kiku.object.UserLoginDto;
 import com.shoping.kiku.service.UserDeliveryService;
 import com.shoping.kiku.service.UserInfoService;
 import com.shoping.kiku.service.UserLoginService;
+import com.shoping.kiku.until.PwdHashing;
 import com.shoping.kiku.until.Session;
 import com.shoping.kiku.until.Url;
 
@@ -54,9 +57,8 @@ public class UserInfoController {
 			e.printStackTrace();
 		}
 
-		String ic =Url.SRC + userIcon;
-		userInfoService.creatUserInfo(ss.getUserId(),ic, userInfoDto);
-		//userInfoService.updateUserUserUrl(user, ss.getUserId());
+		String ic = Url.SRC + userIcon;
+		userInfoService.creatUserInfo(ss.getUserId(), ic, userInfoDto);
 		return "redirect:/center/userInfo";
 
 	}
@@ -138,19 +140,31 @@ public class UserInfoController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = Url.PWDEDIT, method = RequestMethod.POST)
-	public String pwdChange(HttpSession session, UserLoginDto user) {
+	@ResponseBody
+	@RequestMapping(value = Url.PWDEDIT)
+	public int pwdChange(@RequestBody HashMap<String, String> map, HttpServletRequest res, UserLoginDto user) {
 
-		boolean pc = userLoginService.passChange(session, user);
-
-		if (pc == false) {
-			//失敗
-			//model.addAttribute("pwcheck", MsgContents.CHECKPWD);
-			return "redirect:/center/passfail";
+		String old = map.get("old");
+		String now = map.get("now");
+		String certain = map.get("certain");
+		Session ss =(Session) res.getSession().getAttribute("userLogin");
+		String oldpwd =userLoginService.getPwd(ss.getUserMail());
+		//暗号化
+		String pwd = PwdHashing.pwdEnCode(old);
+		String nowpwd =PwdHashing.pwdEnCode(now);
+		if (!pwd.equals(oldpwd)) {
+			//输错旧密码
+			return 0;
+		} else if (now.equals(old)) {
+			//新密码等于旧密码的情况
+			return 1;
+		} else if (!certain.equals(now)) {
+			//确认用的密码不等于新密码的情况
+			return 2;
 		} else {
-			//成功
-			//model.addAttribute("pwchange", MsgContents.PASSCHANGE);
-			return "redirect:/center/passwordchanged";
+			//修改密码成功！
+			 userLoginService.passChange(ss.getUserId(),nowpwd);
+			return 3;
 		}
 
 	}
@@ -229,7 +243,8 @@ public class UserInfoController {
 	 * @return
 	 */
 	@RequestMapping(value = Url.ALLUSERINFO)
-	public String changeAllUserInfo(@PathVariable("id") int userid,  @RequestParam("file") MultipartFile icon, UserInfoDto userInfodto) {
+	public String changeAllUserInfo(@PathVariable("id") int userid, @RequestParam("file") MultipartFile icon,
+			UserInfoDto userInfodto) {
 
 		String ic = "";
 		if (icon.isEmpty() == false) {
@@ -237,14 +252,13 @@ public class UserInfoController {
 			try {
 				icon.transferTo(
 						new File(Url.SAVEPATH + userIcon));
-				System.out.println(icon);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 			ic = Url.SRC + userIcon;
 		}
-		userInfoService.updateAllUserInfo(userid, userInfodto,ic);
+		userInfoService.updateAllUserInfo(userid, userInfodto, ic);
 		return "redirect:/center/userInfoList";
 	}
 

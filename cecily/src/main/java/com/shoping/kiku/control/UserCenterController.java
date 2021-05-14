@@ -116,33 +116,7 @@ public class UserCenterController {
 		return mv;
 	}
 
-	/**
-	 * パスワード変更失敗画面
-	 * @param session
-	 * @return
-	 */
-	@RequestMapping(value = Url.PWDCHANGEFAIL)
-	public ModelAndView pwdfail(HttpSession session) {
-		Session ss = (Session) session.getAttribute("userLogin");
-		String pw = userService.getPwd(ss.getUserMail());
-
-		ModelAndView mv = new ModelAndView("center/passfail");
-		mv.addObject("pwcheck", MsgContents.CHECKPWD);
-		mv.addObject("pwd", pw);
-		return mv;
-
-	}
-	/**
-	 * パスワード変更成功画面
-	 * @return
-	 */
-	@RequestMapping(value = Url.PWDCHANGESUCESS)
-	public ModelAndView pwdsuccess() {
-		ModelAndView mv = new ModelAndView("center/passwordchanged");
-		mv.addObject("pwchange", MsgContents.PASSCHANGE);
-		return mv;
-	}
-
+	
 	/**
 	 * お気に入り
 	 * @param request

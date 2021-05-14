@@ -1,5 +1,7 @@
 package com.shoping.kiku.object;
 
+import java.sql.Timestamp;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +17,7 @@ public class ProductDto {
 	private String maker;
 	private int status;
 	private int stock;
+	private Timestamp createTime;
 	
 	
 	//詳細画面判断気に入り用

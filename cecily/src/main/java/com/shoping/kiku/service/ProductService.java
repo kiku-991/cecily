@@ -1,5 +1,6 @@
 package com.shoping.kiku.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +103,7 @@ public class ProductService {
 		prott.setMaker(product.getMaker());
 		prott.setStatus(Status.PRODUCTIN);
 		prott.setStock(product.getStock());
-
+		prott.setCreateTime(new Timestamp(System.currentTimeMillis()));
 		productRepository.save(prott);
 
 	}
@@ -112,30 +113,38 @@ public class ProductService {
 	 * @param request
 	 * @return products
 	 */
-	public List<ProductDto> getProByUserId(int userId) {
+	public List<ProductDto> getProByUserId (int userId) {
 
 		List<ProductEntity> product = productRepository.findByStoreIdOrderByProductIdAsc(userId);
 		List<ProductDto> products = new ArrayList<>();
-		if (product != null) {
-			for (ProductEntity pro : product) {
-				ProductDto pr = new ProductDto();
-				pr.setProductId(pro.getProductId());
-				pr.setStoreId(pro.getStoreId());
-				pr.setProductImg(pro.getProductImg());
-				pr.setProductName(pro.getProductName());
-				pr.setProductContents(pro.getProductContents());
-				pr.setProductPrice(pro.getProductPrice());
-				pr.setProductContents(pro.getProductContents());
-				pr.setMaker(pro.getMaker());
-				pr.setStatus(pro.getStatus());
-				pr.setStock(pro.getStock());
+		try{
+			if (product != null) {
+				for (ProductEntity pro : product) {
+					ProductDto pr = new ProductDto();
+					pr.setProductId(pro.getProductId());
+					pr.setStoreId(pro.getStoreId());
+					pr.setProductImg(pro.getProductImg());
+					pr.setProductName(pro.getProductName());
+					pr.setProductContents(pro.getProductContents());
+					pr.setProductPrice(pro.getProductPrice());
+					pr.setProductContents(pro.getProductContents());
+					pr.setMaker(pro.getMaker());
+					pr.setStatus(pro.getStatus());
+					pr.setStock(pro.getStock());
+					pr.setCreateTime(pro.getCreateTime());
 
-				products.add(pr);
+					products.add(pr);
 
+				}
+			} else {
+				//products = null;
+				throw new NullPointerException();
 			}
-		} else {
-			products = null;
-		}
+			
+		}catch(NullPointerException e) {
+            e.printStackTrace();
+        }
+		
 		return products;
 	}
 
@@ -160,7 +169,7 @@ public class ProductService {
 				product.setStatus(pro.getStatus());
 				product.setMaker(pro.getMaker());
 				product.setStock(pro.getStock());
-
+				product.setCreateTime(pro.getCreateTime());
 				products.add(product);
 			}
 		} else {
@@ -182,6 +191,7 @@ public class ProductService {
 		//商品id
 		prott.setProductId(oldpro.getProductId());
 		prott.setStoreId(oldpro.getStoreId());
+		prott.setCreateTime(oldpro.getCreateTime());
 		prott.setProductName(product.getProductName());
 		prott.setProductPrice(product.getProductPrice());
 		if (img.equals("")) {
@@ -227,6 +237,8 @@ public class ProductService {
 			prott.setProductName(pro.getProductName());
 			prott.setProductImg(pro.getProductImg());
 			prott.setStock(pro.getStock());
+			prott.setCreateTime(pro.getCreateTime());
+			
 			productRepository.save(prott);
 		}
 
@@ -252,6 +264,7 @@ public class ProductService {
 			prott.setProductName(pro.getProductName());
 			prott.setProductImg(pro.getProductImg());
 			prott.setStock(pro.getStock());
+			prott.setCreateTime(pro.getCreateTime());
 			productRepository.save(prott);
 
 		}
@@ -274,6 +287,7 @@ public class ProductService {
 		prodto.setProductContents(productdtail.getProductContents());
 		prodto.setMaker(productdtail.getMaker());
 		prodto.setStock(productdtail.getStock());
+		prodto.setCreateTime(productdtail.getCreateTime());
 		//気に入り
 		prodto.setUserId(0);
 		return prodto;
@@ -297,6 +311,7 @@ public class ProductService {
 			pro.setProductContents(p.getProductContents());
 			pro.setProductPrice(p.getProductPrice());
 			pro.setMaker(p.getMaker());
+			pro.setCreateTime(p.getCreateTime());
 			prolike.add(pro);
 
 		}
@@ -321,12 +336,36 @@ public class ProductService {
 			pro.setProductContents(p.getProductContents());
 			pro.setProductPrice(p.getProductPrice());
 			pro.setMaker(p.getMaker());
+			pro.setCreateTime(p.getCreateTime());
 			prolike.add(pro);
 
 		}
 		return prolike;
 	}
-	
+	/**
+	 * 商品名検索OrderBy時間
+	 * @param proname
+	 * @return
+	 */
+	@Transactional
+	public List<ProductDto> keyLikeOrderByTime(String proname) {
+		List<ProductEntity> likes = productRepository.getLikeProOrderTime(proname);
+		System.out.println(likes.size());
+		List<ProductDto> prolike = new ArrayList<>();
+		for (ProductEntity p : likes) {
+			ProductDto pro = new ProductDto();
+			pro.setProductId(p.getProductId());
+			pro.setProductName(p.getProductName());
+			pro.setProductImg(p.getProductImg());
+			pro.setProductContents(p.getProductContents());
+			pro.setProductPrice(p.getProductPrice());
+			pro.setMaker(p.getMaker());
+			pro.setCreateTime(p.getCreateTime());
+			prolike.add(pro);
+
+		}
+		return prolike;
+	}
 	/**
 	 * キーワード検索
 	 * @param keyword
@@ -346,6 +385,8 @@ public class ProductService {
 		int stock = productRepository.findByProductId(proId).getStock();
 		return stock;
 	}
+
+
 
 
 }

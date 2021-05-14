@@ -216,9 +216,9 @@
 										</div>
 									</div>
 								</div> <br> <a type="button" class="btn btn-danger btn-sm" th:if="${product.status==1}"
-								th:href="@{/center/myproducts/stop/{id}(id=${product.productId})}">上架</a>
+								th:href="@{/center/myproducts/stop/{id}(id=${product.productId})}">下架</a>
 								<a type="button" class="btn btn-success btn-sm" th:if="${product.status==0}"
-								th:href="@{/center/myproducts/recovery/{id}(id=${product.productId})}">下架</a>
+								th:href="@{/center/myproducts/recovery/{id}(id=${product.productId})}">上架</a>
 							</td>
 
 						</tr>

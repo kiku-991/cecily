@@ -54,7 +54,9 @@ public interface OrderManagerRepository extends JpaRepository<OrderManagerEntity
 			+ "        on d.user_id = u.user_id \r\n"
 			+ "where\r\n"
 			+ "    u.user_id = :userId \r\n"
-			+ "    and e.defaultadd = 1",nativeQuery=true)
+			+ "    and e.defaultadd = 1 \r\n"
+			+ "order by\r\n"
+			+ "    b.createdate desc",nativeQuery=true)
 	
 	List<OrderManagerEntity> getOrderInfoWithStoreId(int userId);
 	
@@ -93,19 +95,11 @@ public interface OrderManagerRepository extends JpaRepository<OrderManagerEntity
 			+ "    left join userinfo g \r\n"
 			+ "        on c.user_id = g.id \r\n"
 			+ "where\r\n"
-			+ "    c.defaultadd = 1",nativeQuery=true)
+			+ "    c.defaultadd = 1 \r\n"
+			+ "order by\r\n"
+			+ "    b.createdate desc",nativeQuery=true)
 	
 	List<OrderManagerEntity>getAllOrderInfo();
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

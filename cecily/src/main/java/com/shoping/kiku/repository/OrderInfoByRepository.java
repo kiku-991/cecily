@@ -13,21 +13,6 @@ import com.shoping.kiku.entity.OrderInfoByUserIdEntity;
 public interface OrderInfoByRepository extends JpaRepository<OrderInfoByUserIdEntity, Integer>{
 
 	
-	/*	@Query(value="select\r\n"
-				+ "    a.order_id\r\n"
-				+ "    , sum(a.product_price) as alltotal\r\n"
-				+ "    , sum(a.product_quantity) as allquantity \r\n"
-				+ "from\r\n"
-				+ "    order_item a \r\n"
-				+ "    left join product b \r\n"
-				+ "        on a.product_id = b.product_id \r\n"
-				+ "    left join store c \r\n"
-				+ "        on b.store_id = c.store_id \r\n"
-				+ "where\r\n"
-				+ "    c.store_id = :storeId \r\n"
-				+ "group by\r\n"
-				+ "    a.order_id",nativeQuery=true)
-		List<OrderInfoByUserIdEntity> getOrderInfoGroupByOrderIdInStoreId(int storeId);*/
 	
 	@Query(value="select distinct\r\n"
 			+ "    a.order_id\r\n"
@@ -58,7 +43,8 @@ public interface OrderInfoByRepository extends JpaRepository<OrderInfoByUserIdEn
 			+ "    left join myorder f \r\n"
 			+ "        on b.order_id = f.order_id \r\n"
 			+ "where\r\n"
-			+ "    b.user_id = :userId",nativeQuery=true)
+			+ "    b.user_id = :userId \r\n"
+			+ "    order by f.create_time desc",nativeQuery=true)
 	List<OrderInfoByUserIdEntity> getOrderInfoGroupByOrderIdByUserId(@Param(value="userId") int userId);
 	
 	

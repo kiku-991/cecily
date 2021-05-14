@@ -71,6 +71,7 @@
 <!-- 郵便番号から住所の自動表示 -->
 
 <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+
 </head>
 <body>
 	<!--  top-->
@@ -149,7 +150,7 @@
 														<label for="address" class="text-info">〒郵便番号</label> <input
 															type="text" name="storePostcode"
 															th:value="${store.storePostcode}"
-															onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
+															onKeyUp="AjaxZip3.zip2addr(this,'','storeTodoufuken','storeShikucyouson','storeCyomebanchi');"
 															class="form-control"><br> <label
 															for="address" class="text-info">都道府県(届け住所):</label> <input
 															type="text" name="storeTodoufuken"
@@ -210,7 +211,7 @@
 									<div>
 										<label for="address" class="text-info">〒郵便番号</label> <input
 											type="text" name="storePostcode"
-											onKeyUp="AjaxZip3.zip2addr(this,'','dtodoufuken','dshikucyouson','dcyoumebanchi');"
+											onKeyUp="AjaxZip3.zip2addr(this,'','storeTodoufuken','storeShikucyouson','storeCyomebanchi');"
 											class="form-control"><br> <label for="address"
 											class="text-info">都道府県:</label> <input type="text"
 											name="storeTodoufuken" class="form-control"><br>
@@ -218,8 +219,6 @@
 											type="text" name="storeShikucyouson" class="form-control"><br>
 										<label for="address" class="text-info">以降の住所: </label><input
 											type="text" name="storeCyomebanchi" class="form-control">
-
-
 
 									</div>
 									<div class="modal-footer">

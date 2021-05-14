@@ -46,7 +46,8 @@ public interface OrderProInfoRepository extends JpaRepository<OrderProInfoEntity
 			+ "    left join payment f \r\n"
 			+ "        on b.payment_id = f.payment_id \r\n"
 			+ "where\r\n"
-			+ "    b.user_id = :userId", nativeQuery = true)
+			+ "    b.user_id = :userId \r\n"
+			+ "    order by b.create_time desc", nativeQuery = true)
 	List<OrderProInfoEntity> getMyOrderInfo(int userId);
 
 	

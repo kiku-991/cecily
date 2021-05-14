@@ -3,6 +3,8 @@ package com.shoping.kiku.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -354,6 +356,7 @@ public class MyCartService {
 	 * チェックされた商品を削除 提交订单ボタン押す時処理
 	 * @param userId
 	 */
+	@Transactional
 	public void deleteCheckedPro(int userId) {
 
 		List<MyCartEntity> checkedPro = myCartRepository.getCheckedPro(userId);

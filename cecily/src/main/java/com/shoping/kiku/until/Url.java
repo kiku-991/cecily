@@ -86,11 +86,7 @@ public class Url {
 	//パスワード変更画面 
 	public static final String PWDCHANGE = "/center/pwdChange";
 
-	//パスワード変更失敗画面
-	public static final String PWDCHANGEFAIL = "/center/passfail";
 
-	//パスワード変更成功
-	public static final String PWDCHANGESUCESS = "/center/passwordchanged";
 	
 	//お気に入り
 	public static final String FAVORITE = "/center/favorite";

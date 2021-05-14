@@ -53,17 +53,6 @@ public class ShoppingController {
 		return mv;
 	}
 
-	/*	@RequestMapping("/shopping/keywordSearch")
-		public ModelAndView keyWordSearch(String productName) {
-			ModelAndView mv = new ModelAndView("keywordsearch");
-				List<ProductDto> prolike = productService.keyLike(productName);
-				int count = productService.getCountByKey(productName);
-				mv.addObject("prolike", prolike);
-				mv.addObject("total", count);
-				mv.addObject("searchName", productName);
-			return mv;
-	
-		}*/
 
 	/**
 	 * 商品名検索
@@ -96,7 +85,6 @@ public class ShoppingController {
 		String proname =map.get("name");
 		String id = map.get("id");
 		int liid = Integer.parseInt(id);
-		System.out.println(proname);
 		
 		List<ProductDto> prolike = new ArrayList<>();
 			if (liid == 1) {
@@ -106,6 +94,9 @@ public class ShoppingController {
 				//価格
 				prolike = productService.keyLikeOrderByPrice(proname);
 		
+			}else {
+				//時間
+				prolike = productService.keyLikeOrderByTime(proname);
 			}
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("prolike", prolike);

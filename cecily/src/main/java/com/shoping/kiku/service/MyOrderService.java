@@ -85,6 +85,7 @@ public class MyOrderService {
 	 * オーダーフォーム生成
 	 * @param userId
 	 */
+	@Transactional
 	public void createOrderForm(int userId) {
 		//自動生成
 		String orderId = OrderUtils.getOrderCode(userId);
@@ -132,7 +133,7 @@ public class MyOrderService {
 	 * @param userId
 	 * @return
 	 */
-	@Transactional
+
 	public List<OrderProInfoDto> getOrderItemInfoByUserId(int userId) {
 
 		List<OrderProInfoEntity> myOrder = orderProInfoRepository.getMyOrderInfo(userId);
@@ -174,7 +175,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
-	@Transactional
+
 	public int getPayPrice(int userId, String orderId) {
 		List<PayPriceEntity> price = payPriceRepository.getpriceAndQuantityByUserIdAndOrdId(userId, orderId);
 		int amount = 0;
@@ -194,7 +195,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
-	@Transactional
+
 	public int getPayPriceStore(int userId, String orderId) {
 		List<PayPriceEntity> price = payPriceRepository.getUserTotalAndQuantity(userId, orderId);
 		int amount = 0;
@@ -214,7 +215,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
-	@Transactional
+
 	public int getPayQuantiy(int userId, String orderId) {
 		List<PayPriceEntity> qqt = payPriceRepository.getpriceAndQuantityByUserIdAndOrdId(userId, orderId);
 		int quantity = 0;
@@ -234,7 +235,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
-	@Transactional
+
 	public int getPayQuantiyStore(int userId, String orderId) {
 		List<PayPriceEntity> qqt = payPriceRepository.getUserTotalAndQuantity(userId, orderId);
 		int quantity = 0;
@@ -253,7 +254,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
-	@Transactional
+
 	public int getQqt(String orderId) {
 
 		List<PayPriceEntity> qqt = payPriceRepository.getTotalAndQuantityByOrderId(orderId);
@@ -273,7 +274,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
-	@Transactional
+
 	public int getTotal(String orderId) {
 
 		List<PayPriceEntity> price = payPriceRepository.getTotalAndQuantityByOrderId(orderId);
@@ -335,7 +336,7 @@ public class MyOrderService {
 	 * @param userId
 	 * @return
 	 */
-	@Transactional
+
 	public List<OrderMangerDto> getOrderInfoByStoreId(int userId) {
 		List<OrderManagerEntity> storeOr = orderManagerRepository.getOrderInfoWithStoreId(userId);
 		List<OrderMangerDto> idlist = new ArrayList<>();
@@ -388,7 +389,7 @@ public class MyOrderService {
 	 * orderManger (ADMIN)
 	 * @return orderList
 	 */
-	@Transactional
+
 	public List<OrderMangerDto> getAllOrderInfo() {
 		List<OrderManagerEntity> allOrder = orderManagerRepository.getAllOrderInfo();
 		List<OrderMangerDto> orderList = new ArrayList<>();
@@ -441,7 +442,7 @@ public class MyOrderService {
 	 * @param userId
 	 * @return
 	 */
-	@Transactional
+
 	public List<OrderInfoByUserIdDto> getOrderInfoByUserId(int userId) {
 		List<OrderInfoByUserIdEntity> orderId = groupByOrderIdRepository.getOrderInfoGroupByOrderIdByUserId(userId);
 		List<OrderInfoByUserIdDto> orderIdList = new ArrayList<>();
@@ -496,7 +497,7 @@ public class MyOrderService {
 	 * @param orderId
 	 * @return
 	 */
-	@Transactional
+
 	public List<ProductInfoForOrderIdDto> getproductInfoByOrderId(String orderId) {
 		List<ProductInfoForOrderIdDto> proInfo = new ArrayList<>();
 		List<ProductInfoForOrderIdEntity> xx = productInfoForOrderIdRepository
@@ -523,7 +524,7 @@ public class MyOrderService {
 	 * @param userId
 	 * @param shipDto
 	 */
-
+	@Transactional
 	public void productShip(String orderId, ShippingDto shipDto) {
 
 		MyOrderEntity oldOrder = orderRepositoty.findByOrderId(orderId);
@@ -570,6 +571,7 @@ public class MyOrderService {
 	 * 收貨 (user) 訂單完成
 	 * @param orderId
 	 */
+	@Transactional
 	public void completeOrder(String orderId) {
 		MyOrderEntity oldOrder = orderRepositoty.findByOrderId(orderId);
 		MyOrderEntity newOrder = new MyOrderEntity();
@@ -598,6 +600,7 @@ public class MyOrderService {
 	 * 收货并付款 
 	 * @param orderId
 	 */
+	@Transactional
 	public void receivedAndPay(String orderId) {
 
 		//shipping table
