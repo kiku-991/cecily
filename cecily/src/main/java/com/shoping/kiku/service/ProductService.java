@@ -12,10 +12,13 @@ import org.springframework.stereotype.Service;
 
 import com.shoping.kiku.entity.FavoriteProEntity;
 import com.shoping.kiku.entity.ProductEntity;
+import com.shoping.kiku.entity.ProductImgEntity;
 import com.shoping.kiku.entity.StoreEntity;
 import com.shoping.kiku.object.FavoProDto;
 import com.shoping.kiku.object.ProductDto;
+import com.shoping.kiku.object.ProductImgDto;
 import com.shoping.kiku.repository.FavoriteProRepository;
+import com.shoping.kiku.repository.ProductImgRepository;
 import com.shoping.kiku.repository.ProductRepository;
 import com.shoping.kiku.repository.StoreRepository;
 import com.shoping.kiku.until.Session;
@@ -32,6 +35,9 @@ public class ProductService {
 
 	@Autowired
 	FavoriteProRepository favoriteProRepository;
+	
+	@Autowired
+	ProductImgRepository productImgRepository;
 
 	/**
 	 * ホームページの商品表示(個人気に入り情報が含まれる)
@@ -87,9 +93,11 @@ public class ProductService {
 
 	/**
 	 * 新規商品登録
+	 * @param userId
 	 * @param product
+	 * @param list
 	 */
-	public void createProduct(int userId,String img,ProductDto product) {
+	public void createProduct(int userId,ProductDto product,List<String> list) {
 
 		ProductEntity prott = new ProductEntity();
 		StoreEntity store = storeRepository.findByUserId(userId);
@@ -98,13 +106,21 @@ public class ProductService {
 		prott.setStoreId(store.getStoreId());
 		prott.setProductName(product.getProductName());
 		prott.setProductPrice(product.getProductPrice());
-		prott.setProductImg(img);
 		prott.setProductContents(product.getProductContents());
 		prott.setMaker(product.getMaker());
 		prott.setStatus(Status.PRODUCTIN);
 		prott.setStock(product.getStock());
 		prott.setCreateTime(new Timestamp(System.currentTimeMillis()));
+		prott.setProductImg(list.get(0));
 		productRepository.save(prott);
+		//商品写真
+		for(int i=0;i<list.size();i++) {
+			ProductImgEntity productImg = new ProductImgEntity();
+			productImg.setProductId(prott.getProductId());
+			productImg.setProductImg(list.get(i));
+			productImgRepository.save(productImg);
+		
+		}
 
 	}
 
@@ -278,19 +294,29 @@ public class ProductService {
 	 */
 	public ProductDto getProByProductId(int id) {
 		ProductEntity productdtail = productRepository.findByProductId(id);
-		ProductDto prodto = new ProductDto();
-		prodto.setProductId(id);
-		prodto.setStoreId(productdtail.getStoreId());
-		prodto.setProductImg(productdtail.getProductImg());
-		prodto.setProductName(productdtail.getProductName());
-		prodto.setProductPrice(productdtail.getProductPrice());
-		prodto.setProductContents(productdtail.getProductContents());
-		prodto.setMaker(productdtail.getMaker());
-		prodto.setStock(productdtail.getStock());
-		prodto.setCreateTime(productdtail.getCreateTime());
+		List<ProductImgEntity> proImg = productImgRepository.findByProductId(id);
+		List<ProductImgDto> imgs = new ArrayList<>();
+		ProductDto pros = new ProductDto();
+		pros.setProductId(id);
+		pros.setStoreId(productdtail.getStoreId());
+		pros.setProductImg(productdtail.getProductImg());
+		pros.setProductName(productdtail.getProductName());
+		pros.setProductPrice(productdtail.getProductPrice());
+		pros.setProductContents(productdtail.getProductContents());
+		pros.setMaker(productdtail.getMaker());
+		pros.setStock(productdtail.getStock());
+		pros.setCreateTime(productdtail.getCreateTime());
 		//気に入り
-		prodto.setUserId(0);
-		return prodto;
+		pros.setUserId(0);
+		
+		
+		for(ProductImgEntity img :proImg) {
+			ProductImgDto proImgDto = new ProductImgDto();
+			proImgDto.setProductImgs(img.getProductImg());
+			imgs.add(proImgDto);
+		}
+		pros.setImglist(imgs);
+		return pros;
 
 	}
 

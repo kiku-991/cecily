@@ -157,18 +157,14 @@
 
 									<div
 										class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
-										<label>パスワード</label>
+											<label>パスワード</label>
 										<div class="am-input-group am-input-group-sm">
-											<input type="password" name="userPassword" class="am-radius"
-												placeholder="パスワードを入力してください" pattern="^.{6,18}$"
-												data-validation-message="密码格式 6~18 个字符" required /> <span
-												class="am-input-group-btn">
-												<button
-													class="am-btn am-btn-default am-radius am-icon-eye eye-submit"
-													type="button"></button>
+											<input type="password" id="userPassword" name="userPassword"
+												class="am-radius" placeholder="パスワードを入力してください"
+												pattern="^.{6,18}$" data-validation-message="密码格式 6~18 个字符"
+												required /> <span class="am-input-group-btn">
+												<button th:onclick="onView()" class="am-btn" type="button">👀</button>
 											</span>
-											
-											
 										</div>
 									</div>
 
@@ -217,6 +213,19 @@
 	<footer th:insert="~{indextmp::footer}"></footer>
 
 
+//密码可视化
+	<script>
+		function onView() {
+
+			let pwd = document.getElementById("userPassword")
+			if (pwd.type === "password") {
+				pwd.type = "text"
+			} else {
+				pwd.type = "password"
+			}
+
+		}
+	</script>
 
 
 	<!-- 类库 -->

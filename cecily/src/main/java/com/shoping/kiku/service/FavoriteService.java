@@ -10,10 +10,13 @@ import org.springframework.stereotype.Service;
 import com.shoping.kiku.entity.FavoriteEntity;
 import com.shoping.kiku.entity.FavoriteProEntity;
 import com.shoping.kiku.entity.ProductEntity;
+import com.shoping.kiku.entity.ProductImgEntity;
 import com.shoping.kiku.object.FavoProDto;
 import com.shoping.kiku.object.FavoriteDto;
+import com.shoping.kiku.object.ProductImgDto;
 import com.shoping.kiku.repository.FavoriteProRepository;
 import com.shoping.kiku.repository.FavoriteRepository;
+import com.shoping.kiku.repository.ProductImgRepository;
 import com.shoping.kiku.repository.ProductRepository;
 
 @Service
@@ -25,6 +28,9 @@ public class FavoriteService {
 	FavoriteProRepository favoriteProRepository;
 	@Autowired
 	ProductRepository productRepository;
+
+	@Autowired
+	ProductImgRepository productImgRepository;
 
 	/**
 	 * 気に入りを追加(ユーザIDと商品IDによる)
@@ -100,6 +106,9 @@ public class FavoriteService {
 		FavoriteEntity fet = favoriteRepository.findByUserIdAndProductId(userid, proid);
 		FavoriteDto fv = new FavoriteDto();
 		ProductEntity pro = productRepository.findByProductId(proid);
+
+		List<ProductImgEntity> proimgs = productImgRepository.findByProductId(proid);
+		List<ProductImgDto> pimgs= new ArrayList<>();
 		//気に入りなし
 		if (fet != null) {
 			fv.setUserId(fet.getUserId());
@@ -114,6 +123,14 @@ public class FavoriteService {
 		fv.setMaker(pro.getMaker());
 		fv.setStock(pro.getStock());
 		fv.setStoreId(pro.getStoreId());
+
+		for (ProductImgEntity proimg : proimgs) {
+			ProductImgDto proimgDto = new ProductImgDto();
+			proimgDto.setProductImgs(proimg.getProductImg());
+			pimgs.add(proimgDto);
+			}
+		fv.setImglist(pimgs);
+		
 		return fv;
 
 	}

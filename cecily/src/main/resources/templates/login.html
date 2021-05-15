@@ -121,7 +121,7 @@
 		<div class="am-container user-login-container">
 			<div
 				class="am-hide-sm-only am-u-md-6 am-u-lg-8 am-vertical-align am-text-center container-left">
-				<a href="https://shopxo.net/vip.html" target="_blank"> <img
+				<a  target="_blank"> <img
 					src="../img/IMG_9686.JPG" class="am-vertical-align-middle"
 					alt="用户登录">
 				</a>
@@ -158,16 +158,12 @@
 										class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
 										<label>パスワード</label>
 										<div class="am-input-group am-input-group-sm">
-											<input type="password" name="userPassword" class="am-radius"
-												placeholder="パスワードを入力してください" pattern="^.{6,18}$"
-												data-validation-message="密码格式 6~18 个字符" required /> <span
-												class="am-input-group-btn">
-												<button
-													class="am-btn am-btn-default am-radius am-icon-eye eye-submit"
-													type="button"></button>
+											<input type="password" id="userPassword" name="userPassword"
+												class="am-radius" placeholder="パスワードを入力してください"
+												pattern="^.{6,18}$" data-validation-message="密码格式 6~18 个字符"
+												required /> <span class="am-input-group-btn">
+												<button th:onclick="onView()" class="am-btn" type="button">👀</button>
 											</span>
-
-
 										</div>
 									</div>
 
@@ -178,7 +174,7 @@
 											th:if="${not #strings.isEmpty(mpcheck)}"></p>
 										<p style="color: red;" th:text="${statusCheck}"
 											th:if="${not #strings.isEmpty(statusCheck)}"></p>
-										
+
 										<p style="color: red;" th:text="${ms}"
 											th:if="${not #strings.isEmpty(ms)}"></p>
 									</div>
@@ -196,9 +192,8 @@
 
 
 							<div class="am-padding-sm am-nbfc">
-								<a th:href="@{/touroku}"
-									class="am-fl">新規登録</a> <a
-									href="https://demo.shopxo.net/forget.html" target="_blank"
+								<a th:href="@{/touroku}" class="am-fl">新規登録</a> <a
+									th:href="@{/forgetpwd}" target="_blank"
 									class="am-fr">パスワード忘れ?</a>
 							</div>
 						</div>
@@ -211,24 +206,24 @@
 	</div>
 	<!-- conntent end  -->
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	<!-- 内容ここまで -->
 	<div th:insert="~{indextmp::footercust}"></div>
 	<footer th:insert="~{indextmp::footer}"></footer>
 
 
+//密码可视化
+	<script>
+		function onView() {
+
+			let pwd = document.getElementById("userPassword")
+			if (pwd.type === "password") {
+				pwd.type = "text"
+			} else {
+				pwd.type = "password"
+			}
+
+		}
+	</script>
 
 
 	<!-- 类库 -->

@@ -1,18 +1,20 @@
-<!DOCTYPE html>
-<!-- saved from url=(0024)https://demo.shopxo.net/ -->
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>KIKUSHOP</title>
+<meta charset="utf-8">
+<title>パスワード忘れ</title>
+
+
 <link rel="stylesheet" type="text/css" href="../css/amazeui.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.switch.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.chosen.css">
 <link rel="stylesheet" type="text/css" href="../css/cropper.min.css">
 <link rel="stylesheet" type="text/css"
 	href="../css/amazeui.tagsinput.css">
+
 <link rel="stylesheet" type="text/css" href="../css/common.css">
 <link rel="stylesheet" type="text/css" href="../css/common(1).css">
-<link rel="stylesheet" type="text/css" href="../css/index.css">
+<link rel="stylesheet" type="text/css" href="../css/user.css">
 
 <!-- css钩子 -->
 <link rel="stylesheet" type="text/css" href="../css/iconfont.css">
@@ -20,27 +22,14 @@
 <link rel="stylesheet" type="text/css" href="../css/style(1).css">
 <link rel="stylesheet" type="text/css" href="../css/style(2).css">
 <link rel="stylesheet" type="text/css" href="../css/style(3).css">
-<link rel="stylesheet" type="text/css" href="../css/style(4).css">
 <link rel="stylesheet" type="text/css" href="../css/iconfont(1).css">
+<link rel="stylesheet" type="text/css" href="../css/style(4).css">
 <link rel="stylesheet" type="text/css" href="../css/style(5).css">
 <link rel="stylesheet" type="text/css" href="../css/style(6).css">
 <link rel="stylesheet" type="text/css" href="../css/style(7).css">
 <link rel="stylesheet" type="text/css" href="../css/style(8).css">
 <link rel="stylesheet" type="text/css" href="../css/style(9).css">
-<link rel="stylesheet" type="text/css" href="../css/style(10).css">
 
-<!-- <script type="text/javascript">
-	var __root__ = 'https://demo.shopxo.net/';
-	var __my_url__ = 'https://demo.shopxo.net/';
-	var __my_public_url__ = 'https://demo.shopxo.net/';
-	var __public__ = 'https://demo.shopxo.net/';
-	var __default_theme__ = 'default';
-	var __modal_login_url__ = 'https://demo.shopxo.net/login-modal.html';
-	var __attachment_host__ = 'https://demo.shopxo.net';
-	var __seo_url_suffix__ = 'html';
-	var __user_id__ = 0;
-	var __currency_symbol__ = '￥';
-</script> -->
 
 <!-- 公共header内钩子 -->
 <style type="text/css">
@@ -114,172 +103,94 @@
 <script src="../js/ZeroClipboard.js.ダウンロード" type="text/javascript"
 	defer="defer"></script>
 </head>
-<body style="padding-top: 0px;">
-	<!-- css钩子 -->
-	<!-- 公共顶部钩子 -->
 
 
-	<!-- header top nav -->
-	<!-- 顶部导航条 start -->
-	<div th:insert="~{indextmp::top}"></div>
-
-	<!-- 顶部导航条 end
-
-<!-- search -->
-	<!-- 搜索框 start -->
+<body style="position: static; padding-top: 0px;">
+	<!--  top-->
+	<header th:insert="~{indextmp::top}"></header>
 	<div th:insert="~{indextmp::search}"></div>
-	<!-- 搜索框 end -->
-
-	<!-- header nav -->
 	<header th:insert="~{indextmp::header}"></header>
 
+	<!--  side-->
 
-	<!-- banner -->
-	<div th:insert="~{indextmp::banner}"></div>
-	<!-- goods category -->
-	<!-- 商品分类  -->
-
-
-	<div id="goods-category"
-		class="am-container am-hide-sm-only am-hide-md-only"
-		data-controller-name="index" th:fragment="goods-category">
-		<div class="goods-category-s">
-			<div class="goods-category-title">
-				<a href="#login"> <span class="all-goods">カテゴリー</span>
+	<!-- 内容ここから -->
+	<div class="am-g my-content" style="background-color: #FAFAFA;">
+		<div class="am-container user-forgetpwd-container">
+			<div
+				class="am-hide-sm-only am-u-md-6 am-u-lg-8 am-vertical-align am-text-center container-left">
+				<a href="javascript:;" target="_blank"> <img
+					src="../img/IMG_9686.JPG" class="am-vertical-align-middle"
+					alt="密码找回">
 				</a>
+			</div>
+			<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 container-right">
+				
+				<div class="user-form-container">
+					<!-- form start -->
+					<form class="am-form form-validation am-padding-bottom-sm"
+						method="post" novalidate="novalidate">
+						<div
+							class="am-form-group am-form-group-refreshing business-form-block">
+							<label>電話番号/メールアドレス</label> <input type="text" name="accounts"
+								class="am-radius" id="accounts" placeholder="電話番号/メールアドレス"
+								data-validation-message="電話番号/メールアドレス格式間違ってる" required />
+						</div>
+
+						<div
+							class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+							<label>名前</label>
+							<div class="am-input-group am-input-group-sm">
+								<input type="text" name="userName" class="am-radius"
+									placeholder="名前" required /> <span class="am-input-group-btn">
+
+								</span>
+							</div>
+						</div>
+
+						<div
+							class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
+							<label>パスワード設置</label>
+							<div class="am-input-group am-input-group-sm">
+								<input type="password" name="pwd" class="am-radius"
+									placeholder="パスワード設置" pattern="^.{6,18}$"
+									data-validation-message="密码格式 6~18 个字符之间" required /> <span
+									class="am-input-group-btn">
+									<button th:onclick="onView()" class="am-btn" type="button">👀</button>
+								</span>
+							</div>
+						</div>
+
+						<div
+							class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
+							<button type="submit"
+								class="am-btn am-btn-primary am-radius am-btn-block am-btn-sm btn-loading-example">确认</button>
+						</div>
+					</form>
+					<!-- form end -->
+				</div>
 			</div>
 		</div>
 	</div>
-	<!-- 轮播上内容 -->
-	<div th:insert="~{indextmp::slideall}"></div>
 
-	<!-- 楼层数据顶部钩子 -->
-	<div th:insert="~{indextmp::homeadv}"></div>
-	<!-- 商品内容 -->
-	<div th:insert="~{indextmp::list}"></div>
 
-	<!-- 楼层数据底部钩子 -->
-	<!-- footer start -->
+	<!-- 内容ここまで -->
 	<div th:insert="~{indextmp::footercust}"></div>
-	<!-- 底部导航上面钩子 -->
-
-
-	<!-- 底部导航 -->
 	<footer th:insert="~{indextmp::footer}"></footer>
-	<!-- footer end -->
-
-	<!-- 弹层提示分享 -->
-	<!-- 	<div id="plugins-share-layer">
-		<img src="../img/share-layer.png">
-	</div> -->
-	<!-- Ajax -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 
+	//密码可视化
 	<script>
-		//「POSTで遷移（Ajax）」気に入りボタン押下時の処理
-		function clickPost(productId) {
+		function onView() {
 
-			var p = {
-				id : productId
-			};
-
-			$.ajax({
-				//MyCartControlleradd()メソッドに遷移
-				url : '/part/myfavorite',
-				type : 'POST',
-				timeout : 60000,
-				data : p,
-				async : false,
-				dataType : "json"
-			})
-
-			//Ajax通信成功の場合
-			.done(function(data) {
-				if ((data == productId)) {
-					$('#' + productId).text('❤' + '気に入り済');
-					alert('気に入りに追加済み!');
-
-				} else if (data == 0) {
-					$('#' + productId).text('♡' + '気に入り');
-					alert('気に入り取消ました!');
-
-				} else {
-					alert('先にログインしてください!');
-				}
-
-			})
-			//Ajax通信失敗の場合
-			.fail(function() {
-				alert('追加失敗しました!ログインしてください!');
-			})
-			//Ajax通信の成功・失敗に関わらず最後に処理
-			.always(function() {
-				//alert('end');
-			});
+			let pwd = document.getElementById("userPassword")
+			if (pwd.type === "password") {
+				pwd.type = "text"
+			} else {
+				pwd.type = "password"
+			}
 
 		}
 	</script>
-
-	<script>
-		//「POSTで遷移（Ajax）」買い物かごボタン押下時の処理
-
-		function clickCart(productId) {
-
-			var pro = {
-				id : productId
-			};
-
-			$.ajax({
-				//MainControllerのpostIndex()メソッドに遷移
-				url : '/addMyCart',
-				type : 'POST',
-				timeout : 60000,
-				data : pro,
-				async : false,
-				dataType : "json"
-			})
-
-			//Ajax通信成功の場合
-			.done(function(data) {
-
-				if (data != 0) {
-					$('#myCart').addClass('am-badge am-badge-danger');
-					//$toast("買い物かごに追加済み!");
-					$('#myCart').text(data);
-
-					alert('買い物かごに追加済み!');
-
-				//	window.location.href = "/shopping"
-				}
-
-			})
-			//Ajax通信失敗の場合
-			.fail(function() {
-				alert('追加失敗しました!ログインしてください!');
-			})
-			//Ajax通信の成功・失敗に関わらず最後に処理
-			.always(function() {
-
-			});
-
-		}
-	</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 	<!-- 类库 -->
@@ -287,6 +198,8 @@
 	<script type="text/javascript" src="../js/amazeui.min.js.ダウンロード"></script>
 
 	<!-- 图片放大镜 -->
+	<script type="text/javascript"
+		src="../js/jquery.imagezoom.min.js.ダウンロード"></script>
 
 	<!-- echarts 图表 -->
 	<script type="text/javascript" src="../js/echarts.min.js.ダウンロード"></script>
@@ -320,25 +233,6 @@
 	<!-- 日期组件 -->
 	<script type="text/javascript" src="../js/WdatePicker.js.ダウンロード"></script>
 
-	<!-- baidu map -->
-	<script type="text/javascript" src="../js/api"></script>
-	<script type="text/javascript" src="../js/getscript"></script>
-
-	<!-- 隐藏编辑器初始化 -->
-	<!-- <script type="text/javascript">
-		var upload_editor = UE.getEditor("upload-editor-view", {
-			isShow : false,
-			focus : false,
-			enableAutoSave : false,
-			autoSyncData : false,
-			autoFloatEnabled : false,
-			wordCount : false,
-			sourceEditor : null,
-			scaleEnabled : true,
-			toolbars : [ [ "insertimage", "insertvideo", "attachment" ] ]
-		});
-	</script> -->
-
 	<!-- 项目公共 -->
 	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
 	<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
@@ -346,7 +240,7 @@
 	<!-- 应用插件公共js -->
 
 	<!-- 当前控制器js -->
-	<script type="text/javascript" src="../js/index.js.ダウンロード"></script>
+	<script type="text/javascript" src="../js/user.js.ダウンロード"></script>
 
 	<!-- 底部信息 -->
 
@@ -358,34 +252,7 @@
 	<script type="text/javascript" src="../js/style.js(4).ダウンロード"></script>
 	<script type="text/javascript" src="../js/style.js(5).ダウンロード"></script>
 
-	<!-- 公共页面底部钩子 -->
-	<div id="edui_fixedlayer" class="edui-default"
-		style="position: fixed; left: 0px; top: 0px; width: 0px; height: 0px;">
-		<div id="edui20" class="edui-popup  edui-bubble edui-default"
-			onmousedown="return false;" style="display: none;">
-			<div id="edui20_body" class="edui-popup-body edui-default">
-				<iframe
-					style="position: absolute; z-index: -1; left: 0; top: 0; background-color: transparent;"
-					width="100%" height="100%" src="../js/saved_resource(1).html"
-					class="edui-default"></iframe>
-				<div class="edui-shadow edui-default"></div>
-				<div id="edui20_content" class="edui-popup-content edui-default">
-				</div>
-			</div>
-		</div>
-	</div>
 
 
-	<script type="text/javascript">
-		// 回顶部监测
-		$(window).scroll(function() {
-			if ($(window).scrollTop() > 100) {
-				$("#plugins-commongobacktop").fadeIn(1000);
-			} else {
-				$("#plugins-commongobacktop").fadeOut(1000);
-			}
-		});
-	</script>
-	
 </body>
 </html>

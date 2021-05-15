@@ -137,7 +137,7 @@
 											</div>
 
 											<div class="modal-body">
-												<form enctype="multipart/form-data"
+												<form enctype="multipart/form-data" 
 													th:action="@{/center/myproducts/edit/{id}(id=${product.productId})}"
 													method="post">
 
@@ -149,7 +149,7 @@
 														<label for="picture" class="text-info">画像:</label><br>
 														<img th:src="${product.productImg}" width="69"
 															height="105"> <input type="file" name="file"
-															class="form-control">
+															class="form-control" multiple="multiple">
 													</div>
 													<div class="mb-3">
 														<label for="price" class="text-info">価格:</label><br>
@@ -247,8 +247,8 @@
 									</div>
 									<div class="mb-3">
 										<label for="picture" class="text-info">画像:</label><br> <input
-											type="file" name="file" class="form-control"
-											placeholder="価格を入力してください" required />
+											type="file" name="file" class="form-control" multiple="multiple"
+											placeholder="写真アップロードしてください" required />
 									</div>
 									<div class="mb-3">
 										<label for="price" class="text-info">価格:</label><br> <input

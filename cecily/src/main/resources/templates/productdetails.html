@@ -150,40 +150,24 @@
 
 					<div class="am-viewport"
 						style="overflow: hidden; position: relative;">
-						<ul class="am-slides"
+						<ul class="am-slides" th:each="img:${product.imglist}"
 							style="width: 800%; transition-duration: 0s; transform: translate3d(0px, 0px, 0px);">
 							<li class="clone" aria-hidden="true"
 								style="width: 0px; margin-right: 0px; float: left; display: block;">
-								<img th:src="${product.productImg}" draggable="false">
+								<img th:src="${img.productImgs}" draggable="false">
 							</li>
-							<li
-								style="width: 0px; margin-right: 0px; float: left; display: block;"
-								class="am-active-slide" data-thumb-alt=""><img
-								th:src="${product.productImg}" draggable="false"></li>
-							<li data-thumb-alt=""
-								style="width: 0px; margin-right: 0px; float: left; display: block;">
-								<img th:src="${product.productImg}" draggable="false">
-							</li>
-							<li
-								style="width: 0px; margin-right: 0px; float: left; display: block;"
-								class="clone" aria-hidden="true"><img
-								th:src="${product.productImg}" draggable="false"></li>
+							
+							
+							
 						</ul>
 					</div>
-					<ol class="am-control-nav am-control-paging">
-						<li><a href="https://demo.shopxo.net/goods-4.html#"
-							class="am-active">1</a><i></i></li>
-						<li><a href="https://demo.shopxo.net/goods-4.html#">2</a><i></i></li>
-					</ol>
+					
 				</div>
 
 				<!-- 视频 -->
 
 				<!-- 商品页面相册内部钩子 -->
-				<div
-					class="am-cf plugins-goodsphototag plugins-goodsphototag-top-right">
-					<img src="./wqf/1561283545412820.png" alt="商品标签">
-				</div>
+				
 			</div>
 
 
@@ -199,23 +183,16 @@
 						<img th:src="${product.productImg}" th:rel="${product.productImg}"
 							class="jqzoom">
 					</div>
-					<ul class="tb-thumb" id="thumblist">
-						<li class="tb-selected">
-							<div class="tb-pic tb-s40">
-								<a href="javascript:;"> <img th:src="${product.productImg}"
-									th:mid="${product.productImg}" th:big="${product.productImg}"
+					<ul class="tb-thumb" id="thumblist" >
+						<li class="tb-pic tb-s40" th:each="img:${product.imglist}">
+							<div class="tb-pic tb-s40" >
+								<a > <img th:src="${img.productImgs}"
+									th:mid="${img.productImgs}" th:big="${img.productImgs}"
 									class="tb-s40">
 								</a>
 							</div>
 						</li>
-						<li class=" tb-pic">
-							<div class="tb-pic tb-s40">
-								<a href="javascript:;"> <img th:src="${product.productImg}"
-									th:mid="${product.productImg}" th:big="${product.productImg}"
-									class="tb-s40">
-								</a>
-							</div>
-						</li>
+						
 					</ul>
 				</div>
 			</div>
@@ -286,8 +263,8 @@
 												<div class="theme-options">
 													<div class="cart-title number"></div>
 													
-													<label>ストック
-														<span class="tb-hidden stock-tips"><span>库存</span><span
+													<label>在庫
+														<span class="tb-hidden stock-tips"><span
 															class="stock"
 															data-min-limit="1" data-max-limit="0" data-unit="">[[${product.stock}]]</span><span>件</span></span>
 													</label>
@@ -396,16 +373,11 @@
 							<!-- 详情内容 -->
 							<div class="detail-content am-margin-top-sm">
 								<!-- web详情 -->
-								<div class="content-web am-scrollable-horizontal">
+								<div class="content-web am-scrollable-horizontal" th:each="img:${product.imglist}">
 									<p>
-										<img th:src="${product.productImg}">
+										<img th:src="${img.productImgs}">
 									</p>
-									<p>
-										<img th:src="${product.productImg}">
-									</p>
-									<p>
-										<img th:src="${product.productImg}">
-									</p>
+									
 									<p>
 										<br>
 									</p>

@@ -92,5 +92,13 @@ public class UserLoginController {
 		return "redirect:/shopping";
 		
 	}
+	
+	@RequestMapping(Url.FORGETPWD)
+	public ModelAndView forgetPwd() {
+		
+		ModelAndView mv = new ModelAndView("center/forget");
+		
+		return mv;
+	}
 
 }

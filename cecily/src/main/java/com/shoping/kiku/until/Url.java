@@ -11,6 +11,9 @@ public class Url {
 
 	//ログアウト 
 	public static final String LOGINOUT = "/loginout";
+	
+	//パスワード忘れ
+	public static final String FORGETPWD ="/forgetpwd";
 
 	//imgフォルダに画像
 	public static final String SRC = "../img/";

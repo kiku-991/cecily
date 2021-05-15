@@ -1,6 +1,8 @@
 package com.shoping.kiku.control;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,22 +44,50 @@ public class ProductController {
 	 * @return productmanger
 	 */
 	@RequestMapping(value = Url.CREATEPRODUCT, method = RequestMethod.POST)
-	public String creProduct(@RequestParam("file") MultipartFile img, HttpServletRequest request, ProductDto product) {
+	public String creProduct(@RequestParam("file") MultipartFile[] img, HttpServletRequest request,
+			ProductDto product) {
 
 		Session ss = (Session) request.getSession().getAttribute("userLogin");
 
-		String proimg = img.getOriginalFilename();
-		try {
-			img.transferTo(new File(Url.SAVEPATH + proimg));
-
-		} catch (Exception e) {
-			e.printStackTrace();
+		List<String> list = new ArrayList<String>();
+		for (int i = 0; i < img.length; i++) {
+			MultipartFile file = img[i];
+			// 保存文件
+			list = saveFile(file, list);
 		}
-
-		String productImg = Url.SRC + proimg;
-		productService.createProduct(ss.getUserId(), productImg, product);
+	
+		productService.createProduct(ss.getUserId(), product,list);
 
 		return "redirect:/center/myproducts";
+	}
+
+	/**
+	 * 
+	 * @param request
+	 * @param file
+	 * @param list
+	 * @return
+	 */
+	private List<String> saveFile(MultipartFile file, List<String> list) {
+		// 判断文件是否为空
+		if (!file.isEmpty()) {
+			try {
+				// 保存的文件路径(如果用的是Tomcat服务器，文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\upload\\文件夹中
+				// )
+				String filePath = Url.SAVEPATH + file.getOriginalFilename();
+				list.add(Url.SRC+file.getOriginalFilename());
+				File saveDir = new File(filePath);
+				if (!saveDir.getParentFile().exists())
+					saveDir.getParentFile().mkdirs();
+
+				// 转存文件
+				file.transferTo(saveDir);
+				return list;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return list;
 	}
 
 	/**
@@ -68,7 +98,7 @@ public class ProductController {
 	 * @return
 	 */
 	@PostMapping(value = Url.UPDATEPROBYID)
-	public String updateProById(@PathVariable("id") int id, @RequestParam("file") MultipartFile img,ProductDto pro) {
+	public String updateProById(@PathVariable("id") int id, @RequestParam("file") MultipartFile img, ProductDto pro) {
 		String productImg = "";
 		if (img.isEmpty() == false) {
 			String proImg = img.getOriginalFilename();
@@ -82,7 +112,7 @@ public class ProductController {
 
 			productImg = Url.SRC + proImg;
 		}
-		productService.updateProduct(pro, id,productImg);
+		productService.updateProduct(pro, id, productImg);
 		return "redirect:/center/myproducts";
 	}
 
@@ -153,7 +183,7 @@ public class ProductController {
 	 * @return productmanger
 	 */
 	@PostMapping(value = Url.PROMANAGEREDIT)
-	public String editProById(@PathVariable("id") int id,  @RequestParam("file") MultipartFile img,ProductDto pro) {
+	public String editProById(@PathVariable("id") int id, @RequestParam("file") MultipartFile img, ProductDto pro) {
 		String productImg = "";
 		if (img.isEmpty() == false) {
 			String proImg = img.getOriginalFilename();
@@ -167,7 +197,7 @@ public class ProductController {
 
 			productImg = Url.SRC + proImg;
 		}
-		productService.updateProduct(pro, id,productImg);
+		productService.updateProduct(pro, id, productImg);
 		return "redirect:/center/productmanger";
 	}
 
