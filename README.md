@@ -44,7 +44,7 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
 
 
 
-#1. 開発環境
+# 1. 開発環境
 #### 1-1　IDE：Eclipse
 
 #### 1-2　OS：Windows10
@@ -62,7 +62,7 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
 #### 1-8　画面：Html、JavaScript、jQuery、Ajax、Bootstrap
 
 
-#2. 構成
+# 2. 構成
 #### 2-1　ER図
 
 
@@ -98,7 +98,7 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
      - 商品管理
      - 注文管理
 
-#3. 画面
+# 3. 画面
 　画面遷移図
 　
 　
