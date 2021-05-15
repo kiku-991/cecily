@@ -1,5 +1,5 @@
-#通販サイト開発
-##「KIKU'SHOP」
+# 通販サイト開発
+## 「KIKU'SHOP」
 SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイトを自ら開発しました。
 当サイトは商品管理、ユーザ管理、注文管理などの機能が付いています。 開発の期間は約2ヶ月でした。
 機能は以下となります。
@@ -45,21 +45,21 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
 
 
 #1. 開発環境
-####1-1　IDE：Eclipse
+#### 1-1　IDE：Eclipse
 
-####1-2　OS：Windows10
+#### 1-2　OS：Windows10
 
-####1-3　JDK：Java11
+#### 1-3　JDK：Java11
 
-####1-4　フレームワーク：SpringBoot2.4.3
+#### 1-4　フレームワーク：SpringBoot2.4.3
 
-####1-5　データベース：PostgreSQL
+#### 1-5　データベース：PostgreSQL
 
-####1-6　ソース管理：Github
+#### 1-6　ソース管理：Github
 
-####1-7　テンプレートエンジン：Thymeleaf
+#### 1-7　テンプレートエンジン：Thymeleaf
 
-####1-8　画面：Html、JavaScript、jQuery、Ajax、Bootstrap
+#### 1-8　画面：Html、JavaScript、jQuery、Ajax、Bootstrap
 
 
 #2. 構成
@@ -75,7 +75,7 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
 
 
 
-####2-3　Role構成
+#### 2-3　Role構成
 
 1. 一般ユーザ：
      - 個人情報編集
@@ -102,10 +102,10 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
 　画面遷移図
 　
 　
-####3-1　メイン画面
+#### 3-1　メイン画面
 
 
-####3-2　ログイン画面
+#### 3-2　ログイン画面
 
 
 ####3-3　注文一覧表示
