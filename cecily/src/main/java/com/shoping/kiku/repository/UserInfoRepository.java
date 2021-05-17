@@ -21,5 +21,8 @@ public interface UserInfoRepository extends JpaRepository<UserInfoEntity, Intege
 			+ "where\r\n"
 			+ "    role <> 'admin'",nativeQuery=true)
 	List<UserInfoEntity> findAllByOrderByIdAsc();
+	
+	
+	UserInfoEntity findByName(String name);
 				
 }

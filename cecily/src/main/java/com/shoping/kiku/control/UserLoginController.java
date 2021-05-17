@@ -1,5 +1,6 @@
 package com.shoping.kiku.control;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -7,10 +8,13 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shoping.kiku.object.UserLoginDto;
+import com.shoping.kiku.service.UserInfoService;
 import com.shoping.kiku.service.UserLoginService;
 import com.shoping.kiku.until.MsgContents;
 import com.shoping.kiku.until.Session;
@@ -21,6 +25,9 @@ public class UserLoginController {
 
 	@Autowired
 	UserLoginService userLoginService;
+
+	@Autowired
+	UserInfoService userInfoService;
 
 	/**
 	 * ログイン画面
@@ -90,15 +97,35 @@ public class UserLoginController {
 		session.removeAttribute("userLogin");
 
 		return "redirect:/shopping";
-		
+
 	}
-	
+
 	@RequestMapping(Url.FORGETPWD)
 	public ModelAndView forgetPwd() {
-		
+
 		ModelAndView mv = new ModelAndView("center/forget");
-		
+
 		return mv;
 	}
 
+	@RequestMapping("/pwdreset")
+	@ResponseBody
+	public int forgetpwd(@RequestBody HashMap<String, String> map) {
+
+		String name = map.get("userName");
+		String mail = map.get("userMail");
+		String pwd = map.get("userPwd");
+
+		int check = userInfoService.pwdReset(name, mail, pwd);
+
+		if (check == 1) {
+			//成功
+
+			return 1;
+		} else {
+			//失敗
+			return 0;
+		}
+
+	}
 }

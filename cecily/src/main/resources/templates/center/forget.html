@@ -124,23 +124,23 @@
 				</a>
 			</div>
 			<div class="am-u-sm-12 am-u-md-6 am-u-lg-4 container-right">
-				
+
 				<div class="user-form-container">
 					<!-- form start -->
 					<form class="am-form form-validation am-padding-bottom-sm"
 						method="post" novalidate="novalidate">
 						<div
 							class="am-form-group am-form-group-refreshing business-form-block">
-							<label>電話番号/メールアドレス</label> <input type="text" name="accounts"
-								class="am-radius" id="accounts" placeholder="電話番号/メールアドレス"
-								data-validation-message="電話番号/メールアドレス格式間違ってる" required />
+							<label>メールアドレス</label> <input type="text" name="userMail"
+								id="userMail" class="am-radius" placeholder="メールアドレス"
+								data-validation-message="メールアドレス格式間違ってる" required />
 						</div>
 
 						<div
 							class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
 							<label>名前</label>
 							<div class="am-input-group am-input-group-sm">
-								<input type="text" name="userName" class="am-radius"
+								<input type="text" name="name" class="am-radius" id="name"
 									placeholder="名前" required /> <span class="am-input-group-btn">
 
 								</span>
@@ -151,8 +151,8 @@
 							class="am-form-group am-form-group-refreshing business-form-block am-margin-top-xs">
 							<label>パスワード設置</label>
 							<div class="am-input-group am-input-group-sm">
-								<input type="password" name="pwd" class="am-radius"
-									placeholder="パスワード設置" pattern="^.{6,18}$"
+								<input type="password" name="userPassword" class="am-radius"
+									placeholder="パスワード設置" pattern="^.{6,18}$" id="userPassword"
 									data-validation-message="密码格式 6~18 个字符之间" required /> <span
 									class="am-input-group-btn">
 									<button th:onclick="onView()" class="am-btn" type="button">👀</button>
@@ -162,8 +162,8 @@
 
 						<div
 							class="am-form-group am-form-group-refreshing business-form-block am-margin-top-sm">
-							<button type="submit"
-								class="am-btn am-btn-primary am-radius am-btn-block am-btn-sm btn-loading-example">确认</button>
+							<button type="button" onclick="resetPwd()"
+								class="am-btn am-btn-primary am-radius am-btn-block am-btn-sm btn-loading-example">確定</button>
 						</div>
 					</form>
 					<!-- form end -->
@@ -191,6 +191,53 @@
 
 		}
 	</script>
+
+	<script src="../ajax/jquery.min.js"></script>
+	<script>
+		function resetPwd() {
+			var email = $("#userMail").val();
+			var username = $("#name").val();
+			var pwd = $("#userPassword").val();
+
+			var reset = {
+				userMail : email,
+				userName : username,
+				userPwd : pwd
+			}
+			$.ajax({
+				//MainControllerのpostIndex()メソッドに遷移
+				url : '/pwdreset',
+				type : 'POST',
+				timeout : 60000,
+				data : JSON.stringify(reset),
+				contentType : "application/json",
+				async : false,
+				dataType : "html"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+
+				if (data == 1) {
+					alert('パスポート再設定成功');
+				} else {
+					alert('正しいメールアドレスと名前を入力してください');
+				}
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function(data) {
+				alert(data);
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+
+			});
+
+		}
+	</script>
+
 
 
 	<!-- 类库 -->
@@ -234,7 +281,7 @@
 	<script type="text/javascript" src="../js/WdatePicker.js.ダウンロード"></script>
 
 	<!-- 项目公共 -->
-	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
+
 	<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
 
 	<!-- 应用插件公共js -->
