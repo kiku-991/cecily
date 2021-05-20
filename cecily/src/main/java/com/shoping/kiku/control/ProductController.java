@@ -62,7 +62,7 @@ public class ProductController {
 	}
 
 	/**
-	 * 
+	 * 保存方法
 	 * @param request
 	 * @param file
 	 * @param list

@@ -241,34 +241,28 @@
 												<!-- 商品页面库存数量顶部钩子 -->
 												<ul class="plugins-ordergoodsform-goods-detail" data-url="">
 													<li>
-														<p>商品説明</p>
+														<p>商品説明:</p>
 														<p>
-															<input class="am-form-field am-input-sm am-radius"
-																type="text" readonly
-																th:value="${product.productContents}">
+																[[${product.productContents}]]
 														</p>
 													</li>
 													<br>
 													<li>
-														<p>メーカー</p>
+														<p>メーカー:</p>
 														
-															<input class="am-form-field am-input-sm am-radius"
-																type="text" readonly th:value="${product.maker}">
+															[[${product.maker}]]
 														
+													</li>
+													<li>
+														<p>在庫:</p>
+														[[${product.stock}]]
+													
 													</li>
 												</ul>
 
 												<!-- 库存数量 -->
 												<br>
-												<div class="theme-options">
-													<div class="cart-title number"></div>
-													
-													<label>在庫
-														<span class="tb-hidden stock-tips"><span
-															class="stock"
-															data-min-limit="1" data-max-limit="0" data-unit="">[[${product.stock}]]</span><span>件</span></span>
-													</label>
-												</div>
+											
 
 												<!-- 商品页面库存数量底部钩子 -->
 
@@ -306,7 +300,7 @@
 							<button type="button"
 								class="buy-btn cart-submit buy-btn-second buy-event login-event "
 								title="加入购物车" data-type="cart" th:onclick="|clickCart(${product.productId})|" >
-								 買い物かごに追加
+								 カードに入れ
 							</button>
 						</div>
 					</div>
@@ -332,7 +326,7 @@
                     </li>
                             </ul>
                 <div class="am-text-center am-padding-sm am-padding-bottom-lg">
-            <a href="https://demo.shopxo.net/shop-index-detail-1.html" class="am-btn am-btn-default am-radius plugins-shop-info-right-button" target="_blank">进店逛逛</a>
+            <a href="https://demo.shopxo.net/shop-index-detail-1.html" class="am-btn am-btn-default am-radius plugins-shop-info-right-button" target="_blank">店舗をみる</a>
         </div>
     </div>
 			</div>
@@ -355,13 +349,13 @@
 							data-am-sticky="{animation: &#39;slide-top&#39;}"
 							style="margin: 0px;">
 							<li class="am-active"><a href="javascript:;"> <span
-									class="index-needs-dt-txt">详情</span>
+									class="index-needs-dt-txt">詳細</span>
 							</a></li>
 							<li class="tabs-comment"><a href="javascript:;"> <span
-									class="index-needs-dt-txt">评论(0)</span>
+									class="index-needs-dt-txt">コメント</span>
 							</a></li>
 							<li><a href="javascript:;"> <span
-									class="index-needs-dt-txt">猜你喜欢</span>
+									class="index-needs-dt-txt">おすすめ</span>
 							</a></li>
 						</ul>
 					</div>

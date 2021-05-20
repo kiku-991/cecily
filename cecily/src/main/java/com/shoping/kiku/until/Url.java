@@ -102,6 +102,9 @@ public class Url {
 
 	//出店申込
 	public static final String MOSHIKOMISHOP = "/center/myshop";
+	
+	//店舗編集(store)
+	public static final String SHOPUPDATE ="/center/store/update/{id}";
 
 	//注文管理(店舗)
 	public static final String CYOMONMANAGER = "/center/ordermanager";

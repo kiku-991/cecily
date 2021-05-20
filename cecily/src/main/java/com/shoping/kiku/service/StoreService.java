@@ -44,7 +44,9 @@ public class StoreService {
 	 * @param st
 	 */
 	public void updateStore(int userId, StoreDto st) {
+		StoreEntity old = storeRepository.findByUserId(userId);
 		StoreEntity store = new StoreEntity();
+		store.setStoreId(old.getStoreId());
 		store.setUserId(userId);
 		store.setStoreName(st.getStoreName());
 		store.setStorePhone(st.getStorePhone());
@@ -52,7 +54,8 @@ public class StoreService {
 		store.setStoreTodoufuken(st.getStoreTodoufuken());
 		store.setStoreShikucyouson(st.getStoreShikucyouson());
 		store.setStoreCyomebanchi(st.getStoreCyomebanchi());
-		store.setStoreStatus(Status.SHOPOPAPP);
+		store.setStoreStatus(old.getStoreStatus());
+		storeRepository.save(store);
 	}
 
 	/**

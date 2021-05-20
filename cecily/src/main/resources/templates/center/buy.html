@@ -139,7 +139,7 @@
 			<div data-am-widget="tabs"
 				class="am-tabs am-tabs-d2 buy-header-nav am-no-layout">
 				<ul class="am-tabs-nav am-cf">
-					<li class="am-active"><a href="javascript:;" data-value="0">快递邮寄</a></li>
+					<li class="am-active"><a href="javascript:;" data-value="0">郵便情報</a></li>
 					<li><a href="javascript:;" data-value="2"> </a></li>
 				</ul>
 			</div>
@@ -148,7 +148,7 @@
 			<div class="address user-address-container">
 				<div class="control">
 					<h3>
-						确认收货地址
+						届け先確認
 						<button type="button"
 							class="am-close am-fr mobile-address-close-submit">×</button>
 					</h3>
@@ -308,7 +308,7 @@
 
 
 			<div class="buy-items">
-				<h3>订单信息</h3>
+				<h3>注文情報</h3>
 				<div class="goods-group-list">
 					<div
 						class="am-panel am-panel-default am-margin-top-sm am-margin-bottom-0">
@@ -409,7 +409,7 @@
 				<div class="pay-confirm">
 					<div class="box">
 						<div class="base-real-pay">
-							<em>实付款 :</em> <span class="price"> <span>￥</span><strong
+							<em>支払金額 :</em> <span class="price"> <span>￥</span><strong
 								class="nav-total-price">[[${amount}]]</strong>
 							</span>
 						</div>
@@ -417,12 +417,12 @@
 
 						<div class="pay-address" th:if="${useradd}!=null">
 							<div class="buy-footer-address">
-								<span class="buy-line-title">联系人 :</span> <span class="buy-user">
+								<span class="buy-line-title">連絡先 :</span> <span class="buy-user">
 									[[${useradd.renrakuname}]] </span> <span class="buy-phone">
 									[[${useradd.renrakuphone}]] </span>
 							</div>
 							<div class="buy-footer-address">
-								<span class="buy-line-title buy-line-title-type">地址 :</span> <span
+								<span class="buy-line-title buy-line-title-type">届け先 :</span> <span
 									class="buy-address-detail"> [[${useradd.dtodoufuken}]]
 									[[${useradd.dshikucyouson}]] [[${useradd.dcyoumebanchi}]] </span>
 							</div>
@@ -435,7 +435,7 @@
 						
 						<div class="go-btn-wrap">
 							<button type="submit" class="btn-go btn-loading-example"
-								title="点击此按钮，提交订单">提交订单</button>
+								title="点击此按钮，提交订单">注文提出</button>
 						</div>
 					</form>
 				</div>

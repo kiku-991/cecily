@@ -36,6 +36,18 @@ public class StoreController {
 		
 		return "redirect:/center/myshop";
 	}
+	
+	/**
+	 * 店舗編集
+	 * @param res
+	 * @param store
+	 * @return
+	 */
+	@RequestMapping(Url.SHOPUPDATE)
+	public String storeUpdate(@PathVariable("id")int userId,StoreDto store) {
+		storeService.updateStore(userId,store);
+		return "redirect:/center/myshop";
+	}
 
 	/**
 	 * 申込同意(ADMIN)
