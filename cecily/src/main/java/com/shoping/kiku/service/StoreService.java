@@ -63,9 +63,9 @@ public class StoreService {
 	 * @param userId
 	 * @param st
 	 */
-	public void editStore(int userId, StoreDto st) {
+	public void editStore(int storeId, StoreDto st) {
 		StoreEntity store = new StoreEntity();
-		store.setUserId(userId);
+		store.setUserId(storeId);
 		store.setStoreName(st.getStoreName());
 		store.setStorePhone(st.getStorePhone());
 		store.setStorePostcode(st.getStorePostcode());
@@ -73,6 +73,7 @@ public class StoreService {
 		store.setStoreShikucyouson(st.getStoreShikucyouson());
 		store.setStoreCyomebanchi(st.getStoreCyomebanchi());
 		store.setStoreStatus(st.getStoreStatus());
+		storeRepository.save(store);
 	}
 
 	/**

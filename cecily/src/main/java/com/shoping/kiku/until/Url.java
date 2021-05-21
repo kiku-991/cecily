@@ -11,15 +11,15 @@ public class Url {
 
 	//ログアウト 
 	public static final String LOGINOUT = "/loginout";
-	
+
 	//パスワード忘れ
-	public static final String FORGETPWD ="/forgetpwd";
+	public static final String FORGETPWD = "/forgetpwd";
 
 	//imgフォルダに画像
 	public static final String SRC = "../img/";
-	
+
 	//path
-	public static final String SAVEPATH ="D:\\project\\cecily\\cecily\\src\\main\\resources\\static\\img\\";
+	public static final String SAVEPATH = "D:\\project\\cecily\\cecily\\src\\main\\resources\\static\\img\\";
 
 	/**
 	 * UserInfoController
@@ -89,8 +89,6 @@ public class Url {
 	//パスワード変更画面 
 	public static final String PWDCHANGE = "/center/pwdChange";
 
-
-	
 	//お気に入り
 	public static final String FAVORITE = "/center/favorite";
 
@@ -102,9 +100,12 @@ public class Url {
 
 	//出店申込
 	public static final String MOSHIKOMISHOP = "/center/myshop";
-	
+
 	//店舗編集(store)
-	public static final String SHOPUPDATE ="/center/store/update/{id}";
+	public static final String SHOPUPDATE = "/center/store/update/{id}";
+
+	//
+	public static final String SHOPEDIT = "center/storemanager/edit/{id}";
 
 	//注文管理(店舗)
 	public static final String CYOMONMANAGER = "/center/ordermanager";
@@ -125,7 +126,7 @@ public class Url {
 
 	//ユーザ届け住所連絡
 	public static final String USERTODOKELIST = "/center/userTodokeList";
-	
+
 	//すべての注文管理(ADMIN)
 	public static final String ALLORDERINFO = "/center/cyumonManager";
 
@@ -165,8 +166,8 @@ public class Url {
 	public static final String KEYWORDPROPRICE = "/part/priceSearch";
 
 	//キーワード検索By　综合区块
-//	public static final String KEYWORDNAME = "/part/nameSearch";
-	
+	//	public static final String KEYWORDNAME = "/part/nameSearch";
+
 	//気に入り一覧
 	public static final String SHOPFAVPRITE = "/shopping/favorite";
 
@@ -227,75 +228,54 @@ public class Url {
 
 	//オーダー取消
 	public static final String ORDERCANCEL = "/center/myorder/cancelorder/{id}";
-	
+
 	//商品発送(store)
 	public static final String SHIPPRODUCT = "/center/ordermanager/shipproduct/{id}";
 
 	//收貨 訂單已完成(user)
 	public static final String RECEIPTPRODUCT = "/center/ordermanager/receiptproduct/{id}";
-	
-	
-	public static final String RECEIPTANDPAY="/center/myorder/receiptpay/{id}";
-	
+
+	public static final String RECEIPTANDPAY = "/center/myorder/receiptpay/{id}";
+
 	/**
 	 * MyCartController
 	 */
-	
+
 	//買い物かご画面
 	public static final String SHOPMYCART = "/shopping/myCart";
-	
+
 	//買い物かご追加
 	public static final String ADDCART = "/addMyCart";
-	
-	
+
 	//買い物かご削除
 	public static final String DELETECART = "/myCart/deleteCart/{productId}";
-	
-	
+
 	//'+'ボタンを押下
 	public static final String INCRESE = "/increse";
-	
-	
+
 	//'-'ボタンを押下
 	public static final String DESCRE = "/descre";
-	
-	
+
 	//checkbox選択され処理
 	public static final String SINGLECHECKED = "/changeStatus";
-	
-	
+
 	//全選処理
 	public static final String ALLCHECKED = "/changeAllStatus";
-	
-	
-	
+
 	//買い物かご画面に決算ボタンを押下処理 buy 画面に遷移
 	public static final String BUY = "/mycart/buy";
-	
-	
+
 	//buy 画面提交订单之后跳转页面
 	public static final String ORDERADD = "/order/add";
-	
-	
-	
+
 	/**
 	 * FavoriteController
 	 */
-	
-	
-	
+
 	//気に入りボタンイベント
 	public static final String KINIIRICHICK = "/part/myfavorite";
-	
+
 	//気に入り取消(削除)
 	public static final String KINIIRICANCEL = "/center/favorite/delete/{id}";
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
