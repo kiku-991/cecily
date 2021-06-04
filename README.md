@@ -6,7 +6,15 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
 
 
 
-
+<table>
+  <tr>
+    <td>One</td>
+    <td>Two</td>
+  </tr>
+  <tr>
+    <td colspan="2">Three</td>
+  </tr>
+</table>
 
 
 
@@ -16,7 +24,7 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
     <thead>
         <tr>
             <th>区分</th>
-            <th>機能名</th>
+            <th colspan=2>機能名</th>      
             <th>機能概要</th>
         </tr>
     </thead>
@@ -24,65 +32,190 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
     <tbody>
         <tr>
             <td rowspan=5>共通</td>
-            <td>登録</td>
+            <td colspan=2>登録</td>
             <td>アカウント作成できます</td>
         </tr>
         <tr>
-             <td>ログイン</td>
+             <td colspan=2>ログイン</td>
             <td>ログインする、セッション作成</td>
         </tr>
         <tr>
-            <td>パスワード忘れ</td>
+            <td colspan=2>パスワード忘れ</td>
             <td>パスワードを忘れる場合、検証を行う、再設定ができます</td>
         </tr>
         <tr>
-            <td>ログアウト</td>
+            <td colspan=2>ログアウト</td>
             <td>ログアウトをする、セッションをRemoveする</td>
         </tr>
         <tr>
-            <td>インターセプター</td>
+            <td colspan=2>インターセプター</td>
             <td>未ログインの場合、マイページにアクセスできません</td>
         </tr>
           </tbody>
          <tbody>
          <tr>
-            <td  rowspan=9>ユーザ側</td>
-            <td>商品一覧</td>
+            <td  rowspan=15>ユーザ側</td>
+            <td colspan=2>商品一覧</td>
             <td>商品一覧確認できます</td>
         </tr>
         <tr>
-            <td >商品詳細</td>
+            <td colspan=2>商品詳細</td>
             <td>商品の詳細情報を表示する</td>  
         </tr>
         <tr>
-            <td >商品検索</td>
+            <td colspan=2>商品検索</td>
             <td>商品名、商品価格、更新時間によって検索できます</td>  
         </tr>
         <tr>
-            <td >買い物かご</td>
+            <td colspan=2>買い物かご</td>
             <td>商品を買い物かごに入れ、数量増加減少できます、買い物かご一覧確認できます</td>  
         </tr>
         <tr>
-            <td >お気に入り</td>
+            <td colspan=2>お気に入り</td>
             <td>商品をお気に入りできます、お気に入り一覧確認できます</td>  
         </tr>
         <tr>
-            <td >注文キャンセル</td>
+            <td colspan=2>注文キャンセル</td>
             <td>注文をキャンセルできます</td>  
         </tr>
         <tr>
-            <td >決済</td>
+            <td colspan=2>決済</td>
             <td>AriPay、クレジットカード支払い</td>  
         </tr>
-            <tr rowspan=8>
-            <td >マイページ</td>
-            <td></td>  
+        <tr>
+            <td rowspan=8>マイページ</td>
+            <td>会員情報登録</td>  
+            <td>お客様の情報を登録できます</td>            
         </tr> 
-            <tr>
-            <td ></td>
-            <td></td>  
+        <tr>
+            <td>会員情報編集</td>
+            <td>お客様の情報を編集できます</td>  
+        </tr>
+                           <tr>
+            <td>お届け先情報登録、追加</td>
+            <td>お届け先情報登録、多数追加できます</td>  
+        </tr>
+                      <tr>
+            <td>お届け先情報編集</td>
+            <td>お届け先情報編集できます</td>  
+        </tr>
+                      <tr>
+            <td>お届け先情報削除</td>
+            <td>お届け先情報削除できます</td>  
+        </tr>
+                      <tr>
+            <td>パスワード変更</td>
+            <td>パスワード変更できます</td>  
+        </tr>
+                                           <tr>
+            <td>注文履歴</td>
+            <td>注文一覧確認できます</td>  
+        </tr>
+                                           <tr>
+            <td>出店申込</td>
+            <td>店舗になる申請ができます</td>  
         </tr>
     </tbody>
+    <tbody>
+      <tr>
+            <td rowspan=10>店舗側</td>
+           <td colspan=2>注文管理</td>
+            <td>注文一覧、注文明細、配達先の確認できます</td>
+        </tr>
+                <tr>
+            <td colspan=2>発送管理</td>
+            <td>運送会社選択、商品を発送できます</td>
+                </tr>
+     <tr>
+            <td rowspan=2>店舗管理</td>
+            <td>店舗情報を登録</td>  
+            <td>店舗情報を登録できます</td>            
+        </tr> 
+       <tr>
+            <td>店舗情報を編集</td>  
+            <td>店舗情報を登録できます</td>            
+        </tr> 
+                  <tr>
+            <td rowspan=4>商品管理</td>
+            <td>商品を新規登録</td>  
+            <td>商品を新規登録できます</td>            
+        </tr> 
+       <tr>
+            <td>商品を削除</td>  
+            <td>商品を削除できます</td>            
+        </tr> 
+                  <tr>
+            <td>商品の表示非表示</td>  
+            <td>イベント商品の表示・非表示</td>            
+        </tr> 
+                  <tr>
+            <td>商品情報編集</td>  
+            <td>商品情報編集できます</td>            
+        </tr> 
+     </tbody>
+      <tbody>
+              <tr>
+            <td rowspan=13>管理員</td>
+           <td colspan=2>注文管理</td>
+            <td>注文一覧、注文明細、配達先の確認できます</td>
+        </tr>  
+            <tr>
+            <td rowspan=3>店舗管理</td>
+            <td>店舗申込</td>  
+            <td>店舗申請を承認する</td>            
+        </tr> 
+       <tr>
+            <td>店舗状態変更</td>  
+            <td>店舗状態を変更できます</td>            
+        </tr> 
+                <tr>
+            <td>店舗情報を編集</td>  
+            <td>店舗情報を編集できます</td>            
+        </tr>          
+        <tr>
+            <td rowspan=3>商品管理</td>
+            <td>商品を削除</td>  
+            <td>商品を削除できます</td>             
+        </tr> 
+       <tr>
+            <td>商品の表示非表示</td>  
+            <td>イベント商品の表示・非表示</td>            
+        </tr> 
+        <tr>
+            <td>商品情報編集</td>  
+            <td>商品情報編集できます</td>            
+        </tr> 
+           <tr>
+            <td rowspan=2>ユーザ管理</td>
+            <td>ユーザ一覧</td>  
+            <td>ユーザ一覧確認できます</td>            
+        </tr> 
+       <tr>
+            <td>ユーザ状態変更</td>  
+            <td>ユーザ状態を変更できます</td>            
+        </tr>    
+                   <tr>
+            <td rowspan=2>ユーザ情報管理</td>
+            <td>ユーザ情報一覧</td>  
+            <td>ユーザ情報一覧確認できます</td>            
+        </tr> 
+       <tr>
+            <td>ユーザ情報編集</td>  
+            <td>ユーザ情報を編集できます</td>            
+        </tr>           
+         <tr>
+            <td rowspan=2>ユーザ届け住所管理</td>
+            <td>ユーザ届け住所一覧</td>  
+            <td>ユーザ届け住所一覧できます</td>            
+        </tr> 
+       <tr>
+            <td>ユーザ届け住所編集</td>  
+            <td>ユーザ届け住所編集できます</td>            
+        </tr>                          
+        </tbody>
+       
+            
+            
 </table>
 
 
