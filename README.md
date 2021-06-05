@@ -29,7 +29,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
     
     <tbody>
         <tr>
-            <td rowspan=7>共通</td>
+            <td rowspan=9>共通</td>
             <td colspan=2>登録</td>
             <td>新規アカウント作成＆ログイン画面に遷移する</td>
         </tr>
@@ -57,10 +57,18 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
             <td colspan=2>インターセプター</td>
             <td>未ログインまたは未登録の場合、マイページアクセス制御、買い物制御</td>
         </tr>
+        <tr>
+            <td colspan=2>会員情報登録</td>  
+            <td>お客様の情報を新規登録する</td>                         
+        </tr>       
+        <tr>
+            <td colspan=2>会員情報編集</td>
+            <td>お客様の情報を編集する</td>  
+        </tr>
           </tbody>
          <tbody>
          <tr>
-            <td  rowspan=15>ユーザ側</td>
+            <td rowspan=15>ユーザ側</td>
             <td colspan=2>商品一覧</td>
             <td>ホームページにて商品一覧確認できます</td>
         </tr>
@@ -89,50 +97,37 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
             <td>Alipay、クレジットカード支払い選択できる</td>  
         </tr>
         <tr>
-            <td rowspan=8>マイページ</td>
-            <td>会員情報登録</td>  
-            <td>お客様の情報を新規登録する</td>            
-        </tr> 
+            <td colspan=2>お届け先情報登録、追加</td>
+            <td>お届け先情報登録、多数追加できる</td>            
+        </tr>          
         <tr>
-            <td>会員情報編集</td>
-            <td>お客様の情報を編集する</td>  
-        </tr>
-                           <tr>
-            <td>お届け先情報登録、追加</td>
-            <td>お届け先情報登録、多数追加できる</td>  
-        </tr>
-                      <tr>
-            <td>お届け先情報編集</td>
+            <td colspan=2>お届け先情報編集</td>
             <td>お届け先情報編集する</td>  
         </tr>
-                      <tr>
-            <td>お届け先情報削除</td>
+        <tr>
+            <td colspan=2>お届け先情報削除</td>
             <td>お届け先情報削除する</td>  
-        </tr>
-                      <tr>
-            <td>パスワード変更</td>
-            <td>パスワードの変更ができる</td>  
-        </tr>
-                                           <tr>
-            <td>注文履歴</td>
+        </tr>             
+        <tr>
+            <td colspan=2>注文履歴</td>
             <td>注文情報一覧確認できる</td>  
         </tr>
-                                           <tr>
-            <td>出店申込</td>
+        <tr>
+            <td colspan=2>出店申込</td>
             <td>店舗申請を出し、管理員の承認を待ち</td>  
         </tr>
     </tbody>
     <tbody>
       <tr>
-            <td rowspan=10>店舗側</td>
+           <td rowspan=10>店舗側</td>
            <td colspan=2>注文管理</td>
             <td>注文一覧を表示、注文明細、配達先の確認できる</td>
-        </tr>
-                <tr>
+      </tr>
+      <tr>
             <td colspan=2>発送管理</td>
             <td>運送会社選択、商品を発送できる</td>
-                </tr>
-     <tr>
+      </tr>
+       <tr>
             <td rowspan=2>店舗管理</td>
             <td>店舗情報を登録</td>  
             <td>店舗情報を新規登録する</td>            
@@ -141,7 +136,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
             <td>店舗情報を編集</td>  
             <td>店舗情報を編集できる</td>            
         </tr> 
-                  <tr>
+         <tr>
             <td rowspan=4>商品管理</td>
             <td>商品を新規登録</td>  
             <td>商品を新規登録する</td>            
@@ -152,7 +147,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
         </tr> 
                   <tr>
             <td>イベント商品の表示・非表示</td>  
-            <td>イベント商品の表示・非表示</td>            
+            <td>イベント商品の表示・非表示する</td>            
         </tr> 
                   <tr>
             <td>商品情報編集</td>  
@@ -163,7 +158,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
               <tr>
             <td rowspan=13>管理員</td>
            <td colspan=2>注文管理</td>
-            <td>注文一覧、注文明細、配達先の確認できます</td>
+            <td>注文一覧、注文明細、配達先の確認できる</td>
         </tr>  
             <tr>
             <td rowspan=3>店舗管理</td>
@@ -172,16 +167,16 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
         </tr> 
        <tr>
             <td>店舗状態変更</td>  
-            <td>店舗状態を変更できます</td>            
+            <td>店舗状態を変更できる</td>            
         </tr> 
                 <tr>
             <td>店舗情報を編集</td>  
-            <td>店舗情報を編集できます</td>            
+            <td>店舗情報を編集できる</td>            
         </tr>          
         <tr>
             <td rowspan=3>商品管理</td>
             <td>商品を削除</td>  
-            <td>商品を削除できます</td>             
+            <td>商品を削除できる</td>             
         </tr> 
        <tr>
             <td>商品の表示非表示</td>  
@@ -189,7 +184,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
         </tr> 
         <tr>
             <td>商品情報編集</td>  
-            <td>商品情報編集できます</td>            
+            <td>商品情報編集できる</td>            
         </tr> 
            <tr>
             <td rowspan=2>ユーザ管理</td>
