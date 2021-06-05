@@ -78,10 +78,11 @@
 			<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
 				<!-- 内容ここから -->
 
+
 				<br>
 				<h5>気に入り一覧</h5>
 				<br>
-				<hr>
+
 				<p style="color: red;" th:if="${favoritePros.size==0}">
 					気に入り商品まだないです、<a type="button" th:href="@{/shopping}">ホームページ</a>にて追加しましょう。
 					
@@ -93,8 +94,6 @@
 							<th>商品名</th>
 							<th>写真</th>
 							<th>価格</th>
-							<th>説明</th>
-							<th>メーカー</th>
 							<th>気に入り時間</th>
 							<th>操作</th>
 						</tr>
@@ -105,8 +104,6 @@
 							<td><img th:src="${favoPro.productImg}" width="80"
 								height="80"></td>
 							<td th:text="${favoPro.productPrice}"></td>
-							<td th:text="${favoPro.productContents}"></td>
-							<td th:text="${favoPro.maker}"></td>
 							<td th:text="${favoPro.createdate}"></td>
 							<td><a type="button" class="btn btn-warning btn-sm"
 								data-bs-toggle="modal"
