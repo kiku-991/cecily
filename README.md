@@ -231,6 +231,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という通販サイ�
 
 #### 1-8　画面：Html、JavaScript、jQuery、Ajax、Bootstrap
 
+#### 1-9　テスト：Junit
 
 # 2. 構成
 #### 2-1　ER図
@@ -275,27 +276,64 @@ SpringBootフレームワークを用いた「KIKUSHOP」という通販サイ�
 　
 #### 3-1　メイン画面
 
-![メイン画面](https://github.com/kiku-991/cecily/blob/master/image/homepage.png)
+![メイン画面](https://github.com/kiku-991/cecily/blob/master/image/%E3%83%9B%E3%83%BC%E3%83%A0%E3%83%9A%E3%83%BC%E3%82%B8.png)
 
-#### 3-2　ログイン画面
-![ログイン](https://github.com/kiku-991/cecily/blob/master/image/login.png)
+#### 3-2　登録
+![登録](https://github.com/kiku-991/cecily/blob/master/image/%E7%99%BB%E9%8C%B2.png)
 
-#### 3-3　注文一覧表示
+#### 3-3　ログイン画面
+![ログイン](https://github.com/kiku-991/cecily/blob/master/image/%E3%83%AD%E3%82%B0%E3%82%A4%E3%83%B3.png)
+
+#### 3-3　個人センター
+![個人センター](https://github.com/kiku-991/cecily/blob/master/image/%E5%80%8B%E4%BA%BA%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC.png)
+
+#### 3-4　会員情報登録・変更
+![会員情報登録・変更](https://github.com/kiku-991/cecily/blob/master/image/%E4%BC%9A%E5%93%A1%E6%83%85%E5%A0%B1%E7%99%BB%E9%8C%B2%E5%A4%89%E6%9B%B4.png)
+
+#### 3-5　届け住所登録・変更
+![届け住所登録・変更](https://github.com/kiku-991/cecily/blob/master/image/%E5%B1%8A%E3%81%91%E4%BD%8F%E6%89%80%E7%99%BB%E9%8C%B2%E5%A4%89%E6%9B%B4.png)
+
+#### 3-6　パスワード変更
+![パスワード変更](https://github.com/kiku-991/cecily/blob/master/image/%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89%E5%A4%89%E6%9B%B41.png)
+![パスワード変更](https://github.com/kiku-991/cecily/blob/master/image/%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89%E7%A2%BA%E8%AA%8D.png)
+
+#### 3-7　お気に入り一覧
+![お気に入り一覧](https://github.com/kiku-991/cecily/blob/master/image/%E3%81%8A%E6%B0%97%E3%81%AB%E5%85%A5%E3%82%8A%E4%B8%80%E8%A6%A7.png)
+
+#### 3-8　マイ注文
 ![注文一覧](https://github.com/kiku-991/cecily/blob/master/image/myOrder.png)
-#### 3-4　商品一覧表示
-![商品一覧]()
-#### 3-5　ユーザ一覧表示
-![ユーザー一覧]()
-#### 3-6　店舗一覧表示
-![ユーザー一覧]()
-#### 3-7　買い物かご
-![買い物かご](https://github.com/kiku-991/cecily/blob/master/image/mycart.png)
-#### 3-8　商品詳細
 
+#### 3-9　出店申込
+![出店申込](https://github.com/kiku-991/cecily/blob/master/image/%E5%87%BA%E5%BA%97%E7%94%B3%E8%BE%BC.png)
+
+#### 3-10　パスワード忘れ
+![パスワード忘れ](https://github.com/kiku-991/cecily/blob/master/image/%E3%83%91%E3%82%B9%E3%83%AF%E3%83%BC%E3%83%89%E5%BF%98%E3%82%8C.png)
+
+#### 3-11　商品一覧表示
+![商品一覧](https://github.com/kiku-991/cecily/blob/master/image/%E5%95%86%E5%93%81%E4%B8%80%E8%A6%A7.png)
+
+#### 3-12　商品検索
+![商品検索](https://github.com/kiku-991/cecily/blob/master/image/%E6%A4%9C%E7%B4%A2.png)
+
+#### 3-13　商品詳細
 ![商品詳細](https://github.com/kiku-991/cecily/blob/master/image/%E5%95%86%E5%93%81%E8%A9%B3%E7%B4%B0.png)
 
-#### 3-8　商品検索
-![商品検索](https://github.com/kiku-991/cecily/blob/master/image/keyword.png)
+#### 3-13　ユーザ一覧表示
+![ユーザー一覧](https://github.com/kiku-991/cecily/blob/master/image/%E3%83%A6%E3%83%BC%E3%82%B6%E4%B8%80%E8%A6%A7.png)
 
-#### 3-8　個人センター
-![個人センター](https://github.com/kiku-991/cecily/blob/master/image/keyword.png)
+#### 3-14　店舗一覧表示
+![店舗一覧表示](https://github.com/kiku-991/cecily/blob/master/image/%E5%BA%97%E8%88%97%E7%AE%A1%E7%90%86.png)
+
+#### 3-15　買い物かご
+![買い物かご](https://github.com/kiku-991/cecily/blob/master/image/mycart.png)
+
+....続きの画面はプロジェクトにて確認してください
+
+# 4. テスト
+Junitを使って、テストを行う
+![テスト](https://github.com/kiku-991/cecily/blob/master/image/%E7%B0%A1%E5%8D%98%E3%81%AA%E3%83%86%E3%82%B9%E3%83%88.png)
+
+# 5. 後ろ書き
+自分で要件定義からテストまでを設計しましたので、不合理的な部分がありますが，これから開発に頑張りたいと思います。
+
+
