@@ -1,24 +1,15 @@
 # 通販サイト開発
-## 「KIKU'SHOP」
-SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイトを自ら開発しました。
+## 「KIKUSHOP」
+SpringBootフレームワークを用いた「KIKUSHOP」という通販サイトを自ら開発しました。
 当サイトは商品管理、ユーザ管理、注文管理などの機能が付いています。 開発の期間は約2ヶ月でした。
 機能は以下となります。
 
 
 
-<table>
-  <tr>
-    <td>One</td>
-    <td>Two</td>
-  </tr>
-  <tr>
-    <td colspan="2">Three</td>
-  </tr>
-</table>
 
 
 
-
+<h3>機能一覧</h3>
 
 <table>
     <thead>
@@ -223,32 +214,6 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # 1. 開発環境
 #### 1-1　IDE：Eclipse
 
@@ -271,13 +236,13 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
 #### 2-1　ER図
 
 
-![ER図](C:\Users\呉青芳\Desktop\KIKUSHOP\er.png)
+![ER図](https://github.com/kiku-991/cecily/blob/master/image/ER%E5%9B%B3.png)
 
 
 
 #### 2-2　システム構成
 
-
+![システム構成](https://github.com/kiku-991/cecily/blob/master/image/MVC.png)
 
 
 #### 2-3　Role構成
@@ -304,21 +269,33 @@ SpringBootフレームワークを用いた「KIKU'SHOP」という通販サイ�
      - 注文管理
 
 # 3. 画面
-　画面遷移図
+
+![画面遷移図](https://github.com/kiku-991/cecily/blob/master/image/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3.png)
 　
 　
 #### 3-1　メイン画面
 
+![メイン画面](https://github.com/kiku-991/cecily/blob/master/image/homepage.png)
 
 #### 3-2　ログイン画面
-
+![ログイン](https://github.com/kiku-991/cecily/blob/master/image/login.png)
 
 #### 3-3　注文一覧表示
-
+![注文一覧](https://github.com/kiku-991/cecily/blob/master/image/myOrder.png)
 #### 3-4　商品一覧表示
-
+![商品一覧]()
 #### 3-5　ユーザ一覧表示
-
+![ユーザー一覧]()
 #### 3-6　店舗一覧表示
+![ユーザー一覧]()
+#### 3-7　買い物かご
+![買い物かご](https://github.com/kiku-991/cecily/blob/master/image/mycart.png)
+#### 3-8　商品詳細
 
+![商品詳細](https://github.com/kiku-991/cecily/blob/master/image/%E5%95%86%E5%93%81%E8%A9%B3%E7%B4%B0.png)
 
+#### 3-8　商品検索
+![商品検索](https://github.com/kiku-991/cecily/blob/master/image/keyword.png)
+
+#### 3-8　個人センター
+![個人センター](https://github.com/kiku-991/cecily/blob/master/image/keyword.png)
