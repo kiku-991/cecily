@@ -39,7 +39,7 @@ class UserLoginTest {
 	@Test
 	void getPwdtest() throws Exception {
 
-		assertEquals("96e79218965eb72c92a549dd5a330112", userLoginService.getPwd("admin@123.com"));
+		assertEquals("0b4e7a0e5fe84ad35fb5f95b9ceeac79", userLoginService.getPwd("admin@123.com"));
 	}
 
 	@Test
@@ -62,10 +62,8 @@ class UserLoginTest {
 	@Test
 	void getAllUsertest() throws Exception {
 		List<UserLoginDto> allUser = userLoginService.getAllUser();
-		for(UserLoginDto user : allUser) {
-			System.out.println(user.getUserMail());
-		}
-		assertEquals(1, allUser.size());
+		
+		assertEquals(4, allUser.size());
 	}
 
 }
