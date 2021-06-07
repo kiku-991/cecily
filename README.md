@@ -62,7 +62,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
          <tr>
             <td rowspan=16>ユーザ側</td>
             <td colspan=2>商品一覧</td>
-            <td>ホームページにて商品一覧確認できます</td>
+            <td>ホームページにて商品一覧を表示する(商品発表時間順によってソート)</td>
         </tr>
         <tr>
             <td colspan=2>商品詳細</td>
@@ -74,16 +74,20 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
         </tr>
         <tr>
             <td colspan=2>買い物かご</td>
-            <td>商品を買い物かごに入れ、数量増加減少、買い物かご一覧確認できる</td>  
+            <td>商品を買い物かごに入れ、数量増加減少、在庫数量確認、買い物かご一覧確認できる</td>  
         </tr>
         <tr>
             <td colspan=2>お気に入り</td>
             <td>商品をお気に入り、お気に入り一覧表示できる</td>  
         </tr>
         <tr>
-            <td colspan=2>注文・注文キャンセル</td>
-            <td>注文する、注文をキャンセルできる</td>  
+            <td colspan=2>注文</td>
+            <td>注文する</td>  
         </tr>
+         <tr>
+            <td colspan=2>注文キャンセル</td>
+            <td>注文をキャンセルできる</td>  
+        </tr>            
         <tr>
             <td colspan=2>決済</td>
             <td>Alipay、クレジットカード支払い選択できる</td>  
@@ -106,7 +110,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
         </tr>
         <tr>
             <td colspan=2>出店申込</td>
-            <td>店舗申請を出し、管理員の承認を待ち</td>  
+            <td>店舗申請を出し、申請状態の確認メッセージが表示される</td>  
         </tr>
     </tbody>
     <tbody>
@@ -163,7 +167,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
         </tr> 
        <tr>
             <td>店舗状態変更</td>  
-            <td>店舗状態を変更できる</td>            
+            <td>店舗状態を変更できる （状態　出店中　出店中止）</td>            
         </tr> 
         <tr>
             <td>店舗情報を編集</td>  
@@ -193,7 +197,7 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
         </tr> 
        <tr>
             <td>ユーザ状態変更</td>  
-            <td>ユーザ状態を変更できる</td>            
+            <td>ユーザ状態を変更できる （状態　正常　ブロック）</td>            
         </tr>    
         <tr>
             <td rowspan=2>ユーザ情報管理</td>
