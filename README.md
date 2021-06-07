@@ -374,7 +374,20 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
 #### 3-15　買い物かご
 ![買い物かご](https://github.com/kiku-991/cecily/blob/master/image/mycart.png)
 
+#### 3-16　注文確認
+![注文確認](https://github.com/kiku-991/cecily/blob/master/image/%E6%B3%A8%E6%96%87%E7%A2%BA%E8%AA%8D.png)
+
+#### 3-17　提出成功画面
+![提出成功画面](https://github.com/kiku-991/cecily/blob/master/image/%E6%8F%90%E5%87%BA%E6%88%90%E5%8A%9F.png)
+
 ....続きの画面はプロジェクトにて確認してください
+
+モバイル端末にも対応できています。
+
+![個人センターモバイル](https://github.com/kiku-991/cecily/blob/master/image/%E5%80%8B%E4%BA%BA%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E7%AB%AF%E6%9C%AB.png)
+
+
+![テスト](https://github.com/kiku-991/cecily/blob/master/image/%E3%82%BF%E3%83%83%E3%82%B0%E3%83%A2%E3%83%90%E3%82%A4%E3%83%AB%E7%AB%AF%E6%9C%AB.png)
 
 # 4. テスト
 Junitを使って、テストを行う
