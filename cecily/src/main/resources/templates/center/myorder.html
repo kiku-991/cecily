@@ -144,20 +144,20 @@
 						<tr>
 							<th class="am-text-center" style="min-width: 80px;"></th>
 							<th class="am-grid-xl">商品情報</th>
-							<th class="">订单状态</th>
-							<th class="">支付状态</th>
+							<th class="">注文状態</th>
+							<th class="">支払状態</th>
 							<th>総額</th>
-							<th class="">支払い金額</th>
+							<th class="">支払金額</th>
 							<th class="am-grid-sm">連絡情報</th>
 							<th>購入数量</th>
-							<th class="">支付方式</th>
-							<th class="">快递公司</th>
-							<th class="">快递单号</th>
-							<th class="">确认時間</th>
-							<th class="">支付時間</th>
-							<th class="">发货時間</th>
+							<th class="">支払方式</th>
+							<th class="">配達会社</th>
+							<th class="">追跡番号</th>
+							<th class="">確認時間</th>
+							<th class="">支払時間</th>
+							<th class="">発送時間</th>
 							<th class="">收货時間</th>
-							<th class="">创建時間</th>
+							<th class="">生成時間</th>
 							<th class="">更新時間</th>
 							<th
 								class="am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
@@ -202,12 +202,12 @@
 								<div class="am-margin-top-sm">共[[${oid.qqt}]]件
 									合计:￥[[${oid.total}]]</div>
 							</td>
-							<!-- th:text="${oid.orderStatus==0?'待支付':(oid.orderStatus==1?'待发货':(oid.orderStatus==2?'待收货':'已完成'))}" -->
+							<!-- th:text="${oid.orderStatus==0?'待支払':(oid.orderStatus==1?'待发货':(oid.orderStatus==2?'待收货':'已完成'))}" -->
 							<td class="am-nowrap-initial" th:text="${oid.ordStatus}"></td>
 							<td class="am-nowrap-initial"
 								th:text="${oid.payTime != null?'支払完了':'支払待ち'}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.total}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
+							<td class="am-nowrap-initial" th:text="'¥'+${oid.total}"></td>
+							<td class="am-nowrap-initial" th:text="'¥'+${oid.payTotal}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
 								<div>
 									<span class="am-badge am-badge-secondary-plain am-radius">[[${addresss.renrakuname}]]</span>
@@ -241,7 +241,7 @@
 									class="am-btn am-btn-secondary am-btn-xs am-radius am-btn-block submit-ajax submit-confirm"
 									data-view="reload" data-bs-toggle="modal"
 									th:data-bs-target="'#shouhuo'+${oid.orderId}">
-									<span>收货</span>
+									<span>荷物確認</span>
 								</button> <button
 								th:if="${oid.deliveryTime!=null && oid.receiptTime==null && oid.payTime==null}"
 								class="am-btn am-btn-default am-btn-xs am-radius am-btn-block"
@@ -257,7 +257,7 @@
 								<button type="button"
 									class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay"
 									data-bs-toggle="modal" th:if="${oid.paymentId==null}"
-									th:data-bs-target="'#pay'+${oid.orderId}">支付</button></td>
+									th:data-bs-target="'#pay'+${oid.orderId}">支払</button></td>
 							<!-- 支払Modal -->
 							<div class="modal fade " th:id="'pay'+${oid.orderId}"
 								data-bs-backdrop="pay" data-bs-keyboard="false" tabindex="-1"
@@ -265,7 +265,7 @@
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="payLabel">请选择支付</h5>
+											<h5 class="modal-title" id="payLabel">请选择支払</h5>
 											<button type="button" class="btn-close"
 												data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
@@ -274,12 +274,12 @@
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
 													name="inlineRadioOptions" id="inlineRadio1" value="1">
-												<label class="form-check-label" for="inlineRadio1">支付宝</label>
+												<label class="form-check-label" for="inlineRadio1">支払宝</label>
 											</div>
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
 													name="inlineRadioOptions" id="inlineRadio2" value="2">
-												<label class="form-check-label" for="inlineRadio2">信用卡支付</label>
+												<label class="form-check-label" for="inlineRadio2">信用卡支払</label>
 											</div>
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"

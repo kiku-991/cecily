@@ -143,20 +143,20 @@
 						<tr>
 							<th class="am-text-center" style="min-width: 80px;"></th>
 							<th class="am-grid-xl">商品情報</th>
-							<th class="">订单状态</th>
-							<th class="">支付状态</th>
+							<th class="">注文状態</th>
+							<th class="">支払状態</th>
 							<th>総額</th>
-							<th class="">支払い金額</th>
+							<th class="">支払金額</th>
 							<th class="am-grid-sm">連絡情報</th>
 							<th>購入数量</th>
-							<th class="">支付方式</th>
-							<th class="">快递公司</th>
-							<th class="">快递单号</th>
-							<th class="">确认時間</th>
-							<th class="">支付時間</th>
-							<th class="">发货時間</th>
+							<th class="">支払方式</th>
+							<th class="">配達会社</th>
+							<th class="">追跡番号</th>
+							<th class="">確認時間</th>
+							<th class="">支払時間</th>
+							<th class="">発送時間</th>
 							<th class="">收货時間</th>
-							<th class="">创建時間</th>
+							<th class="">生成時間</th>
 							<th
 								class="am-text-center am-grid-fixed-right am-operate-grid  am-grid-fixed-right-shadow"
 								style="width: 119px; right: 0.00650024px;" data-width="119"
@@ -204,8 +204,8 @@
 								th:text="${oid.ordStatus}"></td>
 							<td class="am-nowrap-initial"
 								th:text="${oid.payTime != null?'支払完了':'支払待ち'}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.total}"></td>
-							<td class="am-nowrap-initial" th:text="${oid.payTotal}"></td>
+							<td class="am-nowrap-initial" th:text="'¥'+${oid.total}"></td>
+							<td class="am-nowrap-initial" th:text="'¥'+${oid.payTotal}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
 								<div>
 									<span class="am-badge am-badge-secondary-plain am-radius">[[${oid.renrakuname}]]</span>
@@ -249,14 +249,14 @@
 								<button type="button"
 									class="am-btn am-btn-primary am-btn-xs am-radius am-btn-block submit-pay"
 									data-bs-toggle="modal" th:if="${oid.paymentId!=null&&oid.deliveryTime==null}"
-									th:data-bs-target="'#pay'+${oid.orderId}">发货</button></td>
+									th:data-bs-target="'#pay'+${oid.orderId}">発送</button></td>
 							<div class="modal fade" th:id="'pay'+${oid.orderId}"
 								data-bs-backdrop="pay" data-bs-keyboard="false" tabindex="-1"
 								aria-labelledby="payLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="payLabel">请选择快递公司</h5>
+											<h5 class="modal-title" id="payLabel">運送会社を選択してください</h5>
 											<button type="button" class="btn-close"
 												data-bs-dismiss="modal" aria-label="Close"></button>
 										</div>
@@ -265,18 +265,18 @@
 											<form th:action="@{/center/ordermanager/shipproduct/{id}(id=${oid.orderId})}" method="post">
 													<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="courierCompany" id="inlineRadio1" value="顺丰">
-												<label class="form-check-label" for="inlineRadio1">顺丰</label>
+													name="courierCompany" id="inlineRadio1" value="ヤマト運輸">
+												<label class="form-check-label" for="inlineRadio1">ヤマト運輸</label>
 											</div>
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="courierCompany" id="inlineRadio2" value="中通">
-												<label class="form-check-label" for="inlineRadio2">中通</label>
+													name="courierCompany" id="inlineRadio2" value="佐川急便">
+												<label class="form-check-label" for="inlineRadio2">佐川急便</label>
 											</div>
 											<div class="form-check form-check-inline">
 												<input class="form-check-input" type="radio"
-													name="courierCompany" id="inlineRadio3" value="韵达">
-												<label class="form-check-label" for="inlineRadio3">韵达
+													name="courierCompany" id="inlineRadio3" value="日本郵便">
+												<label class="form-check-label" for="inlineRadio3">日本郵便
 												</label>
 											</div>
 
