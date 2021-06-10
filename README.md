@@ -397,7 +397,15 @@ SpringBootフレームワークを用いた「KIKUSHOP」という女性向け�
 Junitを使って、テストを行う
 ![テスト](https://github.com/kiku-991/cecily/blob/master/image/%E7%B0%A1%E5%8D%98%E3%81%AA%E3%83%86%E3%82%B9%E3%83%88.png)
 
-# 5. 後ろ書き
+# 5. テーブル定義書
+
+![テーブル定義書](https://github.com/kiku-991/cecily/blob/master/image/TABLE.png)
+<br>
+
+![テーブル定義書](https://github.com/kiku-991/cecily/blob/master/image/%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E5%AE%9A%E7%BE%A9%E6%9B%B8%E3%82%A4%E3%83%A1%E3%83%BC%E3%82%B8.png)
+
+
+# 6. 後ろ書き
 自分で要件定義からテストまでを設計しましたので、不合理的な部分がありますが，これから開発に頑張りたいと思います。<br>
 私自身は鞠婧祎のファンであり、且つアイドルのためにプロジェクトを開発したいという思いから、<br>
 このプロジェクトが誕生しました!<br>
