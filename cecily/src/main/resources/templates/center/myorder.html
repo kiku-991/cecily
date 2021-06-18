@@ -207,7 +207,7 @@
 							<td class="am-nowrap-initial"
 								th:text="${oid.payTime != null?'支払完了':'支払待ち'}"></td>
 							<td class="am-nowrap-initial" th:text="'¥'+${oid.total}"></td>
-							<td class="am-nowrap-initial" th:text="'¥'+${oid.payTotal}"></td>
+							<td class="am-nowrap-initial" th:text="${oid.payTime!=null? '¥'+oid.payTotal:''}"></td>
 							<td class="am-nowrap-initialam-grid-sm ">
 								<div>
 									<span class="am-badge am-badge-secondary-plain am-radius">[[${addresss.renrakuname}]]</span>
@@ -434,7 +434,7 @@
 			.done(
 					function(data) {
 
-						alert(data);
+						
 						//window.location.href = "/aripay/{id}(id="+productId+")"
 						if (data == 1) {
 							window.location.href = "/aripay/" + orderId + ""
