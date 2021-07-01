@@ -161,7 +161,7 @@ public class Url {
 	public static final String INDEX = "/";
 
 	//キーワード検索By　商品名
-	public static final String KEYWORDPRONAME = "/keywordSearch";
+	public static final String KEYWORDPRONAME = "/search/{productName}";
 	//キーワード検索By　価格区块
 	public static final String KEYWORDPROPRICE = "/part/priceSearch";
 

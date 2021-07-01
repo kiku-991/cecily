@@ -10,12 +10,23 @@ public class MyMvcConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 
 		registry.addInterceptor(new LoginHandLerInterCeptor())
-				.addPathPatterns("/shopping/center","/shopping/favorite","/shopping/myCart")
+				.addPathPatterns("/shopping/center", "/shopping/favorite", "/shopping/myCart")
 				.excludePathPatterns(
 						"../css/**",
 						"../img/**",
-						"../js/**"
-						);
+						"../js/**",
+						"/searchKeyword/**",
+						"/search/**");
 
 	}
+
+//	//paging
+//	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+//
+//		PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
+//		// 1ページに表示する最大件数(10件)を設定する
+//		resolver.setMaxPageSize(10);
+//		argumentResolvers.add(resolver);
+//	}
+
 }

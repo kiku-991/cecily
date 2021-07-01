@@ -1,15 +1,17 @@
 package com.shoping.kiku.control;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -53,26 +55,46 @@ public class ShoppingController {
 		return mv;
 	}
 
-
 	/**
 	 * 商品名検索
 	 * @param productName
 	 * @return
 	 */
 
-	@RequestMapping(Url.KEYWORDPRONAME)
-	public ModelAndView keyword(String productName) {
+	@RequestMapping("/search")
+	public ModelAndView keyword(String k, Pageable page) {
 		ModelAndView mv = new ModelAndView("keywordsearch");
-		List<ProductDto> prolike = productService.keyLike(productName);
-		int count = productService.getCountByKey(productName);
+		int size = 10;
+		List<ProductDto> prolike = productService.keyLike(k, 0, size);
+		int count = productService.getCountByKey(k);
+		int pageCount = productService.pageCount(k, 0, size);
 		mv.addObject("prolike", prolike);
+		mv.addObject("pageCount", pageCount);
 		mv.addObject("total", count);
-		mv.addObject("searchName", productName);
+		mv.addObject("searchName", k);
 		return mv;
 
 	}
+	/**
+	 * ページ分け
+	 * @param productName
+	 * @param p
+	 * @return
+	 */
+	@RequestMapping("/searchKeyword/{s}")
+	public ModelAndView keywordN(@PathVariable("s") String productName, @RequestParam int p) {
 
-	
+		ModelAndView mv = new ModelAndView("keywordsearch");
+		int size = 10;
+		List<ProductDto> prolike = productService.keyLike(productName, p - 1, size);
+		int count = productService.getCountByKey(productName);
+		int pageCount = productService.pageCount(productName, p, size);
+		mv.addObject("prolike", prolike);
+		mv.addObject("pageCount", pageCount);
+		mv.addObject("total", count);
+		mv.addObject("searchName", productName);
+		return mv;
+	}
 
 	/**
 	 * 検索(区块)
@@ -81,31 +103,28 @@ public class ShoppingController {
 	 */
 	@ResponseBody
 	@RequestMapping(Url.KEYWORDPROPRICE)
-	public ModelAndView keywordOrderByPrice(@RequestBody HashMap<String,String> map) {
-		String proname =map.get("name");
+	public ModelAndView keywordOrderByPrice(@RequestBody HashMap<String, String> map, Pageable page) {
+		String proname = map.get("name");
 		String id = map.get("id");
 		int liid = Integer.parseInt(id);
-		
-		List<ProductDto> prolike = new ArrayList<>();
-			if (liid == 1) {
-				//総合
-				prolike = productService.keyLike(proname);
-			} else if (liid == 2) {
-				//価格
-				prolike = productService.keyLikeOrderByPrice(proname);
-		
-			}else {
-				//時間
-				prolike = productService.keyLikeOrderByTime(proname);
-			}
+
+		List<ProductDto> prolike = null;
+		if (liid == 1) {
+			//総合
+			prolike = productService.keyLike(proname, page);
+		} else if (liid == 2) {
+			//価格
+			prolike = productService.keyLikeOrderByPrice(proname);
+
+		} else {
+			//時間
+			prolike = productService.keyLikeOrderByTime(proname);
+		}
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("prolike", prolike);
 		return mv;
 
 	}
-
-	
-	
 
 	/**
 	 * 気に入り一覧

@@ -2,6 +2,8 @@ package com.shoping.kiku.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,7 +16,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 	int getID();
 
 	//userId によって　商品を取得　(多店舗)
-	@Query(value="select\r\n"
+	@Query(value = "select\r\n"
 			+ "    * \r\n"
 			+ "from\r\n"
 			+ "    product a \r\n"
@@ -23,70 +25,59 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 			+ "where\r\n"
 			+ "    b.user_id = :userId \r\n"
 			+ "order by\r\n"
-			+ "    a.product_id asc",nativeQuery=true)
+			+ "    a.product_id asc", nativeQuery = true)
 	List<ProductEntity> findByStoreIdOrderByProductIdAsc(int userId);
-	
+
 	List<ProductEntity> findByStoreId(int storeId);
 
 	ProductEntity findByProductId(int productid);
 
 	List<ProductEntity> findAllByOrderByProductIdAsc();
-	
-	@Query(value="select\r\n"
-			+ "    * \r\n"
-			+ "from\r\n"
-			+ "    product \r\n"
-			+ "where\r\n"
-			+ "    product_name like concat(concat('%', :key ),'%') ",nativeQuery=true)
-	List<ProductEntity> getLikeProByProname(String key);
-	
-	
 
-	
-	
-	@Query(value="select\r\n"
+	//page 分け
+	@Query(value = "select\r\n"
+			+ "    * \r\n"
+			+ "from\r\n"
+			+ "    product \r\n"
+			+ "where\r\n"
+			+ "    product_name like concat(concat('%', :key ),'%')", countQuery = "select count(*) from (select\r\n"
+					+ "    * \r\n"
+					+ "from\r\n"
+					+ "    product \r\n"
+					+ "where\r\n"
+					+ "    product_name like concat(concat('%', :key ),'%')) as pageable", nativeQuery = true)
+	Page<ProductEntity> getLikeProByProname(String key, Pageable pageable);
+
+	@Query(value = "select\r\n"
 			+ "    * \r\n"
 			+ "from\r\n"
 			+ "    product \r\n"
 			+ "where\r\n"
 			+ "    product_name like concat(concat('%', :key ),'%') \r\n"
 			+ "order by\r\n"
-			+ "    product_price desc",nativeQuery=true)
+			+ "    product_price desc", nativeQuery = true)
 	List<ProductEntity> getLikeProOrderPrice(String key);
-	
-	
-	@Query(value="select\r\n"
+
+	@Query(value = "select\r\n"
 			+ "    * \r\n"
 			+ "from\r\n"
 			+ "    product \r\n"
 			+ "where\r\n"
 			+ "    product_name like concat(concat('%', :key ),'%') \r\n"
 			+ "order by\r\n"
-			+ "    create_time desc",nativeQuery=true)
+			+ "    create_time desc", nativeQuery = true)
 	List<ProductEntity> getLikeProOrderTime(String key);
-	
-	
-	
-	@Query(value="select\r\n"
+
+	@Query(value = "select\r\n"
 			+ "    count(product_name) \r\n"
 			+ "from\r\n"
 			+ "    product \r\n"
 			+ "where\r\n"
-			+ "    product_name like concat(concat('%', :key ),'%') ",nativeQuery=true)
-	
+			+ "    product_name like concat(concat('%', :key ),'%') ", nativeQuery = true)
+
 	int getLikeCount(String key);
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@Query(value="select\r\n"
+
+	@Query(value = "select\r\n"
 			+ "    a.product_id\r\n"
 			+ "    , a.store_id\r\n"
 			+ "    , a.product_name\r\n"
@@ -103,14 +94,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 			+ "        on a.store_id = b.store_id \r\n"
 			+ "where\r\n"
 			+ "    a.status <> 0 \r\n"
-			+ "    and b.store_status <> 2",nativeQuery=true)
+			+ "    and b.store_status <> 2", nativeQuery = true)
 	List<ProductEntity> getNormalPro();
 
-	
-	
-	
-	
-	
-	
-	
 }

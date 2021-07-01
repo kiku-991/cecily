@@ -123,10 +123,9 @@
 				<div class="top-nav-items">
 					<div class="menu-hd">
 						<!-- 公共顶部小导航钩子-左侧前面   <a th:text="${session?.UserLogin.userMail}"> -->
-						<em><a th:text="${session?.userLogin?.userMail}" th:href="@{/shopping/center}"></a></em> <em>ようこそ</em>
-
-
-						<a th:if="${session?.userLogin == null}" th:href="@{/login}"
+						<em><a th:text="${session?.userLogin?.userMail}"
+							th:href="@{/shopping/center}"></a></em> <em>ようこそ</em> <a
+							th:if="${session?.userLogin == null}" th:href="@{/login}"
 							style="text-decoration: none;">ログイン</a> <a
 							th:if="${session?.userLogin == null}" th:href="@{/touroku}"
 							style="text-decoration: none;">新規登録</a> <a
@@ -152,14 +151,13 @@
 					</div>
 				</div>
 				<div class="top-nav-items">
-				<div class="menu-hd login-event">
-					<a th:href="@{/shopping/myCart}" target="_top"> <span>買い物かご</span>
-						<strong id="myCart"
-						class="common-cart-total am-round"
-						 th:text="${count}"></strong>
-					</a>
+					<div class="menu-hd login-event">
+						<a th:href="@{/shopping/myCart}" target="_top"> <span>買い物かご</span>
+							<strong id="myCart" class="common-cart-total am-round"
+							th:text="${count}"></strong>
+						</a>
+					</div>
 				</div>
-			</div>
 			</nav>
 		</div>
 	</div>
@@ -172,18 +170,19 @@
 		<div class="am-container">
 
 			<div class="logo-big am-hide-sm-only">
-				<a href="/shopping"><img src="../img/20210504171318.jpg" width="10"
-					height="55"></a>
+				<a href="/shopping"><img src="../img/20210504171318.jpg"
+					width="10" height="55"></a>
 			</div>
 
 			<!-- logo右侧 -->
 
 			<div class="search-bar">
-				<form th:action="@{/keywordSearch}" method="POST">
+				<form th:action="@{/search(k=${k})}">
 					<div class="search-group">
-						<input id="search-input" name="productName" type="text" th:value="${searchName}"
-							placeholder="ようこそKIKUショップへ ，商品名を入力して検索" autocomplete="off">
-						<button type="submit" id="ai-topsearch" class="submit am-btn">
+						<input id="search-input" type="text" name="k"
+							th:value="${searchName}" placeholder="ようこそKIKUショップへ ，商品名を入力して検索"
+							autocomplete="off">
+						<button type="submit" id="ai-topsearch" class="submit am-btn" >
 							<span>検索</span>
 						</button>
 					</div>
@@ -202,9 +201,9 @@
 			<!-- 主导航 -->
 			<ul class="am-nav am-nav-pills am-topbar-nav">
 				<li><a href="/shopping" class="active">HOME</a></li>
-				<li><a href="#" >MUSIC</a></li>
-				<li><a href="https://weibo.com/u/3669102477" >WEIBO</a></li>
-				<li><a href="" >PORTFOLIO</a></li>
+				<li><a href="#">MUSIC</a></li>
+				<li><a href="https://weibo.com/u/3669102477">WEIBO</a></li>
+				<li><a href="">PORTFOLIO</a></li>
 			</ul>
 
 			<!-- 右侧导航 -->
@@ -228,32 +227,30 @@
 						title="鞠婧祎" class="clone" aria-hidden="true">
 						<!-- 地图 --> <a href="/shopping" class="submit-map-popup"
 						data-lng="121.626444" data-lat="31.20843"><img
-							src="../img/IMG_9401.JPG"  draggable="false"></a>
+							src="../img/IMG_9401.JPG" draggable="false"></a>
 					</li>
 					<li
 						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
 						title="生日快乐呀" class="am-active-slide" data-thumb-alt="">
 						<!-- 默认url地址 --> <a href="/shopping" target="_blank"><img
-							src="../img/IMG_9400.JPG" alt="KIKU"
-							draggable="false"></a>
+							src="../img/IMG_9400.JPG" alt="KIKU" draggable="false"></a>
 					</li>
 					<li
 						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
 						title="平安喜乐" data-thumb-alt="">
 						<!-- 地图 --> <a href="/shopping" class="submit-map-popup"
 						data-lng="121.626444" data-lat="31.20843"><img
-							src="../img/IMG_9666.JPG"  draggable="false"></a>
+							src="../img/IMG_9666.JPG" draggable="false"></a>
 					</li>
 					<li
 						style="background: rgb(255, 255, 255); margin-right: 0px; float: left; display: block; width: 1592px;"
 						title="好きだ" class="clone" aria-hidden="true">
 						<!-- 默认url地址 --> <a href="/shopping" target="_blank"><img
-							src="../img/IMG_8437.JPG" alt="KIKU"
-							draggable="false"></a>
+							src="../img/IMG_8437.JPG" alt="KIKU" draggable="false"></a>
 					</li>
 				</ul>
 			</div>
-			
+
 		</div>
 	</div>
 
@@ -275,8 +272,7 @@
 		<div class="banner-mixed">
 			<div class="mod-vip">
 				<div class="m-baseinfo">
-					<a> <img src="../img/IMG_0135.JPG"
-						class="user-avatar">
+					<a> <img src="../img/IMG_0135.JPG" class="user-avatar">
 					</a> <em> <span class="s-name am-text-truncate"> <em>ようこそKIKUSHOPへ</em>
 					</span>
 					</em>
@@ -301,29 +297,30 @@
 			<li>
 				<div class="am-gallery-item">
 					<a href="/shopping"> <img
-						src="../img/006toOQzgy1ggrxrcigkkj31gf0tjnhx.jpg" alt="鞠婧祎" title="鞠婧祎">
+						src="../img/006toOQzgy1ggrxrcigkkj31gf0tjnhx.jpg" alt="鞠婧祎"
+						title="鞠婧祎">
 					</a>
 				</div>
 			</li>
 			<li>
 				<div class="am-gallery-item">
-					<a href="/shopping"> <img src="../img/006toOQzgy1gp3a9l834cj321j15dqv5.jpg"
-						alt="鞠婧贰" title="鞠婧贰">
+					<a href="/shopping"> <img
+						src="../img/006toOQzgy1gp3a9l834cj321j15dqv5.jpg" alt="鞠婧贰"
+						title="鞠婧贰">
 					</a>
 				</div>
 			</li>
 			<li>
 				<div class="am-gallery-item">
-					<a href="/shopping"
-						target="_blank"> <img src="../img/IMG_1857.JPG"
-						alt="鞠婧伍" title="鞠婧伍">
+					<a href="/shopping" target="_blank"> <img
+						src="../img/IMG_1857.JPG" alt="鞠婧伍" title="鞠婧伍">
 					</a>
 				</div>
 			</li>
 			<li>
 				<div class="am-gallery-item">
-					<a href="/shopping"> <img src="../img/IMG_1180.JPG"
-						alt="鞠婧捌" title="鞠婧捌">
+					<a href="/shopping"> <img src="../img/IMG_1180.JPG" alt="鞠婧捌"
+						title="鞠婧捌">
 					</a>
 				</div>
 			</li>
@@ -351,25 +348,19 @@
 				<div class="am-u-sm-3 aggregation"
 					style="background-color: #8c6955; height: 591px;">
 					<div class="word">
-						<a href="/shopping" class="outer"
-							target="_blank">セーター</a> <a
-							href="/shopping" class="outer"
-							target="_blank">フォンケース</a> <a
-							href="/shopping" class="outer"
-							target="_blank">ジャケット</a> <a
-							href="/shopping" class="outer"
-							target="_blank">リップ</a> <a
-							href="/shopping" class="outer"
-							target="_blank">ドレス</a> <a
-							href="/shopping" class="outer"
-							target="_blank">ストール</a>
+						<a href="/shopping" class="outer" target="_blank">セーター</a> <a
+							href="/shopping" class="outer" target="_blank">フォンケース</a> <a
+							href="/shopping" class="outer" target="_blank">ジャケット</a> <a
+							href="/shopping" class="outer" target="_blank">リップ</a> <a
+							href="/shopping" class="outer" target="_blank">ドレス</a> <a
+							href="/shopping" class="outer" target="_blank">ストール</a>
 
 					</div>
 					<div class="outer-con">
 						<div class="describe">誕生日おめでとう</div>
 					</div>
-					<a href="/shopping" target="_blank">
-						<img src="../img/IMG_9930.JPG">
+					<a href="/shopping" target="_blank"> <img
+						src="../img/IMG_9930.JPG">
 					</a>
 					<div class="triangle-topright"></div>
 
@@ -400,8 +391,8 @@
 							<button th:id="${product.productId}" type="button"
 								
 								th:onclick="|clickPost(${product.productId})|"></button> -->
-								<button type="button" th:id="${product.productId}" 
-								th:text="${product.userId ==0? '♡気に入り':(product.userId eq session?.userLogin?.userId?'❤気に入り済み':'♡気に入り')}"
+								<button type="button" th:id="${product.productId}"
+									th:text="${product.userId ==0? '♡気に入り':(product.userId eq session?.userLogin?.userId?'❤気に入り済み':'♡気に入り')}"
 									th:onclick="|clickPost(${product.productId})|"></button>
 								<button type="button"
 									th:onclick="|clickCart(${product.productId})|">カードに入れ</button>
@@ -472,10 +463,7 @@
 	<!-- 底部导航 -->
 	<footer data-am-widget="footer"
 		class="am-footer am-footer-default am-no-layout" data-am-footer="{}">
-		<div class="am-container" th:fragment="footer">
-
-		
-		</div>
+		<div class="am-container" th:fragment="footer"></div>
 
 		<!-- 页脚信息 -->
 		<div class="am-footer-miscs">
@@ -503,6 +491,47 @@
 	<!-- Ajax -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+
+	<script>
+		//「POSTで遷移（Ajax）」検索ボタン押下時の処理
+		function searchChick() {
+
+			var keyword = $('#search-input').val();
+			var p = {
+				key : keyword
+			};
+
+			$.ajax({
+				//MyCartControlleradd()メソッドに遷移
+				url : 'search/' + keyword,
+				type : 'POST',
+				timeout : 60000,
+				data : p,
+				async : false,
+				dataType : "json"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+
+				alert('み!');
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function() {
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+				//alert('end');
+			});
+
+		}
+	</script>
+
 
 	<script>
 		//「POSTで遷移（Ajax）」気に入りボタン押下時の処理

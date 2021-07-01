@@ -9,6 +9,11 @@
 <meta name="generator" content="Hugo 0.79.0">
 <title>キーワード検索</title>
 
+<!-- CSS only -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+
 <link rel="stylesheet" type="text/css" href="../css/amazeui.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.switch.css">
 <link rel="stylesheet" type="text/css" href="../css/amazeui.chosen.css">
@@ -129,7 +134,7 @@
 		<div
 			class="search-container am-u-sm-12 am-u-md-12 am-padding-left-0 am-padding-right-0"
 			data-category-id="" data-brand-id="">
-	
+
 
 			<!-- 搜索条件顶部钩子 -->
 
@@ -221,7 +226,43 @@
 				</li>
 			</ul>
 
-			<!-- 搜索页面数据容器底部钩子 -->
+			<!--  page 分け -->
+			<div class="loding-view">
+				<!-- <ul>
+					<li style="display: inline;"><span th:if="${page.first}">&lt;&lt;前</span>
+						<a th:if="${!page.first}"
+						th:href="@{/keywordSearch(page = ${page.number} - 1)}">
+							&lt;&lt;前 </a></li>
+					<li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+						style="display: inline; margin-left: 10px;"><span
+						th:if="${i} == ${page.number}" th:text="${i + 1}">1</span> <a
+						th:if="${i} != ${page.number}"
+						th:href="@{/keywordSearch(page = ${i})}"> <span
+							th:text="${i+1}">1</span>
+					</a></li>
+					<li style="display: inline; margin-left: 10px;"><span
+						th:if="${page.last}">次&gt;&gt;</span> <a th:if="${!page.last}"
+						th:href="@{/keywordSearch(page = (${page.number} + 1))}">
+							次&gt;&gt; </a></li>
+				</ul> -->
+
+				<ul class="pagination justify-content-center">
+					<li class="page-item disabled"><a class="page-link" href="#"
+						tabindex="-1">Previous</a></li>
+					<li class="page-item"
+						th:each="pageNum:${#numbers.sequence(0, pageCount - 1)}"><a
+						class="page-link" th:text="${pageNum+1}" th:name="${pageNum+1}"
+						th:href="@{/searchKeyword/{s}/(s=${searchName},p=${pageNum+1})}"></a></li>
+
+					<li class="page-item"><a class="page-link"
+						>Next</a></li>
+				</ul>
+
+			</div>
+
+			<!-- 搜索页面数据容器底部钩子 
+			th:href="@{'/search/'+${searchName}+'/?'+'p='+${pageNum+1}}"
+			-->
 
 			<!-- 加载数据 -->
 			<div class="loding-view" style="display: none;">
@@ -229,18 +270,14 @@
 			</div>
 
 			<!-- 没有数据 -->
-			<div class="table-no"  th:if="${total==0}">
-				 !相関データがないです
-			</div>
-	
+			<div class="table-no" th:if="${total==0}">!相関データがないです</div>
+
 
 
 			<!-- 分页 -->
 			<button type="button" th:if="${total>=20}"
 				class="am-btn am-btn-default am-btn-block am-margin-vertical-sm search-pages-submit"
-				data-url="" data-page="2" disabled="disabled">
-				加载更多 
-			</button>
+				data-url="" data-page="2" disabled="disabled">加载更多</button>
 
 		</div>
 
@@ -318,9 +355,9 @@
 		function ordPrice(liid) {
 
 			var proname = $('#search-input').val();
-			var product ={
-					name:proname,
-					id:liid
+			var product = {
+				name : proname,
+				id : liid
 			}
 
 			$.ajax({
@@ -329,7 +366,7 @@
 				type : 'POST',
 				timeout : 60000,
 				data : JSON.stringify(product),
-				contentType:"application/json",
+				contentType : "application/json",
 				async : false,
 				dataType : "html"
 			})
@@ -346,7 +383,7 @@
 					$('#li2').addClass("active");
 					$('#li1').removeClass('active')
 					$('#li3').removeClass('active')
-				}else{
+				} else {
 					$('#li3').addClass("active");
 					$('#li1').removeClass('active')
 					$('#li2').removeClass('active')

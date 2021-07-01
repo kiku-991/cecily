@@ -176,6 +176,42 @@
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
+	<script>
+		//「POSTで遷移（Ajax）」検索ボタン押下時の処理
+		function searchChick() {
+
+			var keyword = $('#search-input').val();
+			var p = {
+				key : keyword
+			};
+
+			$.ajax({
+				//MyCartControlleradd()メソッドに遷移
+				url : 'search/' + keyword,
+				type : 'POST',
+				timeout : 60000,
+				data : p,
+				async : false,
+				dataType : "json"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+
+				
+
+			})
+			//Ajax通信失敗の場合
+			.fail(function() {
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+				//alert('end');
+			});
+
+		}
+	</script>
 
 	<script>
 		//「POSTで遷移（Ajax）」気に入りボタン押下時の処理
@@ -251,7 +287,7 @@
 
 					alert('買い物かごに追加済み!');
 
-				//	window.location.href = "/shopping"
+					//	window.location.href = "/shopping"
 				}
 
 			})
@@ -386,6 +422,6 @@
 			}
 		});
 	</script>
-	
+
 </body>
 </html>

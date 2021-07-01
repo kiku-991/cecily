@@ -3,11 +3,15 @@ package com.shoping.kiku.service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.shoping.kiku.entity.FavoriteProEntity;
@@ -21,6 +25,7 @@ import com.shoping.kiku.repository.FavoriteProRepository;
 import com.shoping.kiku.repository.ProductImgRepository;
 import com.shoping.kiku.repository.ProductRepository;
 import com.shoping.kiku.repository.StoreRepository;
+import com.shoping.kiku.repository.TestProductRepository;
 import com.shoping.kiku.until.Session;
 import com.shoping.kiku.until.Status;
 
@@ -35,9 +40,13 @@ public class ProductService {
 
 	@Autowired
 	FavoriteProRepository favoriteProRepository;
-	
+
 	@Autowired
 	ProductImgRepository productImgRepository;
+
+	//test
+	@Autowired
+	TestProductRepository testProductRepository;
 
 	/**
 	 * ホームページの商品表示(個人気に入り情報が含まれる)
@@ -97,7 +106,7 @@ public class ProductService {
 	 * @param product
 	 * @param list
 	 */
-	public void createProduct(int userId,ProductDto product,List<String> list) {
+	public void createProduct(int userId, ProductDto product, List<String> list) {
 
 		ProductEntity prott = new ProductEntity();
 		StoreEntity store = storeRepository.findByUserId(userId);
@@ -114,12 +123,12 @@ public class ProductService {
 		prott.setProductImg(list.get(0));
 		productRepository.save(prott);
 		//商品写真
-		for(int i=0;i<list.size();i++) {
+		for (int i = 0; i < list.size(); i++) {
 			ProductImgEntity productImg = new ProductImgEntity();
 			productImg.setProductId(prott.getProductId());
 			productImg.setProductImg(list.get(i));
 			productImgRepository.save(productImg);
-		
+
 		}
 
 	}
@@ -129,11 +138,11 @@ public class ProductService {
 	 * @param request
 	 * @return products
 	 */
-	public List<ProductDto> getProByUserId (int userId) {
+	public List<ProductDto> getProByUserId(int userId) {
 
 		List<ProductEntity> product = productRepository.findByStoreIdOrderByProductIdAsc(userId);
 		List<ProductDto> products = new ArrayList<>();
-		try{
+		try {
 			if (product != null) {
 				for (ProductEntity pro : product) {
 					ProductDto pr = new ProductDto();
@@ -156,11 +165,11 @@ public class ProductService {
 				//products = null;
 				throw new NullPointerException();
 			}
-			
-		}catch(NullPointerException e) {
-            e.printStackTrace();
-        }
-		
+
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
+
 		return products;
 	}
 
@@ -199,7 +208,7 @@ public class ProductService {
 	 * @param request
 	 * @param product
 	 */
-	public void updateProduct(ProductDto product, int id,String img) {
+	public void updateProduct(ProductDto product, int id, String img) {
 
 		ProductEntity oldpro = productRepository.findByProductId(id);
 		ProductEntity prott = new ProductEntity();
@@ -254,7 +263,7 @@ public class ProductService {
 			prott.setProductImg(pro.getProductImg());
 			prott.setStock(pro.getStock());
 			prott.setCreateTime(pro.getCreateTime());
-			
+
 			productRepository.save(prott);
 		}
 
@@ -308,9 +317,8 @@ public class ProductService {
 		pros.setCreateTime(productdtail.getCreateTime());
 		//気に入り
 		pros.setUserId(0);
-		
-		
-		for(ProductImgEntity img :proImg) {
+
+		for (ProductImgEntity img : proImg) {
 			ProductImgDto proImgDto = new ProductImgDto();
 			proImgDto.setProductImgs(img.getProductImg());
 			imgs.add(proImgDto);
@@ -325,23 +333,119 @@ public class ProductService {
 	 * @param keyword
 	 * @return prolike 商品情報
 	 */
-	@Transactional
-	public List<ProductDto> keyLike(String proname) {
-		List<ProductEntity> likes = productRepository.getLikeProByProname(proname);
-		List<ProductDto> prolike = new ArrayList<>();
-		for (ProductEntity p : likes) {
-			ProductDto pro = new ProductDto();
-			pro.setProductId(p.getProductId());
-			pro.setProductName(p.getProductName());
-			pro.setProductImg(p.getProductImg());
-			pro.setProductContents(p.getProductContents());
-			pro.setProductPrice(p.getProductPrice());
-			pro.setMaker(p.getMaker());
-			pro.setCreateTime(p.getCreateTime());
-			prolike.add(pro);
+	public List<ProductDto> keyLike(String proName, int pageNo, int pageSize) {
+
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+		Page<ProductEntity> likes = productRepository.getLikeProByProname(proName, paging);
+		List<ProductDto> pro = new ArrayList<>();
+
+		//method 1
+		likes.forEach(ProductEntity -> {
+			ProductDto product = new ProductDto();
+			product.setProductName(ProductEntity.getProductName());
+			product.setProductPrice(ProductEntity.getProductPrice());
+			product.setMaker(ProductEntity.getMaker());
+			product.setCreateTime(ProductEntity.getCreateTime());
+			product.setProductContents(ProductEntity.getProductContents());
+			product.setProductId(ProductEntity.getProductId());
+			product.setProductImg(ProductEntity.getProductImg());
+			product.setStatus(ProductEntity.getStatus());
+			product.setStock(ProductEntity.getStock());
+			product.setStoreId(ProductEntity.getStoreId());
+			pro.add(product);
+
+		});
+
+		//method 2
+		//
+		//		List<ProductEntity> like = likes.getContent();
+		//		for (ProductEntity pros : like) {
+		//			ProductDto product = new ProductDto();
+		//			product.setProductName(pros.getProductName());
+		//			product.setProductPrice(pros.getProductPrice());
+		//			product.setMaker(pros.getMaker());
+		//			product.setCreateTime(pros.getCreateTime());
+		//			product.setProductContents(pros.getProductContents());
+		//			product.setProductId(pros.getProductId());
+		//			product.setProductImg(pros.getProductImg());
+		//			product.setStatus(pros.getStatus());
+		//			product.setStock(pros.getStock());
+		//			product.setStoreId(pros.getStoreId());
+		//			pro.add(product);
+		//
+		//		}
+
+		return pro;
+	}
+
+	public List<ProductDto> keyLike(String proName, Pageable page) {
+
+		Page<ProductEntity> likes = productRepository.getLikeProByProname(proName, page);
+		List<ProductDto> pro = new ArrayList<>();
+
+		List<ProductEntity> like = likes.getContent();
+		for (ProductEntity pros : like) {
+			ProductDto product = new ProductDto();
+			product.setProductName(pros.getProductName());
+			product.setProductPrice(pros.getProductPrice());
+			product.setMaker(pros.getMaker());
+			product.setCreateTime(pros.getCreateTime());
+			product.setProductContents(pros.getProductContents());
+			product.setProductId(pros.getProductId());
+			product.setProductImg(pros.getProductImg());
+			product.setStatus(pros.getStatus());
+			product.setStock(pros.getStock());
+			product.setStoreId(pros.getStoreId());
+			pro.add(product);
 
 		}
+		return pro;
+	}
+
+	/**
+	 * 商品名検索　総合検索
+	 * @param keyword
+	 * @return prolike 商品情報
+	 */
+	@Transactional
+	public Page<ProductDto> keyLikePage(String proname, Pageable page) {
+		Page<ProductEntity> likes = productRepository.getLikeProByProname(proname, page);
+
+		Page<ProductDto> prolike = likes.map(new Function<ProductEntity, ProductDto>() {
+			@Override
+			public ProductDto apply(ProductEntity entity) {
+				ProductDto dto = new ProductDto();
+				// Conversion logic
+				dto.setProductName(entity.getProductName());
+				dto.setProductPrice(entity.getProductPrice());
+				dto.setMaker(entity.getMaker());
+				dto.setCreateTime(entity.getCreateTime());
+				dto.setProductContents(entity.getProductContents());
+				dto.setProductId(entity.getProductId());
+				dto.setProductImg(entity.getProductImg());
+				dto.setStatus(entity.getStatus());
+				dto.setStock(entity.getStock());
+				dto.setStoreId(entity.getStoreId());
+
+				return dto;
+			}
+		});
 		return prolike;
+	}
+
+	/**
+	 * get PageCount
+	 * @param proname
+	 * @param page
+	 * @return
+	 */
+	public int pageCount(String proname, int pageNo, int pageSize) {
+
+		Pageable paging = PageRequest.of(pageNo, pageSize);
+		Page<ProductEntity> likes = productRepository.getLikeProByProname(proname, paging);
+		int totol = likes.getTotalPages();
+		return totol;
+
 	}
 
 	/**
@@ -350,7 +454,7 @@ public class ProductService {
 	 * @return
 	 */
 	@Transactional
-	public List<ProductDto> keyLikeOrderByPrice(String proname){
+	public List<ProductDto> keyLikeOrderByPrice(String proname) {
 		List<ProductEntity> likes = productRepository.getLikeProOrderPrice(proname);
 		System.out.println(likes.size());
 		List<ProductDto> prolike = new ArrayList<>();
@@ -368,6 +472,7 @@ public class ProductService {
 		}
 		return prolike;
 	}
+
 	/**
 	 * 商品名検索OrderBy時間
 	 * @param proname
@@ -392,6 +497,7 @@ public class ProductService {
 		}
 		return prolike;
 	}
+
 	/**
 	 * キーワード検索
 	 * @param keyword
@@ -411,8 +517,5 @@ public class ProductService {
 		int stock = productRepository.findByProductId(proId).getStock();
 		return stock;
 	}
-
-
-
 
 }
