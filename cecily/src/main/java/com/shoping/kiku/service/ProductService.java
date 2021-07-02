@@ -25,7 +25,6 @@ import com.shoping.kiku.repository.FavoriteProRepository;
 import com.shoping.kiku.repository.ProductImgRepository;
 import com.shoping.kiku.repository.ProductRepository;
 import com.shoping.kiku.repository.StoreRepository;
-import com.shoping.kiku.repository.TestProductRepository;
 import com.shoping.kiku.until.Session;
 import com.shoping.kiku.until.Status;
 
@@ -44,9 +43,6 @@ public class ProductService {
 	@Autowired
 	ProductImgRepository productImgRepository;
 
-	//test
-	@Autowired
-	TestProductRepository testProductRepository;
 
 	/**
 	 * ホームページの商品表示(個人気に入り情報が含まれる)

@@ -278,7 +278,6 @@ th:last-child {
 
 <link href="../cart/css/button.css" rel="stylesheet">
 <link href="../cart/css/cart.css" rel="stylesheet">
-<link href="../css/WdatePicker.css" rel="stylesheet" type="text/css">
 <link href="../css/ueditor.css" type="text/css" rel="stylesheet">
 <script src="../js/ZeroClipboard.js.ダウンロード" type="text/javascript"
 	defer="defer"></script>
@@ -318,10 +317,10 @@ th:last-child {
 					<div class="cart-info">
 						<input type="checkbox" class="productbox" name="productbox"
 							th:onclick="|changeStatus(${item.productId})|"> <img
-							th:src="${item.productImg}" alt="加载中...">
-
-						<a class="goods-title" th:text="${item.productName}" th:href="@{/productDetails/{id}(id=${item.productId})}"></a>
-						<br> <br>
+							th:src="${item.productImg}" alt="加载中..."> <a
+							class="goods-title" th:text="${item.productName}"
+							th:href="@{/productDetails/{id}(id=${item.productId})}"></a> <br>
+						<br>
 
 					</div>
 				</td>
@@ -339,7 +338,7 @@ th:last-child {
 
 					</div>
 				</td>
-				<td ><strong th:id="'price'+${item.productId}"
+				<td><strong th:id="'price'+${item.productId}"
 					style="color: red; font-size: 20px;" th:text="${item.total}"></strong></td>
 				<td>
 					<!--  <a th:href="@{/deleteCart/{productId}(productId=${item.productId})}">削除</a>-->
@@ -401,20 +400,21 @@ th:last-child {
 			<!-- 导航右侧内部 结束 -->
 
 			<form th:action="@{/mycart/buy}" method="post" class="am-fr">
-				<span  class="selected-tips am-fl"><span>已选商品</span>
-					<strong id="jianshu"></strong> <span>件</span></span> <span
-					class="total-price-tips am-fl">合计：</span> <strong id="gokei"></strong>
-				<input type="hidden" name="ids" value="2856,2855"> <input
-					type="hidden" name="buy_type" value="cart">
-				<button type="submit" id ="keisan" class="am-btn am-btn-primary separate-submit " disabled="disabled">结算</button>
+				<span class="selected-tips am-fl"><span>已选商品</span> 
+				<strong id="jianshu"></strong> <span>件</span></span>
+				<span class="total-price-tips am-fl">合計：</span> <strong
+					class="nav-total-price am-fl" id="gokei"></strong>
+
+				<button type="submit" id="keisan"
+					class="am-btn am-btn-primary separate-submit " disabled="disabled">结算</button>
 			</form>
 		</div>
 	</div>
 </div>
 
 
-<!-- 当前控制器js -->
-<script type="text/javascript" src="../js/cart.js.ダウンロード"></script>
+ <!-- 当前控制器js 
+<script type="text/javascript" src="../js/cart.js.ダウンロード"></script>-->
 
 
 
@@ -432,7 +432,7 @@ th:last-child {
 			fag = false;
 			for (var i = 0; i < single.length; i++) {
 				single[i].checked = false;//将所有复选框设置为不选中
-				$('#keisan').attr("disabled",true);
+				$('#keisan').attr("disabled", true);
 			}
 
 		} else {
@@ -462,12 +462,11 @@ th:last-child {
 
 			$("#jianshu").text(quantity);
 			$("#gokei").text(amount);
-			
 
 		})
 		//Ajax通信失敗の場合
 		.fail(function() {
-			alert("---");
+			alert("fail");
 		})
 		//Ajax通信の成功・失敗に関わらず最後に処理
 		.always(function() {
@@ -503,14 +502,12 @@ th:last-child {
 
 			$("#jianshu").text(quantity);
 			$("#gokei").text(amount);
-			
-			
-			if(quantity==0){
-				$('#keisan').attr("disabled",true);
-			}else{
+
+			if (quantity == 0) {
+				$('#keisan').attr("disabled", true);
+			} else {
 				$('#keisan').removeAttr("disabled");
 			}
-			
 
 		})
 		//Ajax通信失敗の場合
@@ -595,7 +592,6 @@ th:last-child {
 			if (data != 0) {
 				$('#text' + productId).val(newVal);
 				$('#price' + productId).text(data)
-				//window.location.href = "/shopping/myCart"
 			}
 
 			window.location.href = "/shopping/myCart"
@@ -615,10 +611,6 @@ th:last-child {
 
 
 
-
-
-
-
 <!-- 图片放大镜 -->
 <script type="text/javascript"
 	src="../js/jquery.imagezoom.min.js.ダウンロード"></script>
@@ -630,12 +622,10 @@ th:last-child {
 <!-- amazeui插件 -->
 <script type="text/javascript" src="../js/amazeui.switch.min.js.ダウンロード"></script>
 <script type="text/javascript" src="../js/amazeui.chosen.min.js.ダウンロード"></script>
-<script type="text/javascript" src="../js/amazeui.dialog.js.ダウンロード"></script>
+<!-- <script type="text/javascript" src="../js/amazeui.dialog.js.ダウンロード"></script> -->
 <script type="text/javascript"
 	src="../js/amazeui.tagsinput.min.js.ダウンロード"></script>
 
-<!-- 图像裁剪插件 -->
-<!-- <script type="text/javascript" src="../index/js/cropper.min.js.ダウンロード"></script> -->
 
 <!-- 复制插件 -->
 <script type="text/javascript" src="../js/clipboard.min.js.ダウンロード"></script>
@@ -652,19 +642,6 @@ th:last-child {
 <!-- 颜色选择器 -->
 <script type="text/javascript" src="../js/jquery.colorpicker.js.ダウンロード"></script>
 
-<!-- 日期组件 -->
-<script type="text/javascript" src="../js/WdatePicker.js.ダウンロード"></script>
-
-<!-- baidu map -->
-<script type="text/javascript" src="../js/api"></script>
-<script type="text/javascript" src="../js/getscript"></script>
-
-<!-- 项目公共 -->
-<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
-<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
-
-<!-- 当前控制器js -->
-<script type="text/javascript" src="../js/index.js.ダウンロード"></script>
 
 
 

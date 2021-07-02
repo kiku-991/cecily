@@ -166,7 +166,6 @@ input{font-size:12px;font-size:100%;outline:none;line-height:normal;color:#444;}
 .goods-favor-count { color: #999; }
 .iteminfo_parameter a:hover{text-decoration: none;color:initial ;}
 .tm-indcon .tm-label, .tb-detail-price dt, .specpara-title { white-space:nowrap; color:#666; font-weight: 400; }
-.tb-detail-price{ background: #fcf1e3 url(../images/goods-meta-bg.png); background-size: cover; -moz-background-size: cover; background-repeat: no-repeat; height:auto;padding:10px; }
 .tb-detail-price .items {display: block; margin: 5px 0;}
 .tb-detail-price .items dt { float:left; text-align: left;}
 .tb-detail-price .goods-price {font-size: 24px;font-weight: bold; line-height: 16px;}
@@ -349,7 +348,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .buy-nav .nav-icon {
         display:inline-block;
         width: 50%;
-        float: left;
+       
         cursor: pointer;
         text-align: center;
      }
@@ -460,7 +459,7 @@ flex: 1 1 0%;line-height: 16px;cursor: pointer;}
     .tb-thumb li div { border:1px solid #eee; overflow: hidden;}
     div.zoomDiv { z-index:999; position:absolute; top:0px; left:0px; width:400px; height:400px; background:#ffffff; border:1px solid #CCCCCC; display:none; text-align:center; overflow:hidden; }
     div.zoomDiv img { min-width: 1000px; display: block; }
-    div.zoomMask { position:absolute; background:url(../images/goods-mask.png)repeat scroll 0 0 rgba(33, 150, 243, 0.3); cursor:move; z-index:1; }
+    div.zoomMask { position:absolute; background: repeat scroll 0 0 rgba(33, 150, 243, 0.3); cursor:move; z-index:1; }
             
     /*规格*/
     .theme-popover {display: block;position: static;border:none ;box-shadow: none;width: 100%;}

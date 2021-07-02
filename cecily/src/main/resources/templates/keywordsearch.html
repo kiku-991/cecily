@@ -228,41 +228,20 @@
 
 			<!--  page 分け -->
 			<div class="loding-view">
-				<!-- <ul>
-					<li style="display: inline;"><span th:if="${page.first}">&lt;&lt;前</span>
-						<a th:if="${!page.first}"
-						th:href="@{/keywordSearch(page = ${page.number} - 1)}">
-							&lt;&lt;前 </a></li>
-					<li th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
-						style="display: inline; margin-left: 10px;"><span
-						th:if="${i} == ${page.number}" th:text="${i + 1}">1</span> <a
-						th:if="${i} != ${page.number}"
-						th:href="@{/keywordSearch(page = ${i})}"> <span
-							th:text="${i+1}">1</span>
-					</a></li>
-					<li style="display: inline; margin-left: 10px;"><span
-						th:if="${page.last}">次&gt;&gt;</span> <a th:if="${!page.last}"
-						th:href="@{/keywordSearch(page = (${page.number} + 1))}">
-							次&gt;&gt; </a></li>
-				</ul> -->
 
 				<ul class="pagination justify-content-center">
 					<li class="page-item disabled"><a class="page-link" href="#"
 						tabindex="-1">Previous</a></li>
-					<li class="page-item"
+					<li class="page-item" style="display: inline;"
 						th:each="pageNum:${#numbers.sequence(0, pageCount - 1)}"><a
-						class="page-link" th:text="${pageNum+1}" th:name="${pageNum+1}"
-						th:href="@{/searchKeyword/{s}/(s=${searchName},p=${pageNum+1})}"></a></li>
-
+						class="page-link" th:text="${pageNum+1}" 
+						th:href="@{/searchKeyword(s=${searchName},p=${pageNum+1})}"></a></li>
 					<li class="page-item"><a class="page-link"
 						>Next</a></li>
 				</ul>
 
 			</div>
 
-			<!-- 搜索页面数据容器底部钩子 
-			th:href="@{'/search/'+${searchName}+'/?'+'p='+${pageNum+1}}"
-			-->
 
 			<!-- 加载数据 -->
 			<div class="loding-view" style="display: none;">
@@ -283,11 +262,6 @@
 
 		<!-- 搜索页面顶部内部结构里面钩子 -->
 	</div>
-
-	<!-- Ajax -->
-
-
-
 
 
 	<!-- echarts 图表 -->
@@ -347,6 +321,62 @@
 
 
 	<script src="../ajax/jquery.min.js"></script>
+	
+<!-- 	<script>
+	
+		function pageClick(){
+			
+			var proname = $('#search-input').val();
+			var product = {
+				name : proname,
+				id : liid
+			}
+
+			$.ajax({
+				//MainControllerのpostIndex()メソッドに遷移
+				url : 'part/priceSearch',
+				type : 'POST',
+				timeout : 60000,
+				data : JSON.stringify(product),
+				contentType : "application/json",
+				async : false,
+				dataType : "html"
+			})
+
+			//Ajax通信成功の場合
+			.done(function(data) {
+				//var prolike = data.prolike;
+
+				if (liid == 1) {
+					$('#li1').addClass("active");
+					$('#li2').removeClass('active')
+					$('#li3').removeClass('active')
+				} else if (liid == 2) {
+					$('#li2').addClass("active");
+					$('#li1').removeClass('active')
+					$('#li3').removeClass('active')
+				} else {
+					$('#li3').addClass("active");
+					$('#li1').removeClass('active')
+					$('#li2').removeClass('active')
+				}
+				//当前点击的li加上class
+
+				$('#searchproduct').html(data);
+			})
+			//Ajax通信失敗の場合
+			.fail(function(data) {
+				alert(data);
+				alert('追加失敗しました!ログインしてください!');
+			})
+			//Ajax通信の成功・失敗に関わらず最後に処理
+			.always(function() {
+
+			});
+			
+		}
+
+	</script> -->
 
 
 	<script>

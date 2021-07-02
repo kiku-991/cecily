@@ -100,7 +100,7 @@
 	color: #FF5722;
 }
 </style>
-<link href="../css/WdatePicker.css" rel="stylesheet" type="text/css">
+
 <link href="../css/ueditor.css" type="text/css" rel="stylesheet">
 <script src="../js/ZeroClipboard.js.ダウンロード" type="text/javascript"
 	defer="defer"></script>
@@ -108,12 +108,6 @@
 <body style="padding-top: 0px;">
 	<!-- css钩子 -->
 
-	<!-- 公共header内钩子 -->
-
-	<!-- 公共顶部钩子 -->
-	<!-- 	<div class="am-modal multilingual-page-loading" style="display: none;">
-		<span class="am-icon-spinner am-icon-pulse am-icon-lg"></span>
-	</div> -->
 
 	<!-- header top nav -->
 	<!-- 顶部导航条 start -->
@@ -182,7 +176,7 @@
 						<input id="search-input" type="text" name="k"
 							th:value="${searchName}" placeholder="ようこそKIKUショップへ ，商品名を入力して検索"
 							autocomplete="off">
-						<button type="submit" id="ai-topsearch" class="submit am-btn" >
+						<button type="submit" id="ai-topsearch" class="submit am-btn">
 							<span>検索</span>
 						</button>
 					</div>
@@ -357,7 +351,7 @@
 
 					</div>
 					<div class="outer-con">
-						<div class="describe">誕生日おめでとう</div>
+						<div class="describe">嘻嘻與哈哈</div>
 					</div>
 					<a href="/shopping" target="_blank"> <img
 						src="../img/IMG_9930.JPG">
@@ -371,7 +365,6 @@
 					<div th:each="product: ${products}">
 						<div class="goods-items">
 
-							<!-- <div class="zoom"> -->
 							<!-- 写真 -->
 							<a th:href="@{/productDetails/{id}(id=${product.productId})}"
 								target="_blank" class="am-block am-text-center"> <img
@@ -387,15 +380,16 @@
 								<span>¥</span><span class="price am-text-truncate"
 									th:text="${product.productPrice}"></span><br>
 
-								<!-- 
-							<button th:id="${product.productId}" type="button"
-								
-								th:onclick="|clickPost(${product.productId})|"></button> -->
 								<button type="button" th:id="${product.productId}"
 									th:text="${product.userId ==0? '♡気に入り':(product.userId eq session?.userLogin?.userId?'❤気に入り済み':'♡気に入り')}"
 									th:onclick="|clickPost(${product.productId})|"></button>
 								<button type="button"
-									th:onclick="|clickCart(${product.productId})|">カードに入れ</button>
+									th:onclick="|clickCart(${product.productId})|">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+										fill="currentColor" class="bi bi-cart2" viewBox="0 0 16 16">
+  <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+</svg>カードに入れ
+								</button>
 							</div>
 						</div>
 					</div>
@@ -405,13 +399,7 @@
 			</div>
 		</div>
 
-		<!-- 首页楼层底部钩子 -->
-		<!-- 首页楼层顶部钩子 -->
-
-		<!-- 首页楼层底部钩子 -->
 	</div>
-
-	<!-- 楼层数据底部钩子 -->
 
 	<!-- commom html -->
 
@@ -470,7 +458,6 @@
 			<div class="am-container">
 				<!-- 友情链接 -->
 
-
 				<p class="powered">
 					Powered by <a href="/shopping" title="ShopXO电商系统" target="_blank"><span
 						class="b">KIKU</span><span class="o">SHOP</span></a>
@@ -491,46 +478,6 @@
 	<!-- Ajax -->
 	<script
 		src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-
-
-
-	<script>
-		//「POSTで遷移（Ajax）」検索ボタン押下時の処理
-		function searchChick() {
-
-			var keyword = $('#search-input').val();
-			var p = {
-				key : keyword
-			};
-
-			$.ajax({
-				//MyCartControlleradd()メソッドに遷移
-				url : 'search/' + keyword,
-				type : 'POST',
-				timeout : 60000,
-				data : p,
-				async : false,
-				dataType : "json"
-			})
-
-			//Ajax通信成功の場合
-			.done(function(data) {
-
-				alert('み!');
-
-			})
-			//Ajax通信失敗の場合
-			.fail(function() {
-				alert('追加失敗しました!ログインしてください!');
-			})
-			//Ajax通信の成功・失敗に関わらず最後に処理
-			.always(function() {
-				//alert('end');
-			});
-
-		}
-	</script>
 
 
 	<script>
@@ -658,12 +605,6 @@
 	<!-- 颜色选择器 -->
 	<script type="text/javascript" src="../js/jquery.colorpicker.js.ダウンロード"></script>
 
-	<!-- 日期组件 -->
-	<script type="text/javascript" src="../js/WdatePicker.js.ダウンロード"></script>
-
-	<!-- baidu map -->
-	<script type="text/javascript" src="../js/api"></script>
-	<script type="text/javascript" src="../js/getscript"></script>
 
 	<!-- 隐藏编辑器初始化 -->
 	<script type="text/javascript">
@@ -684,7 +625,6 @@
 	<script type="text/javascript" src="../js/common.js.ダウンロード"></script>
 	<script type="text/javascript" src="../js/common.js(1).ダウンロード"></script>
 
-	<!-- 应用插件公共js -->
 
 	<!-- 当前控制器js -->
 	<script type="text/javascript" src="../js/index.js.ダウンロード"></script>

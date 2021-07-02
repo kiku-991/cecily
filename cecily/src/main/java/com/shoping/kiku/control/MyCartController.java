@@ -182,7 +182,6 @@ public class MyCartController {
 	@RequestMapping(Url.ALLCHECKED)
 	@ResponseBody
 	public HashMap<String, Integer> statusAllChange(@RequestBody String allcheck, HttpServletRequest request) {
-		System.out.println(allcheck);
 		String check = allcheck.replace("flg=", "");
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		Session ss = (Session) request.getSession().getAttribute("userLogin");

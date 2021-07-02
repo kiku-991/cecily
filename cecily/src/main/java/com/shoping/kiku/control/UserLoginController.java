@@ -47,6 +47,7 @@ public class UserLoginController {
 	@PostMapping(Url.LOGIN)
 	public String userLogin(UserLoginDto user, Map<String, Object> map, HttpSession session) {
 
+		
 		//判断該当メールが登録されているかどうか
 		String mail = userLoginService.mailCheck(user);
 		if (mail.equals(MsgContents.MAILNO)) {

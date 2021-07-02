@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,26 +74,32 @@ public class ShoppingController {
 		return mv;
 
 	}
+
 	/**
 	 * ページ分け
 	 * @param productName
-	 * @param p
+	 * @param pageNo
 	 * @return
 	 */
-	@RequestMapping("/searchKeyword/{s}")
-	public ModelAndView keywordN(@PathVariable("s") String productName, @RequestParam int p) {
-
+	@RequestMapping("/searchKeyword")
+	public ModelAndView keywordN(@RequestParam("s") String productName, 
+			@RequestParam("p") int pageNo) {
+		
 		ModelAndView mv = new ModelAndView("keywordsearch");
 		int size = 10;
-		List<ProductDto> prolike = productService.keyLike(productName, p - 1, size);
+		
+		List<ProductDto> prolike = productService.keyLike(productName, pageNo - 1, size);
 		int count = productService.getCountByKey(productName);
-		int pageCount = productService.pageCount(productName, p, size);
+		int pageCount = productService.pageCount(productName, pageNo, size);
 		mv.addObject("prolike", prolike);
 		mv.addObject("pageCount", pageCount);
 		mv.addObject("total", count);
 		mv.addObject("searchName", productName);
 		return mv;
 	}
+	
+	
+	
 
 	/**
 	 * 検索(区块)
