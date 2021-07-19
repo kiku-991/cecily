@@ -44,7 +44,7 @@ public class MyOrderController {
 		ModelAndView mv = new ModelAndView("center/myorder");
 		//订单ID
 		List<OrderInfoByUserIdDto> orderId = myOrderService.getOrderInfoByUserId(ss.getUserId());
-		//届け住所
+		// 届け住所
 		UserDeliveryDto add = userDeliveryService.getDefaultadd(ss.getUserId());
 		mv.addObject("orderId", orderId);
 		mv.addObject("addresss", add);
@@ -103,20 +103,17 @@ public class MyOrderController {
 
 	}
 
-	
 	/**
 	 * 收货并付款
 	 * CYAKUHARAI
 	 */
-	
+
 	@RequestMapping(Url.RECEIPTANDPAY)
-	public String receivedAndPay(@PathVariable ("id")String orderId) {
-		myOrderService.receivedAndPay( orderId);
+	public String receivedAndPay(@PathVariable("id") String orderId) {
+		myOrderService.receivedAndPay(orderId);
 		return "redirect:/center/myorder";
 	}
-	
-	
-	
+
 	/**
 	 * オーダー取消
 	 * @param orderId
